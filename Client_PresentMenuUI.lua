@@ -86,12 +86,14 @@ function SubmitClicked()
 	Game.SendGameCustomMessage("Gifting gold...", payload, function(returnValue) 
 		UI.Alert(returnValue.Message);
 
-		local msg = '(Local info) Gifted ' .. returnValue.realGold  .. ' Gold from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
-		local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID;
+		if (returnValue.realGold ~= nil)then
+			local msg = '(Local info) Gifted ' .. returnValue.realGold  .. ' Gold from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
+			local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID;
 		
-		local orders = Game.Orders;
-		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
-		Game.Orders = orders;
+			local orders = Game.Orders;
+			table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
+			Game.Orders = orders;
+		end
 
 
 
