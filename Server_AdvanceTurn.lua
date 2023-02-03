@@ -38,5 +38,5 @@ local publicmessage =  '(public info) An unknown amount of gold was sent from ' 
 
 	
 	end
-
+	print('does it work')
 end
