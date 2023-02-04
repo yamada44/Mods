@@ -17,7 +17,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	if(publicgamedata.orderAlt ~= nil and publicgamedata.orderaccess == true)then
 		Game = game
 
-		local ourid = publicgamedata.orderAlt[1].us
+		local hiddenorder = publicgamedata.HiddenOrders
 
 		for i,v in pairs(publicgamedata.orderAlt) do
 
@@ -29,12 +29,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local localmessage = '(Local info) Gifted ' .. goldsent  .. ' Gold from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false);
 			local publicmessage =  '(public info) An unknown amount of gold was sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
 			local revealmessage =  '(public info) Gifted ' .. goldsent  .. ' Gold from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
-				
-			if(publicgamedata.HiddenOrders == true and publicgamedata.orderAlt[i].reveal == false)then
-				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+			local hiddenmessage =  '(public info) ' .. goldsent .. ' gold was sent from an unknown party to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
 
-						--  
-			elseif(publicgamedata.HiddenOrders == true or publicgamedata.orderAlt[i].reveal == true)then -- for players who want to reveal there gifted gold
+
+			if(hiddenorder == true and publicgamedata.orderAlt[i].reveal == false)then
+				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+	 			addNewOrder(WL.GameOrderEvent.Create(0, hiddenmessage , nil, nil, nil, {}));
+
+
+			elseif(hiddenorder == true or publicgamedata.orderAlt[i].reveal == true)then -- for players who want to reveal there gifted gold
 
 				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, revealmessage ,  nil, nil, nil, {})); 
 
