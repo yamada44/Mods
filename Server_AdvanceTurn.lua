@@ -1,42 +1,61 @@
 require('Utilities');
-require('Utilities2');
-require('WLUtilities');
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
+	local publicgamedata = Mod.PublicGameData
 
     if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'GiftGold2')) then  --look for the order that we inserted in Client_PresentMenuUI
-
-local Game = game
-
-		
-		--in Client_PresentMenuUI, we comma-delimited the number of armies, the target territory ID, and the target player ID.  Break it out here
-		local payloadSplit = split(string.sub(order.Payload, 10), ','); 
-		local goldtried = tonumber(payloadSplit[1])
-		local goldsent = tonumber(payloadSplit[2]);
-		local targetPlayerID = tonumber(payloadSplit[3]);
-
-
-local publicmessage =  '(public info) An unknown amount of gold was sent from ' .. game.Game.Players[order.PlayerID].DisplayName(nil, false) .. ' to ' .. game.Game.Players[targetPlayerID].DisplayName(nil, false)
-		
-
--- create 
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, order.Message ,  {targetPlayerID}, nil, nil, {})); 
-		-- creates message for players with visibility
-		
-		
-		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, publicmessage , nil, nil, nil, {}));
-		-- creates a message for everyone else who can't see the territory. handles no modifications 
-		-- this will create two messages for players who have visibility
-		
-	
 		
 		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
 		--we replaced the GameOrderCustom with a GameOrderEvent, so get rid of the custom order.  
 		--There wouldn't be any harm in leaving it there, but it adds clutter to the orders 
 		--list so it's better to get rid of it.
 
+		end
 	
+
+		-- logic to bypass CustomOrder if its been cancelled or removed somehow
+	if(publicgamedata.orderAlt ~= nil and publicgamedata.orderaccess == true)then
+		Game = game
+
+		local ourid = publicgamedata.orderAlt[1].us
+
+		for i,v in pairs(publicgamedata.orderAlt) do
+
+				local targetPlayerID = publicgamedata.orderAlt[i].targetPlayer
+			local goldsent = publicgamedata.orderAlt[i].realgold
+
+			local localmessage = '(Local info) Gifted ' .. goldsent  .. ' Gold from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false);
+			local publicmessage =  '(public info) An unknown amount of gold was sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
+			local revealmessage =  '(public info) Gifted ' .. goldsent  .. ' Gold from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
+				
+			if(publicgamedata.HiddenOrders == true and publicgamedata.orderAlt[i].reveal == false)then
+				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+
+						--  
+			elseif(publicgamedata.HiddenOrders == true or publicgamedata.orderAlt[i].reveal == true)then -- for players who want to reveal there gifted gold
+
+				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, revealmessage ,  nil, nil, nil, {})); 
+
+			elseif(publicgamedata.orderAlt[i].reveal == false)then -- for players who dont
+			
+				-- creates message for players with visibility
+				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, publicmessage , nil, nil, nil, {}));
+				-- creates a message for everyone else who can't see the territory. handles no modifications 
+				-- this will create two messages for players who have visibility
+			end
+		
+
+
+
+			end
+
+
+		publicgamedata.orderaccess = false
+		publicgamedata.orderAlt = {}
+		publicgamedata.orderamount = 0
+
+		Mod.PublicGameData = publicgamedata
 	end
-	
+
 end

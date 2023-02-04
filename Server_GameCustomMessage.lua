@@ -5,21 +5,25 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
 
 
-local Game = game;
+
 local publicdate = Mod.PublicGameData
 local id = payload.TargetPlayerID
-local hold = game.Game.TurnNumber
 -- check for turn passing
 
 
 --tables for public data dhecks
 if (publicdate.taxidtable == nil)then  publicdate.taxidtable = {count = 0, gap = 0, turn = game.Game.TurnNumber}end;
+--customOrder bypass logic 
+if (publicdate.orderAlt == nil)then publicdate.orderAlt = {}end
+if (publicdate.orderamount == nil)then publicdate.orderamount = 0 end
+if (publicdate.orderaccess == nil)then publicdate.orderaccess = true end
 
 if (publicdate.taxidtable.turn ~= game.Game.TurnNumber)then -- if new turn, reset taxidtable
 	publicdate.taxidtable.turn = game.Game.TurnNumber
 	publicdate.taxidtable.gap = 0
 	publicdate.taxidtable.count = 0
 	
+	publicdate.orderaccess = true
 end 
 
 --sending gold variables
@@ -31,30 +35,12 @@ local storegap = publicdate.taxidtable.gap
 local goldHave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold);
 
 
---debugger
-local debugging = false
-	if (debugging == true)then
-
-		--publicdate.taxidtable[id] = {123}
-
-		 if (true)then
-		setReturnTable({ Message = goldtax });
-		return
-		end
-
-
-
-
-	end
-
-
 
 
 	if (playerID == payload.TargetPlayerID) then
 		setReturnTable({ Message = "You can't gift yourself" });
 		return;
 	end
-
 
 
 	if (goldHave < goldSending) then  -- don't have enough money
@@ -90,12 +76,12 @@ local debugging = false
 
 
 
+-- tax multiplier logic
+	if (goldtax > 0 )then -- if 0, host wants no Tax applied
 	local ga = goldtax        --- how many units in each group
 	local group = math.ceil(goldSending / ga)                  --- how many groups of Ga are in goldsending
 
 
-
-	if (goldtax ~= nil or goldtax ~= 0 )then -- if 0, host wants no Tax applied
 		for C = 1, group, 1 do
 
 			if (C < group)then
@@ -121,9 +107,12 @@ local debugging = false
 		end
 	else
 		actualGoldSent = goldSending;
+
 	end
+
 print ('----------------')
 	actualGoldSent = math.floor(actualGoldSent)
+-- end of tax multiplier logic
 
 
 -- taking multiper amount and using that for our for loop limit. then taking the value within each group
@@ -132,16 +121,22 @@ print ('----------------')
 -- and use gap for our ga instead
 
 
--- how to finish the storeC problem
--- keep track of gap; then check if gap + new gold is hihger then group. if yes then subtract gap
--- from group to find gap2; then divide gap2 by storeC + 1; then add gap2 back to new gold; then 
--- increase storeC by 1; most of this can happen outside of the for loop
+--packaging everything up and sending it over to Server_AdvanceTurn_Order
+	publicdate.orderamount = publicdate.orderamount + 1 
+	if (publicdate.orderAlt[publicdate.orderamount] == nil)then publicdate.orderAlt[publicdate.orderamount] = {}end
 
+	publicdate.orderAlt[publicdate.orderamount].realgold = actualGoldSent
+	publicdate.orderAlt[publicdate.orderamount].targetPlayer = id
+	publicdate.orderAlt[publicdate.orderamount].us = payload.ourID
+	publicdate.orderAlt[publicdate.orderamount].reveal = payload.reveal
 
-	Mod.PublicGameData = publicdate
+	publicdate.HiddenOrders = payload.hidden
+
+	Mod.PublicGameData = publicdate -- end of packaging
 
 	local targetPlayer = game.Game.Players[payload.TargetPlayerID];
 	local targetPlayerHasGold = game.ServerGame.LatestTurnStanding.NumResources(targetPlayer.ID, WL.ResourceType.Gold);
+
 
 	--Subtract goldSending from ourselves, add goldSending to target
 	game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldHave - goldSending);

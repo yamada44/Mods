@@ -5,7 +5,9 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	Game = game;
 	Close = close;
 
-	setMaxSize(450, 290);
+	setMaxSize(450, 320);
+	
+
 	
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
@@ -38,8 +40,14 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	UI.CreateButton(vert).SetText("Gift").SetOnClick(SubmitClicked);
 
 	local row3 = UI.CreateHorizontalLayoutGroup(vert);
-	UI.CreateLabel(row3).SetText("Gifting Gold to someone applies a Tax. Tax is equal to Army multiplier in game settings")
+	UI.CreateLabel(row3).SetText("Gifting Gold to someone applies a Tax. Tax is equal to " .. Mod.Settings.GoldTax .. " multiplier in game settings")
+ 
+	local row4 = UI.CreateHorizontalLayoutGroup(vert);
+	Reveal = true
+	Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(Reveal)
 
+	
+	print(Reveal.GetIsChecked())
 end
 
 
@@ -74,28 +82,42 @@ function SubmitClicked()
 		return;
 	end
 
+	local temphidden = Mod.Settings.Hidden -- if game has already started. set values
+	local tempGoldtax = Mod.Settings.GoldTax
+	if(temphidden == nil)then temphidden = false end
+	if(tempGoldtax == nil)then tempGoldtax = 0 end
+
+
+
 	local payload = {};
 	payload.TargetPlayerID = TargetPlayerID;
 	payload.Gold = gold;
-	payload.multiplier = Mod.Settings.GoldTax
+	payload.multiplier = tempGoldtax
+	payload.sendername = Game.Us.DisplayName(nil,false)
+	payload.ourID = Game.Us.ID
+	payload.reveal = Reveal.GetIsChecked()
+	payload.hidden = temphidden
 	
 ----------------------- new shit
 
 
+--print(Game.Us.ID .. ' '.. payload.sendername .. ' ' .. payload.TargetPlayerID)
 	
 	Game.SendGameCustomMessage("Gifting gold...", payload, function(returnValue) 
 		UI.Alert(returnValue.Message);
 
 		if (returnValue.realGold ~= nil)then
-			local msg = '(Local info) Gifted ' .. returnValue.realGold  .. ' Gold from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
-			local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID;
+		local msg = '(Local info) Gifted ' .. returnValue.realGold  .. ' Gold from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
+		local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID;
 		
-			local orders = Game.Orders;
-			table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
-			Game.Orders = orders;
+
+		local orders = Game.Orders;
+		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
+		Game.Orders = orders;
+
+		
+
 		end
-
-
 
 		Close(); --Close the dialog since we're done with it
 	end);
