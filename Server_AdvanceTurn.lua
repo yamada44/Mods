@@ -23,6 +23,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 				local targetPlayerID = publicgamedata.orderAlt[i].targetPlayer
 			local goldsent = publicgamedata.orderAlt[i].realgold
+			local ourid = publicgamedata.orderAlt[i].us
+ 
 
 			local localmessage = '(Local info) Gifted ' .. goldsent  .. ' Gold from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false);
 			local publicmessage =  '(public info) An unknown amount of gold was sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false)
