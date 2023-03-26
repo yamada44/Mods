@@ -133,12 +133,11 @@ function TerritoryClicked(terrDetails)
 end
 
 function CompletePurchaseClicked()
-	--print (unit.name.GetText())
-print('tojkg;jajklf')
+
 print (tostring(Playerdata.Unitdata[Type].Shared) , tostring(Playerdata.Unitdata[Type].Visible))
 
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
-	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID .. ',' .. Chartracker[Type].GetText() ..','.. Playerdata.Unitdata[Type].unitcost
+	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID .. ',' .. Chartracker[Type].GetText() ..','.. Type
 					 .. ','.. Playerdata.Unitdata[Type].unitpower .. ','.. Playerdata.Unitdata[Type].Name.. ','.. Playerdata.Unitdata[Type].Maxunits..
 					  ','.. Playerdata.Unitdata[Type].image .. ','.. tostring(Playerdata.Unitdata[Type].Shared) .. ','.. tostring(Playerdata.Unitdata[Type].Visible)
 

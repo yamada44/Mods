@@ -37,6 +37,10 @@ function Client_PresentConfigureUI(rootParent)
 
 		local visible = uniteconfig[i].Visible
 		if visible == nil then visible = false end 
+
+		local name = uniteconfig[i].Name
+		if (name == nil ) then name = '' end 
+
    
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
@@ -83,7 +87,7 @@ function Client_PresentConfigureUI(rootParent)
 		local row5 = UI.CreateHorizontalLayoutGroup(vert)
 		UI.CreateLabel(row5).SetText('Name of Unit in buy menu');
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
-		.SetPlaceholderText(" Name of Unit Type        ")
+		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(20)
 

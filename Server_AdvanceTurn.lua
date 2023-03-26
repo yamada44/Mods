@@ -44,11 +44,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 
+		local publicdata = Mod.PublicGameData
+	
 
 		local payloadSplit = split(string.sub(order.Payload, 6), ','); 
 		local targetTerritoryID = tonumber(payloadSplit[1])
 		local charactername = payloadSplit[2]
-		local unitcost = tonumber(payloadSplit[3])
+		local type = tonumber(payloadSplit[3])
 		local unitpower = tonumber(payloadSplit[4])
 		local typename = payloadSplit[5]
 		local unitmax = tonumber(payloadSplit[6])
@@ -56,8 +58,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local shared = payloadSplit[8]
 		local visible = payloadSplit[9]
 		
-		if (visible == 'true') then visible = true
+		if (visible == 'true') then visible = true -- turning these varibles back into bools after converting them into strings
 		else visible = false end
+		if (shared == 'true') then shared = true
+		else shared = false end
+
+
+		if publicdata[type] == nil then publicdata[type] = {} end --tracking the max amount between all players
+		if publicdata[type].Curramount == nil then publicdata[type].Curramount = 0 end
+
 
 		print (order.Payload)
 
@@ -83,18 +92,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		end]]--
 
 		local numUnitsAlreadyHave = 0;
-		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- serverside check to make sure Units are not above the Given amount
 			
 			if(shared == true )then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);
+				publicdata[type].Curramount = publicdata[type].Curramount + NumUnitsIn(ts.NumArmies, typename); 
+
 			
 		elseif(ts.OwnerPlayerID == order.PlayerID) then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);
-			
-			
-				
+				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);				
 			end
 		end
+		numUnitsAlreadyHave = numUnitsAlreadyHave + publicdata[type].Curramount 
 
 		if (numUnitsAlreadyHave >= unitmax) then
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
@@ -122,7 +130,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, {}, {terrMod}));
 	end
 end
 
@@ -138,13 +146,12 @@ end
 
 function Filefinder(image)
 local filestorage = {}
-print('first stagte')
+
 	filestorage[1] = 'pack 1.a.png'
 	filestorage[2] = 'pack 1.b.png'
 	filestorage[3] = 'pack 1.c.png'
 	filestorage[4] = 'pack 1.d.png'
 	filestorage[5] = 'pack 1.e.png'
-print('made it')
 
 return filestorage[image]
 end

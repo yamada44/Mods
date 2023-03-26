@@ -4,7 +4,7 @@
 
 function Client_SaveConfigureUI(alert)
 
-    
+    local noUnitsOn = 0
    for i = 1, UnitTypeMax do
         print (i)
         local cost = InputFieldTable[i].costInputField.GetValue();
@@ -16,7 +16,7 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.Unitdata[i].unitpower = power;
     
         local maxunits = InputFieldTable[i].maxUnitsField.GetValue();
-        if maxunits > 5 then alert("Max Units cannot be greater then 5"); end
+        if maxunits > 5 or maxunits < 0 then alert("Max Units cannot be greater then 5"); end
         Mod.Settings.Unitdata[i].Maxunits = maxunits;
 
         local image = InputFieldTable[i].Image.GetValue();
@@ -33,14 +33,18 @@ function Client_SaveConfigureUI(alert)
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0 ")
         end
         
-
+        print (InputFieldTable[i].Visible.GetIsChecked(), InputFieldTable[i].Shared.GetIsChecked())
         local shared = InputFieldTable[i].Shared.GetIsChecked()
         Mod.Settings.Unitdata[i].Shared = shared
 
         local visible = InputFieldTable[i].Visible.GetIsChecked()
         Mod.Settings.Unitdata[i].Visible = visible
  
+       
+         noUnitsOn = noUnitsOn + maxunits
    end
+
+   if (noUnitsOn <= 0)then UI.Alert("Failed to add any Unit types")  end 
 
    Mod.Settings.Maxunittype = UnitTypeMax
 end
