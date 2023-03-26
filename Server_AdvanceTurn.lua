@@ -108,7 +108,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if (numUnitsAlreadyHave >= unitmax) then
 			local incomeMod = WL.IncomeMod.Create(order.PlayerID, -Mod.Settings.Unitdata[type].unitcost, '' );
 
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave, nil,nil, {incomeMod}));
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave, nil,nil,nil, {incomeMod}));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
