@@ -106,7 +106,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		
 		print (numUnitsAlreadyHave , 'numunits')
 		if (numUnitsAlreadyHave >= unitmax) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
+			local incomeMod = WL.IncomeMod.Create(order.PlayerID, -Mod.Settings.Unitdata[type].unitcost, '' );
+
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave, nil,nil, {incomeMod}));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
@@ -131,7 +133,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
+		
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}, ));
 	end
 end
 
