@@ -103,7 +103,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			end
 		end
 		numUnitsAlreadyHave = numUnitsAlreadyHave + publicdata[type].Curramount 
-
+print (numUnitsAlreadyHave , 'numunits')
 		if (numUnitsAlreadyHave >= unitmax) then
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
