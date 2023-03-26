@@ -122,7 +122,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, {}, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
 	end
 end
 
