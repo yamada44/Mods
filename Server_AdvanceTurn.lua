@@ -40,7 +40,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 	end
 
-
+-- bug. need to find the turn and return it for publicdata[type].Curramount. new turn, it should be reset
 	
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 
@@ -103,6 +103,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			end
 		end
 		numUnitsAlreadyHave = numUnitsAlreadyHave + publicdata[type].Curramount 
+		
 		
 		print (numUnitsAlreadyHave , 'numunits')
 		if (numUnitsAlreadyHave >= unitmax) then
