@@ -40,7 +40,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 	end
 
--- bug. need to find the turn and return it for publicdata[type].Curramount. new turn, it should be reset
+
 	
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 
@@ -63,10 +63,26 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if (shared == 'true') then shared = true
 		else shared = false end
 
+		local MaxUnitsEver = Mod.Settings.
 
-		if publicdata[type] == nil then publicdata[type] = {} end --tracking the max amount between all players
-		if publicdata[type].Curramount == nil then publicdata[type].Curramount = 0 end
 
+		--tracking the max amount between all players
+		if publicdata[type] == nil then publicdata[type] = {} end 
+		if publicdata[type].curramount == nil then publicdata[type].curramount = 0 end
+		if publicdata[type].CurrEver == nil then publicdata[type].CurrEver = 0 end
+
+		if publicdata.Turndata == nil then publicdata.Turndata = {} end
+		if publicdata.Turndata.storedturn == nil then publicdata.Turndata.storedturn = 1 end
+		publicdata.Turndata.Turn = game.Game.TurnNumber -- checking if the turn has passed logic
+
+		if publicdata.Turndata.Turn ~= publicdata.Turndata.storedturn then
+
+			publicdata[type].curramount = 0
+			publicdata.Turndata.storedturn = publicdata.Turndata.Turn
+		else
+			print ('Turn Data not accessed')
+		end
+	
 
 		print (order.Payload)
 
@@ -95,21 +111,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- serverside check to make sure Units are not above the Given amount
 			
 			if(shared == true )then
-				publicdata[type].Curramount = publicdata[type].Curramount + NumUnitsIn(ts.NumArmies, typename); 
+				publicdata[type].curramount = publicdata[type].curramount + NumUnitsIn(ts.NumArmies, typename); 
 
 			
 		elseif(ts.OwnerPlayerID == order.PlayerID) then
 				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);				
 			end
 		end
-		numUnitsAlreadyHave = numUnitsAlreadyHave + publicdata[type].Curramount 
-		
-		
-		print (numUnitsAlreadyHave , 'numunits')
-		if (numUnitsAlreadyHave >= unitmax) then
-			local incomeMod = WL.IncomeMod.Create(order.PlayerID, Mod.Settings.Unitdata[type].unitcost, '' );
+		numUnitsAlreadyHave = numUnitsAlreadyHave + publicdata[type].curramount 
 
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave, nil,nil,nil, {incomeMod}));
+		if (numUnitsAlreadyHave >= unitmax) then
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
@@ -133,9 +145,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
+
+--Mod.Settings.Unitdata[type].unitcost
 		
-		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod} ));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
 	end
 end
 
