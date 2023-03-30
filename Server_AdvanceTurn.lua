@@ -69,18 +69,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end 
 		if publicdata[type].CurrEver == nil then publicdata[type].CurrEver = 0 end
-
-		if publicdata.Turndata == nil then publicdata.Turndata = {} end
-		if publicdata.Turndata.storedturn == nil then publicdata.Turndata.storedturn = 1 end
-		publicdata.Turndata.Turn = game.Game.TurnNumber -- checking if the turn has passed logic
-
-		if publicdata.Turndata.Turn ~= publicdata.Turndata.storedturn then
-
-			publicdata[type].curramount = 0
-			publicdata.Turndata.storedturn = publicdata.Turndata.Turn
-		else
-			print ('Turn Data not accessed')
-		end
 	
 
 		print (order.Payload)
