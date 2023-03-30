@@ -39,6 +39,9 @@ function Client_SaveConfigureUI(alert)
 
         local visible = InputFieldTable[i].Visible.GetIsChecked()
         Mod.Settings.Unitdata[i].Visible = visible
+        
+        local maxserver = InputFieldTable[i].MaxServer.GetIsChecked()
+        Mod.Settings.Unitdata[i].MaxServer = maxserver
  
        
          noUnitsOn = noUnitsOn + maxunits
