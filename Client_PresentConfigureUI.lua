@@ -38,6 +38,9 @@ function Client_PresentConfigureUI(rootParent)
 		local visible = uniteconfig[i].Visible
 		if visible == nil then visible = false end 
 
+		local maxserver = uniteconfig[i].MaxServer
+		if maxserver == nil then maxserver = false end 
+		
 		local name = uniteconfig[i].Name
 		if (name == nil ) then name = '' end 
 
@@ -84,6 +87,10 @@ function Client_PresentConfigureUI(rootParent)
 		UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
+		local row9 = UI.CreateHorizontalLayoutGroup(vert);
+		UI.CreateLabel(row9).SetText('Check if you want this unit to have a max useage for the entire game');
+		InputFieldTable[i].MaxServer = UI.CreateCheckBox(row9).SetIsChecked(maxserver).SetText('')
+		
 		local row5 = UI.CreateHorizontalLayoutGroup(vert)
 		UI.CreateLabel(row5).SetText('Name of Unit in buy menu');
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
