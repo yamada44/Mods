@@ -147,7 +147,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if (MaxUnitsEver == true and shared == false)then
 		publicdata[type][ID].CurrEver = publicdata[type][ID].CurrEver + 1 
 			
-		else if (MaxUnitsEver == true and shared == true)
+		else if (MaxUnitsEver == true and shared == true)then
 		publicdata[type].CurrEver = publicdata[type].CurrEver + 1 end
 
 		
