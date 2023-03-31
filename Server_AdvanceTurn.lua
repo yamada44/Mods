@@ -64,7 +64,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		else shared = false end
 
 		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
-		local ID = [order.PlayerID]
+		local ID = order.PlayerID
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
