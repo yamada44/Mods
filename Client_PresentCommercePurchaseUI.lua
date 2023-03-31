@@ -22,7 +22,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 	UI.CreateLabel(vert).SetText(Playerdata.Unitdata[i].Name .."'s are worth " .. Playerdata.Unitdata[i].unitpower .. " armies and cost " ..  Playerdata.Unitdata[i].unitcost .. " gold to purchase.  You may have up to " .. Playerdata.Unitdata[i].Maxunits .. ' ' .. Playerdata.Unitdata[i].Name.. "'s at a time.");
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1)
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
 	UI.CreateButton(vert).SetText("Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold").SetOnClick(function () PurchaseClicked(i) end)
 
 	
