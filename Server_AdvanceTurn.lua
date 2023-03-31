@@ -64,12 +64,14 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		else shared = false end
 
 		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
-
+		local ID = [order.PlayerID]
 
 		--tracking the max amount between all players
-		if publicdata[type] == nil then publicdata[type] = {} end 
+		if publicdata[type] == nil then publicdata[type] = {} end
+		if publicdata[type][ID] == nil then publicdata[type][ID] = {} end 
+		if publicdata[type][ID].CurrEver == nil then publicdata[type][ID].CurrEver = 0 end
 		if publicdata[type].CurrEver == nil then publicdata[type].CurrEver = 0 end
-	
+
 
 		print (order.Payload)
 
@@ -99,17 +101,21 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			
 			if(shared == true )then
 				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);
-				
-				--publicdata[type].curramount = publicdata[type].curramount + NumUnitsIn(ts.NumArmies, typename); 
-				
-			
+							
 			elseif(ts.OwnerPlayerID == order.PlayerID) then
 				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);				
 			end
 		end
+		
+
+		
 	
-		if (numUnitsAlreadyHave >= unitmax or publicdata[type].CurrEver >= unitmax) then
+		if (numUnitsAlreadyHave >= unitmax or publicdata[type][ID].CurrEver >= unitmax) then
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
+			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
+		
+		elseif (numUnitsAlreadyHave >= unitmax or publicdata[type].CurrEver >= unitmax) then
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since the Max amount for the server is ' .. unitmax .. ' and the server has used the Max amount'));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
@@ -138,8 +144,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
-		if (MaxUnitsEver == true and shared == true)then
+		if (MaxUnitsEver == true and shared == false)then
+		publicdata[type][ID].CurrEver = publicdata[type][ID].CurrEver + 1 
+			
+		else if (MaxUnitsEver == true and shared == true)
 		publicdata[type].CurrEver = publicdata[type].CurrEver + 1 end
+
 		
 
 		
