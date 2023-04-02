@@ -20,8 +20,8 @@ local MaxServer = 'No'
 
 
 	UI.CreateLabel(vert).SetText('Unir type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
-	UI.CreateLabel(vert).SetText('\n cost: ' .. Mod.Settings.Unitdata[i].unitcost)
-	UI.CreateLabel(vert).SetText('power in armies: ' .. Mod.Settings.Unitdata[i].unitpower);
+	UI.CreateLabel(vert).SetText('\nCost: ' .. Mod.Settings.Unitdata[i].unitcost)
+	UI.CreateLabel(vert).SetText('Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower);
 	UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits);
 	UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 	UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
