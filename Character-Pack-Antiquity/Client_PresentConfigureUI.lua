@@ -13,6 +13,9 @@ function Client_PresentConfigureUI(rootParent)
 	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end
 	local uniteconfig =	Mod.Settings.Unitdata
 
+	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
+	UI.CreateLabel(vert0).SetText('If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
+
 
 	InputFieldTable = {}
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
