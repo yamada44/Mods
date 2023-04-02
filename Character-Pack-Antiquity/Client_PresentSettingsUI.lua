@@ -11,9 +11,9 @@ function Client_PresentSettingsUI(rootParent)
 		
 	if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 
-	--UI.CreateLabel(vert).SetText(Mod.Settings.Unitdata[i].Name'\n\n cost: ' .. Mod.Settings.Unitdata[i].unitcost);
-	--UI.CreateLabel(vert).SetText('power: ' .. Mod.Settings.Unitdata[i].unitpower);
-	--UI.CreateLabel(vert).SetText('Max amount: ' .. Mod.Settings.Unitdata[i].Maxunits);
+	UI.CreateLabel(vert).SetText(Mod.Settings.Unitdata[i].Name ..'\n\n cost: ' .. Mod.Settings.Unitdata[i].unitcost);
+	UI.CreateLabel(vert).SetText('power: ' .. Mod.Settings.Unitdata[i].unitpower);
+	UI.CreateLabel(vert).SetText('Max amount: ' .. Mod.Settings.Unitdata[i].Maxunits);
 
 	::next::
 	end
