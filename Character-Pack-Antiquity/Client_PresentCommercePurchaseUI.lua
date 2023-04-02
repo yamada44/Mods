@@ -1,5 +1,5 @@
 require('Utilities')
-klklkl
+
 function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Close1 = close;
 	Game = game;
