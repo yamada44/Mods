@@ -14,7 +14,7 @@ function Client_PresentConfigureUI(rootParent)
 	local uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
-	UI.CreateLabel(vert0).SetText('If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
+	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
 
 
 	InputFieldTable = {}
