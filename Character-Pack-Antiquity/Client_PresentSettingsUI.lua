@@ -1,15 +1,13 @@
 -- one of two things to fix
 function Client_PresentSettingsUI(rootParent)
 
-	Playerdata.Maxtypes = Mod.Settings.Maxunittype
-	Playerdata.Unitdata = Mod.Settings.Unitdata
+
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 
 		for i = 1, Mod.Settings.Maxunittype  do 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 
-		print (Playerdata.Unitdata)
 		
 	if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 
