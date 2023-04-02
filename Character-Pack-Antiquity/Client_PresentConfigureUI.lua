@@ -49,7 +49,9 @@ function Client_PresentConfigureUI(rootParent)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 
     local row1 = UI.CreateHorizontalLayoutGroup(vert);
-	UI.CreateLabel(row1).SetText('Unit Type '..i..'\nHow much gold it costs to buy Unit ' .. i);
+	UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF');
+	UI.CreateLabel(row1).SetText('How much gold it costs to buy Unit ' .. i);
+
     InputFieldTable[i].costInputField = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
