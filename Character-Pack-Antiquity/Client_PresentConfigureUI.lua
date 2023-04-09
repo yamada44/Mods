@@ -1,8 +1,8 @@
 
 function Client_PresentConfigureUI(rootParent)
 
-  	UnitTypeMax = 5
   	Maxpictures = 5
+
 NewrootParent = rootParent
 
 	if (not WL.IsVersionOrHigher or not WL.IsVersionOrHigher("5.21")) then
@@ -37,7 +37,7 @@ NewrootParent = rootParent
 	InputFieldTable.text0 = UI.CreateLabel(row0).SetText('How many Unit Types')
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
 		.SetSliderMinValue(0)
-		.SetSliderMaxValue(6)
+		.SetSliderMaxValue(5)
 		.SetValue(typemax);
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
