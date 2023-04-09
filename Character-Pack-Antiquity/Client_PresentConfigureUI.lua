@@ -29,7 +29,7 @@ NewrootParent = rootParent
 
 -- setting up amount of special units to have
 	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
-	InputFieldTable.text0 = UI.CreateLabel(row2).SetText('How many Unit Types')
+	InputFieldTable.text0 = UI.CreateLabel(row0).SetText('How many Unit Types')
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(6)
@@ -37,7 +37,7 @@ NewrootParent = rootParent
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
-	RefreshButton = UI.CreateButton(vert2).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
+	RefreshButton = UI.CreateButton(row0).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
 
 
 	if access == true then
