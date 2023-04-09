@@ -81,6 +81,7 @@ UI.Alert(UnitTypeMax)
 			UI.Destroy(InputFieldTable[i].Visible)
 			UI.Destroy(InputFieldTable[i].MaxServer)
 			UI.Destroy(InputFieldTable[i].Name)
+			UI.Alert('did access')
 
 
 		end
