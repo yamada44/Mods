@@ -54,30 +54,32 @@ function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 InputFieldTable.unitInit = true
 UI.Alert(UnitTypeMax)
-	for i = 1, UnitTypeMax do 
-		if 	InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
-		UI.Destroy(InputFieldTable[i].text1)
-		UI.Destroy(InputFieldTable[i].text2)
-		UI.Destroy(InputFieldTable[i].text3)
-		UI.Destroy(InputFieldTable[i].text4)
-		UI.Destroy(InputFieldTable[i].text5)
-		UI.Destroy(InputFieldTable[i].text6)
-		UI.Destroy(InputFieldTable[i].text7)
-		UI.Destroy(InputFieldTable[i].text8)
-		UI.Destroy(InputFieldTable[i].text9)
-		UI.Destroy(InputFieldTable[i].text10)
-		UI.Destroy(InputFieldTable[i].text11)
-		UI.Destroy(InputFieldTable[i].costInputField)
-		UI.Destroy(InputFieldTable[i].powerInputField)
-		UI.Destroy(InputFieldTable[i].maxUnitsField)
-		UI.Destroy(InputFieldTable[i].Image)
-		UI.Destroy(InputFieldTable[i].Shared)
-		UI.Destroy(InputFieldTable[i].Visible)
-		UI.Destroy(InputFieldTable[i].MaxServer)
-		UI.Destroy(InputFieldTable[i].Name)
+	if InputFieldTable[1] ~= nil then
+		for i = 1, UnitTypeMax do 
+
+			UI.Destroy(InputFieldTable[i].text1)
+			UI.Destroy(InputFieldTable[i].text2)
+			UI.Destroy(InputFieldTable[i].text3)
+			UI.Destroy(InputFieldTable[i].text4)
+			UI.Destroy(InputFieldTable[i].text5)
+			UI.Destroy(InputFieldTable[i].text6)
+			UI.Destroy(InputFieldTable[i].text7)
+			UI.Destroy(InputFieldTable[i].text8)
+			UI.Destroy(InputFieldTable[i].text9)
+			UI.Destroy(InputFieldTable[i].text10)
+			UI.Destroy(InputFieldTable[i].text11)
+			UI.Destroy(InputFieldTable[i].costInputField)
+			UI.Destroy(InputFieldTable[i].powerInputField)
+			UI.Destroy(InputFieldTable[i].maxUnitsField)
+			UI.Destroy(InputFieldTable[i].Image)
+			UI.Destroy(InputFieldTable[i].Shared)
+			UI.Destroy(InputFieldTable[i].Visible)
+			UI.Destroy(InputFieldTable[i].MaxServer)
+			UI.Destroy(InputFieldTable[i].Name)
 
 
+		end
 	end
 
 
