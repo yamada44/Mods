@@ -58,7 +58,6 @@ end
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
-UI.Alert(UnitTypeMax)
 
 	if access == true then
 		for i = 1, BeforeMax do 
@@ -185,7 +184,7 @@ UI.Alert(UnitTypeMax)
 	
 
 	access = true
-InputFieldTable.unitInit = access
+InputFieldTable.access = access
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 
