@@ -58,7 +58,7 @@ function Client_SaveConfigureUI(alert)
    if (noUnitsOn <= 0)then UI.Alert("Failed to add any Unit types")  end 
 
    Mod.Settings.Maxunittype = UnitTypeMax
-   Mod.Settings.access = InputFieldTable.access
+   Mod.Settings.access = false
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
 
 
