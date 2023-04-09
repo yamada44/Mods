@@ -22,6 +22,8 @@ NewrootParent = rootParent
 
 	if Mod.Settings.access == nil then Mod.Settings.access = false end
 	 access = Mod.Settings.access
+	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 0 end
+	 BeforeMax = Mod.Settings.BeforeMax
 -- End of Init
 
 
@@ -55,12 +57,11 @@ end
 
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
-InputFieldTable.unitInit = true
 
 UI.Alert(UnitTypeMax)
 
 	if access == true then
-		for i = 1, UnitTypeMax do 
+		for i = 1, BeforeMax do 
 
 			UI.Destroy(InputFieldTable[i].text1)
 			UI.Destroy(InputFieldTable[i].text2)
@@ -182,5 +183,9 @@ UI.Alert(UnitTypeMax)
 	
 	end	
 	
+
+	access = true
+InputFieldTable.unitInit = access
+InputFieldTable.BeforeMax = UnitTypeMax
 end
 

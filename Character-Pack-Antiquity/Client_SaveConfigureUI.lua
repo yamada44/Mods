@@ -60,5 +60,6 @@ function Client_SaveConfigureUI(alert)
 
    Mod.Settings.Maxunittype = UnitTypeMax
    Mod.Settings.access = InputFieldTable.unitInit
+   Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
 
 end
