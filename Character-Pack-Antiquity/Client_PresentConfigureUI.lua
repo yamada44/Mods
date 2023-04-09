@@ -19,7 +19,7 @@ NewrootParent = rootParent
 
 	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
 	local typemax = Mod.Settings.Typemax
-	if Mod.Settings.access == nil then Mod.Settings.access = false end
+	if Mod.Settings.access == nil or Mod.Settings.Typemax == 0 then Mod.Settings.access = false end
 	local access = Mod.Settings.access
 
 	InputFieldTable = {}
@@ -55,7 +55,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 InputFieldTable.unitInit = true
 UI.Alert(UnitTypeMax)
 
-	if InputFieldTable[1] ~= nil then
+	if access == true then
 		for i = 1, UnitTypeMax do 
 
 			UI.Destroy(InputFieldTable[i].text1)
