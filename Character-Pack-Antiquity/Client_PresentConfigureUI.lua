@@ -15,7 +15,7 @@ NewrootParent = rootParent
 	 uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
-	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
+	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
 
 	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
 	local typemax = Mod.Settings.Typemax
