@@ -162,7 +162,6 @@ else
 
 		local row7 = UI.CreateHorizontalLayoutGroup(vert);
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
-		text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		local row9 = UI.CreateHorizontalLayoutGroup(vert);
