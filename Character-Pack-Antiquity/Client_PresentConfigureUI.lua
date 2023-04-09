@@ -3,6 +3,7 @@ function Client_PresentConfigureUI(rootParent)
 
   	UnitTypeMax = 5
   	Maxpictures = 5
+NewrootParent = rootParent
 
 	if (not WL.IsVersionOrHigher or not WL.IsVersionOrHigher("5.21")) then
 		UI.Alert("You must update your app to the latest version to use this mod");
@@ -91,7 +92,7 @@ function New()
 
    
 		--setting up the UI and all its fields
-	local vert = UI.CreateVerticalLayoutGroup(rootParent);
+	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
     local row1 = UI.CreateHorizontalLayoutGroup(vert);
 	UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF');
