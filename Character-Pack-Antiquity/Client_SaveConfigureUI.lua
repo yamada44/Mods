@@ -5,6 +5,15 @@
 function Client_SaveConfigureUI(alert)
 
     local noUnitsOn = 0
+
+
+
+    local test = InputFieldTable[20].test.GetIsChecked()
+    Mod.Settings.test = test
+
+
+
+
    for i = 1, UnitTypeMax do
         print (i)
         local cost = InputFieldTable[i].costInputField.GetValue();
