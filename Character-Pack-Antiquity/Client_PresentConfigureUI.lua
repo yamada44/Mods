@@ -60,10 +60,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
 	if access == true then
-		UI.Alert('did access 1')
-
-		UI.Alert(BeforeMax)
-
 		for i = 1, BeforeMax do 
 
 			UI.Destroy(InputFieldTable[i].text1)
