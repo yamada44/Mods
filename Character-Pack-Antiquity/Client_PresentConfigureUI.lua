@@ -31,7 +31,7 @@ function Client_PresentConfigureUI(rootParent)
 
 	local row10 = UI.CreateHorizontalLayoutGroup(vert2);
 	UI.CreateLabel(row10).SetText('test');
-	InputFieldTable[20].test = UI.CreateCheckBox(row10).SetIsChecked(test).SetText('')..SetOnValueChanged(New)
+	InputFieldTable[20].test = UI.CreateCheckBox(row10).SetIsChecked(test).SetText('').SetOnValueChanged(New)
 
 	if InputFieldTable[20].test.GetIsChecked() == true then
 		New()
