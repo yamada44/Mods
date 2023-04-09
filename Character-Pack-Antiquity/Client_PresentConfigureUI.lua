@@ -11,57 +11,49 @@ NewrootParent = rootParent
 	end
 
 
-	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end
+	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end --Init variables
 	 uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
 
-
-	if Mod.Settings.test == nil then Mod.Settings.test = false end
-	local test = Mod.Settings.test
-
+	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
+	local typemax = Mod.Settings.Typemax
+	if Mod.Settings.access == nil then Mod.Settings.access = false end
+	local access = Mod.Settings.access
 
 	InputFieldTable = {}
-
-	if 	InputFieldTable[20] == nil then InputFieldTable[20] = {} end
-
 
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
 
-	local row10 = UI.CreateHorizontalLayoutGroup(vert2);
-	UI.CreateLabel(row10).SetText('test');
-	InputFieldTable[20].test = UI.CreateCheckBox(row10).SetIsChecked(test).SetText('').SetOnValueChanged(New)
+-- setting up amount of special units to have
+	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
+	InputFieldTable.text0 = UI.CreateLabel(row2).SetText('How many Unit Types')
+	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(6)
+		.SetValue(typemax);
+		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
-	if InputFieldTable[20].test.GetIsChecked() == true then
-		New()
+
+	RefreshButton = UI.CreateButton(vert).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
+
+
+	if access == true then
+		UnitCreation()
 	end
 
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-
-
-	
-	
 
 end
 
 
-function New()
 
-if (InputFieldTable[20].test.GetIsChecked() == false)then 
+
+function UnitCreation()
+UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
+
+InputFieldTable.unitInit = true
 	for i = 1, UnitTypeMax do 
 
 		UI.Destroy(InputFieldTable[i].text1)
@@ -89,7 +81,7 @@ if (InputFieldTable[20].test.GetIsChecked() == false)then
 
 
 
-else
+
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 
@@ -181,5 +173,6 @@ else
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 	
 	end	
-	end
+	
 end
+

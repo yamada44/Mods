@@ -8,7 +8,7 @@ function Client_SaveConfigureUI(alert)
 
 
 
-    local test = InputFieldTable[20].test.GetIsChecked()
+    local test = InputFieldTable.test.GetIsChecked()
     Mod.Settings.test = test
 
 
@@ -59,4 +59,6 @@ function Client_SaveConfigureUI(alert)
    if (noUnitsOn <= 0)then UI.Alert("Failed to add any Unit types")  end 
 
    Mod.Settings.Maxunittype = UnitTypeMax
+   Mod.Settings.access = InputFieldTable.unitInit
+
 end
