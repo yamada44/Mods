@@ -60,6 +60,7 @@ end
 
 
 function New()
+if InputFieldTable[20].test.GetIsChecked() == true then 
 
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
@@ -152,4 +153,5 @@ function New()
 		UI.CreateLabel(row8).SetText('\n')
 	
 	end
+end
 end
