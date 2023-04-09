@@ -8,8 +8,7 @@ function Client_SaveConfigureUI(alert)
 
 
 
-    local test = InputFieldTable.test.GetIsChecked()
-    Mod.Settings.test = test
+
 
 
 
