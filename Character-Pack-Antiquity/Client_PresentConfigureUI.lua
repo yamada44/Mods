@@ -60,6 +60,8 @@ end
 
 
 function New()
+	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
+
 if InputFieldTable[20].test.GetIsChecked() == true then 
 
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
