@@ -53,7 +53,7 @@ end
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 InputFieldTable.unitInit = true
-UI.Alert(UnitTypeMax)
+UI.Alert(access)
 
 	if access == true then
 		for i = 1, UnitTypeMax do 
