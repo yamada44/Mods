@@ -11,7 +11,7 @@ function Client_PresentConfigureUI(rootParent)
 
 
 	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end
-	local uniteconfig =	Mod.Settings.Unitdata
+	 uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck').SetColor('#F3FFAE');
@@ -31,15 +31,34 @@ function Client_PresentConfigureUI(rootParent)
 
 	local row10 = UI.CreateHorizontalLayoutGroup(vert2);
 	UI.CreateLabel(row10).SetText('test');
-	InputFieldTable[20].test = UI.CreateCheckBox(row10).SetIsChecked(test).SetText('')
+	InputFieldTable[20].test = UI.CreateCheckBox(row10).SetIsChecked(test).SetText('')..SetOnValueChanged(New)
 
 	if InputFieldTable[20].test.GetIsChecked() == true then
+		New()
+	end
 
 
 
 
 
 
+
+
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+
+end
+
+
+function New()
 
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
@@ -131,15 +150,5 @@ function Client_PresentConfigureUI(rootParent)
 		UI.CreateEmpty(row8)
 		UI.CreateLabel(row8).SetText('\n')
 	
-	
-	
-	
-	
-	
-	
-
-
-	
 	end
-end
 end
