@@ -19,11 +19,14 @@ NewrootParent = rootParent
 
 	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
 	local typemax = Mod.Settings.Typemax
-	if Mod.Settings.access == nil or Mod.Settings.Typemax == 0 then Mod.Settings.access = false end
-	local access = Mod.Settings.access
+
+	if Mod.Settings.access == nil then Mod.Settings.access = false end
+	 access = Mod.Settings.access
+-- End of Init
+
+
 
 	InputFieldTable = {}
-
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
 
@@ -53,7 +56,8 @@ end
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 InputFieldTable.unitInit = true
-UI.Alert(access)
+
+UI.Alert(UnitTypeMax)
 
 	if access == true then
 		for i = 1, UnitTypeMax do 
