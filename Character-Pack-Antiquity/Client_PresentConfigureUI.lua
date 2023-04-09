@@ -87,9 +87,9 @@ if (InputFieldTable[20].test.GetIsChecked() == false)then
 
 	end
 
-end
 
 
+else
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 
@@ -181,5 +181,6 @@ end
 		InputFieldTable[i].text10 = 	UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 	
+	end	
 	end
 end
