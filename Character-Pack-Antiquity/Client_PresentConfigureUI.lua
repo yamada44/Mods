@@ -203,7 +203,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	access = true
 	BeforeMax = UnitTypeMax
-InputFieldTable.access = access
+InputFieldTable.Typemax = typemax
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 
