@@ -37,7 +37,7 @@ NewrootParent = rootParent
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
-	RefreshButton = UI.CreateButton(vert).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
+	RefreshButton = UI.CreateButton(vert2).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
 
 
 	if access == true then
