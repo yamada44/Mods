@@ -55,6 +55,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 InputFieldTable.unitInit = true
 	for i = 1, UnitTypeMax do 
+		if 	InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		UI.Destroy(InputFieldTable[i].text1)
 		UI.Destroy(InputFieldTable[i].text2)
