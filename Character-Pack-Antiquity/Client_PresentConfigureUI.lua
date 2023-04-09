@@ -52,8 +52,8 @@ end
 
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
-
 InputFieldTable.unitInit = true
+UI.Alert(UnitTypeMax)
 	for i = 1, UnitTypeMax do 
 		if 	InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
