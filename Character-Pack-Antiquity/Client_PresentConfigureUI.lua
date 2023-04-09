@@ -36,7 +36,7 @@ NewrootParent = rootParent
 	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
 	InputFieldTable.text0 = UI.CreateLabel(row0).SetText('How many Unit Types')
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
-		.SetSliderMinValue(0)
+		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(typemax);
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
