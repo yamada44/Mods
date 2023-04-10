@@ -2,8 +2,28 @@ require('Utilities');
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
-Game1 = game
-
+	Game1 = game
+	
+	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+	
+		if ts.NumArmies.SpecialUnits > 0 then
+			for i,v in pairs (ts.NumArmies.SpecialUnits)do
+	
+				if startsWith(v.ModData, 'C&P') == 'C&P' then 
+		
+					local diebitch = tonumber(string.sub(v.ModData, 4))
+					if diebitch >= Game1.Game.TurnNumber then
+		
+						local mod = WL.TerritoryModification.Create(ts)
+						mod.RemoveSpeicalUnitsOpt = v
+					end
+				end
+			end
+	
+		end
+	end
+	
+	
 end
 
 
@@ -37,7 +57,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local land = Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 
 			for i,v in pairs (specialUnitKilled)do
-				
+				if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
+
 				local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n ' ..
 					  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
  
@@ -160,13 +181,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = Turnkilled
+		builder.ModData = 'C&P' .. Turnkilled
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a'.. typename .. addedwords, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver == true and shared == false)then
