@@ -96,7 +96,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local ID = order.PlayerID
 		local minlife = Mod.Settings.Unitdata[type].Minlife
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
-		local Turnkilled = nil
+		local Turnkilled = 0
 		local addedwords = ''
 
 		--tracking the max amount between all players
@@ -165,8 +165,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		addedwords =  '\n Life ends on Turn: ' .. Turnkilled
 		end
 
-		local turntilldeath = 'C&P' 
-
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
 		builder.IncludeABeforeName = true;
@@ -182,7 +180,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = turntilldeath
+		builder.ModData = 'C&P' .. Turnkilled
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
