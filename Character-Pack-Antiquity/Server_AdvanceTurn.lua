@@ -74,6 +74,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
 		local ID = order.PlayerID
+		local minlife = Mod.Settings.Minlife
+		local maxlife = Mod.Settings.Maxlife
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
@@ -132,7 +134,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
-		local filename = Filefinder(image)
+		local filename = Filefinder(image) -- sort through images to find the correct one
+
+		local Turnkilled = math.random(minlife,maxlife)
+		UI.Alert(game.game.TurnNumber)
+		Turnkilled = Turnkilled + game.game.TurnNumber
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
@@ -149,6 +155,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
+		builder.ModData = Turnkilled
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
