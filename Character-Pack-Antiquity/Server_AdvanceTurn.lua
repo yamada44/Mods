@@ -13,10 +13,10 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 		
 					local diebitch = tonumber(string.sub(v.ModData, 4))
 					if diebitch >= Game1.Game.TurnNumber then
-		--[[
+		
 						local mod = WL.TerritoryModification.Create(ts)
 						mod.RemoveSpeicalUnitsOpt = v
-						]]--
+						
 					end
 				end
 				
