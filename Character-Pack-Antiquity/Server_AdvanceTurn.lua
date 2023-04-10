@@ -137,7 +137,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local filename = Filefinder(image) -- sort through images to find the correct one
 
 		local Turnkilled = math.random(minlife,maxlife)
-		UI.Alert(Turnkilled)
+
 		Turnkilled = Turnkilled-- + game.game.TurnNumber
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
