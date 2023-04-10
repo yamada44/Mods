@@ -15,7 +15,7 @@ NewrootParent = rootParent
 	 uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
-	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
+	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
 
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
@@ -62,6 +62,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	if access == 2 then
 		for i = 1, BeforeMax do 
 
+
 			UI.Destroy(InputFieldTable[i].text1)
 			UI.Destroy(InputFieldTable[i].text2)
 			UI.Destroy(InputFieldTable[i].text3)
@@ -91,7 +92,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row9)
 			UI.Destroy(InputFieldTable[i].row8)
 
-			UI.Alert('did access 2')
+			UI.Alert('Regenerating UI Types. All data reset')
 
 
 		end
