@@ -41,10 +41,13 @@ NewrootParent = rootParent
 
 	RefreshButton = UI.CreateButton(row0).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
 
-
+	if (access == 3 )then 
+			UI.Alert('Tip: If UI messes up, uncheck mod box and recheck')
+	end
 	if access == 2 or access == 3 then
 		UnitCreation()
 	end
+	 
 
 
 end
