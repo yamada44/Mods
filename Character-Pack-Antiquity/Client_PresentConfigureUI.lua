@@ -55,7 +55,6 @@ end
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
-UI.Alert(access .. ' , '.. typemax)
 
 	if access == 2 then
 		for i = 1, BeforeMax do 
