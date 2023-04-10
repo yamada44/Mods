@@ -60,7 +60,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
 	if access == 2 then
-		UI.Alert('Regenerated UI Types. All data reset')
+		UI.Alert('Regenerated UI Types')
 
 		for i = 1, BeforeMax do 
 
