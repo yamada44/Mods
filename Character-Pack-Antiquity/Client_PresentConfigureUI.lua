@@ -48,12 +48,7 @@ NewrootParent = rootParent
 		UnitCreation()
 	end
 	 
-
-
 end
-
-
-
 
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
