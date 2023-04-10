@@ -60,6 +60,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
 	if access == 2 then
+		UI.Alert('Regenerating UI Types. All data reset')
+
 		for i = 1, BeforeMax do 
 
 
@@ -92,7 +94,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row9)
 			UI.Destroy(InputFieldTable[i].row8)
 
-			UI.Alert('Regenerating UI Types. All data reset')
 
 
 		end
