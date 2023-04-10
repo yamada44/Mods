@@ -1,5 +1,5 @@
 require('Utilities');
-
+--[[
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
 	Game1 = game
@@ -21,10 +21,10 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 				
 			end
 	end
-	]]--
+	
 	
 end
-
+]]--
 
 
 
