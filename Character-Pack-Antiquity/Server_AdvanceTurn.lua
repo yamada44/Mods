@@ -74,8 +74,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
 		local ID = order.PlayerID
-		local minlife = Mod.Settings.Minlife
-		local maxlife = Mod.Settings.Maxlife
+		local minlife = Mod.Settings.Unitdata[type].Minlife
+		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
@@ -137,7 +137,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local filename = Filefinder(image) -- sort through images to find the correct one
 
 		local Turnkilled = math.random(minlife,maxlife)
-		--UI.Alert(game.game.TurnNumber)
+		UI.Alert(Turnkilled)
 		Turnkilled = Turnkilled-- + game.game.TurnNumber
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
