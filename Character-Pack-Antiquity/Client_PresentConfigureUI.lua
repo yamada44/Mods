@@ -54,6 +54,7 @@ function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
+
 	if access == 2 then
 		UI.Alert('Regenerated UI Types')
 
@@ -142,7 +143,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local maxlife = uniteconfig[i].Maxlife
 		if (maxlife == nil ) then maxlife = 0 end 
 
-   
+		UI.Alert(minlife .. ' ' .. maxlife)
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 

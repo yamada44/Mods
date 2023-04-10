@@ -70,7 +70,6 @@ function Client_SaveConfigureUI(alert)
         alert('Minimum amount for Max life is = to Minimum Turns alive\n Max amount is 100 \nReset to default settings')
         Mod.Settings.Maxlife = Mod.Settings.Minlife + 1
        else Mod.Settings.Maxlife = maxlife end
-       alert(minlife .. ' ' .. maxlife)
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
