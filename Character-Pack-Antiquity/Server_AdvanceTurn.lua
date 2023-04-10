@@ -1,14 +1,14 @@
 require('Utilities');
---[[
+
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
 	Game1 = game
---[[
+
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
-	
+
 
 			for i,v in pairs (ts.NumArmies.SpecialUnits)do
-	
+		--[[
 				if startsWith(v.ModData, 'C&P') == 'C&P' then 
 		
 					local diebitch = tonumber(string.sub(v.ModData, 4))
@@ -18,13 +18,14 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 						mod.RemoveSpeicalUnitsOpt = v
 					end
 				end
-				
+				]]--
 			end
+			
 	end
 	
 	
 end
-]]--
+
 
 
 
