@@ -3,23 +3,26 @@ require('Utilities');
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
 	Game1 = game
-
+print('phase 1')
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
 
 			for i,v in pairs (ts.NumArmies.SpecialUnits)do
-				--addNewOrder(WL.GameOrderEvent.Create(nil , 'point 1' , nil,nil,nil ,{} ))
-
-				if startsWith(v.ModData, 'C&P') == 'C&P' then 
-					--addNewOrder(WL.GameOrderEvent.Create(nil , 'point 2' , nil,nil,nil ,{} ))
-
+				print('phase 2')
+				if startsWith(v.ModData, 'C&P') then 
+					print('phase 3')
 					local diebitch = tonumber(string.sub(v.ModData, 4))
-					if diebitch >= Game1.Game.TurnNumber then
-					--	addNewOrder(WL.GameOrderEvent.Create(nil , 'point 3' , nil,nil,nil ,{} ))
+					print (diebitch, Game1.Game.TurnNumber, v.ModData)
+					if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then
+						print('phase 4')
+						local mod = WL.TerritoryModification.Create(ts.ID)
+						t = {}
+						table.insert(t, v.ID);
+						print(v.Name)
+						mod.RemoveSpecialUnitsOpt = t
+						local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
 
-						local mod = WL.TerritoryModification.Create(ts)
-						mod.RemoveSpeicalUnitsOpt = v
-				--		addNewOrder(WL.GameOrderEvent.Create(nil , 'made it' , nil,nil,nil ,{} ))
+						addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
 
 					end
 				end
@@ -166,10 +169,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		if (maxlife ~= 0)then
 
-		local Turnkilled = math.random(minlife,maxlife)
-		Turnkilled = Turnkilled + game.Game.TurnNumber
-		addedwords =  '\n Life ends on Turn: ' .. Turnkilled
+		Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
+		addedwords =  '\nLife ends on Turn: ' .. Turnkilled
 		end
+
+
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
@@ -192,7 +196,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a'.. typename .. addedwords, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver == true and shared == false)then
