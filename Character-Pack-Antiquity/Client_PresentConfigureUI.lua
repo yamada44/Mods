@@ -20,7 +20,7 @@ NewrootParent = rootParent
 	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
 	local typemax = Mod.Settings.Typemax
 
-	if Mod.Settings.access == nil then Mod.Settings.access = false end
+	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
 	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 0 end
 	 BeforeMax = Mod.Settings.BeforeMax
@@ -45,7 +45,7 @@ NewrootParent = rootParent
 	RefreshButton = UI.CreateButton(row0).SetText("Refresh").SetColor("#00DD00").SetOnClick(UnitCreation);
 
 
-	if access == true then
+	if access == 2 or access == 3 then
 		UnitCreation()
 	end
 
@@ -59,7 +59,7 @@ function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
-	if access == true then
+	if access == 2 then
 		for i = 1, BeforeMax do 
 
 			UI.Destroy(InputFieldTable[i].text1)
@@ -201,7 +201,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	end	
 	
 
-	access = true
+	access = 2
 	BeforeMax = UnitTypeMax
 InputFieldTable.Typemax = typemax
 InputFieldTable.BeforeMax = UnitTypeMax
