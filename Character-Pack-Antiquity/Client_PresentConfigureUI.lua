@@ -190,7 +190,7 @@ InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
 
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
 	local row11 = InputFieldTable[i].row11
-	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive, Set to 0 to disable life range for Units');
+	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive (Set to 0 to disable life range for Units)');
 InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
