@@ -165,7 +165,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		addedwords =  '\n Life ends on Turn: ' .. Turnkilled
 		end
 
-		local turntilldeath = 'C&P' .. Turnkilled
+		local turntilldeath = 'C&P' 
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
