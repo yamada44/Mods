@@ -8,18 +8,18 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
 
 			for i,v in pairs (ts.NumArmies.SpecialUnits)do
-				addNewOrder(WL.GameOrderEvent.Create(nil , 'point 1' , nil,nil,nil ,{} ))
+				--addNewOrder(WL.GameOrderEvent.Create(nil , 'point 1' , nil,nil,nil ,{} ))
 
 				if startsWith(v.ModData, 'C&P') == 'C&P' then 
-					addNewOrder(WL.GameOrderEvent.Create(nil , 'point 2' , nil,nil,nil ,{} ))
+					--addNewOrder(WL.GameOrderEvent.Create(nil , 'point 2' , nil,nil,nil ,{} ))
 
 					local diebitch = tonumber(string.sub(v.ModData, 4))
 					if diebitch >= Game1.Game.TurnNumber then
-						addNewOrder(WL.GameOrderEvent.Create(nil , 'point 3' , nil,nil,nil ,{} ))
+					--	addNewOrder(WL.GameOrderEvent.Create(nil , 'point 3' , nil,nil,nil ,{} ))
 
 						local mod = WL.TerritoryModification.Create(ts)
 						mod.RemoveSpeicalUnitsOpt = v
-						addNewOrder(WL.GameOrderEvent.Create(nil , 'made it' , nil,nil,nil ,{} ))
+				--		addNewOrder(WL.GameOrderEvent.Create(nil , 'made it' , nil,nil,nil ,{} ))
 
 					end
 				end
