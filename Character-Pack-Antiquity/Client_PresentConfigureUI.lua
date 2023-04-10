@@ -27,7 +27,6 @@ NewrootParent = rootParent
 -- End of Init
 
 
-UI.Alert(access)
 	InputFieldTable = {}
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
@@ -58,6 +57,7 @@ end
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
+UI.Alert(access .. ' , '.. typemax)
 
 	if access == 2 then
 		for i = 1, BeforeMax do 
@@ -203,7 +203,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	access = 2
 	BeforeMax = UnitTypeMax
-InputFieldTable.Typemax = typemax
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 
