@@ -200,7 +200,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	access = 2
 	BeforeMax = UnitTypeMax
-	UI.Alert(access)
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 

@@ -35,7 +35,7 @@ function TransferfromConfig() -- transfer the data from config to PlayerGameData
 
 	if (Playerdata.Unitedata == nil) then Playerdata.Unitedata = {} end 
 
-	Playerdata.Maxtypes = Mod.Settings.Maxunittype
+	Playerdata.Maxtypes = Mod.Settings.BeforeMax
 	Playerdata.Unitdata = Mod.Settings.Unitdata
 
 
