@@ -180,7 +180,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&P' .. Turnkilled
+		builder.ModData = Turnkilled
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
