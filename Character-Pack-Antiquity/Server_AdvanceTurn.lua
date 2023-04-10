@@ -76,6 +76,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local ID = order.PlayerID
 		local minlife = Mod.Settings.Unitdata[type].Minlife
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
+		local Turnkilled = nil
+		local addedwords = ''
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
@@ -136,9 +138,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		local filename = Filefinder(image) -- sort through images to find the correct one
 
-		local Turnkilled = math.random(minlife,maxlife)
+		if (maxlife ~= 0)then
 
-		Turnkilled = Turnkilled-- + game.game.TurnNumber
+		local Turnkilled = math.random(minlife,maxlife)
+		Turnkilled = Turnkilled + game.Game.TurnNumber
+		addedwords =  '\n Life ends on Turn: ' .. Turnkilled
+		end
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
@@ -161,7 +166,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. ' \n Life ends on Turn: '.. Turnkilled, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver == true and shared == false)then

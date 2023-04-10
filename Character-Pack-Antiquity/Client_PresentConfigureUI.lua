@@ -179,8 +179,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	local row10 = InputFieldTable[i].row10
 	InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Minimum Turns alive');
 InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
-	.SetSliderMinValue(1)
-	.SetSliderMaxValue(100)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(99)
 	.SetValue(minlife);
 
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
