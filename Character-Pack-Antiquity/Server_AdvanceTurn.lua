@@ -5,8 +5,9 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 	Game1 = game
 
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
-	--[[
+	
 		if ts.NumArmies.SpecialUnits > 0 then
+			--[[
 			for i,v in pairs (ts.NumArmies.SpecialUnits)do
 	
 				if startsWith(v.ModData, 'C&P') == 'C&P' then 
@@ -19,8 +20,8 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 					end
 				end
 			end
-	
-		end]]--
+	]]--
+		end
 	end
 	
 	
