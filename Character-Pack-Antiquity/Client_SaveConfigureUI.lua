@@ -59,13 +59,13 @@ function Client_SaveConfigureUI(alert)
         local maxserver = InputFieldTable[i].MaxServer.GetIsChecked()
         Mod.Settings.Unitdata[i].MaxServer = maxserver
  
-        local minlife = InputFieldTable[i].Minlife 
+        local minlife = InputFieldTable[i].Minlife.GetValue() 
        if minlife < 0 or minlife > 100 then 
         alert('Minimum amount for life is 1\nReset to default settings')
         Mod.Settings.Minlife = 1
        else Mod.Settings.Minlife = minlife end
 
-       local maxlife = InputFieldTable[i].Maxlife 
+       local maxlife = InputFieldTable[i].Maxlife.GetValue()  
        if maxlife < minlife or maxlife > 100 then 
         alert('Minimum amount for Max life is = to Minimum Turns alive\n Max amount is 100 \nReset to default settings')
         Mod.Settings.Maxlife = minlife + 1
