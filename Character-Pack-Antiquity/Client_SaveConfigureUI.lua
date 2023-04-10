@@ -62,14 +62,14 @@ function Client_SaveConfigureUI(alert)
         local minlife = InputFieldTable[i].Minlife.GetValue() 
        if minlife < 0 or minlife > 100 then 
         alert('Minimum amount for life is 1\nReset to default settings')
-        Mod.Settings.Minlife = 1
-       else Mod.Settings.Minlife = minlife end
+        Mod.Settings.Unitdata[i].Minlife = 1
+       else Mod.Settings.Unitdata[i].Minlife = minlife end
 
        local maxlife = InputFieldTable[i].Maxlife.GetValue()  
        if maxlife < minlife or maxlife > 100 then 
         alert('Minimum amount for Max life is = to Minimum Turns alive\n Max amount is 100 \nReset to default settings')
-        Mod.Settings.Maxlife = Mod.Settings.Minlife + 1
-       else Mod.Settings.Maxlife = maxlife end
+        Mod.Settings.Unitdata[i].Maxlife = Mod.Settings.Minlife + 1
+       else Mod.Settings.Unitdata[i].Maxlife = maxlife end
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
