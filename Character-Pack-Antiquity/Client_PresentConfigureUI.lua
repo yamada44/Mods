@@ -17,8 +17,6 @@ NewrootParent = rootParent
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
 
-	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
-	 typemax = Mod.Settings.Typemax
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
@@ -37,7 +35,7 @@ NewrootParent = rootParent
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
-		.SetValue(typemax);
+		.SetValue(BeforeMax);
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
@@ -203,6 +201,7 @@ UI.Alert(access .. ' , '.. typemax)
 
 	access = 2
 	BeforeMax = UnitTypeMax
+	UI.Alert(access)
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 
