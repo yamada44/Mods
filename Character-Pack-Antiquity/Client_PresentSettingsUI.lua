@@ -5,7 +5,7 @@ function Client_PresentSettingsUI(rootParent)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 
-		for i = 1, Mod.Settings.Maxunittype  do 
+		for i = 1, Mod.Settings.BeforeMax  do 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 
 	local Shared = 'No'
@@ -23,9 +23,12 @@ function Client_PresentSettingsUI(rootParent)
 		UI.CreateLabel(vert).SetText('\nCost: ' .. Mod.Settings.Unitdata[i].unitcost)
 		UI.CreateLabel(vert).SetText('Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower);
 		UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits);
+		UI.CreateLabel(vert).SetText('Min possible age range: ' .. Mod.Settings.Unitdata[i].Minlife);
+		UI.CreateLabel(vert).SetText('Max possible age range: ' .. Mod.Settings.Unitdata[i].Maxlife);
 		UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 		UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
 		UI.CreateLabel(vert).SetText('Max useage over game: ' .. MaxServer);
+
 
 
 	::next::

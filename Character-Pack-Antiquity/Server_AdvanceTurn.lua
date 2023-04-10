@@ -7,26 +7,27 @@ print('phase 1')
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
 
-			for i,v in pairs (ts.NumArmies.SpecialUnits)do
+			for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
 				print('phase 2')
-				if startsWith(v.ModData, 'C&P') then 
-					print('phase 3')
-					local diebitch = tonumber(string.sub(v.ModData, 4))
-					print (diebitch, Game1.Game.TurnNumber, v.ModData)
-					if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then
-						print('phase 4')
-						local mod = WL.TerritoryModification.Create(ts.ID)
-						t = {}
-						table.insert(t, v.ID);
-						print(v.Name)
-						mod.RemoveSpecialUnitsOpt = t
-						local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
+				if v.ModData ~= nil then -- 
+					if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
+						print('phase 3')
+						local diebitch = tonumber(string.sub(v.ModData, 4))
+						print (diebitch, Game1.Game.TurnNumber, v.ModData)
+						if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
+							print('phase 4')
+							local mod = WL.TerritoryModification.Create(ts.ID)
+							t = {}
+							table.insert(t, v.ID);
+							print(v.Name)
+							mod.RemoveSpecialUnitsOpt = t
+							local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
 
-						addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+							addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
 
+						end
 					end
 				end
-				
 			end
 			
 	end
@@ -50,11 +51,14 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local specialUnitKilled = armiesKilled.SpecialUnits
 
 			for i,v in pairs (specialUnitKilled)do
-				
+				if v.ModData ~= nil then 
+					if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
+
 				local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n ' ..
 					  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle'   
 
 					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+				end
 			end
 			  
 		end
@@ -65,12 +69,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local land = Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 
 			for i,v in pairs (specialUnitKilled)do
+				if v.ModData ~= nil then 
+
 				if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
 
 				local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n ' ..
 					  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
  
 					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+				end
 			end
 		end
 
