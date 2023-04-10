@@ -1,5 +1,14 @@
 require('Utilities');
 
+function Server_AdvanceTurn_Start(game, addNewOrder)
+
+Game1 = game
+
+end
+
+
+
+
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
 	

@@ -62,7 +62,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	if access == 2 then
 		UI.Alert('Regenerated UI Types')
 
-		for i = 1, BeforeMax do 
+		for i = 1, BeforeMax do  -- deleting UI before generating a new one
 
 
 			UI.Destroy(InputFieldTable[i].text1)
@@ -76,6 +76,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text9)
 			UI.Destroy(InputFieldTable[i].text10)
 			UI.Destroy(InputFieldTable[i].text11)
+			UI.Destroy(InputFieldTable[i].text12)
+			UI.Destroy(InputFieldTable[i].text13)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -84,6 +86,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Visible)
 			UI.Destroy(InputFieldTable[i].MaxServer)
 			UI.Destroy(InputFieldTable[i].Name)
+			UI.Destroy(InputFieldTable[i].Minlife)
+			UI.Destroy(InputFieldTable[i].Maxlife)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -93,12 +97,18 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row5)
 			UI.Destroy(InputFieldTable[i].row9)
 			UI.Destroy(InputFieldTable[i].row8)
+			UI.Destroy(InputFieldTable[i].row10)
+			UI.Destroy(InputFieldTable[i].row11)
 
 
 
 		end
 	end
 
+	if UnitTypeMax < 0 or UnitTypeMax > 6 then 
+	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
+	UnitTypeMax = 1
+	end
 
 
 
@@ -131,6 +141,12 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local name = uniteconfig[i].Name
 		if (name == nil ) then name = '' end 
 
+		local minlife = uniteconfig[i].Minlife
+		if (minlife == nil ) then minlife = 0 end 
+
+		local maxlife = uniteconfig[i].Maxlife
+		if (maxlife == nil ) then maxlife = 0 end 
+
    
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
@@ -162,7 +178,25 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
 
-	
+	--new content
+
+	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
+	local row10 = InputFieldTable[i].row10
+	InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Minimum Turns alive');
+InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
+	.SetSliderMinValue(1)
+	.SetSliderMaxValue(100)
+	.SetValue(minlife);
+
+	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
+	local row11 = InputFieldTable[i].row11
+	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive, Set to 0 to disable life range for Units');
+InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(100)
+	.SetValue(maxlife);
+
+	--end of new content
 
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
 		local row4 = InputFieldTable[i].row4
