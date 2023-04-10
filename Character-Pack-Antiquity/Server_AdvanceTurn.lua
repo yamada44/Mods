@@ -3,8 +3,7 @@ require('Utilities');
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
 	Game1 = game
-	addNewOrder(WL.GameOrderEvent.Create(nil , 'you' , nil,nil,nil ,{} ))
-
+--[[
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 	
 		if ts.NumArmies.SpecialUnits > 0 then
@@ -23,7 +22,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 	
 		end
 	end
-	
+	]]--
 	
 end
 
