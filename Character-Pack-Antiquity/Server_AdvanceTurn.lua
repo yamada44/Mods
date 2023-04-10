@@ -161,7 +161,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. ' '.. game.game.TurnNumber, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver == true and shared == false)then
