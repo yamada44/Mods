@@ -165,6 +165,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		addedwords =  '\n Life ends on Turn: ' .. Turnkilled
 		end
 
+		local turntilldeath = 'C&P' .. Turnkilled
+
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
 		builder.IncludeABeforeName = true;
@@ -180,7 +182,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = Turnkilled
+		builder.ModData = turntilldeath
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
