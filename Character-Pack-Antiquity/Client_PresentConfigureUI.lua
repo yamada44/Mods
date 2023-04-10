@@ -18,7 +18,7 @@ NewrootParent = rootParent
 	UI.CreateLabel(vert0).SetText('Tip: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
 
 	if Mod.Settings.Typemax == nil then Mod.Settings.Typemax = 0 end
-	local typemax = Mod.Settings.Typemax
+	 typemax = Mod.Settings.Typemax
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
@@ -27,7 +27,7 @@ NewrootParent = rootParent
 -- End of Init
 
 
-
+UI.Alert(access)
 	InputFieldTable = {}
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
