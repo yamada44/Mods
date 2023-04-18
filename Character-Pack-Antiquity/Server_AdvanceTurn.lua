@@ -9,7 +9,7 @@ print('phase 1')
 
 			for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
 				print('phase 2')
-				if v.proxytype == "CustomSpecialUnit" then
+				if v.proxyType == "CustomSpecialUnit" then
 					if v.ModData ~= nil then -- 
 						if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
 							print('phase 3')
