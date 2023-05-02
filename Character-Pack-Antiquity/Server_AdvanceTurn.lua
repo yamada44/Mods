@@ -90,11 +90,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 print ("no")
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		print (order.Payload)	
-		print ('sfdsf')
+
+	
 		local publicdata = Mod.PublicGameData
 	
 
 		local payloadSplit = split(string.sub(order.Payload, 6), ','); 
+		for i, v in pairs(payloadSplit) do
+			print(i, v);
+		  end
+
+
 		local targetTerritoryID = tonumber(payloadSplit[1])
 		local charactername = payloadSplit[2]
 		local unittype = tonumber(payloadSplit[3])
