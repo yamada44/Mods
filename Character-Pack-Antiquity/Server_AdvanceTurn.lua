@@ -97,24 +97,24 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local payloadSplit = split(string.sub(order.Payload, 6), ','); 
 		local targetTerritoryID = tonumber(payloadSplit[1])
 		local charactername = payloadSplit[2]
-		local type = tonumber(payloadSplit[3])
+		local unittype = tonumber(payloadSplit[3])
 		local unitpower = tonumber(payloadSplit[4])
 		local typename = payloadSplit[5]
 		local unitmax = tonumber(payloadSplit[6])
 		local image = tonumber(payloadSplit[7])
 		local shared = payloadSplit[8]
 		local visible = payloadSplit[9]
-		
+		local type = nil
 		if (visible == 'true') then visible = true -- turning these varibles back into bools after converting them into strings
 		else visible = false end
 		if (shared == 'true') then shared = true
 		else shared = false end
 
 
-		local MaxUnitsEver = Mod.Settings.Unitdata[1].MaxServer
+		local MaxUnitsEver = Mod.Settings.Unitdata[unittype].MaxServer
 		local ID = order.PlayerID
-		local minlife = Mod.Settings.Unitdata[type].Minlife
-		local maxlife = Mod.Settings.Unitdata[type].Maxlife
+		local minlife = Mod.Settings.Unitdata[unittype].Minlife
+		local maxlife = Mod.Settings.Unitdata[unittype].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
 
