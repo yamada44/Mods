@@ -137,9 +137,10 @@ function CompletePurchaseClicked()
 print (tostring(Playerdata.Unitdata[Type].Shared) , tostring(Playerdata.Unitdata[Type].Visible))
 
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
-	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID .. ',' .. Chartracker[Type].GetText() ..','.. Type
-					 .. ','.. Playerdata.Unitdata[Type].unitpower .. ','.. Playerdata.Unitdata[Type].Name.. ','.. Playerdata.Unitdata[Type].Maxunits..
-					  ','.. Playerdata.Unitdata[Type].image .. ','.. tostring(Playerdata.Unitdata[Type].Shared) .. ','.. tostring(Playerdata.Unitdata[Type].Visible)
+	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
+					 .. ';;'.. Playerdata.Unitdata[Type].unitpower .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
+					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
+					  .. ';;' .. Chartracker[Type].GetText() 
 
 	
 	local orders = Game.Orders;

@@ -89,26 +89,28 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		print (order.Payload)	
-
+		if true then
+		return end
 	
 		local publicdata = Mod.PublicGameData
 	
 
-		local payloadSplit = split(string.sub(order.Payload, 6), ','); 
+		local payloadSplit = split(string.sub(order.Payload, 6), ';;'); 
 		for i, v in pairs(payloadSplit) do
 			print(i, v);
 		  end
 
 
 		local targetTerritoryID = tonumber(payloadSplit[1])
-		local charactername = payloadSplit[2]
-		local unittype = tonumber(payloadSplit[3])
-		local unitpower = tonumber(payloadSplit[4])
-		local typename = payloadSplit[5]
-		local unitmax = tonumber(payloadSplit[6])
-		local image = tonumber(payloadSplit[7])
-		local shared = payloadSplit[8]
-		local visible = payloadSplit[9]
+		local unittype = tonumber(payloadSplit[2])
+		local unitpower = tonumber(payloadSplit[3])
+		local typename = payloadSplit[4]
+		local unitmax = tonumber(payloadSplit[5])
+		local image = tonumber(payloadSplit[6])
+		local shared = payloadSplit[7]
+		local visible = payloadSplit[8]
+		local charactername = payloadSplit[9]
+
 		local type = nil
 		if (visible == 'true') then visible = true -- turning these varibles back into bools after converting them into strings
 		else visible = false end
