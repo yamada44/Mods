@@ -116,6 +116,7 @@ if type == 3 then local u = Mod.Settings.Unitdata[unittype].MaxServer end
 if type == 4 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
 if type == 5 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
 if type == 6 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
+if type == nil then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
 
 if type > 20 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
 if type < 0 then local u =  Mod.Settings.Unitdata[unittype].MaxServer  
