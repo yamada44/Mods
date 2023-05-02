@@ -87,10 +87,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 	end
 
-
+print ("no")
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		print (order.Payload)	
-
+		print ('sfdsf')
 		local publicdata = Mod.PublicGameData
 	
 
