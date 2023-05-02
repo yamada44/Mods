@@ -111,13 +111,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		else shared = false end
 
 
+		local MaxUnitsEver = Mod.Settings.Unitdata[1].MaxServer
 		local ID = order.PlayerID
 		local minlife = Mod.Settings.Unitdata[type].Minlife
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
-		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
-
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
