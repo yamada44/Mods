@@ -110,6 +110,20 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if (shared == 'true') then shared = true
 		else shared = false end
 
+if type == 1 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
+if type == 2 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
+if type == 3 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
+if type == 4 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
+if type == 5 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
+if type > 5 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
+if type < 0 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
+
+ 
+	else  local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
+
+
+
+
 
 		local MaxUnitsEver = Mod.Settings.Unitdata[unittype].MaxServer
 		local ID = order.PlayerID
