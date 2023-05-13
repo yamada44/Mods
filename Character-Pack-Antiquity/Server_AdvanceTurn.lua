@@ -101,7 +101,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 		local targetTerritoryID = tonumber(payloadSplit[1])
-		local unittype = tonumber(payloadSplit[2])
+		local type = tonumber(payloadSplit[2])
 		local unitpower = tonumber(payloadSplit[3])
 		local typename = payloadSplit[4]
 		local unitmax = tonumber(payloadSplit[5])
@@ -110,34 +110,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local visible = payloadSplit[8]
 		local charactername = payloadSplit[9]
 
-		local type = nil
 		if (visible == 'true') then visible = true -- turning these varibles back into bools after converting them into strings
 		else visible = false end
 		if (shared == 'true') then shared = true
 		else shared = false end
 
-if unittype == 1 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
-if unittype == 2 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
-if unittype == 3 then local u = Mod.Settings.Unitdata[unittype].MaxServer end 
-if unittype == 4 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
-if unittype == 5 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
-if unittype == 6 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
-if unittype == nil then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
-
-if unittype > 6 then local u =  Mod.Settings.Unitdata[unittype].MaxServer end
-if unittype < 0 then local u =  Mod.Settings.Unitdata[unittype].MaxServer  
-
- 
-	else  local u =  Mod.Settings.Unitdata[unittype].MaxServer end 
 
 
-
-
-
-		local MaxUnitsEver = Mod.Settings.Unitdata[unittype].MaxServer
+		local MaxUnitsEver = Mod.Settings.Unitdata[type].MaxServer
 		local ID = order.PlayerID
-		local minlife = Mod.Settings.Unitdata[unittype].Minlife
-		local maxlife = Mod.Settings.Unitdata[unittype].Maxlife
+		local minlife = Mod.Settings.Unitdata[type].Minlife
+		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
 
