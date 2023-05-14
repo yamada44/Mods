@@ -52,6 +52,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 			local armiesKilled = result.AttackingArmiesKilled 
 			local specialUnitKilled = armiesKilled.SpecialUnits
+			local land = Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 
 			for i,v in pairs (specialUnitKilled)do
 				if v.ModData ~= nil then 
@@ -67,7 +68,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
-						builder.OwnerID  = order.PlayerID
+						builder.OwnerID  = land.OwnerPlayerID
 						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
 						print(transfer, 'transfer')
 
