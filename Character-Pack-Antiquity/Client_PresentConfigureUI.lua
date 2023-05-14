@@ -20,7 +20,7 @@ NewrootParent = rootParent
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
-	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 0 end
+	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
 	 BeforeMax = Mod.Settings.BeforeMax
 -- End of Init
 
@@ -74,6 +74,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text11)
 			UI.Destroy(InputFieldTable[i].text12)
 			UI.Destroy(InputFieldTable[i].text13)
+			UI.Destroy(InputFieldTable[i].text14)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -84,6 +85,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Name)
 			UI.Destroy(InputFieldTable[i].Minlife)
 			UI.Destroy(InputFieldTable[i].Maxlife)
+			UI.Destroy(InputFieldTable[i].Transfer)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -95,6 +97,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row8)
 			UI.Destroy(InputFieldTable[i].row10)
 			UI.Destroy(InputFieldTable[i].row11)
+			UI.Destroy(InputFieldTable[i].row12)
+
 
 
 
@@ -143,6 +147,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local maxlife = uniteconfig[i].Maxlife
 		if (maxlife == nil ) then maxlife = 0 end 
 
+		local transfer = uniteconfig[i].Transfer
+		if (transfer == nil ) then transfer = 0 end 
+
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
@@ -173,7 +180,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
 
-	--new content
+	-- Present Minimum life UI
 
 	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
 	local row10 = InputFieldTable[i].row10
@@ -183,6 +190,7 @@ InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
 	.SetSliderMaxValue(99)
 	.SetValue(minlife);
 
+	-- present Maximum life UI
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
 	local row11 = InputFieldTable[i].row11
 	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive (Set to 0 to disable life range for Units)');
@@ -191,8 +199,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife);
 
-	--end of new content
-
+	-- presenting image UI
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
 		local row4 = InputFieldTable[i].row4
 		InputFieldTable[i].text5 = UI.CreateLabel(row4).SetText('What Image will this Unit have');
@@ -201,6 +208,16 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture);
 
+		-- transfer units on death settings
+		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
+		local row12 = InputFieldTable[i].row12
+		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('Check if you want this unit to Transfer between players upon death\n (-1 for infinite)\n (0 to disable)');
+		InputFieldTable[i].Transfer = UI.CreateNumberInputField(row12)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(10)
+		.SetValue(transfer);
+
+		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players');
@@ -226,8 +243,10 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 
 		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
 		local row8 = InputFieldTable[i].row8
-		InputFieldTable[i].text10 = 	UI.CreateEmpty(row8)
+		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
+
+
 	
 	end	
 	

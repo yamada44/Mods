@@ -71,6 +71,10 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.Unitdata[i].Maxlife = Mod.Settings.Unitdata[i].Minlife + 1
        else Mod.Settings.Unitdata[i].Maxlife = maxlife end
 
+       local transfer = InputFieldTable[i].Transfer.GetValue()
+       if (transfer > 25 or transfer < -1 )then transfer = 0 
+       else Mod.Settings.Unitdata[i].Transfer = transfer end
+
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
    end

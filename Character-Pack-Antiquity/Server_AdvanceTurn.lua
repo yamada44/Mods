@@ -13,7 +13,8 @@ print('phase 1')
 					if v.ModData ~= nil then -- 
 						if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
 							print('phase 3')
-							local diebitch = tonumber(string.sub(v.ModData, 4))
+							local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+							local diebitch = tonumber(payloadSplit[1])
 							print (diebitch, Game1.Game.TurnNumber, v.ModData)
 							if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
 								print('phase 4')
@@ -47,7 +48,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		Game2 = game
 
 
-        if #result.AttackingArmiesKilled.SpecialUnits > 0  then
+        if #result.AttackingArmiesKilled.SpecialUnits > 0  then -- when a unit dies from attacking. 
 
 			local armiesKilled = result.AttackingArmiesKilled 
 			local specialUnitKilled = armiesKilled.SpecialUnits
@@ -56,43 +57,75 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				if v.ModData ~= nil then 
 					if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
 
-				local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n ' ..
+				local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n' ..
 					  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle'   
+					
+					  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+					  local transfer = tonumber(payloadSplit[2])
+					  if (transfer ~= 0)then
+						local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[order.PlayerID].DisplayName(nil,false)
 
-					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+						transfer = transfer - 1
+						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
+						print(transfer, 'transfer')
+
+						local terrMod = WL.TerritoryModification.Create(order.To);
+						terrMod.AddSpecialUnits = {builder.Build()};
+						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+
+					else
+						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+
+					end
 				end
 			end
 			  
 		end
-		if (#result.DefendingArmiesKilled.SpecialUnits > 0) then
+		if (#result.DefendingArmiesKilled.SpecialUnits > 0) then -- when a unit dies from defending
 
 			local armiesKilled = result.DefendingArmiesKilled 	
 			local specialUnitKilled = armiesKilled.SpecialUnits
 			local land = Game2.ServerGame.LatestTurnStanding.Territories[order.To]
+			local landfrom = Game2.ServerGame.LatestTurnStanding.Territories[order.From]
 
 			for i,v in pairs (specialUnitKilled)do
 				if v.ModData ~= nil then 
 
 				if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
 
-				local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n ' ..
+				local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n' ..
 					  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
  
-					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+					  local transfer = tonumber(payloadSplit[2])
+					  if (transfer ~= 0)then
+						local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
+
+						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+						transfer = transfer - 1
+						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
+						print(transfer, 'transfer')
+
+						local terrMod = WL.TerritoryModification.Create(order.To);
+						terrMod.AddSpecialUnits = {builder.Build()};
+						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+
+					else
+						addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+
+					end
+
 				end
 			end
 		end
-
-
-
 	end
+
+
 
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		print (order.Payload)	
-
-	
 		local publicdata = Mod.PublicGameData
-	
 
 		local payloadSplit = split(string.sub(order.Payload, 6), ';;'); 
 		for i, v in pairs(payloadSplit) do
@@ -123,6 +156,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
+		local transfer = 0
+		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then
+		 transfer = Mod.Settings.Unitdata[type].Transfer
+		
+		end
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
@@ -206,7 +244,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&P' .. Turnkilled
+		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};

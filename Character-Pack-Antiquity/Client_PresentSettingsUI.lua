@@ -7,16 +7,18 @@ function Client_PresentSettingsUI(rootParent)
 
 		for i = 1, Mod.Settings.BeforeMax  do 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
-
 	local Shared = 'No'
 	local Vis = 'No'
 	local MaxServer = 'No'
+	local transfer = 0
+
 	if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 
 	
 				if (Mod.Settings.Unitdata[i].Shared == true)then Shared = 'yes' end
 				if (Mod.Settings.Unitdata[i].Visible == true)then Vis = 'yes' end
 				if (Mod.Settings.Unitdata[i].MaxServer == true)then MaxServer = 'yes' end
+				if (Mod.Settings.Unitdata[i].Transfer ~= nil) then transfer = Mod.Settings.Unitdata[i].Transfer  end
 	
 	
 		UI.CreateLabel(vert).SetText('Unit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
@@ -28,6 +30,8 @@ function Client_PresentSettingsUI(rootParent)
 		UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 		UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
 		UI.CreateLabel(vert).SetText('Max useage over game: ' .. MaxServer);
+		UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer);
+
 
 
 
