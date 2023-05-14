@@ -63,23 +63,23 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 					
 					  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
 					  local transfer = tonumber(payloadSplit[2])
-					  if (transfer ~= 0)then
+					if (transfer ~= 0)then
 						local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[order.PlayerID].DisplayName(nil,false)
-
-						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-						transfer = transfer - 1
-						builder.OwnerID  = land.OwnerPlayerID
-						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
-						print(transfer, 'transfer')
-
-						local terrMod = WL.TerritoryModification.Create(order.To);
-						terrMod.AddSpecialUnits = {builder.Build()};
-						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
-
-					else
-						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
-
-					end
+						if (land.OwnerPlayerID ~= 0)then
+							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+							transfer = transfer - 1
+							builder.OwnerID  = land.OwnerPlayerID
+							builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
+							print(transfer, 'transfer')
+	
+							local terrMod = WL.TerritoryModification.Create(order.To);
+							terrMod.AddSpecialUnits = {builder.Build()};
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+							end 
+						else
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+	
+						end
 				end
 			end
 			  
