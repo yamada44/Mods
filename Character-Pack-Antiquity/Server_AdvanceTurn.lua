@@ -104,6 +104,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
+						builder.OwnerID  = landfrom.OwnerPlayerID
 						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
 						print(transfer, 'transfer')
 
