@@ -216,7 +216,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		-- transfer units on death settings
 		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
 		local row12 = InputFieldTable[i].row12
-		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('How many transfers between playersyou want this unit to have before death\n (-1 for infinite)\n (0 to disable)');
+		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('How many transfers between players you want this unit to have before death\n (-1 for infinite)\n (0 to disable)');
 		InputFieldTable[i].Transfer = UI.CreateNumberInputField(row12)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
@@ -225,7 +225,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		-- Leveling for units
 		InputFieldTable[i].row13 = UI.CreateHorizontalLayoutGroup(vert);
 		local row13 = InputFieldTable[i].row13
-		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up\nleveling up adds current army power to existing army power\n(0 to disable)');
+		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to kill to level up\nleveling up adds current army power to existing army power\n(0 to disable)');
 		InputFieldTable[i].Level = UI.CreateNumberInputField(row13)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
