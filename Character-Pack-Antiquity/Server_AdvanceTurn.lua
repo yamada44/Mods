@@ -311,7 +311,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
 						builder.OwnerID  = land.OwnerPlayerID
-						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
+						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6]
 
 						local terrMod = WL.TerritoryModification.Create(order.To);
 						terrMod.AddSpecialUnits = {builder.Build()};
@@ -347,7 +347,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
 					builder.OwnerID  = landfrom.OwnerPlayerID
-					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer
+					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6]
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
