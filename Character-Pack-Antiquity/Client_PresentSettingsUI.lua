@@ -30,7 +30,7 @@ function Client_PresentSettingsUI(rootParent)
 		UI.CreateLabel(vert).SetText('Min possible age range: ' .. Mod.Settings.Unitdata[i].Minlife);
 		UI.CreateLabel(vert).SetText('Max possible age range: ' .. Mod.Settings.Unitdata[i].Maxlife);
 		UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer);
-		UI.CreateLabel(vert).SetText('Number of armies needed to level up: ' .. level);
+		UI.CreateLabel(vert).SetText('Base Number of armies needed to level up: ' .. level);
 		UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 		UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
 		UI.CreateLabel(vert).SetText('Max useage over game: ' .. MaxServer);
