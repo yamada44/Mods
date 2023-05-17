@@ -318,7 +318,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
 						 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 			end
@@ -354,7 +354,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(landfrom.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 
