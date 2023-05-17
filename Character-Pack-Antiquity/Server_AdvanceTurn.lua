@@ -306,7 +306,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
 				if (transfer ~= 0 and land.OwnerPlayerID ~= 0)then
-					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[order.PlayerID].DisplayName(nil,false)
+					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 					
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
