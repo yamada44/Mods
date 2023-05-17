@@ -75,6 +75,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text12)
 			UI.Destroy(InputFieldTable[i].text13)
 			UI.Destroy(InputFieldTable[i].text14)
+			UI.Destroy(InputFieldTable[i].text15)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -86,6 +87,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Minlife)
 			UI.Destroy(InputFieldTable[i].Maxlife)
 			UI.Destroy(InputFieldTable[i].Transfer)
+			UI.Destroy(InputFieldTable[i].Level)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -98,7 +100,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row10)
 			UI.Destroy(InputFieldTable[i].row11)
 			UI.Destroy(InputFieldTable[i].row12)
-
+			UI.Destroy(InputFieldTable[i].row13)
 
 
 
@@ -150,20 +152,23 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local transfer = uniteconfig[i].Transfer
 		if (transfer == nil ) then transfer = 0 end 
 
+		local level = uniteconfig[i].Level
+		if (level == nil ) then level = 0 end 
+
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
+	-- how much Gold will this army cost
     InputFieldTable[i].row1 = UI.CreateHorizontalLayoutGroup(vert);
 	local row1 = InputFieldTable[i].row1
 	InputFieldTable[i].text1 = UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF');
 	InputFieldTable[i].text2 = UI.CreateLabel(row1).SetText('\nHow much gold it costs to buy Unit ' .. i);
-
     InputFieldTable[i].costInputField = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
 
-
+		--how powerful each unit is in army amounts
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
 		local row2 = InputFieldTable[i].row2
 	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is (in armies)');
@@ -172,6 +177,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetSliderMaxValue(30)
 		.SetValue(power);
 
+		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
 		local row3 = InputFieldTable[i].row3
 	InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time\n(Set to 0 to disable this unit)');
@@ -181,7 +187,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetValue(maxunits);
 
 	-- Present Minimum life UI
-
 	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
 	local row10 = InputFieldTable[i].row10
 	InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Minimum Turns alive');
@@ -217,22 +222,34 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(10)
 		.SetValue(transfer);
 
+		-- Leveling for units
+		InputFieldTable[i].row13 = UI.CreateHorizontalLayoutGroup(vert);
+		local row13 = InputFieldTable[i].row13
+		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('Determine if this unit type will have levels\n leveling up adds current army power to existing army power\n (the number determines the amount of armies needed to kill to level up)\n (0 to disable)');
+		InputFieldTable[i].Level = UI.CreateNumberInputField(row13)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(500)
+		.SetValue(level);
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players');
 		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
+		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
+		-- max useage for entire game
 		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
 		local row9 = InputFieldTable[i].row9
 		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Check if you want this unit to have a max useage for the entire game');
 		InputFieldTable[i].MaxServer = UI.CreateCheckBox(row9).SetIsChecked(maxserver).SetText('')
 		
+		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
 		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu');
@@ -241,6 +258,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(20)
 
+		--spacer
 		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
 		local row8 = InputFieldTable[i].row8
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)

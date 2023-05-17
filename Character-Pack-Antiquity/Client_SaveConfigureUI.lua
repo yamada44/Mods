@@ -75,6 +75,10 @@ function Client_SaveConfigureUI(alert)
        if (transfer > 25 or transfer < -1 )then transfer = 0 
        else Mod.Settings.Unitdata[i].Transfer = transfer end
 
+       local level = InputFieldTable[i].Level.GetValue()
+       if (level > 5000 or level < 0 )then level = 0 
+       else Mod.Settings.Unitdata[i].Level = level end
+
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
    end
