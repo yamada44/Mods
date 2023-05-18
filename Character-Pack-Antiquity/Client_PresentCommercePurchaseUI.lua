@@ -20,7 +20,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 		print (Playerdata.Unitdata)
 		
-	if (Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
+	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
 		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active end
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
