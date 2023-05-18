@@ -72,12 +72,16 @@ function Client_SaveConfigureUI(alert)
        else Mod.Settings.Unitdata[i].Maxlife = maxlife end
 
        local transfer = InputFieldTable[i].Transfer.GetValue()
-       if (transfer > 25 or transfer < -1 )then transfer = 0 
+       if (transfer > 25 or transfer < -1 )then transfer = 0 alert("Transfer input outside data range. min: 0, Max: 25")
        else Mod.Settings.Unitdata[i].Transfer = transfer end
 
        local level = InputFieldTable[i].Level.GetValue()
-       if (level > 5000 or level < 0 )then level = 0 
+       if (level > 5000 or level < 0 )then level = 0 alert("level input outside data range. min: 0, Max: 5000")
        else Mod.Settings.Unitdata[i].Level = level end
+
+       local active = InputFieldTable[i].Active.GetValue()
+       if (active > 200 or active < 0 )then active = 0 alert("unit Active input outside data range. min: 0, Max: 200")
+       else Mod.Settings.Unitdata[i].Active = active end
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on

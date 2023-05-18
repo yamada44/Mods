@@ -76,6 +76,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text13)
 			UI.Destroy(InputFieldTable[i].text14)
 			UI.Destroy(InputFieldTable[i].text15)
+			UI.Destroy(InputFieldTable[i].text16)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -101,7 +102,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row11)
 			UI.Destroy(InputFieldTable[i].row12)
 			UI.Destroy(InputFieldTable[i].row13)
-
+			UI.Destroy(InputFieldTable[i].row14)
 
 
 		end
@@ -154,6 +155,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		local level = uniteconfig[i].Level
 		if (level == nil ) then level = 0 end 
+
+		local active = uniteconfig[i].Active
+		if (active == nil ) then active = 0 end 
 
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
@@ -230,6 +234,15 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
 		.SetValue(level);
+
+		-- turn unit becomes Active
+		InputFieldTable[i].row14 = UI.CreateHorizontalLayoutGroup(vert);
+		local row14 = InputFieldTable[i].row14
+		InputFieldTable[i].text16 = UI.CreateLabel(row14).SetText('Unit is locked till this turn\n(0 to disable)');
+		InputFieldTable[i].Active = UI.CreateNumberInputField(row14)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(200)
+		.SetValue(active);
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);

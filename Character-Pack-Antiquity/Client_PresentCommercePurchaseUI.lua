@@ -12,18 +12,22 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	TransferfromConfig()
 
 
-
+	print (Game.Game.TurnNumber, "turn number")
 	for i = 1, Playerdata.Maxtypes  do 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
+	local turnactive = true
+	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 
 		print (Playerdata.Unitdata)
 		
+	if (Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
+		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active end
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
 	UI.CreateLabel(vert).SetText(Playerdata.Unitdata[i].Name .."'s are worth " .. Playerdata.Unitdata[i].unitpower .. " armies and cost " ..  Playerdata.Unitdata[i].unitcost .. " gold to purchase.  You may have up to " .. Playerdata.Unitdata[i].Maxunits .. ' ' .. Playerdata.Unitdata[i].Name.. "'s at a time.");
 	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
-	UI.CreateButton(vert).SetText("Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold").SetOnClick(function () PurchaseClicked(i) end)
+	UI.CreateButton(vert).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
 
 	
 
