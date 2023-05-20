@@ -59,6 +59,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 							local XP = tonumber(payloadSplit[4])
 							local unitpower = tonumber(payloadSplit[5])
 							local currlevel = tonumber(payloadSplit[6])
+
 							if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 								XP = XP + result.DefendingArmiesKilled.DefensePower
@@ -105,6 +106,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
 								end
 							end
+
 						end
 					end
 				end
@@ -305,7 +307,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				
 				  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
-				if (transfer ~= 0 and land.OwnerPlayerID ~= 0)then
+				if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
 					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 					
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
@@ -341,7 +343,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 				  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
-				  if (transfer ~= 0)then
+				  if (transfer ~= 0 and transfer ~= nil)then
 					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
 
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
