@@ -59,7 +59,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 							local XP = tonumber(payloadSplit[4])
 							local unitpower = tonumber(payloadSplit[5])
 							local currlevel = tonumber(payloadSplit[6])
-							if levelamount ~= 0  then -- making sure the level option is turned on
+							if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 								XP = XP + result.DefendingArmiesKilled.DefensePower
 								local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
