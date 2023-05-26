@@ -1,7 +1,7 @@
 require('Utilities');
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
-	local i = 1000
+--[[	local i = 1000
 	while i ~= 100 do
 		 i = i + 1 
 --Sprint ( game.Map.Territories[i].Name, 'name')
@@ -12,7 +12,7 @@ local mod = WL.TerritoryModification.Create(i)
 
 	addNewOrder(WL.GameOrderEvent.Create(0, UnitdiedMessage, nil, {mod}));
 end
-end
+end]]--
 	
 
 
