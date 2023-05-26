@@ -188,7 +188,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		--how powerful each unit is in attacks
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
 		local row2 = InputFieldTable[i].row2
-	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is when attacking (in armies)').SetColor('#fffff7')
+	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is when attacking (in armies)').SetColor('#FFE5B4')
 	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
