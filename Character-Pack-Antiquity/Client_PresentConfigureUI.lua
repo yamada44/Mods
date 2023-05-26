@@ -77,6 +77,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text14)
 			UI.Destroy(InputFieldTable[i].text15)
 			UI.Destroy(InputFieldTable[i].text16)
+			UI.Destroy(InputFieldTable[i].text17)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -89,6 +90,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Maxlife)
 			UI.Destroy(InputFieldTable[i].Transfer)
 			UI.Destroy(InputFieldTable[i].Level)
+			UI.Destroy(InputFieldTable[i].Active)
+			UI.Destroy(InputFieldTable[i].Defend)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -103,6 +106,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row12)
 			UI.Destroy(InputFieldTable[i].row13)
 			UI.Destroy(InputFieldTable[i].row14)
+			UI.Destroy(InputFieldTable[i].row15)
 
 
 		end
@@ -159,6 +163,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local active = uniteconfig[i].Active
 		if (active == nil ) then active = 0 end 
 
+		local defend = uniteconfig[i].Defend
+		if (defend == nil ) then defend = 0 end 
+
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
@@ -172,14 +179,23 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
 
-		--how powerful each unit is in army amounts
+		--how powerful each unit is in attacks
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
 		local row2 = InputFieldTable[i].row2
-	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is (in armies)');
+	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is when attacking (in armies)');
 	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(power);
+
+		--how powerful each unit is in defense 
+		InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert);
+		local row15 = InputFieldTable[i].row15
+	InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('How powerful Unit ' .. i .. ' is when defending (in armies)');
+	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row15)
+		.SetSliderMinValue(1)
+		.SetSliderMaxValue(30)
+		.SetValue(defend);
 
 		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
@@ -244,6 +260,12 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(200)
 		.SetValue(active);
 
+		-- max useage for entire game
+		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
+		local row9 = InputFieldTable[i].row9
+		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Check if you want this unit to have a max useage for the entire game');
+		InputFieldTable[i].MaxServer = UI.CreateCheckBox(row9).SetIsChecked(maxserver).SetText('')
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
@@ -256,11 +278,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
-		-- max useage for entire game
-		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
-		local row9 = InputFieldTable[i].row9
-		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Check if you want this unit to have a max useage for the entire game');
-		InputFieldTable[i].MaxServer = UI.CreateCheckBox(row9).SetIsChecked(maxserver).SetText('')
+
 		
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)

@@ -23,7 +23,7 @@ function Client_SaveConfigureUI(alert)
     
 
         local power = InputFieldTable[i].powerInputField.GetValue();
-        if power < 1 then alert("Mod set up failed\nUnit must have at least one power\nReset to default settings"); 
+        if power < 0 then alert("Mod set up failed\n Units cannot have a Attack power below 0\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitpower = 1
         else Mod.Settings.Unitdata[i].unitpower = power; end
     
@@ -82,6 +82,10 @@ function Client_SaveConfigureUI(alert)
        local active = InputFieldTable[i].Active.GetValue()
        if (active > 200 or active < 0 )then active = 0 alert("unit Active input outside data range. min: 0, Max: 200")
        else Mod.Settings.Unitdata[i].Active = active end
+
+       local defend = InputFieldTable[i].Defend.GetValue()
+       if (defend < 0 )then defend = 0 alert("Mod set up failed\n Units cannot have a defence power below 0\nReset to default settings")
+       else Mod.Settings.Unitdata[i].Defend = defend end
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
