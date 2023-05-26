@@ -49,7 +49,6 @@ function Client_SaveConfigureUI(alert)
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0\nReset to default settings")
         end
         
-        print (InputFieldTable[i].Visible.GetIsChecked(), InputFieldTable[i].Shared.GetIsChecked())
         local shared = InputFieldTable[i].Shared.GetIsChecked()
         Mod.Settings.Unitdata[i].Shared = shared
 
@@ -89,6 +88,9 @@ function Client_SaveConfigureUI(alert)
        local defend = InputFieldTable[i].Defend.GetValue()
        if (defend < 0 )then defend = 0 alert("Mod set up failed\n Units cannot have a defence power below 0\nReset to default settings")
        else Mod.Settings.Unitdata[i].Defend = defend end
+
+       local altmoves = InputFieldTable[i].Altmoves.GetIsChecked()
+       Mod.Settings.Unitdata[i].Visible = altmoves
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on

@@ -78,6 +78,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text15)
 			UI.Destroy(InputFieldTable[i].text16)
 			UI.Destroy(InputFieldTable[i].text17)
+			UI.Destroy(InputFieldTable[i].text18)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -92,6 +93,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Level)
 			UI.Destroy(InputFieldTable[i].Active)
 			UI.Destroy(InputFieldTable[i].Defend)
+			UI.Destroy(InputFieldTable[i].Altmoves)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -107,6 +109,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row13)
 			UI.Destroy(InputFieldTable[i].row14)
 			UI.Destroy(InputFieldTable[i].row15)
+			UI.Destroy(InputFieldTable[i].row16)
 
 
 		end
@@ -165,6 +168,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		local defend = uniteconfig[i].Defend
 		if (defend == nil ) then defend = 0 end 
+
+		local altmoves = uniteconfig[i].Altmoves
+		if (altmoves == nil)then altmoves = false end
 
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
@@ -281,6 +287,11 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
+		--Units can only move every other turn
+		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
+		local row16 = InputFieldTable[i].row16
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn');
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 		
 		--name of unit
