@@ -282,7 +282,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 
 		InputFieldTable[i].row17 = UI.CreateHorizontalLayoutGroup(vert);
 		local row17 = InputFieldTable[i].row17
-		InputFieldTable[i].text19 = UI.CreateLabel(row17).SetText('Cool down for when the next unit can be built\n(Set to 0 to disable)').SetColor('#dbddf4')
+		InputFieldTable[i].text19 = UI.CreateLabel(row17).SetText('Cool down for when the next unit can be built right after the last one\n(Set to 0 to disable)').SetColor('#dbddf4')
 		InputFieldTable[i].Cooldown = UI.CreateNumberInputField(row17)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(100)
