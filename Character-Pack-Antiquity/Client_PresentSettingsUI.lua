@@ -10,7 +10,7 @@ function Client_PresentSettingsUI(rootParent)
 			local image = Imagename(Mod.Settings.Unitdata[i].image)
 			local Shared = 'No'
 			local Vis = 'No'
-			local MaxServer = 'No'
+			local MaxServer = 0
 			local transfer = 0
 			local level = 0
 			local active = 0
@@ -22,7 +22,7 @@ function Client_PresentSettingsUI(rootParent)
 		
 						if (Mod.Settings.Unitdata[i].Shared == true)then Shared = 'yes' end
 						if (Mod.Settings.Unitdata[i].Visible == true)then Vis = 'yes' end
-						if (Mod.Settings.Unitdata[i].MaxServer == true)then MaxServer = 'yes' end
+						if (Mod.Settings.Unitdata[i].MaxServer ~= true and Mod.Settings.Unitdata[i].MaxServer ~= false)then MaxServer = Mod.Settings.Unitdata[i].MaxServer end
 						if (Mod.Settings.Unitdata[i].Transfer ~= nil) then transfer = Mod.Settings.Unitdata[i].Transfer  end
 						if (Mod.Settings.Unitdata[i].Level ~= nil) then level = Mod.Settings.Unitdata[i].Level end
 						if (Mod.Settings.Unitdata[i].Active ~= nil)then active = Mod.Settings.Unitdata[i].Active end
@@ -39,7 +39,7 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Unit locked till level: ' .. active);
 				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
-				UI.CreateLabel(vert).SetText('Max useage over game: ' .. MaxServer);
+				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer);
 				UI.CreateLabel(vert).SetText('Image used: ' .. image);
 
 	
@@ -49,9 +49,6 @@ function Client_PresentSettingsUI(rootParent)
 
 				::next::
 	end
-	
-
-	
 end
 
 function Imagename (name)

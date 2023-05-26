@@ -56,8 +56,11 @@ function Client_SaveConfigureUI(alert)
         local visible = InputFieldTable[i].Visible.GetIsChecked()
         Mod.Settings.Unitdata[i].Visible = visible
         
-        local maxserver = InputFieldTable[i].MaxServer.GetIsChecked()
-        Mod.Settings.Unitdata[i].MaxServer = maxserver
+        local maxserver = InputFieldTable[i].MaxServer.GetValue()
+        if (maxserver > 50 or maxserver < 0 )then maxserver = 0 alert("Max amount over entire server input outside data range. min: 0, Max: 50")
+        else Mod.Settings.Unitdata[i].MaxServer = maxserver end
+
+
  
         local minlife = InputFieldTable[i].Minlife.GetValue() 
        if minlife < 0 or minlife > 99 then 

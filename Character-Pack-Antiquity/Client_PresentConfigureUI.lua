@@ -143,7 +143,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if visible == nil then visible = false end 
 
 		local maxserver = uniteconfig[i].MaxServer
-		if maxserver == nil then maxserver = false end 
+		if maxserver == nil then maxserver = 0 end 
 		
 		local name = uniteconfig[i].Name
 		if (name == nil ) then name = '' end 
@@ -263,8 +263,11 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		-- max useage for entire game
 		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
 		local row9 = InputFieldTable[i].row9
-		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Check if you want this unit to have a max useage for the entire game');
-		InputFieldTable[i].MaxServer = UI.CreateCheckBox(row9).SetIsChecked(maxserver).SetText('')
+		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('How many units you want spawned over the entire lifespan of the game\n(Set to 0 to disable)');
+		InputFieldTable[i].MaxServer = UI.CreateNumberInputField(row9)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(50)
+		.SetValue(maxserver);
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
