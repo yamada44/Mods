@@ -239,11 +239,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 		
 		elseif (publicdata[type][ID].CurrEver >= MaxUnitsEver) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase. you have reached the total Game limit for yourself which is ' .. unitmax));
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase. you have reached the total Game limit for yourself which is ' .. MaxUnitsEver));
 			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
 				
 		elseif (publicdata[type].CurrEver >= MaxUnitsEver) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since the Max amount for the server is ' .. unitmax .. '. the Game has reached its limit set by host'));
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since the Max amount for the server is ' .. MaxUnitsEver .. '. the Game has reached its limit set by host'));
 			return; --the server has already has the maximum number of Units possible of this type, so skip adding a new one.
 		end
 
