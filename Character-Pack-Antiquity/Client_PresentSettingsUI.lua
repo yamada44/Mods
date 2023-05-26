@@ -32,7 +32,7 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].Defend ~= nil)then defend = Mod.Settings.Unitdata[i].Defend end
 			
 			
-				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
+				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
 				UI.CreateLabel(vert).SetText('Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Defence power in armies: ' .. defend);
