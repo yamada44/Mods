@@ -7,7 +7,7 @@ function Client_PresentSettingsUI(rootParent)
 
 		for i = 1, Mod.Settings.BeforeMax  do 
 			local vert = UI.CreateVerticalLayoutGroup(rootParent);
-			local image = Imagename(Mod.Settings.Unitdata[i].Image)
+			local image = Imagename(Mod.Settings.Unitdata[i].image)
 			local Shared = 'No'
 			local Vis = 'No'
 			local MaxServer = 'No'
