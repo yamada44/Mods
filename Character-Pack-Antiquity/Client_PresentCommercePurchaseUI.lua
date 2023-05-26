@@ -4,6 +4,8 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Close1 = close;
 	Game = game;
 
+	publicdata = Mod.PublicGameData
+
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
@@ -18,14 +20,20 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local turnactive = true
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 
-		print (Playerdata.Unitdata)
+	print('type',i,'id',Game.Us.ID,'cooldown',publicdata[i])
 		
 	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
-		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active end
+		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
+
+	elseif publicdata[i] ~= nil then
+		print('cool down started')
+	if (publicdata[i][ Game.Us.ID].cooldowntimer ~= nil and publicdata[i][ Game.Us.ID].cooldowntimer >= Game.Game.TurnNumber)then turnactive = false 
+		buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)' end
+	end
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
-	UI.CreateLabel(vert).SetText(Playerdata.Unitdata[i].Name .."'s are worth " .. Playerdata.Unitdata[i].unitpower .. " armies and cost " ..  Playerdata.Unitdata[i].unitcost .. " gold to purchase.  You may have up to " .. Playerdata.Unitdata[i].Maxunits .. ' ' .. Playerdata.Unitdata[i].Name.. "'s at a time.");
+	UI.CreateLabel(vert).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. Playerdata.Unitdata[i].Defend.. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nFor full details on this unit, check the full rules');
 	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
 	UI.CreateButton(vert).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
 

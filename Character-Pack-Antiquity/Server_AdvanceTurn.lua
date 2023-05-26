@@ -92,7 +92,7 @@ print (altmove,'altmove')
 							else territory = order.From end
 							--move unit every other turne
 							if (altmove > 0)then
-								iswholenumber = Iswhole(Game1.Game.TurnNumber)
+								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
@@ -163,6 +163,7 @@ print (altmove,'altmove')
 
 
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
+		
 		print (order.Payload, 'payload')	
 		local publicdata = Mod.PublicGameData
 
@@ -199,7 +200,8 @@ print (altmove,'altmove')
 		local currentxp = 0
 		local defence = 0
 		local altmove = 0 
-
+		local cooldown = Nonill(Mod.Settings.Unitdata[type].Cooldown)
+print ('cooldown', cooldown)
 		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
 			 altmove = 1
 		end 
@@ -219,6 +221,7 @@ print (altmove,'altmove')
 		if publicdata[type] == nil then publicdata[type] = {} end
 		if publicdata[type][ID] == nil then publicdata[type][ID] = {} end 
 		if publicdata[type][ID].CurrEver == nil then publicdata[type][ID].CurrEver = 0 end
+		if publicdata[type][ID].cooldowntimer == nil then publicdata[type][ID].cooldowntimer = 0 end
 		if publicdata[type].CurrEver == nil then publicdata[type].CurrEver = 0 end
 
 
@@ -319,9 +322,10 @@ print (altmove,'altmove')
 		elseif (MaxUnitsEver > 0 and shared == true)then
 		publicdata[type].CurrEver = publicdata[type].CurrEver + 1 end
 
-		
-
-		
+		if (cooldown ~= 0)then 
+			publicdata[type][ID].cooldowntimer = game.Game.TurnNumber + cooldown
+		end
+		print('type',type,'id',ID,'cooldown',publicdata[type][ID].cooldowntimer)
 		 Mod.PublicGameData = publicdata
 	end
 end
