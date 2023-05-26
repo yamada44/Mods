@@ -32,7 +32,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)' end
 	end end
 	
-	--if (Playerdata.Unitdata[i].Defend ~= nil)then defend = Playerdata.Unitdata[i].Defend
+	if (Playerdata.Unitdata[i].Defend ~= nil)then defend = Playerdata.Unitdata[i].Defend
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
