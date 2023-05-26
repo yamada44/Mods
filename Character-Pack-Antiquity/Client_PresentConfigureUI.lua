@@ -206,7 +206,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
 		local row3 = InputFieldTable[i].row3
-	InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time\n(Set to 0 to disable this unit)');
+	InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time\n(Set to 0 to disable this unit)').SetColor('#fffff7')
 	InputFieldTable[i].maxUnitsField = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
@@ -224,7 +224,7 @@ InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
 	-- present Maximum life UI
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
 	local row11 = InputFieldTable[i].row11
-	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive (Set to 0 to disable life range for Units)');
+	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Max Turns alive (Set to 0 to disable life range for Units)').SetColor('#fffff7')
 InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
@@ -242,7 +242,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		-- transfer units on death settings
 		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
 		local row12 = InputFieldTable[i].row12
-		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('How many transfers between players you want this unit to have before death\n (-1 for infinite)\n (0 to disable)');
+		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('How many transfers between players you want this unit to have before death\n (-1 for infinite)\n (0 to disable)').SetColor('#fffff7')
 		InputFieldTable[i].Transfer = UI.CreateNumberInputField(row12)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
@@ -260,7 +260,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		-- turn unit becomes Active
 		InputFieldTable[i].row14 = UI.CreateHorizontalLayoutGroup(vert);
 		local row14 = InputFieldTable[i].row14
-		InputFieldTable[i].text16 = UI.CreateLabel(row14).SetText('Unit is locked till this turn\n(0 to disable)');
+		InputFieldTable[i].text16 = UI.CreateLabel(row14).SetText('Unit is locked till this turn\n(0 to disable)').SetColor('#fffff7')
 		InputFieldTable[i].Active = UI.CreateNumberInputField(row14)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(200)
@@ -278,7 +278,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
-		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players');
+		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players').SetColor('#fffff7')
 		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
@@ -290,7 +290,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn');
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetColor('#fffff7')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 		

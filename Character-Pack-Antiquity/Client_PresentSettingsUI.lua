@@ -34,20 +34,20 @@ function Client_PresentSettingsUI(rootParent)
 			
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
 				UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
-				UI.CreateLabel(vert).SetText('Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower);
+				UI.CreateLabel(vert).SetText('Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower).SetColor('#fffff7')
 				UI.CreateLabel(vert).SetText('Defence power in armies: ' .. defend);
-				UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits);
-				UI.CreateLabel(vert).SetText('Min possible age range: ' .. Mod.Settings.Unitdata[i].Minlife);
-				UI.CreateLabel(vert).SetText('Max possible age range: ' .. Mod.Settings.Unitdata[i].Maxlife);
+				UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits).SetColor('#fffff7')
+				UI.CreateLabel(vert).SetText('Min possible age range: ' .. Mod.Settings.Unitdata[i].Minlife)
+				UI.CreateLabel(vert).SetText('Max possible age range: ' .. Mod.Settings.Unitdata[i].Maxlife).SetColor('#fffff7')
 				UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer);
-				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer);
+				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer).SetColor('#fffff7')
 				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level);
-				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active);
+				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active).SetColor('#fffff7')
 				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
-				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
+				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis).SetColor('#fffff7')
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
 
-				UI.CreateLabel(vert).SetText('Image used: ' .. image);
+				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#fffff7')
 
 	
 
