@@ -79,6 +79,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text16)
 			UI.Destroy(InputFieldTable[i].text17)
 			UI.Destroy(InputFieldTable[i].text18)
+			UI.Destroy(InputFieldTable[i].text19)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -94,6 +95,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Active)
 			UI.Destroy(InputFieldTable[i].Defend)
 			UI.Destroy(InputFieldTable[i].Altmoves)
+			UI.Destroy(InputFieldTable[i].Cooldown)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -110,7 +112,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row14)
 			UI.Destroy(InputFieldTable[i].row15)
 			UI.Destroy(InputFieldTable[i].row16)
-
+			UI.Destroy(InputFieldTable[i].row17)
 
 		end
 	end
@@ -171,6 +173,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		local altmoves = uniteconfig[i].Altmoves
 		if (altmoves == nil)then altmoves = false end
+
+		local cooldown = uniteconfig[i].Cooldown
+		if (cooldown == nil ) then cooldown = 0 end 
 
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
@@ -275,29 +280,37 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(50)
 		.SetValue(maxserver);
 
+		InputFieldTable[i].row17 = UI.CreateHorizontalLayoutGroup(vert);
+		local row17 = InputFieldTable[i].row17
+		InputFieldTable[i].text19 = UI.CreateLabel(row17).SetText('Cool down for when the next unit can be built\n(Set to 0 to disable)').SetColor('#dbddf4')
+		InputFieldTable[i].Cooldown = UI.CreateNumberInputField(row17)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(100)
+		.SetValue(cooldown);
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
-		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players').SetColor('#dbddf4')
+		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount to be shared between all players')
 		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
-		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times');
+		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetColor('#dbddf4')
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 		
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
-		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu');
+		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)

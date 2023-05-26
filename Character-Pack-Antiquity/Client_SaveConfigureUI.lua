@@ -92,6 +92,10 @@ function Client_SaveConfigureUI(alert)
        local altmoves = InputFieldTable[i].Altmoves.GetIsChecked()
        Mod.Settings.Unitdata[i].Altmoves = altmoves
 
+       local cooldown = InputFieldTable[i].Cooldown.GetValue()
+       if (cooldown < 0 or cooldown > 100)then cooldown = 0 alert("Mod set up failed\n Units cannot have a cool down timer longer then 100 or below 0\n(set to 0 to disable)")
+       else Mod.Settings.Unitdata[i].Cooldown = cooldown end
+
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
    end
