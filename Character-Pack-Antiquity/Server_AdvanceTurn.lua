@@ -69,15 +69,16 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				if v.ModData ~= nil then -- making sure it has data to read from
 
 					if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
-						if (result.DefendingArmiesKilled.DefensePower > 0)then -- making sure the attack actually had people who died
-							local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
-							local levelamount = tonumber(payloadSplit[3])
-							local XP = tonumber(payloadSplit[4])
-							local unitpower = tonumber(payloadSplit[5])
-							local currlevel = tonumber(payloadSplit[6])
-							local unitdefence = tonumber(payloadSplit[7])
-							local absoredDamage = AbsoredDecider(unitpower,unitdefence)
+						local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+						local levelamount = tonumber(payloadSplit[3])
+						local XP = tonumber(payloadSplit[4])
+						local unitpower = tonumber(payloadSplit[5])
+						local currlevel = tonumber(payloadSplit[6])
+						local unitdefence = Nonill(tonumber(payloadSplit[7]))
+						local absoredDamage = AbsoredDecider(unitpower,unitdefence)
+						local altmove = Nonill(tonumber(payloadSplit[8]))
 
+						if (result.DefendingArmiesKilled.DefensePower > 0)then -- making sure the attack actually had people who died
 							if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 								XP = XP + result.DefendingArmiesKilled.DefensePower
@@ -117,7 +118,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-									builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. payloadSplit[7]
+									builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. unitdefence.. ';;'.. payloadSplit[8]
 									print (v.ModData)
 									print (builder.ModData)
 									print (builder.AttackPower)
@@ -129,6 +130,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 							end
 
 						end
+--move unit every other turne
+						if (altmove >= 0)then
+							if altmove == 0 then
+								
+							end
+						end
+
 					end
 				end
 			end
@@ -167,8 +175,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		else shared = false end
 
 		local tempMaxunits = -1
-		if (Mod.Settings.Unitdata[type].MaxServer ~= true and Mod.Settings.Unitdata[type].MaxServer ~= false)then tempMaxunits = Mod.Settings.Unitdata[type].MaxServer end
-	
+		if (Mod.Settings.Unitdata[type].MaxServer ~= true and Mod.Settings.Unitdata[type].MaxServer ~= false and Mod.Settings.Unitdata[type].MaxServer ~= 0)then tempMaxunits = Mod.Settings.Unitdata[type].MaxServer end 
 
 		local MaxUnitsEver = tempMaxunits
 		local ID = order.PlayerID
@@ -180,7 +187,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local levelamount = 0
 		local currentxp = 0
 		local defence = 0
-		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then -- adding values after mod launched
+		local altmove = -1 -- -1 means turned off
+
+		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= true)then -- adding values after mod launched
+			 altmove = 1
+		end 
+		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then
 		 transfer = Mod.Settings.Unitdata[type].Transfer
 		end
 
@@ -260,7 +272,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
 
 		local absoredDamage = AbsoredDecider(unitpower,defence)
-
+		local startinglevel = 0
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
 		builder.Name = typename;
@@ -277,7 +289,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. 0 .. ';;'.. defence-- last number is level
+		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove
 	
 		print (defence, 'defence power')
 		print (unitpower, 'attack power')
@@ -347,7 +359,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
 						builder.OwnerID  = land.OwnerPlayerID
-						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7]
+						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7].. ';;'.. payloadSplit[8]
 
 						local terrMod = WL.TerritoryModification.Create(order.To);
 						terrMod.AddSpecialUnits = {builder.Build()};
@@ -383,7 +395,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
 					builder.OwnerID  = landfrom.OwnerPlayerID
-					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7]
+					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7].. ';;'.. payloadSplit[8]
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
@@ -405,4 +417,11 @@ function AbsoredDecider(attack, defence)
 	else higher = defence end
 
 	return higher
+end
+
+function Nonill(value)
+	if value == nil then
+		return 0
+	
+else return value end
 end
