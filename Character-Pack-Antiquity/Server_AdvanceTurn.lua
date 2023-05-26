@@ -75,6 +75,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 							local XP = tonumber(payloadSplit[4])
 							local unitpower = tonumber(payloadSplit[5])
 							local currlevel = tonumber(payloadSplit[6])
+							local unitdefence = tonumber(payloadSplit[7])
+							local absoredDamage = AbsoredDecider(unitpower,unitdefence)
 
 							if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
@@ -106,13 +108,16 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 										currlevel = currlevel + 1 
 										levelamount = levelamount * (currlevel + 2 )
 										builder.AttackPower = builder.AttackPower + unitpower
+										builder.DefensePower = unitdefence;
+										builder.DamageToKill = absoredDamage;
+										builder.DamageAbsorbedWhenAttacked = absoredDamage;
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
 									end --starting XP over if level was reached
 										
 
 
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-									builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel
+									builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. payloadSplit[7]
 									print (v.ModData)
 									print (builder.ModData)
 									print (builder.AttackPower)
@@ -172,13 +177,18 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local transfer = 0
 		local levelamount = 0
 		local currentxp = 0
-		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then
+		local defence = 0
+		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then -- adding values after mod launched
 		 transfer = Mod.Settings.Unitdata[type].Transfer
-		
 		end
+
 		if (Mod.Settings.Unitdata[type].Level ~= nil)then
 			levelamount = Mod.Settings.Unitdata[type].Level
 		end
+		if (Mod.Settings.Unitdata[type].Defend ~= nil)then
+			defence = Mod.Settings.Unitdata[type].Defend
+		end
+
 
 		--tracking the max amount between all players
 		if publicdata[type] == nil then publicdata[type] = {} end
@@ -245,7 +255,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			typename = 'LV0 ' .. typename
 		end
 		
+		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
 
+		local absoredDamage = AbsoredDecider(unitpower,defence)
 
 
 		local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID);
@@ -253,17 +265,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.IncludeABeforeName = true;
 		builder.ImageFilename = filename;
 		builder.AttackPower = unitpower;
-		builder.DefensePower = unitpower;
+		builder.DefensePower = defence;
 		builder.CombatOrder = 3415; --defends commanders
-		builder.DamageToKill = unitpower;
-		builder.DamageAbsorbedWhenAttacked = unitpower;
+		builder.DamageToKill = absoredDamage;
+		builder.DamageAbsorbedWhenAttacked = absoredDamage;
 		builder.CanBeGiftedWithGiftCard = true;
 		builder.CanBeTransferredToTeammate = true;
 		builder.CanBeAirliftedToSelf = true;
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. 0 -- last number is level
+		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. 0 .. ';;'.. defence-- last number is level
 	
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
@@ -329,7 +341,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
 						builder.OwnerID  = land.OwnerPlayerID
-						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6]
+						builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7]
 
 						local terrMod = WL.TerritoryModification.Create(order.To);
 						terrMod.AddSpecialUnits = {builder.Build()};
@@ -365,7 +377,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
 					builder.OwnerID  = landfrom.OwnerPlayerID
-					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6]
+					builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. payloadSplit[7]
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
@@ -380,3 +392,11 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 		end
 	end
 	end
+
+function AbsoredDecider(attack, defence)
+	local higher
+	if attack > defence then higher = attack
+	else higher = defence end
+
+	return higher
+end

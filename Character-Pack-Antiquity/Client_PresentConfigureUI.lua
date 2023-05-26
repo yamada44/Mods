@@ -192,7 +192,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert);
 		local row15 = InputFieldTable[i].row15
 	InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('How powerful Unit ' .. i .. ' is when defending (in armies)');
-	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row15)
+	InputFieldTable[i].Defend = UI.CreateNumberInputField(row15)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(defend);
