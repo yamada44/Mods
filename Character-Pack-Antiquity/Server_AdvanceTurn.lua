@@ -277,6 +277,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.IsVisibleToAllPlayers = visible;
 		builder.ModData = 'C&P' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. 0 .. ';;'.. defence-- last number is level
 	
+		print (defence, 'defence power')
+		print (unitpower, 'attack power')
+		print(absoredDamage, 'absored')
+
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 
