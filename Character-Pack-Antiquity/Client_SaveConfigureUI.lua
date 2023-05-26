@@ -90,7 +90,7 @@ function Client_SaveConfigureUI(alert)
        else Mod.Settings.Unitdata[i].Defend = defend end
 
        local altmoves = InputFieldTable[i].Altmoves.GetIsChecked()
-       Mod.Settings.Unitdata[i].Visible = altmoves
+       Mod.Settings.Unitdata[i].Altmoves = altmoves
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
