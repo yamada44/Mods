@@ -15,7 +15,8 @@ function Client_PresentSettingsUI(rootParent)
 
 	if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 
-	
+		imagename(Mod.Settings.Unitdata[i].Image)
+
 				if (Mod.Settings.Unitdata[i].Shared == true)then Shared = 'yes' end
 				if (Mod.Settings.Unitdata[i].Visible == true)then Vis = 'yes' end
 				if (Mod.Settings.Unitdata[i].MaxServer == true)then MaxServer = 'yes' end
@@ -34,6 +35,8 @@ function Client_PresentSettingsUI(rootParent)
 		UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 		UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis);
 		UI.CreateLabel(vert).SetText('Max useage over game: ' .. MaxServer);
+		UI.CreateLabel(vert).SetText('Image used: ' .. MaxServer);
+
 	
 
 
@@ -46,3 +49,16 @@ function Client_PresentSettingsUI(rootParent)
 	
 end
 
+function imagename (name)
+	local filename = {}
+
+	filename[1] = 'Barbarian'
+	filename[2] = 'Roman Legion'
+	filename[3] = 'Horse'
+	filename[4] = 'Man'
+	filename[5] = 'Women'
+
+return filename[name]
+
+
+end

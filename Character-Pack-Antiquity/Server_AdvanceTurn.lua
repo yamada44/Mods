@@ -1,7 +1,23 @@
 require('Utilities');
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
+	local i = 1000
+	while i ~= 100 do
+		 i = i + 1 
+--Sprint ( game.Map.Territories[i].Name, 'name')
+if startsWith(game.Map.Territories[i].Name, 'Western')then
+local mod = WL.TerritoryModification.Create(i)
+	mod.SetOwnerOpt  = 1	
+	local UnitdiedMessage = ''
 
+	addNewOrder(WL.GameOrderEvent.Create(0, UnitdiedMessage, nil, {mod}));
+end
+end
+	
+
+
+
+								
 	Game1 = game
 print('phase 1', "main function has been entered")
 	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
