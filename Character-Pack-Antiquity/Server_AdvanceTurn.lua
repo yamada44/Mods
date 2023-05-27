@@ -19,38 +19,40 @@ end]]--
 
 								
 	Game1 = game
-print('phase 1', "main function has been entered")
-	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+
+	if (Mod.Settings.corefeature ~= nil and Mod.Settings.corefeature == false) then
+	print('phase 1', "main function has been entered")
+		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
 
-			for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
-				print('phase 2', "does have speical unit")
-				if v.proxyType == "CustomSpecialUnit" then
-					if v.ModData ~= nil then -- 
-						if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
-							print('phase 3', "unit is from I.S. mods")
-							local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
-							local diebitch = tonumber(payloadSplit[1])
+				for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+					print('phase 2', "does have speical unit")
+					if v.proxyType == "CustomSpecialUnit" then
+						if v.ModData ~= nil then -- 
+							if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mods
+								print('phase 3', "unit is from I.S. mods")
+								local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+								local diebitch = tonumber(payloadSplit[1])
 
-							if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
-								print('phase 4', "killing unit via life")
-								local mod = WL.TerritoryModification.Create(ts.ID)
-								t = {}
-								table.insert(t, v.ID);
-								print(v.Name)
-								mod.RemoveSpecialUnitsOpt = t
-								local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
-	
-								addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
-	
+								if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
+									print('phase 4', "killing unit via life")
+									local mod = WL.TerritoryModification.Create(ts.ID)
+									t = {}
+									table.insert(t, v.ID);
+									print(v.Name)
+									mod.RemoveSpecialUnitsOpt = t
+									local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
+		
+									addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+		
+								end
 							end
 						end
 					end
 				end
-			end
-			
+				
+		end
 	end
-	
 	
 end
 
@@ -59,100 +61,102 @@ end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
-	
-	if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
-		Game2 = game
+	if (Mod.Settings.corefeature ~= nil and Mod.Settings.corefeature == false) then
+
+		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
+			Game2 = game
 
 
-		for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
-			if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
-				if v.ModData ~= nil then -- making sure it has data to read from
+			for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+				if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+					if v.ModData ~= nil then -- making sure it has data to read from
 
-					if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mod
-						local dead = false
-						local territory = nil 
-						for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
-							if v.ID == v2.ID then
-								dead = true
+						if startsWith(v.ModData, 'C&P') then -- make sure the speical unit is only from I.S. mod
+							local dead = false
+							local territory = nil 
+							for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
+								if v.ID == v2.ID then
+									dead = true
+								end
 							end
-						end
-						if dead == false then
-							local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
-							local levelamount = tonumber(payloadSplit[3])
-							local XP = tonumber(payloadSplit[4])
-							local unitpower = tonumber(payloadSplit[5])
-							local currlevel = tonumber(payloadSplit[6])
-							local unitdefence = Nonill(tonumber(payloadSplit[7]))
-							local absoredDamage = AbsoredDecider(unitpower,unitdefence)
-							local altmove = Nonill(tonumber(payloadSplit[8]))
-print (altmove,'altmove')
-							local iswholenumber = true
+							if dead == false then
+								local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+								local levelamount = tonumber(payloadSplit[3])
+								local XP = tonumber(payloadSplit[4])
+								local unitpower = tonumber(payloadSplit[5])
+								local currlevel = tonumber(payloadSplit[6])
+								local unitdefence = Nonill(tonumber(payloadSplit[7]))
+								local absoredDamage = AbsoredDecider(unitpower,unitdefence)
+								local altmove = Nonill(tonumber(payloadSplit[8]))
+	print (altmove,'altmove')
+								local iswholenumber = true
 
-							if result.IsSuccessful == true then territory = order.To
-							else territory = order.From end
-							--move unit every other turne
-							if (altmove > 0)then
-								iswholenumber = Iswhole(Game2.Game.TurnNumber)
-								if iswholenumber == false then
-									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
+								if result.IsSuccessful == true then territory = order.To
+								else territory = order.From end
+								--move unit every other turne
+								if (altmove > 0)then
+									iswholenumber = Iswhole(Game2.Game.TurnNumber)
+									if iswholenumber == false then
+										local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
 
-								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+									end
+
+								end
+								if (result.DefendingArmiesKilled.DefensePower > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
+									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
+
+										XP = XP + result.DefendingArmiesKilled.DefensePower
+										local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									
+										print (currlevel, "level", XP, 'XP')
+
+										local skipper = string.len(payloadSplit[6]) + 4
+										local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
+										print(skipper,'skipper')
+
+										if result.IsSuccessful == true then territory = order.To
+										else territory = order.From end
+
+										local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
+										local levelupmessage = builder.TextOverHeadOpt .. ' the ' .. builder.Name .. ' Gained XP'
+										if (XP >= levelamount) then -- resetting XP and level amount
+											XP = 0 
+											currlevel = currlevel + 1 
+
+											levelamount = levelamount + Baseamount(levelamount, currlevel)
+											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
+											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
+											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
+											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
+										end --starting XP over if level was reached
+											
+
+
+										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
+										builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. unitdefence.. ';;'.. payloadSplit[8]
+										print (v.ModData)
+										print (builder.ModData)
+										print (builder.AttackPower)
+										terrMod.AddSpecialUnits = {builder.Build()};
+										terrMod.RemoveSpecialUnitsOpt = {v.ID}
+
+										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
+									
+									end
+
 								end
 
 							end
-							if (result.DefendingArmiesKilled.DefensePower > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
-								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
-
-									XP = XP + result.DefendingArmiesKilled.DefensePower
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-								
-									print (currlevel, "level", XP, 'XP')
-
-									local skipper = string.len(payloadSplit[6]) + 4
-									local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
-									print(skipper,'skipper')
-
-									if result.IsSuccessful == true then territory = order.To
-									else territory = order.From end
-
-									local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
-									local levelupmessage = builder.TextOverHeadOpt .. ' the ' .. builder.Name .. ' Gained XP'
-									if (XP >= levelamount) then -- resetting XP and level amount
-										XP = 0 
-										currlevel = currlevel + 1 
-
-										levelamount = levelamount + Baseamount(levelamount, currlevel)
-										builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-										builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
-										builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
-										builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
-										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
-									end --starting XP over if level was reached
-										
-
-
-									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-									builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. unitdefence.. ';;'.. payloadSplit[8]
-									print (v.ModData)
-									print (builder.ModData)
-									print (builder.AttackPower)
-									terrMod.AddSpecialUnits = {builder.Build()};
-									terrMod.RemoveSpecialUnitsOpt = {v.ID}
-
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
-								
-								end
-
-							end
-
 						end
 					end
 				end
 			end
-		end
-		Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
+			Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 
+		end
 	end
 
 
