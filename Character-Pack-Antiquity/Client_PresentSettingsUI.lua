@@ -16,6 +16,7 @@ function Client_PresentSettingsUI(rootParent)
 			local level = 0
 			local active = 0
 			local defend = 0
+			local cooldown = 0
 		
 		
 			if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
@@ -30,7 +31,8 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].Level ~= nil) then level = Mod.Settings.Unitdata[i].Level end
 						if (Mod.Settings.Unitdata[i].Active ~= nil)then active = Mod.Settings.Unitdata[i].Active end
 						if (Mod.Settings.Unitdata[i].Defend ~= nil)then defend = Mod.Settings.Unitdata[i].Defend end
-			
+						if (Mod.Settings.Unitdata[i].Cooldown ~= nil)then cooldown = Mod.Settings.Unitdata[i].Cooldown end
+
 			
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
 				UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
@@ -46,8 +48,8 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
 				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
-
-				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Image used: ' .. image)
 
 	
 
