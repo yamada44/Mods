@@ -189,6 +189,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
+		CreateButton(row1).SetText("?").SetColor('0000FF').SetOnClick(function() UI.Alert("This unit gains attack power equal to the unit below"); end);
 
 		--how powerful each unit is in attacks
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
