@@ -22,8 +22,8 @@ NewrootParent = rootParent
 	 access = Mod.Settings.access
 	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
 	 BeforeMax = Mod.Settings.BeforeMax
-	if Mod.Settings.corefeature == nil then Mod.Settings.corefeature = false end
-	Corefeature = Mod.Settings.corefeature
+	if Mod.Settings.Corefeature == nil then Mod.Settings.Corefeature = false end
+	Corefeature = Mod.Settings.Corefeature
 
 -- End of Init
 
