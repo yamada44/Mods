@@ -1,10 +1,26 @@
 require('Utilities');
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
+--[[	local i = 1000
+	while i ~= 100 do
+		 i = i + 1 
+--Sprint ( game.Map.Territories[i].Name, 'name')
+if startsWith(game.Map.Territories[i].Name, 'Western')then
+local mod = WL.TerritoryModification.Create(i)
+	mod.SetOwnerOpt  = 1	
+	local UnitdiedMessage = ''
+
+	addNewOrder(WL.GameOrderEvent.Create(0, UnitdiedMessage, nil, {mod}));
+end
+end]]--
+	
+
+
+
 								
 	Game1 = game
 
-	if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
+	if (Mod.Settings.corefeature ~= nil and Mod.Settings.corefeature == false) then
 	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
@@ -45,7 +61,7 @@ end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
-	if (Mod.Settings.corefeature == nil or Mod.Settings.corefeature == false) then
+	if (Mod.Settings.corefeature ~= nil and Mod.Settings.corefeature == false) then
 
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
