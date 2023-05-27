@@ -194,112 +194,112 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		--how powerful each unit is in attacks
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
 		local row2 = InputFieldTable[i].row2
-	InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is when attacking (in armies)').SetColor('#dbddf4')
+		UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The attacking power in terms of armies\nthis units health is decided between attack/defence power. which ever is higher"); end);
+		InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('How powerful Unit ' .. i .. ' is when attacking (in armies)').SetColor('#dbddf4')
 	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(power);
-		UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The attacking power in terms of armies\nthis units health is decided between attack/defence power. which ever is high"); end);
 
 		--how powerful each unit is in defense 
 		InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert);
 		local row15 = InputFieldTable[i].row15
-	InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('How powerful Unit ' .. i .. ' is when defending (in armies)');
+		UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Defending power in terms of armies\nthis units health is decided between attack/defence power. which ever is higher"); end);
+		InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('How powerful Unit ' .. i .. ' is when defending (in armies)');
 	InputFieldTable[i].Defend = UI.CreateNumberInputField(row15)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(defend);
-		UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Defending power in terms of armies\nthis units health is decided between attack/defence power. which ever is high"); end);
 
 		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
 		local row3 = InputFieldTable[i].row3
-	InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time').SetColor('#dbddf4')
+		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many units of this type you can have on the field at a time\nSet to 0 to disable this unit entirely"); end);
+		InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time').SetColor('#dbddf4')
 	InputFieldTable[i].maxUnitsField = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
-		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many troops you can have on the field at a time\n ( Set this setting to 0 to disable this unit)"); end);
 
 	-- Present Minimum life UI
 	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
 	local row10 = InputFieldTable[i].row10
+	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units life span. Life span works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the turn it will die. Set Max value to 0 to disable"); end);
 	InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Life Span Minimum Range');
 InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(99)
 	.SetValue(minlife);
-	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units life span. Life span works with a range. you decide the Minimum-Maximum range. the computer will decide a number between those two numbers. that number is the turn. once that turn hits the unit dies."); end);
 
 	-- present Maximum life UI
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
 	local row11 = InputFieldTable[i].row11
+	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the second setting of 2 settings that decides a units life span\nBy setting this setting to 0. you disable both Life span settings and this feature"); end);
 	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Life span Maximum Range').SetColor('#dbddf4')
 InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife);
-	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the second setting of 2 settings that decides a units life span\nBy setting this setting to 0. you disable both Life span settings and this feature"); end);
 
 	-- presenting image UI
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
 		local row4 = InputFieldTable[i].row4
+		UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The number choosen corresponds with the images listed above"); end);
 		InputFieldTable[i].text5 = UI.CreateLabel(row4).SetText('What Image will this Unit have');
 	InputFieldTable[i].Image = UI.CreateNumberInputField(row4)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture);
-		UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The number choosen corresponds with the images listed above"); end);
 
 		-- transfer units on death settings
 		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
 		local row12 = InputFieldTable[i].row12
+		UI.CreateButton(row12).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When this unit dies, instead of dying. its transfered to the person that killed it. Neutrals wont work. every time this unit *dies*. this setting's value goes down by 1. once it reaches 0 the unit dies for real\nSet to 0 to disable\nSet to -1 to have unlimited tranfers"); end);
 		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('Transfers unit upon death').SetColor('#dbddf4')
 		InputFieldTable[i].Transfer = UI.CreateNumberInputField(row12)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
 		.SetValue(transfer);
-		UI.CreateButton(row12).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When this unit dies, instead of dying. its transfered to the person that killed it. every time this unit *dies*. the number picked goes down by 1. once it reaches 0 it dies for real\nSet this to 0 to disable this feature\nSet this number to -1 to have unlimited tranfers"); end);
 
 		-- Leveling for units
 		InputFieldTable[i].row13 = UI.CreateHorizontalLayoutGroup(vert);
 		local row13 = InputFieldTable[i].row13
+		UI.CreateButton(row13).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("when this unit attacks someone it gains XP from the enemy troops killed(including special units). The setting determines how many troops are needed to kill before its first level up. it does retain XP between battles. When the unit levels up, its power/defence/health increase by there base amounts\nSet to 0 to disable"); end);
 		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit');
 		InputFieldTable[i].Level = UI.CreateNumberInputField(row13)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
 		.SetValue(level);
-		UI.CreateButton(row13).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("when this unit attacks someone it gains XP from the enemy troop killed(including special units). The setting determines how many troops are needed to kill before its first level up. it does retain XP between battles. When the unit levels up, its power/defence/health increase by there base amounts\nSet this setting to 0 to disable"); end);
 
 		-- turn unit becomes Active
 		InputFieldTable[i].row14 = UI.CreateHorizontalLayoutGroup(vert);
 		local row14 = InputFieldTable[i].row14
+		UI.CreateButton(row14).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting corrospondes to the turns in game. This Unit will be unable to be purchased until this Turn. "); end);
 		InputFieldTable[i].text16 = UI.CreateLabel(row14).SetText('Unit is locked till this turn').SetColor('#dbddf4')
 		InputFieldTable[i].Active = UI.CreateNumberInputField(row14)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(200)
 		.SetValue(active);
-		UI.CreateButton(row14).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting corrospondes to the turns in game. This Unit will be unable to be purchased until this Turn. "); end);
 
 		-- max useage for entire game
 		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
 		local row9 = InputFieldTable[i].row9
+		UI.CreateButton(row9).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting is the maximum amount of units of this type that can be spawned over the entire lifetime of the Game. This is compatiable with the shared feature\nSet to 0 to disable"); end);
 		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Max units Spawned over entire game');
 		InputFieldTable[i].MaxServer = UI.CreateNumberInputField(row9)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(50)
 		.SetValue(maxserver);
-		UI.CreateButton(row9).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting is the maximum amount of units of this type that can be spawned over the entire lifetime of the Game. This is compatiable with the shared feature\nSet to 0 to disable"); end);
 
 		--cool down for units
 		InputFieldTable[i].row17 = UI.CreateHorizontalLayoutGroup(vert);
 		local row17 = InputFieldTable[i].row17
+		UI.CreateButton(row17).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting determines the amount of turns needed to wait after buying this unit\nSet to 0 to disable"); end);
 		InputFieldTable[i].text19 = UI.CreateLabel(row17).SetText('Cool down Timer for unit').SetColor('#dbddf4')
 		InputFieldTable[i].Cooldown = UI.CreateNumberInputField(row17)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown);
-		UI.CreateButton(row17).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting determines the amount of turns needed to wait after buying this unit\nSet to 0 to disable"); end);
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
@@ -319,7 +319,6 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
-
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
