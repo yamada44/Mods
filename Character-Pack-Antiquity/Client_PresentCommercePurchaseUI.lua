@@ -9,7 +9,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	OrderstartsWith = "C&P"
+	OrderstartsWith = "C&P" -- add something to this
 
 	TransferfromConfig()
 
