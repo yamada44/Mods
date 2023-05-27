@@ -22,12 +22,21 @@ NewrootParent = rootParent
 	 access = Mod.Settings.access
 	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
 	 BeforeMax = Mod.Settings.BeforeMax
+	if Mod.Settings.corefeature == nil then Mod.Settings.corefeature = false end
+	Corefeature = Mod.Settings.corefeature
+
 -- End of Init
 
 
 	InputFieldTable = {}
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
+
+	InputFieldTable.row01 = UI.CreateHorizontalLayoutGroup(vert2);
+	local row01 = InputFieldTable.row01
+	UI.CreateButton(row01).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Turn this on if this isn't your first character pack added from I.S.\nThis disables all core features that dont deal with creating Unit types. if left off with multiple packs could cause errors/double orders "); end);
+	InputFieldTable.text01 = UI.CreateLabel(row01).SetText('Turn on if this isn`t your first character pack added')
+	InputFieldTable.Corefeatures = UI.CreateCheckBox(row01).SetIsChecked(Corefeature).SetText('')
 
 -- setting up amount of special units to have
 	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
