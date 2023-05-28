@@ -9,7 +9,10 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	OrderstartsWith = "C&P" -- add something to this
+
+	-- changing over packs data
+	OrderstartsWith = "C&PA" -- the last letter represents the mod used
+	Modid = '609'
 
 	TransferfromConfig()
 
@@ -59,7 +62,7 @@ end
 function NumUnitin(armies, type)
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name) then
+		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and su.ModID == Modid) then
 			ret = ret + 1;
 		end
 	end

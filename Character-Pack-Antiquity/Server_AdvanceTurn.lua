@@ -64,12 +64,14 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 								end
 							end
 							if dead == false then
+								print (v.ModData)
 								local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
 								local levelamount = tonumber(payloadSplit[3])
 								local XP = tonumber(payloadSplit[4])
-								local unitpower = tonumber(payloadSplit[5])
+								local unitpower = tonumber(Nonill(payloadSplit[5]))
 								local currlevel = tonumber(payloadSplit[6])
 								local unitdefence = Nonill(tonumber(payloadSplit[7]))
+								print (unitdefence, "unit defense")
 								local absoredDamage = AbsoredDecider(unitpower,unitdefence)
 								local altmove = Nonill(tonumber(payloadSplit[8]))
 	print (altmove,'altmove')
@@ -120,7 +122,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-										builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. unitdefence.. ';;'.. payloadSplit[8]
+										builder.ModData = 'C&P' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8])
 										print (v.ModData)
 										print (builder.ModData)
 										print (builder.AttackPower)
@@ -150,15 +152,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 
-	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&P')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
+	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&PA')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		
 		print (order.Payload, 'payload')	
 		local publicdata = Mod.PublicGameData
 
-		local payloadSplit = split(string.sub(order.Payload, 6), ';;'); 
+		local payloadSplit = split(string.sub(order.Payload, 7), ';;'); 
 
 
-
+		print (order.Payload)
 		local targetTerritoryID = tonumber(payloadSplit[1])
 		local type = tonumber(payloadSplit[2])
 		local unitpower = tonumber(payloadSplit[3])
@@ -419,6 +421,7 @@ function AbsoredDecider(attack, defence)
 	if attack > defence then higher = attack
 	else higher = defence end
 
+	print (higher,'higher')
 	return higher
 end
 

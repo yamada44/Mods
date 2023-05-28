@@ -104,6 +104,6 @@ function Client_SaveConfigureUI(alert)
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
    local corefeature = InputFieldTable.Corefeatures.GetIsChecked()
-   Mod.Settings.corefeature = corefeature
+   Mod.Settings.Corefeature = corefeature
 
 end
