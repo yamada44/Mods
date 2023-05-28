@@ -15,7 +15,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 						if v.ModData ~= nil then -- 
 							if startsWith(v.ModData, 'C&PB') then -- make sure the speical unit is only from I.S. mods
 								print('phase 3', "unit is from I.S. mods")
-								local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local diebitch = tonumber(payloadSplit[1])
 
 								if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
@@ -65,7 +65,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 							end
 							if dead == false then
 								print (v.ModData)
-								local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local levelamount = tonumber(payloadSplit[3])
 								local XP = tonumber(payloadSplit[4])
 								local unitpower = tonumber(Nonill(payloadSplit[5]))
@@ -356,7 +356,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 			local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n' ..
 				  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle'   
 				
-				  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2]) 
 				if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
 					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
@@ -392,7 +392,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 			local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n' ..
 				  v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
-				  local payloadSplit = split(string.sub(v.ModData, 4), ';;'); 
+				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
 				  if (transfer ~= 0 and transfer ~= nil)then
 					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
