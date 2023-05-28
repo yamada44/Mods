@@ -11,8 +11,8 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Chartracker = {}
 
 	-- changing over packs data
-	OrderstartsWith = "C&PA" -- the last letter represents the mod used
-	Modid = '609'
+	OrderstartsWith = "C&PB" -- the last letter represents the mod used
+	Modid = '645'
 
 	TransferfromConfig()
 

@@ -63,11 +63,11 @@ end
 function Imagename (name)
 	local filename = {}
 
-	filename[1] = 'Barbarian'
-	filename[2] = 'Roman Legion'
-	filename[3] = 'Horse'
-	filename[4] = 'Man'
-	filename[5] = 'Women'
+	filename[1] = 'Ship of the line'
+	filename[2] = 'Destroyer'
+	filename[3] = 'Caravel'
+	filename[4] = 'Carrior'
+	filename[5] = 'Galley'
 
 return filename[name]
 
