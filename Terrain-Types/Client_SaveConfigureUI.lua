@@ -23,6 +23,14 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.modinputreturn = modinput
     end
 
+        --neutral amount data
+        local neutral = InputNeutralamount.GetValue()
+        if neutral > 5000 or neutral < 0 then alert('Neutral value not supported. please stay within 0-5000')
+            Mod.Settings.Neutral = 1
+        else 
+            Mod.Settings.Neutral = neutral 
+        end
+
     print (Mod.Settings.maplist[1], Mod.Settings.maplist, mapvalue,modinput)
 end
 
