@@ -24,7 +24,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
                        local mod = WL.TerritoryModification.Create(ts.ID)
                         mod.SetOwnerOpt  = 0
                         mod.SetArmiesTo = 0	
-                       -- mod.SetStructuresOpt  = 0
+                        mod.SetStructuresOpt  = WL.StructureType.City(0)
                         local UnitdiedMessage = ''
 
                         addNewOrder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
