@@ -3,7 +3,7 @@ function Client_SaveConfigureUI(alert)
 
 --mapping data
     local mapvalue = InputMap.GetValue()
-    if mapvalue > Maplimit or mapvalue < 0 then alert('Map value not supported. please stay within 1-5')
+    if mapvalue > Maplimit or mapvalue <= 0 then alert('Map value not supported. please stay within 1-5')
         Mod.Settings.maplist = {}
         Mod.Settings.maplist = Maploader(1) -- defaulted to one if nothing was picked
         Mod.Settings.mapreturnvalue = 1

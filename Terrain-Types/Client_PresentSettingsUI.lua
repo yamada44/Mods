@@ -9,7 +9,7 @@ function Client_PresentSettingsUI(rootParent)
 
 	UI.CreateLabel(vert).SetText('Name of map configured to: ' .. mapname)
 	UI.CreateLabel(vert).SetText('Name of Mod configured to: ' .. Modname)
-	UI.CreateLabel(vert).SetText('Neutrals turned to ' .. neutralvalue .. 'Armies')	
+	UI.CreateLabel(vert).SetText('Neutrals turned to ' .. neutralvalue .. ' Armies')	
 		
 
 
