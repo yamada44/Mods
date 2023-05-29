@@ -36,7 +36,7 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(modpicker);
 
 		local row3 = UI.CreateHorizontalLayoutGroup(vert); -- adding in the correct mod used
-		UI.CreateLabel(row3).SetText('When territoriy is changed to neutral. what value will the territory be changed to');
+		UI.CreateLabel(row3).SetText('When territoriy is changed to neutral. what army value will the territory be changed to');
 		InputNeutralamount = UI.CreateNumberInputField(row3)
 			.SetSliderMinValue(1)
 			.SetSliderMaxValue(20)

@@ -10,6 +10,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
     local Ww2maplist = {}
     local Ww2maplist = Mod.Settings.maplist
     local moddata = Mod.Settings.Modlist
+    NeutralValue = Mod.Settings.Neutral
     print (Mod.Settings.maplist[1], Mod.Settings.maplist)
 
 
@@ -23,7 +24,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
                         table.insert(publicdata.solidlist, ts.ID); 
                        local mod = WL.TerritoryModification.Create(ts.ID)
                         mod.SetOwnerOpt  = 0
-                        mod.SetArmiesTo = 0	
+                        mod.SetArmiesTo = NeutralValue
                         local UnitdiedMessage = ''
                         addNewOrder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
                     end
@@ -40,7 +41,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
                         
                        local mod = WL.TerritoryModification.Create(ts)
                         mod.SetOwnerOpt  = 0
-                        mod.SetArmiesTo = 0	
+                        mod.SetArmiesTo = NeutralValue
                         local UnitdiedMessage = ''
                         addNewOrder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
                     end 
@@ -72,7 +73,7 @@ local t = {}
         if correctunit == false then
             local mod = WL.TerritoryModification.Create(land.ID)
             mod.SetOwnerOpt  = 0
-            mod.SetArmiesTo = 0	
+            mod.SetArmiesTo = NeutralValue
             local UnitdiedMessage = ''
             mod.RemoveSpecialUnitsOpt = t
             neworder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
