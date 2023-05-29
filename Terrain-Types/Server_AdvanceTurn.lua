@@ -63,10 +63,13 @@ local t = {}
         for i,v in pairs (land.NumArmies.SpecialUnits)do 
             if v.proxyType == "CustomSpecialUnit" or modused == 0  then
                 table.insert(t, v.ID);
-                if v.ModData ~= nil or modused == 0  then -- 
-                    if startsWith(v.ModData, modused) or modused == 0 then
+                if v.ModData ~= nil  then
+                    if startsWith(v.ModData, modused)then
                         correctunit = true
                     end
+                
+                elseif modused == 0 then 
+                    correctunit = true
                 end
             end
         end

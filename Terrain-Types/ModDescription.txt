@@ -19,3 +19,5 @@ the mod loops through each territory with certain names and turns them into neut
 army value to your neutral value (The third option)
 
 if however you have a speical unit from your choosen mod, you now effectively have Navel warfare.
+
+First turn takes longer then the rest
