@@ -66,7 +66,7 @@ function Imagename (name)
 	filename[1] = 'Ship of the line'
 	filename[2] = 'Destroyer'
 	filename[3] = 'Caravel'
-	filename[4] = 'Carrior'
+	filename[4] = 'Carrier'
 	filename[5] = 'Galley'
 
 return filename[name]
