@@ -128,9 +128,25 @@ function Maploader(loadnumber)
         'Gulf of Aden',
         'Gulf of California',
         'Gulf of Alaska',
+        'Gulf of Thailand',
         'Beaufort Sea',
         'Barents Sea',
-        'Makassar Strait'
+        'Makassar Strait',
+        'Kora Sea',
+        'Taiwan Strait',
+        'Sibuyan Sea',
+        'Mediterranean Sea',
+        'Sea of Crete',
+        'Black Sea',
+        'Baleric Sea',
+        'Northwestern Passage',
+        'Gulf of Oman',
+        'Hudson Strait',
+        'English channel',
+        'Gulf of Bothnia',
+        'White Sea',
+        'Coronation Gulf'
+
       }
     
     elseif loadnumber == 3 then
