@@ -233,7 +233,7 @@ function Maploader(loadnumber)
     'South Propontis',
     'North Propontis',
     'Euxeinos Pontos',
-    'Bay of Smirne',
+    'Bay of Smyrne',
     'Ellatikos Kolpos',
     'Sea of Lesvos',
     'Voreion Mesopelagos',
@@ -247,10 +247,22 @@ function Maploader(loadnumber)
     'Inner sea of Karia',
     'Sea of Ikaria',
     'Strymonikos Kolpos',
+    'Sea of Thasos',
+    'North sea of Erythrai',
+    'North Myrtoon Pelagos',
     'Path to the edge of the world or whatever'
     }
     elseif loadnumber == 5 then
-    list = { 'Housing'}
+    list = { 
+        'Housing', 
+        'Bus Stop',
+        'Moorfields Station',
+        'James Street Station',
+        'Liverpool Central Station',
+        'Lime Street Station Platforms 1-6 (Regional)',
+        'Edge Hill Station',
+        'Lime Street Station Merseyrail Station'
+        }
     end
 
 
