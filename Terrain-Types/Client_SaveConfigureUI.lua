@@ -129,12 +129,12 @@ function Maploader(loadnumber)
         'Gulf of California',
         'Gulf of Alaska',
         'Beaufort Sea',
-        "Barents Sea",
+        'Barents Sea',
         'Makassar Strait'
       }
     
     elseif loadnumber == 3 then
-    list = { '#'}
+     list = { '#'}
     end
 
     return list

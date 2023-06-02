@@ -20,6 +20,7 @@ function MapName(value)
 
 	name[1] = 'IS: Europe World War Supergame'
 	name[2] = 'Baconsizzle`s Big World'
+	name[3] = 'IS - Star Wars RP Map - B-Wing Edition'
 
 return name[value]
 end
