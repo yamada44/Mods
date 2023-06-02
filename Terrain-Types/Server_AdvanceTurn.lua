@@ -11,7 +11,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
     local Ww2maplist = Mod.Settings.maplist
     local moddata = Mod.Settings.Modlist
     NeutralValue = Mod.Settings.Neutral
-    print (Mod.Settings.maplist[1], Mod.Settings.maplist)
+   -- print (Mod.Settings.maplist[1], Mod.Settings.maplist)
 
 
 
