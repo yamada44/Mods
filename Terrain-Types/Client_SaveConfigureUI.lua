@@ -128,6 +128,8 @@ function Maploader(loadnumber)
         'Gulf of Aden',
         'Gulf of California',
         'Gulf of Alaska',
+        'Beaufort Sea',
+        "Barents Sea"
         'Makassar Strait'
       }
     end
