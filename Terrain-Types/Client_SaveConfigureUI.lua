@@ -138,14 +138,15 @@ function Maploader(loadnumber)
         'Mediterranean Sea',
         'Sea of Crete',
         'Black Sea',
-        'Baleric Sea',
+        'Balearic Sea',
         'Northwestern Passage',
         'Gulf of Oman',
         'Hudson Strait',
-        'English channel',
+        'English Channel',
         'Gulf of Bothnia',
         'White Sea',
-        'Coronation Gulf'
+        'Coronation Gulf',
+        'Irish Sea'
 
       }
     
@@ -247,7 +248,12 @@ function Maploader(loadnumber)
     'Sea of Ikaria',
     'Strymonikos Kolpos',
     'Path to the edge of the world or whatever'
-    } end
+    }
+    elseif loadnumber == 5 then
+    list = { 'Housing'}
+    end
+
+
     return list
     
 end

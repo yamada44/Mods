@@ -6,6 +6,7 @@ by choosing the Map Value you decide which map is used
 2 - Baconsizzle's Big World
 3 - IS - Star Wars RP Map - B-Wing Edition
 4 - The Peloponnesian War
+5 - Liverpool City Centre
 
 it only works in select ways (perhaps more to be added later)
 

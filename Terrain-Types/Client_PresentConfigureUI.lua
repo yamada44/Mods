@@ -1,6 +1,6 @@
 
 function Client_PresentConfigureUI(rootParent)
-    Maplimit = 4
+    Maplimit = 5
     Modlimit = 2
 
 

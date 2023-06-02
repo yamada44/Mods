@@ -22,6 +22,7 @@ function MapName(value)
 	name[2] = 'Baconsizzle`s Big World'
 	name[3] = 'IS - Star Wars RP Map - B-Wing Edition'
 	name[4] = 'The Peloponnesian War'
+	name[5] = 'Liverpool City Centre'
 
 return name[value]
 end
