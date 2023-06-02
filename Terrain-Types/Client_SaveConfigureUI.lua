@@ -3,7 +3,7 @@ function Client_SaveConfigureUI(alert)
 
 --mapping data
     local mapvalue = InputMap.GetValue()
-    if mapvalue > Maplimit or mapvalue <= 0 then alert('Map value not supported. please stay within 1-5')
+    if mapvalue > Maplimit or mapvalue <= 0 then alert('Map value not supported. please stay within 1-'.. Maplimit)
         Mod.Settings.maplist = {}
         Mod.Settings.maplist = Maploader(1) -- defaulted to one if nothing was picked
         Mod.Settings.mapreturnvalue = 1
@@ -129,9 +129,12 @@ function Maploader(loadnumber)
         'Gulf of California',
         'Gulf of Alaska',
         'Beaufort Sea',
-        "Barents Sea"
+        "Barents Sea",
         'Makassar Strait'
       }
+    
+    elseif loadnumber == 3 then
+    list = { '#'}
     end
 
     return list
