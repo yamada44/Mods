@@ -23,6 +23,9 @@ function MapName(value)
 	name[3] = 'IS - Star Wars RP Map - B-Wing Edition'
 	name[4] = 'The Peloponnesian War'
 	name[5] = 'Liverpool City Centre'
+	name[6] = 'Avatar - The Last Airbender'
+	name[7] = 'France Large'
+	name[8] = 'Huge Westeros'
 
 return name[value]
 end

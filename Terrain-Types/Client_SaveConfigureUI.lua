@@ -263,8 +263,46 @@ function Maploader(loadnumber)
         'Edge Hill Station',
         'Lime Street Station Merseyrail Station'
         }
-    end
+    
 
+    elseif loadnumber == 6 then
+    list = { 'Fire Nation Ship',
+            'Fire Nation Airship',
+            'Northern Water Tribe Ship',
+            'Southern Water Tribe Ship',
+            'Earth Kingdom Ship'
+    }
+    elseif loadnumber == 7 then
+    list = { 
+        'Pas de Calais',
+"L'est de la Manche",
+"l'ouest  de la Manche",
+'Baie de Seine',
+'Baie de Lyme',
+'Mer Celtique',
+"Mer d'Armorica",
+'Estuaire de la Gironde',
+'Mer Cantabrique',
+'Mer de Baléares',
+'Golfe de Roses',
+'Ouest du Golfe de Lion',
+'Est du Golfe de Lion',
+'Coût des étangs',
+'Cap Toulon',
+'Méditerranée occidentale',
+'Méditerranée orientale',
+'Côte dAzur',
+'Côte Corse',
+'Mer de Ligurie occidentale',
+'Golfe de Gênes',
+'Baie de Saint-Florent',
+'Mer Tyrrhénienne',
+'Le mer de Corse'
+
+    }
+    elseif loadnumber == 8 then
+    list = { '#'}
+    end
 
     return list
     
