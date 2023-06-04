@@ -1,4 +1,5 @@
-This is a Terrain/ Navy mod. This mod only works with select maps. (more to be added later)
+This is the Terrain / Navy mod. its goal is to create different terrain types.
+This mod only works with select maps.
 This is how Map select works :
 by choosing the Map Value you decide which map is used
 
@@ -11,8 +12,6 @@ by choosing the Map Value you decide which map is used
 7 - France Large
 8 - Huge Westeros
 
-it only works in select ways (perhaps more to be added later)
-
 This is how Mod select works :
 by choosing your mod value, you decide which special units are immune from the affects of this mod.
 
@@ -20,7 +19,7 @@ by choosing your mod value, you decide which special units are immune from the a
 1 - I.S. Character Pack ( Antiquity ) special units
 2 - I.S. Character Pack ( Ship Props ) special units
 
-What is actually happening
+What is actually happening when you run the mod
 the mod loops through each territory with certain names and turns them into neutrals, then sets there
 army value to your neutral value (The third option)
 
