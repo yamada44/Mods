@@ -20,9 +20,7 @@ by choosing your mod value, you decide which special units are immune from the a
 2 - I.S. Character Pack ( Ship Props ) special units
 
 What is actually happening when you run the mod
-the mod loops through each territory with certain names and turns them into neutrals, then sets there
+the mod loops through each territory with certain names and turns them into neutral controled territories, then it sets their
 army value to your neutral value (The third option)
 
-if however you have a speical unit from your choosen mod, you now effectively have Navel warfare.
-
-First turn takes longer then the rest
+First turn will take longer then the rest
