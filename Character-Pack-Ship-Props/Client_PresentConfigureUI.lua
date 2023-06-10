@@ -350,8 +350,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		--Host Rules
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
-		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert([[ '\n' for line breaks
-input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion]]); end);
+		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
 		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
 		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
