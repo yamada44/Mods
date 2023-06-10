@@ -24,7 +24,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
-	local morgeRow = vert
+	local morgeRow = nil
 	local turnactive = true
 	local defend = 0
 	local addedwords = ''
@@ -32,7 +32,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
 	Ruleson = false 
-else morgeRow = vert end
+else morgeRow = row3 end
 	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 	local hostmessage = "Host rules for unit"
@@ -52,7 +52,7 @@ else morgeRow = vert end
 
 
 	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
-	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
+	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
 	if (Ruleson == true )then
 		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
 	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
