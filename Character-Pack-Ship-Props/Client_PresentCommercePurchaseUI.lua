@@ -43,7 +43,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
-	Chartracker[i] = UI.CreateTextInputField(row2).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
 	UI.CreateButton(row3).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
 	UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
 
