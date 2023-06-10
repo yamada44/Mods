@@ -23,7 +23,7 @@ function Client_PresentConfigureUI(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
 	UI.CreateLabel(row0).SetText(
-	[[This mod only works with select maps.
+	[[\n\nThis mod only works with select maps.
 	This is how Map select works :
 	by choosing the Map Value you decide which map is used
 	
