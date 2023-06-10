@@ -81,8 +81,8 @@ Typerule = type
 	
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
-	close3 = close
-	local rules = Playerdata.Unitdata[Typerule].Hostrules
+	Close3 = close
+	local rules = Playerdata.Unitdata[Typerule].HostRules
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	
