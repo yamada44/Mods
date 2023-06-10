@@ -5,6 +5,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
+	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
@@ -12,7 +13,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 	-- changing over packs data
 	OrderstartsWith = "C&PA" -- the last letter represents the mod used
-	Modid = '609'
+
 
 	TransferfromConfig()
 
@@ -20,10 +21,20 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	print (Game.Game.TurnNumber, "turn number")
 	for i = 1, Playerdata.Maxtypes  do 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
+	local row3 = UI.CreateHorizontalLayoutGroup(vert)
+	local morgeRow = nil
 	local turnactive = true
 	local defend = 0
+	local Ruleson = true
+if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
+	morgeRow = vert
+	Ruleson = false 
+else morgeRow = row3 end
+	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
-
+	local hostmessage = "Host rules for unit"
 		
 	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
 		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
@@ -39,9 +50,11 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
-	UI.CreateLabel(vert).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
-	UI.CreateButton(vert).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
+	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings        ');
+	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
+	if (Ruleson == true )then
+		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
 
 	
 
@@ -55,6 +68,7 @@ function TransferfromConfig() -- transfer the data from config to PlayerGameData
 
 	Playerdata.Maxtypes = Mod.Settings.BeforeMax
 	Playerdata.Unitdata = Mod.Settings.Unitdata
+	
 
 
 end
@@ -62,11 +76,28 @@ end
 function NumUnitin(armies, type)
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, 'C&PA')) then
+		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, 'C&PB')) then
 			ret = ret + 1;
 		end
 	end
 	return ret;
+end
+function RulesClicked(type)
+Typerule = type
+	Game.CreateDialog(HostRulesDialog)
+	
+end
+function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
+	Close3 = close
+	local rules = Playerdata.Unitdata[Typerule].HostRules
+
+	local vert = UI.CreateVerticalLayoutGroup(rootParent)
+	
+	UI.CreateLabel(vert).SetText('These are custom Rules enforced by the host how to buy/use this unit')
+	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
+
+	--Game.CreateDialog
+	
 end
 
 function PurchaseClicked(type)

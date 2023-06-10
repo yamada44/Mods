@@ -89,6 +89,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text17)
 			UI.Destroy(InputFieldTable[i].text18)
 			UI.Destroy(InputFieldTable[i].text19)
+			UI.Destroy(InputFieldTable[i].text20)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -105,6 +106,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Defend)
 			UI.Destroy(InputFieldTable[i].Altmoves)
 			UI.Destroy(InputFieldTable[i].Cooldown)
+			UI.Destroy(InputFieldTable[i].HostRules)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -122,6 +124,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row15)
 			UI.Destroy(InputFieldTable[i].row16)
 			UI.Destroy(InputFieldTable[i].row17)
+			UI.Destroy(InputFieldTable[i].row18)
 
 		end
 	end
@@ -185,6 +188,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		local cooldown = uniteconfig[i].Cooldown
 		if (cooldown == nil ) then cooldown = 0 end 
+
+		local hostrules = uniteconfig[i].HostRules
+		if (hostrules == nil)then hostrules = ''end
 
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
@@ -340,6 +346,16 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(25)
+
+		--Host Rules
+		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
+		local row18 = InputFieldTable[i].row18
+		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
+		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
+		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
+		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
+		.SetFlexibleWidth(1)
+		.SetCharacterLimit(500)
 
 		--spacer
 		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
