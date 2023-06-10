@@ -24,15 +24,16 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
-	local morgeRow = row3
+	local morgeRow = nil
 	local turnactive = true
 	local defend = 0
 	local addedwords = ''
 	local Ruleson = true
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
-	Ruleson = false
-end
+	Ruleson = false 
+else morgeRow = row3 end
+	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 	local hostmessage = "Host rules for unit"
 		
