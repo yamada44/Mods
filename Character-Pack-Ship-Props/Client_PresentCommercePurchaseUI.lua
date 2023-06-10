@@ -5,6 +5,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
+	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
@@ -12,7 +13,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 	-- changing over packs data
 	OrderstartsWith = "C&PB" -- the last letter represents the mod used
-	Modid = '645'
+
 
 	TransferfromConfig()
 
@@ -26,7 +27,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local turnactive = true
 	local defend = 0
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
-	local hostmessage = "Host enforced rules for unit"
+	local hostmessage = "Host rules for unit"
 		
 	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
 		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
@@ -43,7 +44,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
 	UI.CreateButton(row3).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
 	UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
 
@@ -74,6 +75,9 @@ function NumUnitin(armies, type)
 end
 
 function HostRulesDialog()
+	local rules = "		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit');"
+	vert = UI.CreateVerticalLayoutGroup(Root)
+	UI.CreateLabel(vert).SetText(rules);
 
 	--Game.CreateDialog
 	
