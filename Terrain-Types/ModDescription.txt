@@ -1,26 +1,6 @@
 This is the Terrain / Navy mod. its goal is to create different terrain types.
-This mod only works with select maps.
-This is how Map select works :
-by choosing the Map Value you decide which map is used
-
-1 - IS: Europe World War Supergame
-2 - Baconsizzle's Big World
-3 - IS - Star Wars RP Map - B-Wing Edition
-4 - The Peloponnesian War
-5 - Liverpool City Centre
-6 - Avatar - The Last Airbender
-7 - France Large
-8 - Huge Westeros
-
-This is how Mod select works :
-by choosing your mod value, you decide which special units are immune from the affects of this mod.
-
-0 - All special units including commanders
-1 - I.S. Character Pack ( Antiquity ) special units
-2 - I.S. Character Pack ( Ship Props ) special units
 
 What is actually happening when you run the mod
-the mod loops through each territory with certain names and turns them into neutral controled territories, then it sets their
-army value to your neutral value (The third option)
+the mod loops through each territory with certain names and turns them into neutral controled territories with the defaut value being 0
 
 First turn will take longer then the rest
