@@ -18,10 +18,11 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 	print (Game.Game.TurnNumber, "turn number")
-	for i = 1, Playerdata.Maxtypes  do
-
-	local rowbutton = UI.CreateHorizontalLayoutGroup(rootParent)
-	local vert = UI.CreateVerticalLayoutGroup(rowbutton);
+	for i = 1, Playerdata.Maxtypes  do 
+	local vert = UI.CreateVerticalLayoutGroup(rootParent);
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
+	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local turnactive = true
 	local defend = 0
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
@@ -41,10 +42,10 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
-	UI.CreateLabel(vert).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
-	UI.CreateButton(rowbutton).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
-	UI.CreateButton(rowbutton).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
+	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
+	Chartracker[i] = UI.CreateTextInputField(row2).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
+	UI.CreateButton(row3).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
+	UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
 
 	
 
