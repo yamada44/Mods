@@ -81,7 +81,7 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(vert).SetText(rules);
 
 	--Game.CreateDialog
-	
+	close3()
 end
 
 function PurchaseClicked(type)
