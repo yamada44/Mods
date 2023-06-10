@@ -186,6 +186,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local cooldown = uniteconfig[i].Cooldown
 		if (cooldown == nil ) then cooldown = 0 end 
 
+		local hostrules = uniteconfig[i].HostRules
+		if (hostrules == nil)then hostrules = ''end
+
 		--setting up the UI and all its fields
 	local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
@@ -340,6 +343,17 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(25)
+
+		--Host Rules
+		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
+		local row18 = InputFieldTable[i].row18
+		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
+		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert([[ '\n' for line breaks
+			input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own risk]]); end);
+		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
+		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
+		.SetFlexibleWidth(1)
+		.SetCharacterLimit(500)
 
 		--spacer
 		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)

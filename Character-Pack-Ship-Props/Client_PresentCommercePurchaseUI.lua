@@ -46,7 +46,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
 	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
 	UI.CreateButton(row3).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
-	UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
+	UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive)
 
 	
 
@@ -60,6 +60,7 @@ function TransferfromConfig() -- transfer the data from config to PlayerGameData
 
 	Playerdata.Maxtypes = Mod.Settings.BeforeMax
 	Playerdata.Unitdata = Mod.Settings.Unitdata
+	
 
 
 end
@@ -73,15 +74,22 @@ function NumUnitin(armies, type)
 	end
 	return ret;
 end
-
+function RulesClicked(type)
+Typerule = type
+	Game.CreateDialog(HostRulesDialog)
+	
+end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	close3 = close
-	local rules = "		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit');"
+	local rules = Playerdata.Unitdata[Typerule].Hostrules
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
-	UI.CreateLabel(vert).SetText(rules);
+	
+	UI.CreateLabel(vert).SetText('These are custom Rules enforced by the host how to buy/use this unit')
+	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
 
 	--Game.CreateDialog
-	close3()
+	
 end
 
 function PurchaseClicked(type)

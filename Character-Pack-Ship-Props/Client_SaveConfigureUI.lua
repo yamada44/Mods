@@ -59,7 +59,6 @@ function Client_SaveConfigureUI(alert)
         if (maxserver > 50 or maxserver < 0 )then maxserver = 0 alert("Max amount over entire server input outside data range. min: 0, Max: 50")
         else Mod.Settings.Unitdata[i].MaxServer = maxserver end
 
-
  
         local minlife = InputFieldTable[i].Minlife.GetValue() 
        if minlife < 0 or minlife > 99 then 
@@ -92,9 +91,14 @@ function Client_SaveConfigureUI(alert)
        local altmoves = InputFieldTable[i].Altmoves.GetIsChecked()
        Mod.Settings.Unitdata[i].Altmoves = altmoves
 
+       --cooldown
        local cooldown = InputFieldTable[i].Cooldown.GetValue()
        if (cooldown < 0 or cooldown > 100)then cooldown = 0 alert("Mod set up failed\n Units cannot have a cool down timer longer then 100 or below 0\n(set to 0 to disable)")
        else Mod.Settings.Unitdata[i].Cooldown = cooldown end
+
+       --host Rules
+        local hostrules = InputFieldTable[i].HostRules.GetText()
+        Mod.Settings.Unitdata[i].HostRules = hostrules;
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
