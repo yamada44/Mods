@@ -74,9 +74,10 @@ function NumUnitin(armies, type)
 	return ret;
 end
 
-function HostRulesDialog()
+function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
+	close3 = close
 	local rules = "		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit');"
-	local vert = UI.CreateVerticalLayoutGroup(Root)
+	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	UI.CreateLabel(vert).SetText(rules);
 
 	--Game.CreateDialog
