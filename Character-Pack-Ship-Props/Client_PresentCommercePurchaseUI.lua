@@ -18,9 +18,10 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 	print (Game.Game.TurnNumber, "turn number")
-	for i = 1, Playerdata.Maxtypes  do 
-	local vert = UI.CreateVerticalLayoutGroup(rootParent);
-	local rowbutton = UI.CreateHorizontalLayoutGroup(vert)
+	for i = 1, Playerdata.Maxtypes  do
+
+	local rowbutton = UI.CreateHorizontalLayoutGroup(rootParent)
+	local vert = UI.CreateVerticalLayoutGroup(rowbutton);
 	local turnactive = true
 	local defend = 0
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
@@ -39,11 +40,11 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	if (Playerdata.Unitdata[i].Defend ~= nil)then defend = Playerdata.Unitdata[i].Defend end
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
-	UI.CreateButton(rowbutton).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
-	UI.CreateButton(rowbutton).SetText(buttonmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog()) end).SetInteractable(turnactive)
 
 	UI.CreateLabel(vert).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
 	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
+	UI.CreateButton(rowbutton).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive)
+	UI.CreateButton(rowbutton).SetText(hostmessage).SetOnClick(function () Game.CreateDialog(HostRulesDialog) end).SetInteractable(turnactive)
 
 	
 
