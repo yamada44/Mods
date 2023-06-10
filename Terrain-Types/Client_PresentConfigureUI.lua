@@ -21,6 +21,28 @@ function Client_PresentConfigureUI(rootParent)
     
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
+	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
+	UI.CreateLabel(row0).SetText(
+	[[This mod only works with select maps.
+	This is how Map select works :
+	by choosing the Map Value you decide which map is used
+	
+	1 - IS: Europe World War Supergame
+	2 - Baconsizzle's Big World
+	3 - IS - Star Wars RP Map - B-Wing Edition
+	4 - The Peloponnesian War
+	5 - Liverpool City Centre
+	6 - Avatar - The Last Airbender
+	7 - France Large
+	8 - Huge Westeros
+	
+	This is how Mod select works :
+	by choosing your mod value, you decide which special units are immune from the affects of this mod.
+	
+	0 - All special units including commanders
+	1 - I.S. Character Pack ( Antiquity ) special units
+	2 - I.S. Character Pack ( Ship Props ) special units]]);
+
     local row1 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
 	UI.CreateLabel(row1).SetText('What map format to use for sea territories');
     InputMap = UI.CreateNumberInputField(row1)
