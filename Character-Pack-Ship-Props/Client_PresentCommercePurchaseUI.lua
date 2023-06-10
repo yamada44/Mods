@@ -76,7 +76,7 @@ end
 
 function HostRulesDialog()
 	local rules = "		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit');"
-	vert = UI.CreateVerticalLayoutGroup(Root)
+	local vert = UI.CreateVerticalLayoutGroup(Root)
 	UI.CreateLabel(vert).SetText(rules);
 
 	--Game.CreateDialog
