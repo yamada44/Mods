@@ -27,7 +27,6 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local morgeRow = nil
 	local turnactive = true
 	local defend = 0
-	local addedwords = ''
 	local Ruleson = true
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
@@ -51,7 +50,7 @@ else morgeRow = row3 end
 	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
-	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings');
+	UI.CreateLabel(row1).SetText('Name: ' ..Playerdata.Unitdata[i].Name .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower .. "\nDefense Power: " .. defend .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits.. '\nMore details on this unit type in full Settings        ');
 	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
 	if (Ruleson == true )then
 		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
