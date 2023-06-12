@@ -17,6 +17,7 @@ function Client_PresentSettingsUI(rootParent)
 			local active = 0
 			local defend = 0
 			local cooldown = 0
+			local assass = 0
 		
 		
 			if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
@@ -32,6 +33,7 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].Active ~= nil)then active = Mod.Settings.Unitdata[i].Active end
 						if (Mod.Settings.Unitdata[i].Defend ~= nil)then defend = Mod.Settings.Unitdata[i].Defend end
 						if (Mod.Settings.Unitdata[i].Cooldown ~= nil)then cooldown = Mod.Settings.Unitdata[i].Cooldown end
+						if (Mod.Settings.Unitdata[i].Assassination ~= nil)then assass = Mod.Settings.Unitdata[i].Assassination end
 
 			
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
@@ -49,8 +51,8 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
 				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
 				UI.CreateLabel(vert).SetText('Image used: ' .. image)
-
 	
 
 
@@ -63,11 +65,11 @@ end
 function Imagename (name)
 	local filename = {}
 
-	filename[1] = 'Barbarian'
-	filename[2] = 'Roman Legion'
-	filename[3] = 'Horse'
-	filename[4] = 'Man'
-	filename[5] = 'Women'
+	filename[1] = 'Ship of the line'
+	filename[2] = 'Destroyer'
+	filename[3] = 'Caravel'
+	filename[4] = 'Carrier'
+	filename[5] = 'Galley'
 
 return filename[name]
 

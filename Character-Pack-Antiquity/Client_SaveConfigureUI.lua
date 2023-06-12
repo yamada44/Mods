@@ -28,7 +28,7 @@ function Client_SaveConfigureUI(alert)
         else Mod.Settings.Unitdata[i].unitpower = power; end
     
         local maxunits = InputFieldTable[i].maxUnitsField.GetValue();
-        if maxunits > 5 or maxunits < 0 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
+        if maxunits > 5 or maxunits < 1 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
             Mod.Settings.Unitdata[i].Maxunits = 1
         else
         Mod.Settings.Unitdata[i].Maxunits = maxunits; end
@@ -99,6 +99,11 @@ function Client_SaveConfigureUI(alert)
        --host Rules
         local hostrules = InputFieldTable[i].HostRules.GetText()
         Mod.Settings.Unitdata[i].HostRules = hostrules;
+
+        --Assassnation
+        local assass = InputFieldTable[i].Assassination.GetValue()
+        if (assass < 0 or assass > 5)then assass = 0 alert("Mod set up failed\n Assassination level must be between 0 and 5\n(set to 0 to disable)")
+        else Mod.Settings.Unitdata[i].Assassination = assass end
 
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on

@@ -22,8 +22,7 @@ NewrootParent = rootParent
 	 access = Mod.Settings.access
 	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
 	 BeforeMax = Mod.Settings.BeforeMax
-	if Mod.Settings.Corefeature == nil then Mod.Settings.Corefeature = false end
-	local Corefeature = Mod.Settings.Corefeature
+
 
 -- End of Init
 
@@ -32,14 +31,10 @@ NewrootParent = rootParent
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
 
-	InputFieldTable.row01 = UI.CreateHorizontalLayoutGroup(vert2);
-	local row01 = InputFieldTable.row01
-	UI.CreateButton(row01).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Turn this on if this isn't your first character pack added from I.S.\nThis disables all core features that dont deal with creating Unit types. if left off with multiple packs could cause errors/double orders "); end);
-	InputFieldTable.text01 = UI.CreateLabel(row01).SetText('Turn on if this isn`t your first character pack added')
-	InputFieldTable.Corefeatures = UI.CreateCheckBox(row01).SetIsChecked(Corefeature).SetText('')
 
 -- setting up amount of special units to have
 	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
+	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This determines the amount of unit types you can create at once\nMax of 6"); end);
 	InputFieldTable.text0 = UI.CreateLabel(row0).SetText('How many Unit Types')
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
 		.SetSliderMinValue(1)
@@ -90,6 +85,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text18)
 			UI.Destroy(InputFieldTable[i].text19)
 			UI.Destroy(InputFieldTable[i].text20)
+			UI.Destroy(InputFieldTable[i].text21)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -107,6 +103,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Altmoves)
 			UI.Destroy(InputFieldTable[i].Cooldown)
 			UI.Destroy(InputFieldTable[i].HostRules)
+			UI.Destroy(InputFieldTable[i].Assassination)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -125,11 +122,12 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row16)
 			UI.Destroy(InputFieldTable[i].row17)
 			UI.Destroy(InputFieldTable[i].row18)
+			UI.Destroy(InputFieldTable[i].row19)
 
 		end
 	end
 
-	if UnitTypeMax < 0 or UnitTypeMax > 6 then 
+	if UnitTypeMax < 1 or UnitTypeMax > 6 then 
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
@@ -145,13 +143,13 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if picture ==nil then picture = 1 end
 
 		local power = uniteconfig[i].unitpower;
-		if power == nil then power = 1; end
+		if power == nil then power = 0; end
 	
 		local cost = uniteconfig[i].unitcost;
-		if cost == nil then cost = 1; end
+		if cost == nil then cost = 0; end
 	
 		local maxunits = uniteconfig[i].Maxunits;
-		if maxunits == nil then maxunits = 0; end;
+		if maxunits == nil then maxunits = 1; end;
 
 		local shared = uniteconfig[i].Shared
 		if shared == nil then shared = false end
@@ -188,6 +186,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		local cooldown = uniteconfig[i].Cooldown
 		if (cooldown == nil ) then cooldown = 0 end 
+
+		local assass = uniteconfig[i].Assassination
+		if (assass == nil ) then assass = 0 end 
 
 		local hostrules = uniteconfig[i].HostRules
 		if (hostrules == nil)then hostrules = ''end
@@ -232,7 +233,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many units of this type you can have on the field at a time\nSet to 0 to disable this unit entirely"); end);
 		InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time').SetColor('#dbddf4')
 	InputFieldTable[i].maxUnitsField = UI.CreateNumberInputField(row3)
-		.SetSliderMinValue(0)
+		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
 
@@ -316,32 +317,41 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown);
 
+		--Assassinations
+		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
+		local row19 = InputFieldTable[i].row19
+		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to 0 to disable"); end);
+		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level')
+		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(5)
+		.SetValue(assass);
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
-		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
+		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players').SetColor('#dbddf4')
 		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
 		UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on, all players can see where this unit is at all times"); end);
-		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
+		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times')
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetColor('#dbddf4')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
-
 		
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
-		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
+		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu')
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
@@ -351,7 +361,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
-		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
+		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules').SetColor('#dbddf4')
 		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
