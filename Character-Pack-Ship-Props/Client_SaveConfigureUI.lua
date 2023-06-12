@@ -28,7 +28,7 @@ function Client_SaveConfigureUI(alert)
         else Mod.Settings.Unitdata[i].unitpower = power; end
     
         local maxunits = InputFieldTable[i].maxUnitsField.GetValue();
-        if maxunits > 5 or maxunits < 0 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
+        if maxunits > 5 or maxunits < 1 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
             Mod.Settings.Unitdata[i].Maxunits = 1
         else
         Mod.Settings.Unitdata[i].Maxunits = maxunits; end

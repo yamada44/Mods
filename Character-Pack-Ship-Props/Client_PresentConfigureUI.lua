@@ -143,13 +143,13 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if picture ==nil then picture = 1 end
 
 		local power = uniteconfig[i].unitpower;
-		if power == nil then power = 1; end
+		if power == nil then power = 0; end
 	
 		local cost = uniteconfig[i].unitcost;
-		if cost == nil then cost = 1; end
+		if cost == nil then cost = 0; end
 	
 		local maxunits = uniteconfig[i].Maxunits;
-		if maxunits == nil then maxunits = 0; end;
+		if maxunits == nil then maxunits = 1; end;
 
 		local shared = uniteconfig[i].Shared
 		if shared == nil then shared = false end
