@@ -109,7 +109,7 @@ function PurchaseClicked(type)
 print (Chartracker[type].GetText())
 print(type)
 
-	if (Chartracker[type].GetText() == "")then  -- error check for name
+	if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then  -- error check for name
 	
 		UI.Alert('aborted: did not give Character name')
 		Close1()

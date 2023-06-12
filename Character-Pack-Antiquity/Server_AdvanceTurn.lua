@@ -106,7 +106,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 										else territory = order.From end
 
 										local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
-										local levelupmessage = builder.TextOverHeadOpt .. ' the ' .. builder.Name .. ' Gained XP'
+										local levelupmessage = Nonill(builder.TextOverHeadOpt) .. ' the ' .. builder.Name .. ' Gained XP'
 										if (XP >= levelamount) then -- resetting XP and level amount
 											XP = 0 
 											currlevel = currlevel + 1 

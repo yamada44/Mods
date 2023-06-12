@@ -4,7 +4,6 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 								
 	Game1 = game
 
-	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
 	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
@@ -36,7 +35,6 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 				end
 				
 		end
---	end
 	
 end
 
