@@ -35,7 +35,7 @@ function ModName(value)
     if value > 0 then
         name[1] = 'I.S. Character Pack ( Antiquity )'
         name[2] = 'I.S. Character Pack ( Ship Props )'
-        --name[3] = ''
+        name[3] = 'I.S. Character Pack ( Three kingdom Heros )'
         --name[4] = ''
         --name[5] = ''
         

@@ -1,7 +1,7 @@
 
 function Client_PresentConfigureUI(rootParent)
     Maplimit = 8
-    Modlimit = 2
+    Modlimit = 3
 
 
 	local mapvalue = Mod.Settings.mapreturnvalue;
@@ -43,7 +43,8 @@ function Client_PresentConfigureUI(rootParent)
 	
 	0 - All special units including commanders
 	1 - I.S. Character Pack ( Antiquity ) special units
-	2 - I.S. Character Pack ( Ship Props ) special units]]);
+	2 - I.S. Character Pack ( Ship Props ) special units
+	3 - I.S. Character Pack ( Three kingdom Heros ) special units]]);
 
     local row1 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
 	UI.CreateLabel(row1).SetText('What map format to use for sea territories');

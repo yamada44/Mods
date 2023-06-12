@@ -3,7 +3,7 @@ function Client_SaveConfigureUI(alert)
 
 --mapping data
     local mapvalue = InputMap.GetValue()
-    if mapvalue > Maplimit or mapvalue <= 0 then alert('Map value not supported. please stay within 1-'.. Maplimit)
+    if mapvalue > Maplimit or mapvalue < 1 then alert('Map value not supported. please stay within 1-'.. Maplimit)
         Mod.Settings.maplist = {}
         Mod.Settings.maplist = Maploader(1) -- defaulted to one if nothing was picked
         Mod.Settings.mapreturnvalue = 1
@@ -455,7 +455,7 @@ function Modloader(loadnumber)
     if loadnumber > 0 then
         list[1] = 'C&PA'
         list[2] = 'C&PB'
-        --list[3] = 'C&PC'
+        list[3] = 'C&PC'
         --list[4] = 'C&PD'
         --list[5] = 'C&PE'
         
