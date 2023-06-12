@@ -52,7 +52,7 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
 				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
-				UI.CreateLabel(vert).SetText('Image used: ' .. image)
+				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
 	
 
 
@@ -65,11 +65,11 @@ end
 function Imagename (name)
 	local filename = {}
 
-	filename[1] = 'Ship of the line'
-	filename[2] = 'Destroyer'
-	filename[3] = 'Caravel'
-	filename[4] = 'Carrier'
-	filename[5] = 'Galley'
+	filename[1] = 'Barbarian'
+	filename[2] = 'Roman Legion'
+	filename[3] = 'Horse'
+	filename[4] = 'Man'
+	filename[5] = 'Women'
 
 return filename[name]
 
