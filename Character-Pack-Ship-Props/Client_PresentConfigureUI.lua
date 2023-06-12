@@ -127,7 +127,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		end
 	end
 
-	if UnitTypeMax < 0 or UnitTypeMax > 6 then 
+	if UnitTypeMax < 1 or UnitTypeMax > 6 then 
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
@@ -323,7 +323,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to 0 to disable"); end);
 		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level')
 		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
 		.SetValue(assass);
 
@@ -347,18 +347,11 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetColor('#dbddf4')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
-
-				--Units can only move every other turn
-		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
-		local row16 = InputFieldTable[i].row16
-		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
-		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 		
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
-		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
+		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu')
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
@@ -368,7 +361,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
-		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
+		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules').SetColor('#dbddf4')
 		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
