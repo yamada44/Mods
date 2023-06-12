@@ -100,6 +100,11 @@ function Client_SaveConfigureUI(alert)
         local hostrules = InputFieldTable[i].HostRules.GetText()
         Mod.Settings.Unitdata[i].HostRules = hostrules;
 
+        --Assassnation
+        local assass = InputFieldTable[i].Assassination.GetValue()
+        if (assass < 0 or assass > 5)then assass = 0 alert("Mod set up failed\n Assassination level must be between 0 and 5\n(set to 0 to disable)")
+        else Mod.Settings.Unitdata[i].Assassination = assass end
+
 
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
    end

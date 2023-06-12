@@ -90,6 +90,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].text18)
 			UI.Destroy(InputFieldTable[i].text19)
 			UI.Destroy(InputFieldTable[i].text20)
+			UI.Destroy(InputFieldTable[i].text21)
 			UI.Destroy(InputFieldTable[i].costInputField)
 			UI.Destroy(InputFieldTable[i].powerInputField)
 			UI.Destroy(InputFieldTable[i].maxUnitsField)
@@ -107,6 +108,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].Altmoves)
 			UI.Destroy(InputFieldTable[i].Cooldown)
 			UI.Destroy(InputFieldTable[i].HostRules)
+			UI.Destroy(InputFieldTable[i].Assassination)
 			UI.Destroy(InputFieldTable[i].row1)
 			UI.Destroy(InputFieldTable[i].row2)
 			UI.Destroy(InputFieldTable[i].row3)
@@ -125,6 +127,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			UI.Destroy(InputFieldTable[i].row16)
 			UI.Destroy(InputFieldTable[i].row17)
 			UI.Destroy(InputFieldTable[i].row18)
+			UI.Destroy(InputFieldTable[i].row19)
 
 		end
 	end
@@ -189,6 +192,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local cooldown = uniteconfig[i].Cooldown
 		if (cooldown == nil ) then cooldown = 0 end 
 
+		local assass = uniteconfig[i].Assassination
+		if (assass == nil ) then assass = 0 end 
+
 		local hostrules = uniteconfig[i].HostRules
 		if (hostrules == nil)then hostrules = ''end
 
@@ -232,7 +238,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many units of this type you can have on the field at a time\nSet to 0 to disable this unit entirely"); end);
 		InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time').SetColor('#dbddf4')
 	InputFieldTable[i].maxUnitsField = UI.CreateNumberInputField(row3)
-		.SetSliderMinValue(0)
+		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
 
@@ -316,27 +322,43 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown);
 
+		--Assassinations
+		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
+		local row19 = InputFieldTable[i].row19
+		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to 0 to disable"); end);
+		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level')
+		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
+		.SetSliderMinValue(1)
+		.SetSliderMaxValue(5)
+		.SetValue(assass);
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
-		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
+		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players').SetColor('#dbddf4')
 		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
 		UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on, all players can see where this unit is at all times"); end);
-		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
+		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times')
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetColor('#dbddf4')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
+				--Units can only move every other turn
+		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
+		local row16 = InputFieldTable[i].row16
+		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 		
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
