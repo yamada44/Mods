@@ -13,7 +13,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 					print('phase 2', "does have speical unit")
 					if v.proxyType == "CustomSpecialUnit" then
 						if v.ModData ~= nil then -- 
-							if startsWith(v.ModData, 'C&PB') then -- make sure the speical unit is only from I.S. mods
+							if startsWith(v.ModData, 'C&PC') then -- make sure the speical unit is only from I.S. mods
 								print('phase 3', "unit is from I.S. mods")
 								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local diebitch = tonumber(payloadSplit[1])
@@ -55,7 +55,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
 					if v.ModData ~= nil then -- making sure it has data to read from
 
-						if startsWith(v.ModData, 'C&PB') then -- make sure the speical unit is only from I.S. mod
+						if startsWith(v.ModData, 'C&PC') then -- make sure the speical unit is only from I.S. mod
 							local dead = false
 							local territory = nil 
 							for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
@@ -122,7 +122,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-										builder.ModData = 'C&PB' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+										builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 										print (v.ModData)
 										print (builder.ModData)
 										print (builder.AttackPower)
@@ -152,7 +152,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 
 
-	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&PB')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
+	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'C&PC')) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		
 		print (order.Payload, 'payload')	
 		local publicdata = Mod.PublicGameData
@@ -294,7 +294,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&PB' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;' .. assass
+		builder.ModData = 'C&PC' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;' .. assass
 	
 		print (defence, 'defence power')
 		print (unitpower, 'attack power')
@@ -365,7 +365,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
 						builder.OwnerID  = land.OwnerPlayerID
-						builder.ModData = 'C&PB' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+						builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 
 						local terrMod = WL.TerritoryModification.Create(order.To);
 						terrMod.AddSpecialUnits = {builder.Build()};
@@ -401,7 +401,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
 					builder.OwnerID  = landfrom.OwnerPlayerID
-					builder.ModData = 'C&PB' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+					builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
