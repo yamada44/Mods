@@ -12,7 +12,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Chartracker = {}
 
 	-- changing over packs data
-	OrderstartsWith = "C&PB" -- the last letter represents the mod used
+	OrderstartsWith = "C&PC" -- the last letter represents the mod used
 
 
 	TransferfromConfig()
@@ -34,7 +34,7 @@ if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules =
 else morgeRow = row3 end
 	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
-	local hostmessage = "Host rules for unit"
+	local hostmessage = "Host Rules/Lore for Unit"
 		
 	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
 		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
@@ -76,7 +76,7 @@ end
 function NumUnitin(armies, type)
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, 'C&PB')) then
+		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, OrderstartsWith)) then
 			ret = ret + 1;
 		end
 	end
@@ -93,7 +93,7 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	
-	UI.CreateLabel(vert).SetText('These are custom Rules enforced by the host how to buy/use this unit')
+	UI.CreateLabel(vert).SetText('These are custom Rules/Lore enforced by the host for this unit type')
 	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
 
 	--Game.CreateDialog
