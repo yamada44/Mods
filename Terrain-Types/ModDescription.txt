@@ -1,6 +1,6 @@
 This is the Terrain / Navy mod. its goal is to create different terrain types.
 
 What is actually happening when you run the mod
-the mod loops through each territory with certain names and turns them into neutral controled territories with the defaut value being 0
+turns territories on the map to neutral. to a certain theme according to host. might be random to you
 
 First turn will take longer then the rest

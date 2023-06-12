@@ -52,7 +52,7 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
 				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
-				UI.CreateLabel(vert).SetText('Image used: ' .. image)
+				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
 	
 
 
