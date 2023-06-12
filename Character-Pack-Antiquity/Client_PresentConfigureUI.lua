@@ -15,7 +15,7 @@ NewrootParent = rootParent
 	 uniteconfig =	Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
-	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second').SetColor('#F3FFAE');
+	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second\nTip 3: You may have a old template. remove mod, save template and reinstall mod').SetColor('#F3FFAE');
 
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
@@ -146,7 +146,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if power == nil then power = 0; end
 	
 		local cost = uniteconfig[i].unitcost;
-		if cost == nil then cost = 0; end
+		if cost == nil then cost = 1; end
 	
 		local maxunits = uniteconfig[i].Maxunits;
 		if maxunits == nil then maxunits = 1; end;
