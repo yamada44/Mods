@@ -1,5 +1,5 @@
 This is the Terrain / Naval Mod. Its goal is to create different terrain types.
 
-The mod turns certain territories on the map into neutrals or to a certain theme chosen by the host. Having any number of troops without a special unit alongside them, will make you lose them, as they'll turn to a specific number of neutral troops (chosen by the host). The transformation happens every turn. Might be random to you (?)
+The mod turns certain territories on the map into neutrals or to a certain theme chosen by the host. Having any number of troops without a special unit alongside them, will make you lose them, as they'll turn to a specific number of neutral troops (chosen by the host). The transformation happens every turn. Might be random to you.
 
 Mind that the first turn will take longer then the rest.
