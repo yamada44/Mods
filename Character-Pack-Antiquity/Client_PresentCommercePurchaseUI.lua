@@ -121,7 +121,7 @@ print(type)
 		Close1()
 		return
 	end
-	if (publicdata.readrules == false)then  -- error check for name
+	if (Mod.PlayerGameData.readrules == false)then  -- error check for name
 	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
