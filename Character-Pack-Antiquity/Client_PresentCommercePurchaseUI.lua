@@ -5,13 +5,12 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
-	modplayers = Mod.PlayerGameData
 	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	if modplayers.readrules == nil then modplayers.readrules = false end
+	if Mod.PlayerGameData.readrules == nil then Mod.PlayerGameData.readrules = false end
 
 	-- changing over packs data
 	OrderstartsWith = "C&PA" -- the last letter represents the mod used
@@ -91,7 +90,11 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
-	modplayers.readrules = true
+	Mod.PlayerGameData.readrules = true
+	local payload = {}
+	payload.read = Mod.PlayerGameData.readrules
+	Game.SendGameCustomMessage("Gifting gold...", payload, function(returnValue) end)
+
 	local rules = Playerdata.Unitdata[Typerule].HostRules
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
@@ -100,7 +103,7 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
 
 	--Game.CreateDialog
-	Mod.PlayerGameData = modplayers
+	
 end
 
 function PurchaseClicked(type)
@@ -118,7 +121,7 @@ print(type)
 		Close1()
 		return
 	end
-	if (modplayers.readrules == false)then  -- error check for name
+	if (publicdata.readrules == false)then  -- error check for name
 	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
