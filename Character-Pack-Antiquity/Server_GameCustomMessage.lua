@@ -1,9 +1,9 @@
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
-    playerdata = Mod.PlayerGameData
-    playerdata[playerID].readrules = true
+   --playerdata = Mod.PlayerGameData
+    --playerdata[playerID].readrules = true
 
-    Mod.PlayerGameData = playerdata
+    --Mod.PlayerGameData = playerdata
 
     setReturnTable();
 
