@@ -5,12 +5,13 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
+	modplayers = Mod.PlayerGameData
 	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	if Mod.PlayerGameData.readrules == nil then Mod.PlayerGameData.readrules = false end
+	if modplayers.readrules == nil then modplayers.readrules = false end
 
 	-- changing over packs data
 	OrderstartsWith = "C&PA" -- the last letter represents the mod used
@@ -90,9 +91,9 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
-	Mod.PlayerGameData.readrules = true
+	modplayers.readrules = true
 	local payload = {}
-	payload.read = Mod.PlayerGameData.readrules
+	payload.read = modplayers.readrules
 	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
 
 	local rules = Playerdata.Unitdata[Typerule].HostRules
