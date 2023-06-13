@@ -5,11 +5,13 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
+	modplayers = Mod.PlayerGameData
 	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
+	if modplayers.readrules == nil then modplayers.readrules = false end
 
 	-- changing over packs data
 	OrderstartsWith = "C&PC" -- the last letter represents the mod used
@@ -89,11 +91,16 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
+	modplayers.readrules = true
+	local payload = {}
+	payload.read = modplayers.readrules
+	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
+
 	local rules = Playerdata.Unitdata[Typerule].HostRules
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	
-	UI.CreateLabel(vert).SetText('These are custom Rules/Lore enforced by the host for this unit type')
+	UI.CreateLabel(vert).SetText('These are custom Rules/Lore enforced by the host for this unit')
 	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
 
 	--Game.CreateDialog
@@ -115,7 +122,12 @@ if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then
 	Close1()
 	return
 end
-
+if (modplayers.readrules == false)then  -- error check for name
+	
+	UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
+	Close1()
+	return
+end
 	
 	Type = type
 	
