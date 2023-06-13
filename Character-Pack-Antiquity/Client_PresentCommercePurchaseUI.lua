@@ -10,6 +10,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
+	if publicdata.readrules == nil then publicdata.readrules = false end
 
 	-- changing over packs data
 	OrderstartsWith = "C&PA" -- the last letter represents the mod used
@@ -89,6 +90,7 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
+	publicdata.readrules = true
 	local rules = Playerdata.Unitdata[Typerule].HostRules
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
@@ -112,6 +114,12 @@ print(type)
 	if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then  -- error check for name
 	
 		UI.Alert('aborted: did not give Character name')
+		Close1()
+		return
+	end
+	if (publicdata.readrules == false)then  -- error check for name
+	
+		UI.Alert('Have not Read unit rules. please read Unit rules first')
 		Close1()
 		return
 	end
