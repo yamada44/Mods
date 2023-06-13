@@ -1,3 +1,7 @@
+
+
+
+
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
    --playerdata = Mod.PlayerGameData
@@ -5,6 +9,6 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
     --Mod.PlayerGameData = playerdata
 
-    setReturnTable();
+    setReturnTable({});
 
 end
