@@ -93,7 +93,7 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Mod.PlayerGameData.readrules = true
 	local payload = {}
 	payload.read = Mod.PlayerGameData.readrules
-	Game.SendGameCustomMessage("Gifting gold...", payload, function(returnValue) end)
+	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
 
 	local rules = Playerdata.Unitdata[Typerule].HostRules
 
