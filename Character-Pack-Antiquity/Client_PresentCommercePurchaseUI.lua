@@ -30,12 +30,15 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local turnactive = true
 	local defend = 0
 	local Ruleson = true
+	if modplayers[i] == nil then modplayers[i] = {} end
+	if modplayers[i].readrules == nil then modplayers[i].readrules = true end
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
 	Ruleson = false 
-	if modplayers[i] == nil then modplayers[i] = {} end
-	if modplayers[i].readrules == nil then modplayers[i].readrules = false end
-else morgeRow = row3 end
+	modplayers[i].readrules = false
+else morgeRow = row3 
+
+end
 	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 	local hostmessage = "Host Rules/Lore for Unit"
@@ -93,7 +96,7 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
-	modplayers[type].readrules = true
+	modplayers[Typerule].readrules = true
 	local payload = {}
 	payload.type = Typerule
 	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
