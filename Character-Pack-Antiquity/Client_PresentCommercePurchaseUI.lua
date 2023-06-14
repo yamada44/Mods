@@ -31,11 +31,11 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local defend = 0
 	local Ruleson = true
 	if modplayers[i] == nil then modplayers[i] = {} end
-	if modplayers[i].readrules == nil then modplayers[i].readrules = true end
+	if modplayers[i].readrules == nil then modplayers[i].readrules = false end
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
 	Ruleson = false 
-	modplayers[i].readrules = false
+	modplayers[i].readrules = true
 else morgeRow = row3 
 
 end
@@ -127,7 +127,7 @@ print(type)
 		Close1()
 		return
 	end
-	if (modplayers[type].readrules ~= nil and modplayers[type].readrules == false)then  -- error check for name
+	if (modplayers[type].readrules == false)then  -- error check for name
 	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
