@@ -11,7 +11,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	if modplayers.readrules == nil then modplayers.readrules = false end
+
 
 	-- changing over packs data
 	OrderstartsWith = "C&PA" -- the last letter represents the mod used
@@ -33,6 +33,8 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
 	Ruleson = false 
+	if modplayers[i] == nil then modplayers[i] = {} end
+	if modplayers[i].readrules == nil then modplayers[i].readrules = false end
 else morgeRow = row3 end
 	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
@@ -91,9 +93,9 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
-	modplayers.readrules = true
+	modplayers[type].readrules = true
 	local payload = {}
-	payload.read = modplayers.readrules
+	payload.type = Typerule
 	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
 
 	local rules = Playerdata.Unitdata[Typerule].HostRules
@@ -122,7 +124,7 @@ print(type)
 		Close1()
 		return
 	end
-	if (modplayers.readrules == false)then  -- error check for name
+	if (modplayers[type].readrules ~= nil and modplayers[type].readrules == false)then  -- error check for name
 	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
