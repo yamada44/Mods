@@ -5,13 +5,13 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
-	modplayers = Mod.PlayerGameData
+	modplayers = Mod.PublicGameData
 	Root = rootParent
 
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
-	if modplayers.readrules == nil then modplayers.readrules = false end
+	ID = Game.Us.ID
 
 	-- changing over packs data
 	OrderstartsWith = "C&PC" -- the last letter represents the mod used
@@ -30,10 +30,16 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local turnactive = true
 	local defend = 0
 	local Ruleson = true
+	if modplayers[i] == nil then modplayers[i] = {} end
+	if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
+	if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
 if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
 	morgeRow = vert
 	Ruleson = false 
-else morgeRow = row3 end
+	modplayers[i][ID].readrules = true
+else morgeRow = row3 
+
+end
 	
 	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
 	local hostmessage = "Host Rules/Lore for Unit"
@@ -91,9 +97,9 @@ Typerule = type
 end
 function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	Close3 = close
-	modplayers.readrules = true
+	modplayers[Typerule][ID].readrules = true
 	local payload = {}
-	payload.read = modplayers.readrules
+	payload.type = Typerule
 	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
 
 	local rules = Playerdata.Unitdata[Typerule].HostRules
@@ -116,18 +122,19 @@ function PurchaseClicked(type)
 print (Chartracker[type].GetText())
 print(type)
 
-if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then  -- error check for name
+	if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then  -- error check for name
 	
-	UI.Alert('aborted: did not give Character name')
-	Close1()
-	return
-end
-if (modplayers.readrules == false)then  -- error check for name
+		UI.Alert('aborted: did not give Character name')
+		Close1()
+		return
+	end
+	if (modplayers[type][ID].readrules == false)then  -- error check for name
 	
-	UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
-	Close1()
-	return
-end
+		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
+		Close1()
+		return
+	end
+
 	
 	Type = type
 	

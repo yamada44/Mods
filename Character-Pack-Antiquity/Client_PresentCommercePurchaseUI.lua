@@ -84,7 +84,7 @@ end
 function NumUnitin(armies, type)
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, 'C&PB')) then
+		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, OrderstartsWith)) then
 			ret = ret + 1;
 		end
 	end
