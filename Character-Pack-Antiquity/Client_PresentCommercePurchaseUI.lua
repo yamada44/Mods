@@ -5,7 +5,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Game = game;
 
 	publicdata = Mod.PublicGameData
-	modplayers = Mod.PlayerGameData
+	modplayers = Mod.PublicGameData
 	Root = rootParent
 
 	Playerdata = {}
