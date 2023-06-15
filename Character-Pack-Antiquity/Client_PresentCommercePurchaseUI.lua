@@ -245,7 +245,7 @@ function dynamicInfo(i)
 		message = message .. "\nPossible Life range: " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
 	end
  
-	--   .. '\nMore details on this unit type in full Settings        '
+	message = message .. '\nMore details on this unit type in full Settings        '
 
 	return message
 end
