@@ -229,20 +229,20 @@ function dynamicInfo(i)
 	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost 
 
 	if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Playerdata.Unitdata[i].unitpower)then
-		message = message .. "\nAttack Range : " .. Playerdata.Unitdata[i].unitpower .. '-' .. Mod.Settings.Unitdata[i].AttackMax
+		message = message .. "\nAttack Range (In armies): " .. Playerdata.Unitdata[i].unitpower .. '-' .. Mod.Settings.Unitdata[i].AttackMax
 	
-	else	message = message .."\nAttack Power: " .. Playerdata.Unitdata[i].unitpower    end
+	else	message = message .."\nAttack Power (In armies): " .. Playerdata.Unitdata[i].unitpower    end
 
 	if Playerdata.Unitdata[i].Defend ~= nil then defend = Playerdata.Unitdata[i].Defend end
 
-	message = message .. "\nDefense Power: " .. defend
+	message = message .. "\nDefense Power (In armies): " .. defend
 	message = message .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits
 
 	if Mod.Settings.Unitdata[i].Level ~= nil and Mod.Settings.Unitdata[i].Level > 0 then
 		message = message .. "\nXp needed for first level up: " .. Mod.Settings.Unitdata[i].Level
 	end
 	if Mod.Settings.Unitdata[i].Minlife > 0 and Mod.Settings.Unitdata[i].Maxlife > 0 then
-		message = message .. "\nLife range: " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
+		message = message .. "\nLife range (In turns): " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
 	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '
