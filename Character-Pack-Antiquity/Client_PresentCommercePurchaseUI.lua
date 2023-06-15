@@ -238,12 +238,14 @@ function dynamicInfo(i)
 	message = message .. "\nDefense Power: " .. defend
 	message = message .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits
 
-	if Mod.Settings.Unitdata[i].Level ~= nil and Mod.Settings.Unitdata[i].Level > 0 then
-		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
-	end
 	if Mod.Settings.Unitdata[i].Minlife > 0 and Mod.Settings.Unitdata[i].Maxlife > 0 then
 		message = message .. "\nTurns Alive: " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
 	end
+
+	if Mod.Settings.Unitdata[i].Level ~= nil and Mod.Settings.Unitdata[i].Level > 0 then
+		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
+	end
+
  
 	message = message .. '\nMore details on this unit type in full Settings        '
 
