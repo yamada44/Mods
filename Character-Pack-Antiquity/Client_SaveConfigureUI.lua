@@ -66,7 +66,7 @@ function Client_SaveConfigureUI(alert)
 
  
         local minlife = InputFieldTable[i].Minlife.GetValue() 
-       if minlife < 0 or minlife > 99 then 
+       if minlife < 1 or minlife > 99 then 
         alert('Minimum amount for life is 1\nReset to default settings')
         Mod.Settings.Unitdata[i].Minlife = 1
        else Mod.Settings.Unitdata[i].Minlife = minlife end

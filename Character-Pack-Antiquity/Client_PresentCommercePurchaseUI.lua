@@ -241,7 +241,7 @@ function dynamicInfo(i)
 	if Mod.Settings.Unitdata[i].Level ~= nil and Mod.Settings.Unitdata[i].Level > 0 then
 		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
 	end
-	if Mod.Settings.Unitdata[i].Minlife > -1 and Mod.Settings.Unitdata[i].Maxlife > 0 then
+	if Mod.Settings.Unitdata[i].Minlife > 0 and Mod.Settings.Unitdata[i].Maxlife > 0 then
 		message = message .. "\nTurns Alive: " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
 	end
  
