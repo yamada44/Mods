@@ -185,6 +185,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
+		local addedwords2 = ""
 		local transfer = 0
 		local levelamount = 0
 		local currentxp = 0
@@ -271,6 +272,9 @@ print ('cooldown', cooldown)
 		Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
 		addedwords =  '\nLife ends on Turn: ' .. Turnkilled
 		end
+		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > unitpower then
+			addedwords2 = '\nAttack power: ' .. unitpower
+		end
 		if (levelamount > 0)then
 			typename = 'LV0 ' .. typename
 		end
@@ -305,7 +309,7 @@ print ('cooldown', cooldown)
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords .. addedwords2, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver > 0 and shared == false)then

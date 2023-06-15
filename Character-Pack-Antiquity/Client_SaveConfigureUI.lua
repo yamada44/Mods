@@ -26,6 +26,11 @@ function Client_SaveConfigureUI(alert)
         if power < 0 then alert("Mod set up failed\n Units cannot have a Attack power below 0\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitpower = 1
         else Mod.Settings.Unitdata[i].unitpower = power; end
+
+        local maxatt = InputFieldTable[i].AttackMax.GetValue();
+        if maxatt < 0 or maxatt < power then alert("Mod set up failed\n Units cannot have a Attack power below 0 or below Minimum attack Range\nReset to default settings"); 
+            Mod.Settings.Unitdata[i].AttackMax = Mod.Settings.Unitdata[i].unitpower
+        else Mod.Settings.Unitdata[i].AttackMax = maxatt; end
     
         local maxunits = InputFieldTable[i].maxUnitsField.GetValue();
         if maxunits > 5 or maxunits < 1 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
@@ -69,7 +74,7 @@ function Client_SaveConfigureUI(alert)
        local maxlife = InputFieldTable[i].Maxlife.GetValue()  
        if maxlife < minlife or maxlife > 100 then 
         alert('Minimum amount for Max life is equal to "Minimum Turns alive" setting\n Max amount is 100 \nReset to default settings')
-        Mod.Settings.Unitdata[i].Maxlife = Mod.Settings.Unitdata[i].Minlife + 1
+        Mod.Settings.Unitdata[i].Maxlife = Mod.Settings.Unitdata[i].Minlife
        else Mod.Settings.Unitdata[i].Maxlife = maxlife end
 
        local transfer = InputFieldTable[i].Transfer.GetValue()
