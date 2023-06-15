@@ -18,6 +18,8 @@ function Client_PresentSettingsUI(rootParent)
 			local defend = 0
 			local cooldown = 0
 			local assass = 0
+			local attmax = 0
+			local powermessage = 'Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower
 		
 		
 			if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
@@ -34,24 +36,28 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].Defend ~= nil)then defend = Mod.Settings.Unitdata[i].Defend end
 						if (Mod.Settings.Unitdata[i].Cooldown ~= nil)then cooldown = Mod.Settings.Unitdata[i].Cooldown end
 						if (Mod.Settings.Unitdata[i].Assassination ~= nil)then assass = Mod.Settings.Unitdata[i].Assassination end
+						if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Mod.Settings.Unitdata[i].unitpower) then
+							 attmax = Mod.Settings.Unitdata[i].AttackMax 
+							 powermessage = "Attack Range is: " .. Mod.Settings.Unitdata[i].unitpower .. ' - ' .. Mod.Settings.Unitdata[i].AttackMax
+							end
 
-			
+							
+
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
 				UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
-				UI.CreateLabel(vert).SetText('Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText(powermessage).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Defence power in armies: ' .. defend);
 				UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Min possible age range: ' .. Mod.Settings.Unitdata[i].Minlife)
-				UI.CreateLabel(vert).SetText('Max possible age range: ' .. Mod.Settings.Unitdata[i].Maxlife).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer);
-				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level);
-				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared);
-				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even);
-				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
+				UI.CreateLabel(vert).SetText('Life range: ' .. Mod.Settings.Unitdata[i].Minlife .. ' - '.. Mod.Settings.Unitdata[i].Maxlife)
+				UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer)
+				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active)
+				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis)
+				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown)
+				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Image used: ' .. image)
 	
 
@@ -70,6 +76,8 @@ function Imagename (name)
 	filename[3] = 'Cao Cao'
 	filename[4] = 'Sun Shangxiang'
 	filename[5] = 'Lu Bu'
+
+	
 
 return filename[name]
 

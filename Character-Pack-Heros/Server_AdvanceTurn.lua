@@ -4,6 +4,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 								
 	Game1 = game
 
+	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
 	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
@@ -35,6 +36,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 				end
 				
 		end
+	--end
 	
 end
 
@@ -104,7 +106,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 										else territory = order.From end
 
 										local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
-										local levelupmessage = builder.TextOverHeadOpt .. ' the ' .. builder.Name .. ' Gained XP'
+										local levelupmessage = Nonill(builder.TextOverHeadOpt) .. ' the ' .. builder.Name .. ' Gained XP'
 										if (XP >= levelamount) then -- resetting XP and level amount
 											XP = 0 
 											currlevel = currlevel + 1 
@@ -183,6 +185,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local maxlife = Mod.Settings.Unitdata[type].Maxlife
 		local Turnkilled = 0
 		local addedwords = ''
+		local addedwords2 = ""
 		local transfer = 0
 		local levelamount = 0
 		local currentxp = 0
@@ -191,6 +194,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local cooldown = Nonill(Mod.Settings.Unitdata[type].Cooldown)
 		local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
 
+print ('cooldown', cooldown)
 		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
 			 altmove = 1
 		end 
@@ -268,6 +272,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
 		addedwords =  '\nLife ends on Turn: ' .. Turnkilled
 		end
+		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > unitpower then
+			addedwords2 = '\nAttack power: ' .. unitpower
+		end
 		if (levelamount > 0)then
 			typename = 'LV0 ' .. typename
 		end
@@ -292,7 +299,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = 'C&PC' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;' .. assass
+		builder.ModData = 'C&PC' .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
 	
 		print (defence, 'defence power')
 		print (unitpower, 'attack power')
@@ -302,7 +309,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		terrMod.AddSpecialUnits = {builder.Build()};
 
 		
-		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords, nil, {terrMod}));
+		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords .. addedwords2, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
 		if (MaxUnitsEver > 0 and shared == false)then
