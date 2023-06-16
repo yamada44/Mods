@@ -5,8 +5,8 @@
 function Client_SaveConfigureUI(alert)
 
     local noUnitsOn = 0
-
-
+    local tomanyunits = 0
+    local Unitsallowed = 15
 
 
 
@@ -68,7 +68,7 @@ function Client_SaveConfigureUI(alert)
         local minlife = InputFieldTable[i].Minlife.GetValue() 
        if minlife < 0 or minlife > 99 then 
         alert('Minimum amount for life is 0\nReset to default settings')
-        Mod.Settings.Unitdata[i].Minlife = 1
+        Mod.Settings.Unitdata[i].Minlife = 0
        else Mod.Settings.Unitdata[i].Minlife = minlife end
 
        local maxlife = InputFieldTable[i].Maxlife.GetValue()  
@@ -110,10 +110,11 @@ function Client_SaveConfigureUI(alert)
         if (assass < 0 or assass > 5)then assass = 0 alert("Mod set up failed\n Assassination level must be between 0 and 5\n(set to 0 to disable)")
         else Mod.Settings.Unitdata[i].Assassination = assass end
 
-
+        tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
    end
    if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
+   if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
 
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
