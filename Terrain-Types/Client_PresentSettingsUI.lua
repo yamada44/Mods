@@ -8,10 +8,10 @@ function Client_PresentSettingsUI(rootParent)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
-	UI.CreateLabel(vert).SetText('Name of map configured to: ' .. mapname)
-	UI.CreateLabel(vert).SetText('Name of Mod configured to: ' .. Modname)
-	UI.CreateLabel(vert).SetText('Neutrals turned to ' .. neutralvalue .. ' Armies')	
-	UI.CreateLabel(vert).SetText('Theme: ' .. theme)	
+	UI.CreateLabel(vert).SetText('Name of map configured to: ' .. mapname).Setcolor('#76FF7A')
+	UI.CreateLabel(vert).SetText('Name of Mod configured to: ' .. Modname).SetColor('#008000')
+	UI.CreateLabel(vert).SetText('Neutrals turned to ' .. neutralvalue .. ' Armies').Setcolor('#76FF7A')
+	UI.CreateLabel(vert).SetText('Theme: ' .. theme).SetColor('#008000')
 		
 
 
