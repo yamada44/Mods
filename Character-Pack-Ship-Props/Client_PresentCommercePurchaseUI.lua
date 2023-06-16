@@ -238,7 +238,7 @@ function dynamicInfo(i)
 	message = message .. "\nDefense Power: " .. defend
 	message = message .. "\nMax at once: " .. Playerdata.Unitdata[i].Maxunits
 
-	if Mod.Settings.Unitdata[i].Minlife > 0 and Mod.Settings.Unitdata[i].Maxlife > 0 then
+	if Mod.Settings.Unitdata[i].Maxlife > 0 then
 		message = message .. "\nTurns Alive: " .. Mod.Settings.Unitdata[i].Minlife .. '-' .. Mod.Settings.Unitdata[i].Maxlife
 	end
 
