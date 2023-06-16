@@ -6,7 +6,7 @@ function Client_SaveConfigureUI(alert)
 
     local noUnitsOn = 0
     local tomanyunits = 0
-    local Unitsallowed = 18
+    local Unitsallowed = 15
 
 
 
