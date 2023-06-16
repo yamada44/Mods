@@ -1,5 +1,4 @@
-This is the Terrain / Naval Mod. Its goal is to create different terrain types.
 
-The mod turns certain territories on the map into neutrals or to a certain theme chosen by the host. Having any number of troops without a special unit alongside them, will make you lose them, as they'll turn to a specific number of neutral troops (chosen by the host). The transformation happens every turn. Might be random to you.
-
-Mind that the first turn will take longer then the rest.
+This mod will change territories to neutral. Consult the Theme in the settings to determine which territories will change, such as the 'Sea Tiles' theme which affects all territories commonly seen as ocean territories.
+When a special unit from a specific mod (The mod used can be found in settings) enters one of these themed territories, that territory will be immune from the affects of this mod. I.E. sea Tiles with a Ship special unit now creates navel combat
+This mod may perform slowly on the first turn during its process
