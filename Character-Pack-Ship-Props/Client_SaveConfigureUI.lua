@@ -23,12 +23,12 @@ function Client_SaveConfigureUI(alert)
     
 
         local power = InputFieldTable[i].powerInputField.GetValue();
-        if power < 0 then alert("Mod set up failed\n Units cannot have a Attack power below 0\nReset to default settings"); 
+        if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitpower = 1
         else Mod.Settings.Unitdata[i].unitpower = power; end
 
         local maxatt = InputFieldTable[i].AttackMax.GetValue();
-        if maxatt < 0 or maxatt < power then alert("Mod set up failed\n Units cannot have a Attack power below 0 or below Minimum attack Range\nReset to default settings"); 
+        if maxatt < 0 or maxatt < power then alert("Mod set up failed\nUnits cannot have a Maximum attack power below 0 or below Minimum attack Range\nReset to default settings"); 
             Mod.Settings.Unitdata[i].AttackMax = Mod.Settings.Unitdata[i].unitpower
         else Mod.Settings.Unitdata[i].AttackMax = maxatt; end
     

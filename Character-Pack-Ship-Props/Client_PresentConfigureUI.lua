@@ -219,7 +219,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units Power(in armies). Power works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the attack power of the unit. Set min & max the same to guarantee a value"); end);
 		InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('Min power range for Unit ' .. i .. ' (in armies)').SetColor('#dbddf4')
 	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row2)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(power);
 
@@ -229,7 +229,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		UI.CreateButton(row20).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the second setting of 2 settings that decides a units Power(in armies). Power works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the attack power of the unit. Set min & max the same to guarantee a value"); end);
 		InputFieldTable[i].text22 = UI.CreateLabel(row20).SetText('Max power range for Unit ' .. i .. ' (in armies)')
 	InputFieldTable[i].AttackMax = UI.CreateNumberInputField(row20)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(attmax);
 
