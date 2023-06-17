@@ -50,6 +50,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
 			local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies.SpecialUnits
+			print(defendingspecialUnits, 'defending specialunits')
 			local wassuccessful = result.IsSuccessful
 
 
