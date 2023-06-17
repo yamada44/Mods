@@ -1,7 +1,7 @@
 
 function Client_PresentConfigureUI(rootParent)
     Maplimit = 8
-    Modlimit = 3
+    Modlimit = 5
 
 
 	local mapvalue = Mod.Settings.mapreturnvalue;

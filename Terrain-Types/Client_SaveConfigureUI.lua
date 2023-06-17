@@ -456,8 +456,8 @@ function Modloader(loadnumber)
         list[1] = 'C&PA'
         list[2] = 'C&PB'
         list[3] = 'C&PC'
-        --list[4] = 'C&PD'
-        --list[5] = 'C&PE'
+        list[4] = 'C&PD'
+        list[5] = 'C&PE'
         
     
     elseif loadnumber == 0 then 

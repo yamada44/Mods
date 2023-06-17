@@ -53,8 +53,8 @@ function ModName(value)
         name[1] = 'I.S. Character Pack ( Antiquity )'
         name[2] = 'I.S. Character Pack ( Ship Props )'
         name[3] = 'I.S. Character Pack ( Three kingdom Heros )'
-        --name[4] = ''
-        --name[5] = ''
+        name[4] = 'I.S. Character Pack ( Asian )'
+        name[5] = 'I.S. Character Pack ( World Wars )'
         
     
     elseif value == 0 then 
