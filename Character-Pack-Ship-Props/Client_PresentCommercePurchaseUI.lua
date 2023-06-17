@@ -122,18 +122,19 @@ function PurchaseClicked(type)
 print (Chartracker[type].GetText())
 print(type)
 
+if (modplayers[type][ID].readrules == false)then  -- error check for name
+	
+	UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
+	Close1()
+	return
+end
 	if (Chartracker[type].GetText() == "" or Chartracker[type].GetText() == nil)then  -- error check for name
 	
 		UI.Alert('aborted: did not give Character name')
 		Close1()
 		return
 	end
-	if (modplayers[type][ID].readrules == false)then  -- error check for name
-	
-		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
-		Close1()
-		return
-	end
+
 
 	
 	Type = type
