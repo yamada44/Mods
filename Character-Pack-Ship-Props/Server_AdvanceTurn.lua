@@ -50,7 +50,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
 			local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
-			print(defendingspecialUnits, 'defending specialunits')
+			local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 			local wassuccessful = result.IsSuccessful
 
 
@@ -217,7 +217,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 											terrMod.AddSpecialUnits = {builder.Build()};
 											terrMod.RemoveSpecialUnitsOpt = {v.ID}
 	
-											addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
+											addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
 										
 										end
 	
