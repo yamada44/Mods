@@ -458,7 +458,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2]) 
 				if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
-					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+					local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 					
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
@@ -470,7 +470,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
 						 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 			end
@@ -494,7 +494,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
 				  if (transfer ~= 0 and transfer ~= nil)then
-					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
+					local transfermessage = v.TextOverHeadOpt .. ' the ' .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
 
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
@@ -503,10 +503,10 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
-					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(landfrom.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 
