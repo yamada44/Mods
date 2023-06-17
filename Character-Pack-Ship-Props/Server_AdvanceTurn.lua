@@ -49,6 +49,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
+			local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies.SpecialUnits
+			local wassuccessful = result.IsSuccessful
 
 
 			for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
@@ -139,6 +141,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 						end
 					end
 				end
+			end
+			if #defendingspecialUnits > 0 then
+				print('defending special units found')
 			end
 			Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 
