@@ -45,105 +45,15 @@ end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
-	--if (Mod.Settings.corefeature == nil or Mod.Settings.corefeature == false) then
 
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
 
+			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
-			for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
-				if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
-					if v.ModData ~= nil then -- making sure it has data to read from
-
-						if startsWith(v.ModData, 'C&PC') then -- make sure the speical unit is only from I.S. mod
-							local dead = false
-							local territory = nil 
-							for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
-								if v.ID == v2.ID then
-									dead = true
-								end
-							end
-							if dead == false then
-								print (v.ModData)
-								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-								local levelamount = tonumber(payloadSplit[3])
-								local XP = tonumber(payloadSplit[4])
-								local unitpower = tonumber(Nonill(payloadSplit[5]))
-								local currlevel = tonumber(payloadSplit[6])
-								local unitdefence = Nonill(tonumber(payloadSplit[7]))
-								print (unitdefence, "unit defense")
-								local absoredDamage = AbsoredDecider(unitpower,unitdefence)
-								local altmove = Nonill(tonumber(payloadSplit[8]))
-	print (altmove,'altmove')
-								local iswholenumber = true
-
-								if result.IsSuccessful == true then territory = order.To
-								else territory = order.From end
-								--move unit every other turne
-								if (altmove > 0)then
-									iswholenumber = Iswhole(Game2.Game.TurnNumber)
-									if iswholenumber == false then
-										local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
-
-									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
-									end
-
-								end
-								if (result.DefendingArmiesKilled.DefensePower > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
-									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
-
-										XP = XP + result.DefendingArmiesKilled.DefensePower
-										local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-									
-										print (currlevel, "level", XP, 'XP')
-
-										local skipper = string.len(payloadSplit[6]) + 4
-										local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
-										print(skipper,'skipper')
-
-										if result.IsSuccessful == true then territory = order.To
-										else territory = order.From end
-
-										local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
-										local levelupmessage = Nonill(builder.TextOverHeadOpt) .. ' the ' .. builder.Name .. ' Gained XP'
-										if (XP >= levelamount) then -- resetting XP and level amount
-											XP = 0 
-											currlevel = currlevel + 1 
-
-											levelamount = levelamount + Baseamount(levelamount, currlevel)
-											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
-											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
-											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
-											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
-										end --starting XP over if level was reached
-											
-
-
-										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-										builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
-										print (v.ModData)
-										print (builder.ModData)
-										print (builder.AttackPower)
-										terrMod.AddSpecialUnits = {builder.Build()};
-										terrMod.RemoveSpecialUnitsOpt = {v.ID}
-
-										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
-									
-									end
-
-								end
-
-							end
-						end
-					end
-				end
-			end
-			Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
+			Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 		end
-	--end
 
 
 
@@ -348,9 +258,9 @@ function Filefinder(image)
 		filestorage[5] = 'pack 1.e.png'
 	
 	return filestorage[image]
-	end
+end
 
-function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
+function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 	if #result.AttackingArmiesKilled.SpecialUnits > 0  then -- when a unit dies from attacking. 
 
 		local armiesKilled = result.AttackingArmiesKilled 
@@ -367,7 +277,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2]) 
 				if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
-					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+					local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 					
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
@@ -379,7 +289,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
 						 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 			end
@@ -403,7 +313,7 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 				  local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 				  local transfer = tonumber(payloadSplit[2])
 				  if (transfer ~= 0 and transfer ~= nil)then
-					local transfermessage = 'A ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
+					local transfermessage = v.TextOverHeadOpt .. ' the ' .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
 
 					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 					transfer = transfer - 1
@@ -412,16 +322,203 @@ function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 					local terrMod = WL.TerritoryModification.Create(order.To);
 					terrMod.AddSpecialUnits = {builder.Build()};
-					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
 
 				else
-					addNewOrder(WL.GameOrderEvent.Create(landfrom.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+					addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 				end
 
 			end
 		end
 	end
+	end
+
+function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+
+		local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
+		local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
+		local wassuccessful = result.IsSuccessful
+
+
+		for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+			if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+				if v.ModData ~= nil then -- making sure it has data to read from
+
+					if startsWith(v.ModData, 'C&PC') then -- make sure the speical unit is only from I.S. mod
+						local dead = false
+						local territory = nil 
+						for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
+							if v.ID == v2.ID then
+								dead = true
+							end
+						end
+						if dead == false then
+							print (v.ModData)
+							local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+							local levelamount = tonumber(payloadSplit[3])
+							local XP = tonumber(payloadSplit[4])
+							local unitpower = tonumber(Nonill(payloadSplit[5]))
+							local currlevel = tonumber(payloadSplit[6])
+							local unitdefence = Nonill(tonumber(payloadSplit[7]))
+							print (unitdefence, "unit defense")
+							local absoredDamage = AbsoredDecider(unitpower,unitdefence)
+							local altmove = Nonill(tonumber(payloadSplit[8]))
+print (altmove,'altmove')
+							local iswholenumber = true
+
+							--move unit every other turne
+							if (altmove > 0)then
+								iswholenumber = Iswhole(Game2.Game.TurnNumber)
+								if iswholenumber == false then
+									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
+
+								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+								end
+
+							end
+							if (result.DefendingArmiesKilled.DefensePower > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
+								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
+
+									XP = XP + result.DefendingArmiesKilled.DefensePower
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+								
+									print (currlevel, "level", XP, 'XP')
+
+									local skipper = string.len(payloadSplit[6]) + 4
+									local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
+									print(skipper,'skipper')
+
+									if result.IsSuccessful == true then territory = order.To
+									else territory = order.From end
+
+									local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
+									local levelupmessage = Nonill(builder.TextOverHeadOpt) .. ' the ' .. builder.Name .. ' Gained XP'
+									if (XP >= levelamount) then -- resetting XP and level amount
+										XP = 0 
+										currlevel = currlevel + 1 
+
+										levelamount = levelamount + Baseamount(levelamount, currlevel)
+										builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
+										builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+										builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
+										builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
+										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
+									end --starting XP over if level was reached
+										
+
+
+									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
+									builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+									print (v.ModData)
+									print (builder.ModData)
+									print (builder.AttackPower)
+									terrMod.AddSpecialUnits = {builder.Build()};
+									terrMod.RemoveSpecialUnitsOpt = {v.ID}
+
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, levelupmessage, nil, {terrMod}));
+								
+								end
+
+							end
+
+						end
+					end
+				end
+			end
+		end
+		if #defendingspecialUnits > 0 and wassuccessful == false then
+			print('defending special units found')
+
+			for i, v in pairs(defendingspecialUnits) do -- checking to see if an attack had a special unit
+				if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+					if v.ModData ~= nil then -- making sure it has data to read from
+
+						if startsWith(v.ModData, 'C&PC') then -- make sure the speical unit is only from I.S. mod
+							local dead = false
+
+							for i2, v2 in pairs( result.DefendingArmiesKilled.SpecialUnits) do -- checking to see if he died
+								if v.ID == v2.ID then
+									dead = true
+								end
+							end
+							if dead == false then
+								print (v.ModData)
+								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+								local levelamount = tonumber(payloadSplit[3])
+								local XP = tonumber(payloadSplit[4])
+								local unitpower = tonumber(Nonill(payloadSplit[5]))
+								local currlevel = tonumber(payloadSplit[6])
+								local unitdefence = Nonill(tonumber(payloadSplit[7]))
+								print (unitdefence, "unit defense")
+								local absoredDamage = AbsoredDecider(unitpower,unitdefence)
+								local altmove = Nonill(tonumber(payloadSplit[8]))
+								local iswholenumber = true
+								local territory = order.To
+
+								--move unit every other turne
+								if (altmove > 0)then
+									iswholenumber = Iswhole(Game2.Game.TurnNumber)
+									if iswholenumber == false then
+										local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
+
+									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+									end
+
+								end
+
+								if (result.AttackingArmiesKilled.AttackPower  > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
+									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
+
+										XP = XP + result.AttackingArmiesKilled.AttackPower
+										local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									
+										print (currlevel, "level", XP, 'XP')
+
+										local skipper = string.len(payloadSplit[6]) + 4
+										local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
+
+										local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
+										local levelupmessage = Nonill(builder.TextOverHeadOpt) .. ' the ' .. builder.Name .. ' Gained XP'
+										if (XP >= levelamount) then -- resetting XP and level amount
+											XP = 0 
+											currlevel = currlevel + 1 
+
+											levelamount = levelamount + Baseamount(levelamount, currlevel)
+											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
+											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
+											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
+											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
+										end --starting XP over if level was reached
+											
+
+
+										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
+										builder.ModData = 'C&PC' .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+										print (v.ModData)
+										print (builder.ModData)
+										print (builder.AttackPower)
+										terrMod.AddSpecialUnits = {builder.Build()};
+										terrMod.RemoveSpecialUnitsOpt = {v.ID}
+
+										addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
+									
+									end
+
+								end
+
+							end
+						end
+					end
+				end
+			end
+
+
+		end
+		
 	end
 
 function AbsoredDecider(attack, defence)
