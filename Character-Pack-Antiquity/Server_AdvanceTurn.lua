@@ -337,6 +337,8 @@ function NumUnitsIn(armies, typename)
 end
 
 function Filefinder(image)
+
+if image == 0 then image = math.random(1,5) end
 local filestorage = {}
 
 	filestorage[1] = 'pack 1.a.png'

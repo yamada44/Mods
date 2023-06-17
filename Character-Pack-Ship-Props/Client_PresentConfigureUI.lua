@@ -273,13 +273,13 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife);
 
-	-- presenting image UI
+	--  image UI
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
 		local row4 = InputFieldTable[i].row4
 		UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The number choosen corresponds with the images listed above"); end);
 		InputFieldTable[i].text5 = UI.CreateLabel(row4).SetText('What Image will this Unit have').SetColor('#dbddf4')
 	InputFieldTable[i].Image = UI.CreateNumberInputField(row4)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(0)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture);
 

@@ -39,7 +39,7 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.Unitdata[i].Maxunits = maxunits; end
 
         local image = InputFieldTable[i].Image.GetValue();
-        if image < 1 or image > Maxpictures then alert("Mod set up failed\nOnly images between 1-".. Maxpictures..'\nReset to default settings'); 
+        if image < 0 or image > Maxpictures then alert("Mod set up failed\nOnly images between 0 -".. Maxpictures..'\nReset to default settings'); 
             Mod.Settings.Unitdata[i].image = 1
         else
         Mod.Settings.Unitdata[i].image = image; end

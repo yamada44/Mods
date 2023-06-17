@@ -337,15 +337,17 @@ function NumUnitsIn(armies, typename)
 end
 
 function Filefinder(image)
-local filestorage = {}
 
-	filestorage[1] = 'pack 1.a.png'
-	filestorage[2] = 'pack 1.b.png'
-	filestorage[3] = 'pack 1.c.png'
-	filestorage[4] = 'pack 1.d.png'
-	filestorage[5] = 'pack 1.e.png'
-
-return filestorage[image]
+	if image == 0 then image = math.random(1,5) end
+	local filestorage = {}
+	
+		filestorage[1] = 'pack 1.a.png'
+		filestorage[2] = 'pack 1.b.png'
+		filestorage[3] = 'pack 1.c.png'
+		filestorage[4] = 'pack 1.d.png'
+		filestorage[5] = 'pack 1.e.png'
+	
+	return filestorage[image]
 end
 
 function Specialunitdeathlogic(game, order, result, skipThisOrder, addNewOrder)
