@@ -76,8 +76,9 @@ function Imagename (name)
 	filename[3] = 'Cao Cao'
 	filename[4] = 'Sun Shangxiang'
 	filename[5] = 'Lu Bu'
+	filename[6] = 'Random'
 
-	
+	if name == 0 then name = 6 end
 
 return filename[name]
 

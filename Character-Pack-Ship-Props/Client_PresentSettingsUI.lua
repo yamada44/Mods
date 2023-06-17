@@ -71,11 +71,15 @@ end
 function Imagename (name)
 	local filename = {}
 
+
 	filename[1] = 'Ship of the line'
 	filename[2] = 'Destroyer'
 	filename[3] = 'Caravel'
 	filename[4] = 'Carrier'
 	filename[5] = 'Galley'
+	filename[6] = 'Random'
+
+	if name == 0 then name = 6 end
 
 return filename[name]
 
