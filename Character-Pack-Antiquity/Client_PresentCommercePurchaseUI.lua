@@ -150,7 +150,10 @@ end
 			numUnitAlreadyHave = numUnitAlreadyHave + 1;
 		end
 	end
-
+	if (numUnitAlreadyHave > 0 and Nonill(Mod.Settings.Unitdata[type].Cooldown) > 0) then
+		UI.Alert("You have already bought one " .. Playerdata.Unitdata[Type].Name .. ", your cool down timer has started");
+		return;
+	end
 	if (numUnitAlreadyHave >= Playerdata.Unitdata[Type].Maxunits) then
 		UI.Alert("You already have " .. numUnitAlreadyHave .. " " .. Playerdata.Unitdata[Type].Name .. ", and you can only have " ..  Playerdata.Unitdata[type].Maxunits);
 		return;
