@@ -44,7 +44,9 @@ function Client_PresentConfigureUI(rootParent)
 	0 - All special units including commanders
 	1 - I.S. Character Pack ( Antiquity ) special units
 	2 - I.S. Character Pack ( Ship Props ) special units
-	3 - I.S. Character Pack ( Three kingdom Heros ) special units]]);
+	3 - I.S. Character Pack ( Three kingdom Heros ) special units
+	4 - I.S. Character Pack ( Asian )
+	5 - I.S. Character Pack ( World Wars )]]);
 
     local row1 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
 	UI.CreateLabel(row1).SetText('What map format to use for sea territories');
