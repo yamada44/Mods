@@ -521,28 +521,3 @@ print (altmove,'altmove')
 		
 	end
 
-function AbsoredDecider(attack, defence)
-	local higher
-	if attack > defence then higher = attack
-	else higher = defence end
-
-	print (higher,'higher')
-	return higher
-end
-
-function Nonill(value)
-	if value == nil then
-		return 0
-	
-else return value end
-end
-function Iswhole(int)
-	local compare = int / 2
-	if math.floor(compare) ~= compare then return false 
-else return true end
-
-end
-function Baseamount(value,dividor)
-return value / dividor
-	
-end

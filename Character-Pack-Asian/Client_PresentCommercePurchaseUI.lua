@@ -14,7 +14,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	ID = Game.Us.ID
 
 	-- changing over packs data
-	OrderstartsWith = "C&PB" -- the last letter represents the mod used
+	OrderstartsWith = "C&PD" -- the last letter represents the mod used
 
 
 	TransferfromConfig()
@@ -151,7 +151,10 @@ end
 			numUnitAlreadyHave = numUnitAlreadyHave + 1;
 		end
 	end
-
+	if (numUnitAlreadyHave > 0 and Nonill(Mod.Settings.Unitdata[type].Cooldown) > 0) then
+		UI.Alert("You have already bought one " .. Playerdata.Unitdata[Type].Name .. ", your cool down timer has started\nTo remove the cooldown timer, undo your buy order for this unit");
+		return;
+	end
 	if (numUnitAlreadyHave >= Playerdata.Unitdata[Type].Maxunits) then
 		UI.Alert("You already have " .. numUnitAlreadyHave .. " " .. Playerdata.Unitdata[Type].Name .. ", and you can only have " ..  Playerdata.Unitdata[type].Maxunits);
 		return;

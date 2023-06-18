@@ -151,7 +151,7 @@ end
 		end
 	end
 	if (numUnitAlreadyHave > 0 and Nonill(Mod.Settings.Unitdata[type].Cooldown) > 0) then
-		UI.Alert("You have already bought one " .. Playerdata.Unitdata[Type].Name .. ", your cool down timer has started");
+		UI.Alert("You have already bought one " .. Playerdata.Unitdata[Type].Name .. ", your cool down timer has started\nTo remove the cooldown timer, undo your buy order for this unit");
 		return;
 	end
 	if (numUnitAlreadyHave >= Playerdata.Unitdata[Type].Maxunits) then
