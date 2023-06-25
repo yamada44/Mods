@@ -228,7 +228,7 @@ end
 
 function dynamicInfo(i)
 	local message = 'Name: ' ..Playerdata.Unitdata[i].Name -- Attack message
-	local defend = 0
+	local defend = Playerdata.Unitdata[i].unitpower / 2
 
 	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost 
 

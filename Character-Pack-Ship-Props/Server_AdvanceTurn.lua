@@ -99,7 +99,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local transfer = 0
 		local levelamount = 0
 		local currentxp = 0
-		local defence = 0
+		local defence = unitpower / 2
 		local altmove = 0 
 		local cooldown = Nonill(Mod.Settings.Unitdata[type].Cooldown)
 		local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
