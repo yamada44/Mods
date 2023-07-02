@@ -484,7 +484,7 @@ function Maploader(loadnumber)
         'Caspian Sea',
         'Skagerrak'
     }
-elseif loadnumber == 10 then
+    elseif loadnumber == 10 then
     list = {
 
         'Kvitøyrenna',
@@ -541,7 +541,84 @@ elseif loadnumber == 10 then
         'Trondheimsfjorden',
         'Bjørnøya-Jan Mayen route'
     }
-    end
+elseif loadnumber == 11 then
+    list = {
+        'British Atlantic Fleet',
+        'French Atlantic Fleet',
+        'Irish Atlantic Fleet',
+        'Dutch Atlantic Fleet',
+        'Portuguese Atlantic Fleet',
+        'Spanish Atlantic Fleet',
+        'Swedish Atlantic Fleet',
+        'Danish Atlantic Fleet',
+        'British Indian Fleet',
+        'French Indian Fleet',
+        'Dutch Indian Fleet',
+        'Portuguese Indian Fleet',
+        'Danish Indian Fleet',
+        'Dutch Pacific Fleet',
+        'Portuguese Pacific Fleet','',
+        'Spanish Pacific Fleet',
+        'Chinese Fleet',
+        'Russian Fleet',
+        'Korean Fleet',
+        'Japanese Fleet',
+        'Knights’ Fleet',
+        'Venetian Fleet',
+        'Barbary Fleet',
+        'Ottoman Fleet',
+        'Battle for the Sea of Japan',
+        'Battle for the Pacific Ocean',
+        'Battle for the Indian Ocean',
+        'Battle for the Atlantic Ocean',
+        'Battle for the Mediterranean Sea',
+        'Arguin Trade Fleet',
+        'Savi Trade Fleet',
+        'Benin Fleet',
+        'Calabar Fleet',
+        'Battle for the Gulf of Guinea'
+    }
+elseif loadnumber == 12 then
+    list = {
+        'East English Channel',
+        'West English Channel',
+        'Mid English Channel',
+        'Briston Channel',
+        'East Celtic Sea',
+        'West Celtic Sea',
+        'Beara Peninsula',
+        'Dingle Bay',
+        'Galway Bay',
+        'Atlantic Ocean (3)',
+        'Donegal Bay',
+        'Lough Swilly',
+        'North Channel (1)',
+        'North Channel (2)',
+        'St. George`s Channel',
+        'North Irish Sea',
+        'Liverpool Bay',
+        'Firth of Clyde',
+        'Firth of Lorn',
+        'Sea of the Hebrides',
+        'Atlantic Ocean (2)',
+        'Atlantic Ocean (1)',
+        'The Minch',
+        'Pentland Firth',
+        'Moray Firth',
+        'North Sea (1)',
+        'North Sea (2)',
+        'Firth of Forth',
+        'North Sea (3)',
+        'North Sea (4)',
+        'Tyne',
+        'Humber',
+        'The Wash',
+        'North Sea (5)',
+        'North Sea (6)',
+        'Thames Estuary',
+        'Straight of Dover'
+    }
+end
 
     return list
     

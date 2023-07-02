@@ -1,6 +1,6 @@
 
 function Client_PresentConfigureUI(rootParent)
-    Maplimit = 10
+    Maplimit = 12
     Modlimit = 5
 
 
@@ -39,6 +39,8 @@ function Client_PresentConfigureUI(rootParent)
 	8 - Huge Westeros
 	9 - Europe: Physical Map (Expanded)
 	10 - Kingdom of Norway
+	11 - Seven Years' War
+	12 - Medieval Britain map
 	
 	This is how Mod select works :
 	by choosing your mod value, you decide which special units are immune from the affects of this mod.
