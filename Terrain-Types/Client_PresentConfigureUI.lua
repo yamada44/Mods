@@ -1,6 +1,6 @@
 
 function Client_PresentConfigureUI(rootParent)
-    Maplimit = 8
+    Maplimit = 9
     Modlimit = 5
 
 
@@ -37,6 +37,7 @@ function Client_PresentConfigureUI(rootParent)
 	6 - Avatar - The Last Airbender
 	7 - France Large
 	8 - Huge Westeros
+	9 - Europe: Physical Map (Expanded)
 	
 	This is how Mod select works :
 	by choosing your mod value, you decide which special units are immune from the affects of this mod.

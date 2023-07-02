@@ -301,6 +301,7 @@ function Maploader(loadnumber)
 
     }
     elseif loadnumber == 8 then
+
     list = { 
         'Bear Bay',
         'Bay of Ice',
@@ -442,6 +443,45 @@ function Maploader(loadnumber)
         'Wildling Ships',
         'Eastwatch Waters'        
 
+    }
+    elseif loadnumber == 9 then
+    list = {
+
+        'North Atlantic Current',
+        'Norwegian Sea',
+        'Dogger Bank',
+        'Skaggerak',
+        'Southern Baltic Sea',
+        'Oresund',
+        'Northern Baltic Sea',
+        'Gulf of Finland and Bothnia',
+        'Neva Estuary',
+        'Wadden Sea',
+        'Strait of Dover',
+        'The Channel',
+        'Celtic Sea',
+        'Irish Sea',
+        'Lusitanian Sea',
+        'Bay of Biscay',
+        'Strait of Gibraltar',
+        'Gulf of Cadiz',
+        'Barbary Coast',
+        'Balearic Sea',
+        'Ligurian Sea',
+        'Tyrrhenian Sea',
+        'Carthaginian Sea',
+        'Gulf of Sidra',
+        'Gulf of Venice',
+        'Ionian Sea',
+        'Nile Estuary',
+        'Levantine Sea',
+        'Gulf of Antalya',
+        'Southern Aegean Sea',
+        'Northern Aegean Sea',
+        'Eastern Black Sea',
+        'Western Black Sea',
+        'Sea of Azov',
+        'Caspian Sea'
     }
     end
 

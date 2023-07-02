@@ -28,6 +28,7 @@ function MapName(value)
 	name[6] = 'Avatar - The Last Airbender'
 	name[7] = 'France Large'
 	name[8] = 'Huge Westeros'
+	name[9] = 'Europe: Physical Map (Expanded)'
 
 return name[value]
 end
@@ -42,6 +43,7 @@ function Themename(value)
 	name[6] = 'Sea tiles'
 	name[7] = 'Sea tiles'
 	name[8] = 'Sea tiles'
+	name[9] = 'Sea tiles'
 
 return name[value]
 end
