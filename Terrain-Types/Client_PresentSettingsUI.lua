@@ -29,6 +29,7 @@ function MapName(value)
 	name[7] = 'France Large'
 	name[8] = 'Huge Westeros'
 	name[9] = 'Europe: Physical Map (Expanded)'
+	name[10] = 'Kingdom of Norway'
 
 return name[value]
 end
@@ -44,6 +45,7 @@ function Themename(value)
 	name[7] = 'Sea tiles'
 	name[8] = 'Sea tiles'
 	name[9] = 'Sea tiles'
+	name[10] = 'Sea tiles'
 
 return name[value]
 end
