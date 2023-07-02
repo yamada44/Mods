@@ -563,7 +563,7 @@ elseif loadnumber == 11 then
         'Russian Fleet',
         'Korean Fleet',
         'Japanese Fleet',
-        'Knights` Fleet',
+        'Knights',
         'Venetian Fleet',
         'Barbary Fleet',
         'Ottoman Fleet',
@@ -576,7 +576,8 @@ elseif loadnumber == 11 then
         'Savi Trade Fleet',
         'Benin Fleet',
         'Calabar Fleet',
-        'Battle for the Gulf of Guinea'
+        'Battle for the Gulf of Guinea',
+        'Danish Indian fleet'
     }
 elseif loadnumber == 12 then
     list = {
