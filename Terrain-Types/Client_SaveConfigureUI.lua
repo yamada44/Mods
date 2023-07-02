@@ -538,7 +538,8 @@ elseif loadnumber == 10 then
         'Langesundbukta',
         'Outer Oslofjorden',
         'Inner Oslofjorden',
-        'Trondheimsfjorden'
+        'Trondheimsfjorden',
+        'Bjørnøya-Jan Mayen route'
     }
     end
 
