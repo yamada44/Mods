@@ -557,7 +557,7 @@ elseif loadnumber == 11 then
         'Portuguese Indian Fleet',
         'Danish Indian Fleet',
         'Dutch Pacific Fleet',
-        'Portuguese Pacific Fleet','',
+        'Portuguese Pacific Fleet',
         'Spanish Pacific Fleet',
         'Chinese Fleet',
         'Russian Fleet',
