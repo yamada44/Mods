@@ -481,7 +481,8 @@ function Maploader(loadnumber)
         'Eastern Black Sea',
         'Western Black Sea',
         'Sea of Azov',
-        'Caspian Sea'
+        'Caspian Sea',
+        'Skagerrak'
     }
     end
 
