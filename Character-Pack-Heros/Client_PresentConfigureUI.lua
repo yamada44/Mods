@@ -138,7 +138,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local template
-
+if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
