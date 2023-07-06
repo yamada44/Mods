@@ -145,7 +145,7 @@ if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template')
 		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnClick(function () Unittemplates(vert)end)
 			
-		end)
+		end
 
 	--Unittemplates()
 	end
