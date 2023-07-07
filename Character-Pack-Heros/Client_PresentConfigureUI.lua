@@ -78,7 +78,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
-		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template: '.. i)
+		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template: '.. i).SetColor('#FF697A')    
 		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
 			
 	end
