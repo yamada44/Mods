@@ -143,7 +143,7 @@ if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
 		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template')
-		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert)end)
+		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
 			
 		end
 
@@ -156,7 +156,7 @@ if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 InputFieldTable.BeforeMax = UnitTypeMax
 end
 
-function Unittemplates(vert)
+function Unittemplates(vert, i)
 
 
 		if true then	
