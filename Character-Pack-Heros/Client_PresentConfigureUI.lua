@@ -361,6 +361,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 
 
 end
+
 function Destroy(i, All)
 	if All == false then
 		
@@ -429,6 +430,7 @@ function Destroy(i, All)
 	elseif All == true then
 		for D = 1, BeforeMax do  -- deleting UI before generating a new one
 
+		if InputFieldTable[i].template.GetIsChecked() ~= false or InputFieldTable[i].template ~= nil then
 			UI.Destroy(InputFieldTable[D].text1)
 			UI.Destroy(InputFieldTable[D].text2)
 			UI.Destroy(InputFieldTable[D].text3)
@@ -490,6 +492,7 @@ function Destroy(i, All)
 			UI.Destroy(InputFieldTable[D].row18)
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
+		end
 		end
 
 	end
