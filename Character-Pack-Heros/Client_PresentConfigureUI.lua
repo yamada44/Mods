@@ -94,7 +94,7 @@ end
 
 function Unittemplates(vert, i)
 
-
+	InputFieldTable[i].template.SetInteractable(false) 
 		if InputFieldTable[i].template.GetIsChecked() == true then	
 
 		
