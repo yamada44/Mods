@@ -15,8 +15,9 @@ function Client_SaveConfigureUI(alert)
 
    for i = 1, UnitTypeMax do
         print (i)
-        if InputFieldTable[i].template.GetIsChecked() == false or InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) end
-
+        if InputFieldTable[i].template.GetIsChecked() == false or InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) 
+            
+   else 
         local cost = InputFieldTable[i].costInputField.GetValue();
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1
@@ -114,6 +115,8 @@ function Client_SaveConfigureUI(alert)
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
+    end
+
    end
    if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
