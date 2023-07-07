@@ -15,7 +15,7 @@ function Client_SaveConfigureUI(alert)
 
    for i = 1, UnitTypeMax do
         print (i)
-        if InputFieldTable[i].template.GetIsChecked() == nil or InputFieldTable[i].template.GetIsChecked() == nil then alert("Did not initialize Template ".. i) end
+        if InputFieldTable[i].template.GetIsChecked() == false or InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) end
 
         local cost = InputFieldTable[i].costInputField.GetValue();
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
