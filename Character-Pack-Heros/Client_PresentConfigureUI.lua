@@ -73,14 +73,15 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local template
-if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
+
+		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
 		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template: '.. i)
 		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
 			
-		end
+	end
 
 
 	
@@ -98,8 +99,6 @@ function Unittemplates(vert, i)
 
 		
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
-
-		if 	InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
