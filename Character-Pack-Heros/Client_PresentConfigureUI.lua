@@ -61,73 +61,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	if access == 2 then
 		UI.Alert('Regenerated UI Types')
-
-		for i = 1, BeforeMax do  -- deleting UI before generating a new one
-
-
-			UI.Destroy(InputFieldTable[i].text1)
-			UI.Destroy(InputFieldTable[i].text2)
-			UI.Destroy(InputFieldTable[i].text3)
-			UI.Destroy(InputFieldTable[i].text4)
-			UI.Destroy(InputFieldTable[i].text5)
-			UI.Destroy(InputFieldTable[i].text6)
-			UI.Destroy(InputFieldTable[i].text7)
-			UI.Destroy(InputFieldTable[i].text8)
-			UI.Destroy(InputFieldTable[i].text9)
-			UI.Destroy(InputFieldTable[i].text10)
-			UI.Destroy(InputFieldTable[i].text11)
-			UI.Destroy(InputFieldTable[i].text12)
-			UI.Destroy(InputFieldTable[i].text13)
-			UI.Destroy(InputFieldTable[i].text14)
-			UI.Destroy(InputFieldTable[i].text15)
-			UI.Destroy(InputFieldTable[i].text16)
-			UI.Destroy(InputFieldTable[i].text17)
-			UI.Destroy(InputFieldTable[i].text18)
-			UI.Destroy(InputFieldTable[i].text19)
-			UI.Destroy(InputFieldTable[i].text20)
-			UI.Destroy(InputFieldTable[i].text21)
-			UI.Destroy(InputFieldTable[i].text22)
-			UI.Destroy(InputFieldTable[i].costInputField)
-			UI.Destroy(InputFieldTable[i].powerInputField)
-			UI.Destroy(InputFieldTable[i].maxUnitsField)
-			UI.Destroy(InputFieldTable[i].Image)
-			UI.Destroy(InputFieldTable[i].Shared)
-			UI.Destroy(InputFieldTable[i].Visible)
-			UI.Destroy(InputFieldTable[i].MaxServer)
-			UI.Destroy(InputFieldTable[i].Name)
-			UI.Destroy(InputFieldTable[i].Minlife)
-			UI.Destroy(InputFieldTable[i].Maxlife)
-			UI.Destroy(InputFieldTable[i].Transfer)
-			UI.Destroy(InputFieldTable[i].Level)
-			UI.Destroy(InputFieldTable[i].Active)
-			UI.Destroy(InputFieldTable[i].Defend)
-			UI.Destroy(InputFieldTable[i].Altmoves)
-			UI.Destroy(InputFieldTable[i].Cooldown)
-			UI.Destroy(InputFieldTable[i].HostRules)
-			UI.Destroy(InputFieldTable[i].Assassination)
-			UI.Destroy(InputFieldTable[i].AttackMax)
-			UI.Destroy(InputFieldTable[i].row1)
-			UI.Destroy(InputFieldTable[i].row2)
-			UI.Destroy(InputFieldTable[i].row3)
-			UI.Destroy(InputFieldTable[i].row4)
-			UI.Destroy(InputFieldTable[i].row6)
-			UI.Destroy(InputFieldTable[i].row7)
-			UI.Destroy(InputFieldTable[i].row5)
-			UI.Destroy(InputFieldTable[i].row9)
-			UI.Destroy(InputFieldTable[i].row8)
-			UI.Destroy(InputFieldTable[i].row10)
-			UI.Destroy(InputFieldTable[i].row11)
-			UI.Destroy(InputFieldTable[i].row12)
-			UI.Destroy(InputFieldTable[i].row13)
-			UI.Destroy(InputFieldTable[i].row14)
-			UI.Destroy(InputFieldTable[i].row15)
-			UI.Destroy(InputFieldTable[i].row16)
-			UI.Destroy(InputFieldTable[i].row17)
-			UI.Destroy(InputFieldTable[i].row18)
-			UI.Destroy(InputFieldTable[i].row19)
-			UI.Destroy(InputFieldTable[i].row20)
-
-		end
+		Destroy(0,true)
+		
 	end
 
 	if UnitTypeMax < 1 or UnitTypeMax > 6 then 
@@ -147,7 +82,7 @@ if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 			
 		end
 
-	--Unittemplates()
+
 	
 
 
@@ -159,7 +94,8 @@ end
 function Unittemplates(vert, i)
 
 
-		if true then	
+		if InputFieldTable[i].template.GetIsChecked() == true then	
+
 		
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 
@@ -419,5 +355,146 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	
 	end	
 
+	if InputFieldTable[i].template.GetIsChecked() == false then	
+		Destroy(i,false)
+
+	end 
+
 
 end
+function Destroy(i, All)
+	if All == false then
+		
+		UI.Destroy(InputFieldTable[i].text1)
+		UI.Destroy(InputFieldTable[i].text2)
+		UI.Destroy(InputFieldTable[i].text3)
+		UI.Destroy(InputFieldTable[i].text4)
+		UI.Destroy(InputFieldTable[i].text5)
+		UI.Destroy(InputFieldTable[i].text6)
+		UI.Destroy(InputFieldTable[i].text7)
+		UI.Destroy(InputFieldTable[i].text8)
+		UI.Destroy(InputFieldTable[i].text9)
+		UI.Destroy(InputFieldTable[i].text10)
+		UI.Destroy(InputFieldTable[i].text11)
+		UI.Destroy(InputFieldTable[i].text12)
+		UI.Destroy(InputFieldTable[i].text13)
+		UI.Destroy(InputFieldTable[i].text14)
+		UI.Destroy(InputFieldTable[i].text15)
+		UI.Destroy(InputFieldTable[i].text16)
+		UI.Destroy(InputFieldTable[i].text17)
+		UI.Destroy(InputFieldTable[i].text18)
+		UI.Destroy(InputFieldTable[i].text19)
+		UI.Destroy(InputFieldTable[i].text20)
+		UI.Destroy(InputFieldTable[i].text21)
+		UI.Destroy(InputFieldTable[i].text22)
+		UI.Destroy(InputFieldTable[i].costInputField)
+		UI.Destroy(InputFieldTable[i].powerInputField)
+		UI.Destroy(InputFieldTable[i].maxUnitsField)
+		UI.Destroy(InputFieldTable[i].Image)
+		UI.Destroy(InputFieldTable[i].Shared)
+		UI.Destroy(InputFieldTable[i].Visible)
+		UI.Destroy(InputFieldTable[i].MaxServer)
+		UI.Destroy(InputFieldTable[i].Name)
+		UI.Destroy(InputFieldTable[i].Minlife)
+		UI.Destroy(InputFieldTable[i].Maxlife)
+		UI.Destroy(InputFieldTable[i].Transfer)
+		UI.Destroy(InputFieldTable[i].Level)
+		UI.Destroy(InputFieldTable[i].Active)
+		UI.Destroy(InputFieldTable[i].Defend)
+		UI.Destroy(InputFieldTable[i].Altmoves)
+		UI.Destroy(InputFieldTable[i].Cooldown)
+		UI.Destroy(InputFieldTable[i].HostRules)
+		UI.Destroy(InputFieldTable[i].Assassination)
+		UI.Destroy(InputFieldTable[i].AttackMax)
+		UI.Destroy(InputFieldTable[i].row1)
+		UI.Destroy(InputFieldTable[i].row2)
+		UI.Destroy(InputFieldTable[i].row3)
+		UI.Destroy(InputFieldTable[i].row4)
+		UI.Destroy(InputFieldTable[i].row6)
+		UI.Destroy(InputFieldTable[i].row7)
+		UI.Destroy(InputFieldTable[i].row5)
+		UI.Destroy(InputFieldTable[i].row9)
+		UI.Destroy(InputFieldTable[i].row8)
+		UI.Destroy(InputFieldTable[i].row10)
+		UI.Destroy(InputFieldTable[i].row11)
+		UI.Destroy(InputFieldTable[i].row12)
+		UI.Destroy(InputFieldTable[i].row13)
+		UI.Destroy(InputFieldTable[i].row14)
+		UI.Destroy(InputFieldTable[i].row15)
+		UI.Destroy(InputFieldTable[i].row16)
+		UI.Destroy(InputFieldTable[i].row17)
+		UI.Destroy(InputFieldTable[i].row18)
+		UI.Destroy(InputFieldTable[i].row19)
+		UI.Destroy(InputFieldTable[i].row20)
+
+	elseif All == true then
+		for D = 1, BeforeMax do  -- deleting UI before generating a new one
+
+			UI.Destroy(InputFieldTable[D].text1)
+			UI.Destroy(InputFieldTable[D].text2)
+			UI.Destroy(InputFieldTable[D].text3)
+			UI.Destroy(InputFieldTable[D].text4)
+			UI.Destroy(InputFieldTable[D].text5)
+			UI.Destroy(InputFieldTable[D].text6)
+			UI.Destroy(InputFieldTable[D].text7)
+			UI.Destroy(InputFieldTable[D].text8)
+			UI.Destroy(InputFieldTable[D].text9)
+			UI.Destroy(InputFieldTable[D].text10)
+			UI.Destroy(InputFieldTable[D].text11)
+			UI.Destroy(InputFieldTable[D].text12)
+			UI.Destroy(InputFieldTable[D].text13)
+			UI.Destroy(InputFieldTable[D].text14)
+			UI.Destroy(InputFieldTable[D].text15)
+			UI.Destroy(InputFieldTable[D].text16)
+			UI.Destroy(InputFieldTable[D].text17)
+			UI.Destroy(InputFieldTable[D].text18)
+			UI.Destroy(InputFieldTable[D].text19)
+			UI.Destroy(InputFieldTable[D].text20)
+			UI.Destroy(InputFieldTable[D].text21)
+			UI.Destroy(InputFieldTable[D].text22)
+			UI.Destroy(InputFieldTable[D].costInputField)
+			UI.Destroy(InputFieldTable[D].powerInputField)
+			UI.Destroy(InputFieldTable[D].maxUnitsField)
+			UI.Destroy(InputFieldTable[D].Image)
+			UI.Destroy(InputFieldTable[D].Shared)
+			UI.Destroy(InputFieldTable[D].Visible)
+			UI.Destroy(InputFieldTable[D].MaxServer)
+			UI.Destroy(InputFieldTable[D].Name)
+			UI.Destroy(InputFieldTable[D].Minlife)
+			UI.Destroy(InputFieldTable[D].Maxlife)
+			UI.Destroy(InputFieldTable[D].Transfer)
+			UI.Destroy(InputFieldTable[D].Level)
+			UI.Destroy(InputFieldTable[D].Active)
+			UI.Destroy(InputFieldTable[D].Defend)
+			UI.Destroy(InputFieldTable[D].Altmoves)
+			UI.Destroy(InputFieldTable[D].Cooldown)
+			UI.Destroy(InputFieldTable[D].HostRules)
+			UI.Destroy(InputFieldTable[D].Assassination)
+			UI.Destroy(InputFieldTable[D].AttackMax)
+			UI.Destroy(InputFieldTable[D].row1)
+			UI.Destroy(InputFieldTable[D].row2)
+			UI.Destroy(InputFieldTable[D].row3)
+			UI.Destroy(InputFieldTable[D].row4)
+			UI.Destroy(InputFieldTable[D].row6)
+			UI.Destroy(InputFieldTable[D].row7)
+			UI.Destroy(InputFieldTable[D].row5)
+			UI.Destroy(InputFieldTable[D].row9)
+			UI.Destroy(InputFieldTable[D].row8)
+			UI.Destroy(InputFieldTable[D].row10)
+			UI.Destroy(InputFieldTable[D].row11)
+			UI.Destroy(InputFieldTable[D].row12)
+			UI.Destroy(InputFieldTable[D].row13)
+			UI.Destroy(InputFieldTable[D].row14)
+			UI.Destroy(InputFieldTable[D].row15)
+			UI.Destroy(InputFieldTable[D].row16)
+			UI.Destroy(InputFieldTable[D].row17)
+			UI.Destroy(InputFieldTable[D].row18)
+			UI.Destroy(InputFieldTable[D].row19)
+			UI.Destroy(InputFieldTable[D].row20)
+		end
+
+	end
+
+end
+
+
