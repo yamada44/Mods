@@ -77,7 +77,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
-		local template
 		local template = uniteconfig[i].Template;
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
@@ -87,10 +86,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		InputFieldTable[i].template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
 			
 	end
-
-
-	
-
 
 	access = 2
 	BeforeMax = UnitTypeMax
