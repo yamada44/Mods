@@ -26,7 +26,7 @@ NewrootParent = rootParent
 
 -- End of Init
 
-
+TempUI = {}
 	InputFieldTable = {}
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
@@ -69,7 +69,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
-	TempUI = {}
+
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 
 
