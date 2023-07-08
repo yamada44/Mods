@@ -356,6 +356,8 @@ function Unittemplates(vert, i)
 		.SetCharacterLimit(25)
 		InputFieldTable[i].Name = TempUI[i].Name.GetText()
 
+print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
+
 		--Host Rules
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
