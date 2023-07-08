@@ -77,7 +77,9 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
-		local template = nil
+		InputFieldTable[i].TempCreated = uniteconfig[i].TempCreated
+		if InputFieldTable[i].TempCreated == nil then InputFieldTable[i].TempCreated = false end
+		local template = false
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
@@ -96,6 +98,7 @@ function Unittemplates(vert, i)
 
 	InputFieldTable[i].Template.SetInteractable(false) 
 		if InputFieldTable[i].Template.GetIsChecked() == true then	
+			InputFieldTable[i].TempCreated = true
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end

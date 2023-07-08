@@ -18,12 +18,10 @@ function Client_SaveConfigureUI(alert)
         end
         print(UnitTypeMax,"UnitTypeMax")
    for i = 1, UnitTypeMax do
-        print (i)
-        if InputFieldTable[i].Template == nil or InputFieldTable[i].Template.GetIsChecked() == nil then alert("Did not initialize Template ".. i) 
+        if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
             
         else 
-    print (InputFieldTable[i].Template.GetIsChecked(), 'template value')
-    InputFieldTable[i].Template.SetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
+
 
 
         local cost = InputFieldTable[i].costInputField.GetValue();
