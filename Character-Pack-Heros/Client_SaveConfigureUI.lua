@@ -16,6 +16,7 @@ function Client_SaveConfigureUI(alert)
         UI.Alert('you need to create some unit types by pressing the refresh hButton')
         UnitTypeMax = 0
         end
+        print(UnitTypeMax,"UnitTypeMax")
    for i = 1, UnitTypeMax do
         print (i)
         if InputFieldTable[i].Template == nil or InputFieldTable[i].Template.GetIsChecked() == nil then alert("Did not initialize Template ".. i) 
