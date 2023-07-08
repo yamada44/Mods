@@ -15,7 +15,7 @@ function Client_SaveConfigureUI(alert)
 
    for i = 1, UnitTypeMax do
         print (i)
-        if InputFieldTable[i].Template.GetIsChecked() == nil or InputFieldTable[i].Template == nil then alert("Did not initialize Template ".. i) 
+        if InputFieldTable[i].Template == nil or InputFieldTable[i].Template.GetIsChecked() == nil then alert("Did not initialize Template ".. i) 
             
    else 
     InputFieldTable[i].Template.SetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
