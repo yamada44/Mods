@@ -30,7 +30,7 @@ function Client_SaveConfigureUI(alert)
             Mod.Settings.Unitdata[i].unitcost = 1
         else
         Mod.Settings.Unitdata[i].unitcost = cost; end 
-    
+    print(cost,'cost')
 
         local power = InputFieldTable[i].unitpower
         if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings"); 
@@ -59,6 +59,10 @@ print (maxunits, 'maxunits')
         local name = InputFieldTable[i].Name
         Mod.Settings.Unitdata[i].Name = name;
         
+
+print(name,'name')
+
+
         elseif(maxunits ~= 0)then
          Mod.Settings.Unitdata[i].Name = " (( NO NAME GIVEN ))" 
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0\nReset to default settings")
@@ -87,18 +91,22 @@ print (maxunits, 'maxunits')
         Mod.Settings.Unitdata[i].Maxlife = Mod.Settings.Unitdata[i].Minlife
        else Mod.Settings.Unitdata[i].Maxlife = maxlife end
 
+       --transfer
        local transfer = InputFieldTable[i].Transfer
        if (transfer > 25 or transfer < -1 )then transfer = 0 alert("Transfer input outside data range. min: 0, Max: 25")
        else Mod.Settings.Unitdata[i].Transfer = transfer end
 
+       --leveling
        local level = InputFieldTable[i].Level
        if (level > 5000 or level < 0 )then level = 0 alert("level input outside data range. min: 0, Max: 5000")
        else Mod.Settings.Unitdata[i].Level = level end
 
+       --Active
        local active = InputFieldTable[i].Active
        if (active > 200 or active < 0 )then active = 0 alert("unit Active input outside data range. min: 0, Max: 200")
        else Mod.Settings.Unitdata[i].Active = active end
 
+       --defence
        local defend = InputFieldTable[i].Defend
        if (defend < 0 )then defend = 0 alert("Mod set up failed\n Units cannot have a defence power below 0\nReset to default settings")
        else Mod.Settings.Unitdata[i].Defend = defend end
