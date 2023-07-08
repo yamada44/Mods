@@ -20,7 +20,7 @@ NewrootParent = rootParent
 
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
-	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
+	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 0 end
 	 BeforeMax = Mod.Settings.BeforeMax
 
 
