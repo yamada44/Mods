@@ -15,9 +15,12 @@ function Client_SaveConfigureUI(alert)
 
    for i = 1, UnitTypeMax do
         print (i)
-        if InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) 
+        if InputFieldTable[i].template.GetIsChecked() == false or InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) 
             
    else 
+    InputFieldTable[i].template.SetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
+
+
         local cost = InputFieldTable[i].costInputField.GetValue();
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1

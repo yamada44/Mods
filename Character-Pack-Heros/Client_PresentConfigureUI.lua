@@ -102,7 +102,6 @@ function Unittemplates(vert, i)
 
 	InputFieldTable[i].template.SetInteractable(false) 
 		if InputFieldTable[i].template.GetIsChecked() == true then	
-			InputFieldTable[i].template.GetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
