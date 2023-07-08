@@ -13,9 +13,9 @@ function Client_SaveConfigureUI(alert)
 
 
 	if UnitTypeMax == nil or UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
-        UI.Alert('you need to create some unit types by pressing the refresh hButton')
+        UI.Alert('you need to create some unit types by pressing the refresh Button')
         UnitTypeMax = 0
-        end
+    end
         print(UnitTypeMax,"UnitTypeMax")
    for i = 1, UnitTypeMax do
         if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
@@ -53,7 +53,7 @@ function Client_SaveConfigureUI(alert)
         else
         Mod.Settings.Unitdata[i].image = image; end
 
-
+print (maxunits, 'maxunits')
         if (InputFieldTable[i].Name.GetText() ~= '' and InputFieldTable[i].Name.GetText() ~= nil)then
         local name = InputFieldTable[i].Name.GetText()
         Mod.Settings.Unitdata[i].Name = name;
