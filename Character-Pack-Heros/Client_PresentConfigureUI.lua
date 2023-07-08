@@ -79,7 +79,6 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local template
 		local template = uniteconfig[i].Template;
-		if template == nil then template = false; end
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
@@ -353,8 +352,6 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 
-
-		
 	elseif InputFieldTable[i].template.GetIsChecked() == false then	
 		Destroy(i,false)
 
