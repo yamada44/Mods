@@ -122,12 +122,15 @@ print (maxunits, 'maxunits')
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
-
+print('problem 1')
          if Mod.Settings.Unitdata[i].TempGroupcopy == nil then Mod.Settings.Unitdata[i].TempGroupcopy = {} end
+         print('problem 2')
          Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
+         print('problem 3')
     end
-
+    print('problem 4')
    end
+       print('problem 5')
    if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
 
