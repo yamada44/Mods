@@ -58,16 +58,15 @@ print (maxunits, 'maxunits')
         if (InputFieldTable[i].Name ~= '' and InputFieldTable[i].Name ~= nil)then
         local name = InputFieldTable[i].Name
         Mod.Settings.Unitdata[i].Name = name;
-        
-
-print(name,'name')
-
-
-        elseif(maxunits ~= 0)then
+                elseif(maxunits ~= 0)then
          Mod.Settings.Unitdata[i].Name = " (( NO NAME GIVEN ))" 
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0\nReset to default settings")
         end
         
+
+        print(name,'name')
+
+
         local shared = InputFieldTable[i].Shared
         Mod.Settings.Unitdata[i].Shared = shared
 
