@@ -77,7 +77,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
-		local template = uniteconfig[i].Template;
+		local template = nil
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000

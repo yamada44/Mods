@@ -12,12 +12,15 @@ function Client_SaveConfigureUI(alert)
 
 
 
-
+	if UnitTypeMax == nil then  -- make sure unit types are between 1 and 6
+        UI.Alert('you need to create some unit types by pressing the refresh hButton')
+        UnitTypeMax = 0
+        end
    for i = 1, UnitTypeMax do
         print (i)
         if InputFieldTable[i].Template == nil or InputFieldTable[i].Template.GetIsChecked() == nil then alert("Did not initialize Template ".. i) 
             
-   else 
+        else 
     print (InputFieldTable[i].Template.GetIsChecked(), 'template value')
     InputFieldTable[i].Template.SetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
 
