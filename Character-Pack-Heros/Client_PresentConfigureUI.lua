@@ -65,16 +65,22 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		
 	end
 
-	if UnitTypeMax < 1 or UnitTypeMax > 6 then 
+	if UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
 
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
+
+
+		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
+		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
+
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local template
+		local template = uniteconfig[i].Template;
+		if template == nil then template = false; end
 
-		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
@@ -96,9 +102,7 @@ function Unittemplates(vert, i)
 
 	InputFieldTable[i].template.SetInteractable(false) 
 		if InputFieldTable[i].template.GetIsChecked() == true then	
-
-		
-		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
+			InputFieldTable[i].template.GetIsChecked(false) -- when you reopen the mod menu, it will save your data and remember you already opened it
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
@@ -351,10 +355,8 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 
 
-	
-	end	
-
-	if InputFieldTable[i].template.GetIsChecked() == false then	
+		
+	elseif InputFieldTable[i].template.GetIsChecked() == false then	
 		Destroy(i,false)
 
 	end 

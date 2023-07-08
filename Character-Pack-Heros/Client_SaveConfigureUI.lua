@@ -15,7 +15,7 @@ function Client_SaveConfigureUI(alert)
 
    for i = 1, UnitTypeMax do
         print (i)
-        if InputFieldTable[i].template.GetIsChecked() == false or InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) 
+        if InputFieldTable[i].template == nil then alert("Did not initialize Template ".. i) 
             
    else 
         local cost = InputFieldTable[i].costInputField.GetValue();
