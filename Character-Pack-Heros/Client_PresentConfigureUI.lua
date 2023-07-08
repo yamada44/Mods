@@ -174,6 +174,7 @@ if TempUI[i] == nil then TempUI = {} end
 	TempUI[i].unitcost = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
+		
 		.SetValue(cost);
 		UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Cost of this unit in Gold. Unit will not appear if commerce is turned off"); end);
 		InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
