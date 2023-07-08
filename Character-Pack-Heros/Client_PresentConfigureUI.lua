@@ -382,7 +382,8 @@ function Unittemplates(vert, i)
 end
 function TempAlreadyCreated(i)
 
-	--InputFieldTable[i] = uniteconfig[i].TempGroupcopy
+	InputFieldTable[i] = uniteconfig[i].TempGroupcopy
+	print (InputFieldTable[i].Altmoves, 'altmove',uniteconfig[i].TempGroupcopy,'copy')
 	
 end
 
