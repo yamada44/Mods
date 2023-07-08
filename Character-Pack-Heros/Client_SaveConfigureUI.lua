@@ -122,6 +122,8 @@ print (maxunits, 'maxunits')
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
+
+         Mod.Settings.Unitdata[i] = InputFieldTable[i]
     end
 
    end
