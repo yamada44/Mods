@@ -69,13 +69,13 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
-
+	TempUI = {}
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 
 
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
-		TempUI = {}
+
 		if TempUI[i] == nil then TempUI = {} end
 		print(TempUI[i],InputFieldTable[i],"table test")
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
