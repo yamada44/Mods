@@ -77,15 +77,16 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
+
 		InputFieldTable[i].TempCreated = uniteconfig[i].TempCreated
-		if InputFieldTable[i].TempCreated == nil then InputFieldTable[i].TempCreated = false end
-		local template = false
+		if InputFieldTable[i].TempCreated == nil then InputFieldTable[i].TempCreated = false 
+		elseif InputFieldTable[i].TempCreated == true then TempAlreadyCreated(i) end
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
 		--UI.CreateButton(row000).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("your stored Unit template"); end);
 		InputFieldTable[i].text180 = UI.CreateLabel(row000).SetText('Stored Unit Template: '.. i).SetColor('#FF697A')    
-		InputFieldTable[i].Template = UI.CreateCheckBox(row000).SetIsChecked(template).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
+		InputFieldTable[i].Template = UI.CreateCheckBox(row000).SetIsChecked(false).SetText('').SetOnValueChanged(function () Unittemplates(vert, i)end)
 			
 	end
 
@@ -168,7 +169,7 @@ function Unittemplates(vert, i)
 	local row1 = InputFieldTable[i].row1
 	InputFieldTable[i].text1 = UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF');
 	InputFieldTable[i].text2 = UI.CreateLabel(row1).SetText('\nHow much gold it costs to buy Unit ' .. i);
-    InputFieldTable[i].costInputField = UI.CreateNumberInputField(row1)
+    InputFieldTable[i].unitcost = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
@@ -179,7 +180,7 @@ function Unittemplates(vert, i)
 		local row2 = InputFieldTable[i].row2
 		UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units Power(in armies). Power works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the attack power of the unit. Set min & max the same to guarantee a value"); end);
 		InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('Min power range for Unit ' .. i .. ' (in armies)').SetColor('#dbddf4')
-	InputFieldTable[i].powerInputField = UI.CreateNumberInputField(row2)
+	InputFieldTable[i].unitpower = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(power);
@@ -209,7 +210,7 @@ function Unittemplates(vert, i)
 		local row3 = InputFieldTable[i].row3
 		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many units of this type you can have on the field at a time\nSet to 0 to disable this unit entirely"); end);
 		InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time')
-	InputFieldTable[i].maxUnitsField = UI.CreateNumberInputField(row3)
+	InputFieldTable[i].Maxunits = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits);
@@ -239,7 +240,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		local row4 = InputFieldTable[i].row4
 		UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The number choosen corresponds with the images listed above\nSet to 0 to have random image every Spawn"); end);
 		InputFieldTable[i].text5 = UI.CreateLabel(row4).SetText('What Image will this Unit have').SetColor('#dbddf4')
-	InputFieldTable[i].Image = UI.CreateNumberInputField(row4)
+	InputFieldTable[i].image = UI.CreateNumberInputField(row4)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture);
@@ -356,6 +357,10 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	end 
 
 
+end
+function TempAlreadyCreated(i)
+	InputFieldTable[i] = uniteconfig[i]
+	
 end
 
 function Destroy(i, All)

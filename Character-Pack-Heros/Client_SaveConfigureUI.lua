@@ -23,16 +23,16 @@ function Client_SaveConfigureUI(alert)
             print('failed template')
         else 
             print('passed template')
+            Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
-
-        local cost = InputFieldTable[i].costInputField.GetValue();
+        local cost = InputFieldTable[i].unitcost.GetValue();
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1
         else
         Mod.Settings.Unitdata[i].unitcost = cost; end 
     
 
-        local power = InputFieldTable[i].powerInputField.GetValue();
+        local power = InputFieldTable[i].unitpower.GetValue();
         if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitpower = 1
         else Mod.Settings.Unitdata[i].unitpower = power; end
@@ -42,13 +42,13 @@ function Client_SaveConfigureUI(alert)
             Mod.Settings.Unitdata[i].AttackMax = Mod.Settings.Unitdata[i].unitpower
         else Mod.Settings.Unitdata[i].AttackMax = maxatt; end
     
-        local maxunits = InputFieldTable[i].maxUnitsField.GetValue();
+        local maxunits = InputFieldTable[i].Maxunits.GetValue();
         if maxunits > 5 or maxunits < 1 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
             Mod.Settings.Unitdata[i].Maxunits = 1
         else
         Mod.Settings.Unitdata[i].Maxunits = maxunits; end
 
-        local image = InputFieldTable[i].Image.GetValue();
+        local image = InputFieldTable[i].image.GetValue();
         if image < 0 or image > Maxpictures then alert("Mod set up failed\nOnly images between 0 -".. Maxpictures..'\nReset to default settings'); 
             Mod.Settings.Unitdata[i].image = 1
         else
