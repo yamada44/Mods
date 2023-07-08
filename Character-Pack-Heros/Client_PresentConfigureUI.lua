@@ -94,8 +94,8 @@ end
 
 function Unittemplates(vert, i)
 
-	InputFieldTable[i].template.SetInteractable(false) 
-		if InputFieldTable[i].template.GetIsChecked() == true then	
+	InputFieldTable[i].Template.SetInteractable(false) 
+		if InputFieldTable[i].Template.GetIsChecked() == true then	
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
@@ -347,7 +347,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 
-	elseif InputFieldTable[i].template.GetIsChecked() == false then	
+	elseif InputFieldTable[i].Template.GetIsChecked() == false then	
 		Destroy(i,false)
 
 	end 
