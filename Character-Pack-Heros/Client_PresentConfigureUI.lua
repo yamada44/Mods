@@ -100,10 +100,10 @@ end
 function Unittemplates(vert, i)
 
 
-	InputFieldTable[i].Template.SetInteractable(false) 
+print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		if InputFieldTable[i].Template.GetIsChecked() == true then	
 			InputFieldTable[i].TempCreated = true
-			
+			InputFieldTable[i].Template.SetInteractable(false) 
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
