@@ -77,7 +77,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 		TempUI = {}
 		if TempUI[i] == nil then TempUI = {} end
-
+		print(TempUI[i],InputFieldTable[i],"table test")
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
 		InputFieldTable[i].TempCreated = uniteconfig[i].TempCreated
@@ -165,7 +165,7 @@ function Unittemplates(vert, i)
 		--setting up the UI and all its fields
 
 
-			print(TempUI[i],InputFieldTable[i],"table test")
+
 
 
 	-- how much Gold will this army cost
