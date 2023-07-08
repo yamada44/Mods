@@ -26,7 +26,7 @@ NewrootParent = rootParent
 
 -- End of Init
 
-TempUI = {}
+	TempUI = {}
 	InputFieldTable = {}
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
@@ -76,7 +76,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
-		if TempUI[i] == nil then TempUI = {} end
+		if TempUI[i] == nil then TempUI[i] = {} end
 		print(TempUI[i],InputFieldTable[i],"table test")
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
