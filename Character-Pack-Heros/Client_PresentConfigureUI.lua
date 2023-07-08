@@ -176,7 +176,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
 		UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Cost of this unit in Gold. Unit will not appear if commerce is turned off"); end);
-		InputFieldTable[i].unitcost = temp_unitcost.GetValue()
+		InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
 
 		--Min attack range
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
@@ -187,7 +187,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(power)
-		InputFieldTable[i].unitpower = temp_unitpower.GetValue()
+		InputFieldTable[i].unitpower = TempUI[i].unitpower.GetValue()
 
 		--Max attack range
 		InputFieldTable[i].row20 = UI.CreateHorizontalLayoutGroup(vert);
@@ -198,7 +198,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(attmax)
-		InputFieldTable[i].AttackMax = temp_AttackMax.GetValue()
+		InputFieldTable[i].AttackMax = TempUI[i].AttackMax.GetValue()
 
 		--how powerful each unit is in defense 
 		InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert);
@@ -209,7 +209,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(defend)
-		InputFieldTable[i].Defend = temp_Defend.GetValue()
+		InputFieldTable[i].Defend = TempUI[i].Defend.GetValue()
 
 		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
@@ -220,7 +220,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits)
-		InputFieldTable[i].Maxunits = temp_Maxunits.GetValue()
+		InputFieldTable[i].Maxunits = TempUI[i].Maxunits.GetValue()
 
 	-- Present Minimum life UI
 	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
@@ -231,7 +231,7 @@ if TempUI[i] == nil then TempUI = {} end
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(99)
 	.SetValue(minlife)
-	InputFieldTable[i].Minlife = temp_Minlife.GetValue()
+	InputFieldTable[i].Minlife = TempUI[i].Minlife.GetValue()
 
 	-- present Maximum life UI
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
@@ -242,7 +242,7 @@ if TempUI[i] == nil then TempUI = {} end
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife)
-	InputFieldTable[i].Maxlife = temp_Maxlife.GetValue()
+	InputFieldTable[i].Maxlife = TempUI[i].Maxlife.GetValue()
 
 	-- image UI
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
@@ -253,7 +253,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture)
-		InputFieldTable[i].image = temp_image.GetValue()
+		InputFieldTable[i].image = TempUI[i].image.GetValue()
 
 		-- transfer units on death settings
 		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
@@ -264,7 +264,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
 		.SetValue(transfer)
-		InputFieldTable[i].Transfer = temp_Transfer.GetValue()
+		InputFieldTable[i].Transfer = TempUI[i].Transfer.GetValue()
 
 		-- Leveling for units
 		InputFieldTable[i].row13 = UI.CreateHorizontalLayoutGroup(vert);
@@ -275,7 +275,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
 		.SetValue(level)
-		InputFieldTable[i].Level = temp_Level.GetValue()
+		InputFieldTable[i].Level = TempUI[i].Level.GetValue()
 
 		-- turn unit becomes Active
 		InputFieldTable[i].row14 = UI.CreateHorizontalLayoutGroup(vert);
@@ -286,7 +286,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(200)
 		.SetValue(active)
-		InputFieldTable[i].Active = temp_Active.GetValue()
+		InputFieldTable[i].Active = TempUI[i].Active.GetValue()
 
 		-- max useage for entire game
 		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
@@ -297,7 +297,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(50)
 		.SetValue(maxserver)
-		InputFieldTable[i].MaxServer = temp_MaxServer.GetValue()
+		InputFieldTable[i].MaxServer = TempUI[i].MaxServer.GetValue()
 
 		--cool down for units
 		InputFieldTable[i].row17 = UI.CreateHorizontalLayoutGroup(vert);
@@ -308,7 +308,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown)
-		InputFieldTable[i].Cooldown = temp_Cooldown.GetValue()
+		InputFieldTable[i].Cooldown = TempUI[i].Cooldown.GetValue()
 
 		--Assassinations
 		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
@@ -319,7 +319,7 @@ if TempUI[i] == nil then TempUI = {} end
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
 		.SetValue(assass)
-		InputFieldTable[i].Assassination = temp_Assassination.GetValue()
+		InputFieldTable[i].Assassination = TempUI[i].Assassination.GetValue()
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
