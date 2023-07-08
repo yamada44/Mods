@@ -124,7 +124,7 @@ print (maxunits, 'maxunits')
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 
          if Mod.Settings.Unitdata[i].TempGroupcopy == nil then Mod.Settings.Unitdata[i].TempGroupcopy = {} end
-         Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
+       --  Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
     end
 
    end
