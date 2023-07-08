@@ -75,6 +75,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
+		TempUI = {}
+		if TempUI[i] == nil then TempUI = {} end
 
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
@@ -96,8 +98,7 @@ InputFieldTable.BeforeMax = UnitTypeMax
 end
 
 function Unittemplates(vert, i)
-TempUI = {}
-if TempUI[i] == nil then TempUI = {} end
+
 
 	InputFieldTable[i].Template.SetInteractable(false) 
 		if InputFieldTable[i].Template.GetIsChecked() == true then	
@@ -174,7 +175,6 @@ if TempUI[i] == nil then TempUI = {} end
 	TempUI[i].unitcost = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
-		
 		.SetValue(cost);
 		UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Cost of this unit in Gold. Unit will not appear if commerce is turned off"); end);
 		InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
