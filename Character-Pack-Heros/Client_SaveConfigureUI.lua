@@ -20,9 +20,9 @@ function Client_SaveConfigureUI(alert)
    for i = 1, UnitTypeMax do
     print ('did the unittype max get accessed?')
         if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
-            
+            print('failed template')
         else 
-
+            print('passed template')
 
 
         local cost = InputFieldTable[i].costInputField.GetValue();
