@@ -133,9 +133,9 @@ print('problem 1')
        print('problem 5')
    if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
-
+   print('problem 6')
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
 
-
+   print('problem 7')
 end
