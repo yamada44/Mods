@@ -423,7 +423,7 @@ function Destroy(i, All)
 	elseif All == true then
 		for D = 1, BeforeMax do  -- deleting UI before generating a new one
 
-		if InputFieldTable[i].template.GetIsChecked() ~= false or InputFieldTable[i].template ~= nil then
+		if InputFieldTable[i].Template.GetIsChecked() ~= false or InputFieldTable[i].Template ~= nil then
 			UI.Destroy(InputFieldTable[D].text1)
 			UI.Destroy(InputFieldTable[D].text2)
 			UI.Destroy(InputFieldTable[D].text3)
