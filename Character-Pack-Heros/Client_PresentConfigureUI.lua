@@ -359,7 +359,7 @@ InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 
 end
 function TempAlreadyCreated(i)
-	InputFieldTable[i] = uniteconfig[i]
+	InputFieldTable[i] = uniteconfig[i].TempGroupcopy
 	
 end
 
