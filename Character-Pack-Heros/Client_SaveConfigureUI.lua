@@ -18,6 +18,7 @@ function Client_SaveConfigureUI(alert)
     end
         print(UnitTypeMax,"UnitTypeMax")
    for i = 1, UnitTypeMax do
+    print ('did the unittype max get accessed?')
         if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
             
         else 
