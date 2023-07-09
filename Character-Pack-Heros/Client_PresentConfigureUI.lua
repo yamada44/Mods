@@ -470,7 +470,6 @@ function Destroy()
 		end
 
 	end
-   Mod.Settings.access = 2
 	
 
 end
