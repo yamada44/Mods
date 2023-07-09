@@ -125,7 +125,7 @@ function Client_SaveConfigureUI(alert)
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 
          if Mod.Settings.Unitdata[i].TempGroupcopy == nil then Mod.Settings.Unitdata[i].TempGroupcopy = {} end
-      --   Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
+          Mod.Settings.Unitdata[i].TempGroupcopy = table.shallow_copy(InputFieldTable[i])
 
     end
     print('problem 4')
@@ -162,3 +162,13 @@ InputFieldTable[i].Altmoves = TempUI[i].Altmoves.GetIsChecked()
 InputFieldTable[i].Name = TempUI[i].Name.GetText()
 InputFieldTable[i].HostRules = TempUI[i].HostRules.GetText()
 end
+
+function table.shallow_copy(t)
+    local t2 = {}
+    for k,v in pairs(t) do
+      t2[k] = v
+    end
+    return t2
+  end
+  
+  copy = table.shallow_copy(a)
