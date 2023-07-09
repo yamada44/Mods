@@ -322,6 +322,8 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetValue(assass)
 		InputFieldTable[i].Assassination = TempUI[i].Assassination.GetValue()
 
+print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
