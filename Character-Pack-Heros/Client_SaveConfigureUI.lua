@@ -140,9 +140,9 @@ function Client_SaveConfigureUI(alert)
 end
 
 function SaveData(i)
-
-    InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
-InputFieldTable[i].unitpower = TempUI[i].unitpower.GetValue()
+local n = 9
+    local a = TempUI[i].unitcost.GetValue()
+InputFieldTable[i].unitpower = n
 InputFieldTable[i].AttackMax = TempUI[i].AttackMax.GetValue()
 InputFieldTable[i].Defend = TempUI[i].Defend.GetValue()
 InputFieldTable[i].Maxunits = TempUI[i].Maxunits.GetValue()
