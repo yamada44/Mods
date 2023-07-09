@@ -369,7 +369,7 @@ print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
 end
 function TempAlreadyCreated(i)
 
-	TempUI[i] = uniteconfig[i].TempGroupcopy
+	TempUI[i] = uniteconfig[i]
 
 	
 end
