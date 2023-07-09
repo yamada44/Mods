@@ -137,8 +137,10 @@ function UIorRemeberTemplate(UIvalue,templateValue)
 local table = nil
     if UIvalue == nil then
         table = templateValue
+        print('ui accessed')
     elseif templateValue == nil then
         table = UIvalue
+        print('template accessed')
     end
 
     return table
