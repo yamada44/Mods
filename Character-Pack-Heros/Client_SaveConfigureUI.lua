@@ -30,7 +30,7 @@ function Client_SaveConfigureUI(alert)
             Mod.Settings.Unitdata[i].unitcost = 1
         else
         Mod.Settings.Unitdata[i].unitcost = cost; end 
-    print(cost,'cost')
+
 
         local power = InputFieldTable[i].unitpower
         if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings"); 
@@ -134,6 +134,10 @@ print('problem 1')
          print('problem 2')
          Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
          print('problem 3')
+
+         print(cost,'cost')
+         print(assass,'ass')
+         print(InputFieldTable[i].Name,'name')
     end
     print('problem 4')
    end
