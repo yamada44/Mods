@@ -135,16 +135,16 @@ function Client_SaveConfigureUI(alert)
 
 end
 
-function TableFormat(templateValue,type)
+function TableFormat(templateValue,tabletype)
 local returnvalue = nil
 
 if type(templateValue) == "table" then -- to check type and make sure proper table format is being followed
-    if type == 'number' then 
+    if tabletype == 'number' then 
         returnvalue = templateValue.GetValue()
         print('access numbers')
-    elseif type == 'bool' then 
+    elseif tabletype == 'bool' then 
         returnvalue = templateValue.GetIsChecked()
-    elseif type == 'text' then 
+    elseif tabletype == 'text' then 
         returnvalue = templateValue.GetText()
     end   
         
