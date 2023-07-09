@@ -24,11 +24,11 @@ function Client_SaveConfigureUI(alert)
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
-        --local cost = InputFieldTable[i].unitcost
-        --if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
-         --   Mod.Settings.Unitdata[i].unitcost = 1
-        --else
-        --Mod.Settings.Unitdata[i].unitcost = cost; end 
+        local cost = InputFieldTable[i].unitcost
+        if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
+            Mod.Settings.Unitdata[i].unitcost = 1
+        else
+        Mod.Settings.Unitdata[i].unitcost = cost; end 
 
 
         local power = InputFieldTable[i].unitpower
@@ -140,9 +140,9 @@ function Client_SaveConfigureUI(alert)
 end
 
 function SaveData(i)
-local n = 9
-    local a = TempUI[i].unitcost.GetValue()
-InputFieldTable[i].unitpower = n
+
+    InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
+InputFieldTable[i].unitpower = TempUI[i].unitpower.GetValue()
 InputFieldTable[i].AttackMax = TempUI[i].AttackMax.GetValue()
 InputFieldTable[i].Defend = TempUI[i].Defend.GetValue()
 InputFieldTable[i].Maxunits = TempUI[i].Maxunits.GetValue()
