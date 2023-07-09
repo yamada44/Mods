@@ -4,6 +4,8 @@ function Client_PresentConfigureUI(rootParent)
   	Maxpictures = 5
 
 NewrootParent = rootParent
+InputFieldTable = {}
+TempUI = {}
 
 	if (not WL.IsVersionOrHigher or not WL.IsVersionOrHigher("5.21")) then
 		UI.Alert("You must update your app to the latest version to use this mod");
@@ -13,6 +15,8 @@ NewrootParent = rootParent
 
 	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end --Init variables
 	 uniteconfig =	Mod.Settings.Unitdata
+	 
+
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second\nTip 3: You may have a old template. remove mod, save template and reinstall mod').SetColor('#F3FFAE');
@@ -26,8 +30,8 @@ NewrootParent = rootParent
 
 -- End of Init
 
-	TempUI = {}
-	InputFieldTable = {}
+
+	
 
 	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
 
