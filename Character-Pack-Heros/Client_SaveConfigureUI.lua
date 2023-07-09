@@ -22,12 +22,16 @@ function Client_SaveConfigureUI(alert)
 
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
-
-        local cost = InputFieldTable[i].unitcost.GetValue()
-        if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
+            local cost = InputFieldTable[i].unitcost
+            if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
+                Mod.Settings.Unitdata[i].unitcost = 1
+            else
+            Mod.Settings.Unitdata[i].unitcost = cost; end 
+        local cost2 = InputFieldTable[i].unitcost.GetValue()
+        if cost2 < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1
         else
-        Mod.Settings.Unitdata[i].unitcost = cost; end 
+        Mod.Settings.Unitdata[i].unitcost = cost2; end 
 
 
         local power = InputFieldTable[i].unitpower.GetValue()
