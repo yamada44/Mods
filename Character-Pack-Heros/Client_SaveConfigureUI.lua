@@ -22,7 +22,7 @@ function Client_SaveConfigureUI(alert)
 
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
-
+print (InputFieldTable[i].unitcost.GetValue(),'cost value')
         local cost = UIorRemeberTemplate(InputFieldTable[i].unitcost.GetValue(),InputFieldTable[i].unitcost)
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1

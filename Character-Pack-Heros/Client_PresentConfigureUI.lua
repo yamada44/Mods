@@ -15,7 +15,7 @@ TempUI = {}
 
 	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end --Init variables
 	 uniteconfig =	Mod.Settings.Unitdata
-	 
+
 
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
@@ -369,6 +369,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 
 end
 function TempAlreadyCreated(i)
+print('template already created access')
 
     InputFieldTable[i].unitcost = uniteconfig[i].unitcost
 InputFieldTable[i].unitpower = uniteconfig[i].unitpower 
