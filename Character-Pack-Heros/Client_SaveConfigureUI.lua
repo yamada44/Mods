@@ -20,7 +20,6 @@ function Client_SaveConfigureUI(alert)
         if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
         else 
 
-            SaveData(i)
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
