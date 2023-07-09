@@ -16,13 +16,12 @@ function Client_SaveConfigureUI(alert)
         UI.Alert('you need to create some unit types by pressing the refresh Button')
         UnitTypeMax = 0
     end
-        print(UnitTypeMax,"UnitTypeMax")
-   for i = 1, UnitTypeMax do
-    print ('did the unittype max get accessed?')
+   for i = 1, UnitTypeMax do  -- Start of new unit cycle
         if InputFieldTable[i].TempCreated == false then alert("Did not initialize Template ".. i) 
-            print('failed template')
         else 
-            print('passed template')
+
+            SaveData(i)
+
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
         local cost = InputFieldTable[i].unitcost
@@ -54,7 +53,6 @@ function Client_SaveConfigureUI(alert)
         else
         Mod.Settings.Unitdata[i].image = image; end
 
-print (maxunits, 'maxunits')
         if (InputFieldTable[i].Name ~= '' and InputFieldTable[i].Name ~= nil)then
         local name = InputFieldTable[i].Name
         Mod.Settings.Unitdata[i].Name = name;
@@ -62,10 +60,6 @@ print (maxunits, 'maxunits')
          Mod.Settings.Unitdata[i].Name = " (( NO NAME GIVEN ))" 
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0\nReset to default settings")
         end
-        
-
-        print(InputFieldTable[i].Name,'name')
-
 
         local shared = InputFieldTable[i].Shared
         Mod.Settings.Unitdata[i].Shared = shared
@@ -149,4 +143,27 @@ print('problem 1')
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
 
    print('problem 7')
+end
+
+function SaveData(i)
+
+    InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
+InputFieldTable[i].unitpower = TempUI[i].unitpower.GetValue()
+InputFieldTable[i].AttackMax = TempUI[i].AttackMax.GetValue()
+InputFieldTable[i].Defend = TempUI[i].Defend.GetValue()
+InputFieldTable[i].Maxunits = TempUI[i].Maxunits.GetValue()
+InputFieldTable[i].Minlife = TempUI[i].Minlife.GetValue()
+InputFieldTable[i].Maxlife = TempUI[i].Maxlife.GetValue()
+InputFieldTable[i].image = TempUI[i].image.GetValue()
+InputFieldTable[i].Transfer = TempUI[i].Transfer.GetValue()
+InputFieldTable[i].Level = TempUI[i].Level.GetValue()
+InputFieldTable[i].Active = TempUI[i].Active.GetValue()
+InputFieldTable[i].MaxServer = TempUI[i].MaxServer.GetValue()
+InputFieldTable[i].Cooldown = TempUI[i].Cooldown.GetValue()
+InputFieldTable[i].Assassination = TempUI[i].Assassination.GetValue()
+InputFieldTable[i].Shared = TempUI[i].Shared.GetIsChecked()
+InputFieldTable[i].Visible = TempUI[i].Visible.GetIsChecked()
+InputFieldTable[i].Altmoves = TempUI[i].Altmoves.GetIsChecked()
+InputFieldTable[i].Name = TempUI[i].Name.GetText()
+InputFieldTable[i].HostRules = TempUI[i].HostRules.GetText()
 end

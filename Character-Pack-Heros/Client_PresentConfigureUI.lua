@@ -171,13 +171,13 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	-- how much Gold will this army cost
     InputFieldTable[i].row1 = UI.CreateHorizontalLayoutGroup(vert);
 	local row1 = InputFieldTable[i].row1
-	InputFieldTable[i].text1 = UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF');
+	InputFieldTable[i].text1 = UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF')
+	InputFieldTable[i].text2 = UI.CreateLabel(row1).SetText('\nHow much gold it costs to buy Unit ' .. i)
 	TempUI[i].unitcost = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
 		UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Cost of this unit in Gold. Unit will not appear if commerce is turned off"); end);
-		InputFieldTable[i].unitcost = TempUI[i].unitcost.GetValue()
 
 		--Min attack range
 		InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert);
@@ -188,7 +188,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(power)
-		InputFieldTable[i].unitpower = TempUI[i].unitpower.GetValue()
 
 		--Max attack range
 		InputFieldTable[i].row20 = UI.CreateHorizontalLayoutGroup(vert);
@@ -199,7 +198,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(attmax)
-		InputFieldTable[i].AttackMax = TempUI[i].AttackMax.GetValue()
 
 		--how powerful each unit is in defense 
 		InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert);
@@ -210,7 +208,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(defend)
-		InputFieldTable[i].Defend = TempUI[i].Defend.GetValue()
 
 		--max units each unit type can have
 		InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert);
@@ -221,7 +218,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits)
-		InputFieldTable[i].Maxunits = TempUI[i].Maxunits.GetValue()
 
 	-- Present Minimum life UI
 	InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert);
@@ -232,7 +228,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(99)
 	.SetValue(minlife)
-	InputFieldTable[i].Minlife = TempUI[i].Minlife.GetValue()
 
 	-- present Maximum life UI
 	InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert);
@@ -243,7 +238,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife)
-	InputFieldTable[i].Maxlife = TempUI[i].Maxlife.GetValue()
 
 	-- image UI
 		InputFieldTable[i].row4 = UI.CreateHorizontalLayoutGroup(vert);
@@ -254,7 +248,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture)
-		InputFieldTable[i].image = TempUI[i].image.GetValue()
 
 		-- transfer units on death settings
 		InputFieldTable[i].row12 = UI.CreateHorizontalLayoutGroup(vert);
@@ -265,7 +258,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
 		.SetValue(transfer)
-		InputFieldTable[i].Transfer = TempUI[i].Transfer.GetValue()
 
 		-- Leveling for units
 		InputFieldTable[i].row13 = UI.CreateHorizontalLayoutGroup(vert);
@@ -276,7 +268,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
 		.SetValue(level)
-		InputFieldTable[i].Level = TempUI[i].Level.GetValue()
 
 		-- turn unit becomes Active
 		InputFieldTable[i].row14 = UI.CreateHorizontalLayoutGroup(vert);
@@ -287,7 +278,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(200)
 		.SetValue(active)
-		InputFieldTable[i].Active = TempUI[i].Active.GetValue()
 
 		-- max useage for entire game
 		InputFieldTable[i].row9 = UI.CreateHorizontalLayoutGroup(vert);
@@ -298,7 +288,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(50)
 		.SetValue(maxserver)
-		InputFieldTable[i].MaxServer = TempUI[i].MaxServer.GetValue()
 
 		--cool down for units
 		InputFieldTable[i].row17 = UI.CreateHorizontalLayoutGroup(vert);
@@ -309,7 +298,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown)
-		InputFieldTable[i].Cooldown = TempUI[i].Cooldown.GetValue()
 
 		--Assassinations
 		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
@@ -320,7 +308,6 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
 		.SetValue(assass)
-		InputFieldTable[i].Assassination = TempUI[i].Assassination.GetValue()
 
 print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 
@@ -330,7 +317,6 @@ print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
 		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
 		TempUI[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
-		InputFieldTable[i].Shared = TempUI[i].Shared.GetIsChecked()
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
@@ -338,7 +324,6 @@ print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 		UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on, all players can see where this unit is at all times"); end);
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
 		TempUI[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
-		InputFieldTable[i].Visible = TempUI[i].Visible.GetIsChecked()
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
@@ -346,8 +331,7 @@ print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
 		TempUI[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
-		InputFieldTable[i].Altmoves = TempUI[i].Altmoves.GetIsChecked()
-		
+
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
@@ -356,7 +340,6 @@ print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(25)
-		InputFieldTable[i].Name = TempUI[i].Name.GetText()
 
 print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
 
@@ -369,7 +352,7 @@ print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(500)
-		InputFieldTable[i].HostRules = TempUI[i].HostRules.GetText()
+
 
 		--spacer
 		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
@@ -386,8 +369,8 @@ print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
 end
 function TempAlreadyCreated(i)
 
-	InputFieldTable[i] = uniteconfig[i].TempGroupcopy
-	print (InputFieldTable[i].Altmoves, 'altmove',uniteconfig[i].TempGroupcopy,'copy')
+	TempUI[i] = uniteconfig[i].TempGroupcopy
+
 	
 end
 
