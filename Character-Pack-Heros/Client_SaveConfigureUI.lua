@@ -7,7 +7,9 @@ function Client_SaveConfigureUI(alert)
     local noUnitsOn = 0
     local tomanyunits = 0
     local Unitsallowed = 15
-
+    local num = 'number'
+    local boo = 'bool'
+    local tex = 'text'
 
 
 
@@ -23,7 +25,7 @@ function Client_SaveConfigureUI(alert)
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
-        local cost = UIorRemeberTemplate(InputFieldTable[i].unitcost.GetValue(),InputFieldTable[i].unitcost)
+        local cost = TableFormat(InputFieldTable[i].unitcost,num)
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1
         else
@@ -133,16 +135,24 @@ function Client_SaveConfigureUI(alert)
 
 end
 
-function UIorRemeberTemplate(UIvalue,templateValue)
-local value = nil
-print('start access',UIvalue,templateValue)
-    if UIvalue == nil then
-        value = templateValue
-        print('ui accessed')
-    elseif templateValue == nil or type(templateValue) == "table" then
-        value = UIvalue
-        print('template accessed')
-    end
-print('any access',UIvalue,templateValue, value)
-    return value
+function TableFormat(templateValue,type)
+local returnvalue = nil
+
+if type(templateValue) == "table" then -- to check type and make sure proper table format is being followed
+    if type == 'number' then 
+        returnvalue = templateValue.GetValue()
+        print('access numbers')
+    elseif type == 'bool' then 
+        returnvalue = templateValue.GetIsChecked()
+    elseif type == 'text' then 
+        returnvalue = templateValue.GetText()
+    end   
+        
+
+elseif templateValue ~= nil then
+    returnvalue = templateValue
+end
+
+print('any access',templateValue, returnvalue)
+    return returnvalue
 end
