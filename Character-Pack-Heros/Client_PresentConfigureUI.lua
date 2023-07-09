@@ -472,7 +472,7 @@ print('before delete '.. D)
 		print('After delete '.. D)
 
 	end
-	
+	access = 1
 
 end
 
