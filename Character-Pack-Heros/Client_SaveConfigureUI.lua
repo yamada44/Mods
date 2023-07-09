@@ -126,12 +126,14 @@ function Client_SaveConfigureUI(alert)
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 
     end
+    Mod.Settings.Unitdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
    end
 
    if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
+   
 
 end
 
@@ -141,13 +143,12 @@ local returnvalue = nil
 if type(templateValue) == "table" then -- to check type and make sure proper table format is being followed
     if tabletype == 'number' then 
         returnvalue = templateValue.GetValue()
-        print('access numbers')
+
     elseif tabletype == 'bool' then 
         returnvalue = templateValue.GetIsChecked()
     elseif tabletype == 'text' then 
         returnvalue = templateValue.GetText()
     end   
-        
 
 elseif templateValue ~= nil then
     returnvalue = templateValue

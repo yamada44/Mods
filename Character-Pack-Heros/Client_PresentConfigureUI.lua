@@ -55,17 +55,15 @@ TempUI = {}
 	if access == 2 or access == 3 then
 		UnitCreation()
 	end
-	 
 end
+
 
 function UnitCreation()
 UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
-
-
-	if access == 2 then
+	if access == 2 then -- Setting up UI again
 		UI.Alert('Regenerated UI Types')
-		Destroy(0,true)
+		Destroy()
 		
 	end
 
@@ -76,14 +74,12 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 
-
-		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
-		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
-
-
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local color = '#FF697A' -- redish
 		local templatetext = 'Empty Unit Template: '.. i
+
+		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
+		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
 		InputFieldTable[i].TempCreated = uniteconfig[i].TempCreated
 		if InputFieldTable[i].TempCreated == nil then InputFieldTable[i].TempCreated = false 
@@ -92,6 +88,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 			templatetext = 'Stored Unit Template: ' .. i
 			color = '#00E9FF'
 		end
+		InputFieldTable[i].TemplateStored = uniteconfig[i].TemplateStored
+		if InputFieldTable[i].TemplateStored == nil then InputFieldTable[i].TemplateStored = false end
 
 		InputFieldTable[i].row000 = UI.CreateHorizontalLayoutGroup(vert);
 		local row000 = InputFieldTable[i].row000
@@ -109,11 +107,9 @@ end
 
 function Unittemplates(vert, i)
 
-
-print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
-		if InputFieldTable[i].Template.GetIsChecked() == true then	
 			InputFieldTable[i].TempCreated = true
 			InputFieldTable[i].Template.SetInteractable(false) 
+			InputFieldTable[i].TemplateStored = false
 
 		local picture = uniteconfig[i].image -- initializing all of the defaults if nil
 		if picture ==nil then picture = 1 end
@@ -368,15 +364,12 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
 
-	elseif InputFieldTable[i].Template.GetIsChecked() == false then	
-		Destroy(i,false)
-
-	end 
-
 
 end
 function TempAlreadyCreated(i)
 print('template already created access')
+
+InputFieldTable[i].TemplateStored = true
 
     InputFieldTable[i].unitcost = uniteconfig[i].unitcost
 InputFieldTable[i].unitpower = uniteconfig[i].unitpower 
@@ -401,75 +394,16 @@ InputFieldTable[i].HostRules = uniteconfig[i].HostRules
 	
 end
 
-function Destroy(i, All)
-	if All == false then
-		
-		UI.Destroy(InputFieldTable[i].text1)
-		UI.Destroy(InputFieldTable[i].text2)
-		UI.Destroy(InputFieldTable[i].text3)
-		UI.Destroy(InputFieldTable[i].text4)
-		UI.Destroy(InputFieldTable[i].text5)
-		UI.Destroy(InputFieldTable[i].text6)
-		UI.Destroy(InputFieldTable[i].text7)
-		UI.Destroy(InputFieldTable[i].text8)
-		UI.Destroy(InputFieldTable[i].text9)
-		UI.Destroy(InputFieldTable[i].text10)
-		UI.Destroy(InputFieldTable[i].text11)
-		UI.Destroy(InputFieldTable[i].text12)
-		UI.Destroy(InputFieldTable[i].text13)
-		UI.Destroy(InputFieldTable[i].text14)
-		UI.Destroy(InputFieldTable[i].text15)
-		UI.Destroy(InputFieldTable[i].text16)
-		UI.Destroy(InputFieldTable[i].text17)
-		UI.Destroy(InputFieldTable[i].text18)
-		UI.Destroy(InputFieldTable[i].text19)
-		UI.Destroy(InputFieldTable[i].text20)
-		UI.Destroy(InputFieldTable[i].text21)
-		UI.Destroy(InputFieldTable[i].text22)
-		UI.Destroy(InputFieldTable[i].costInputField)
-		UI.Destroy(InputFieldTable[i].powerInputField)
-		UI.Destroy(InputFieldTable[i].maxUnitsField)
-		UI.Destroy(InputFieldTable[i].Image)
-		UI.Destroy(InputFieldTable[i].Shared)
-		UI.Destroy(InputFieldTable[i].Visible)
-		UI.Destroy(InputFieldTable[i].MaxServer)
-		UI.Destroy(InputFieldTable[i].Name)
-		UI.Destroy(InputFieldTable[i].Minlife)
-		UI.Destroy(InputFieldTable[i].Maxlife)
-		UI.Destroy(InputFieldTable[i].Transfer)
-		UI.Destroy(InputFieldTable[i].Level)
-		UI.Destroy(InputFieldTable[i].Active)
-		UI.Destroy(InputFieldTable[i].Defend)
-		UI.Destroy(InputFieldTable[i].Altmoves)
-		UI.Destroy(InputFieldTable[i].Cooldown)
-		UI.Destroy(InputFieldTable[i].HostRules)
-		UI.Destroy(InputFieldTable[i].Assassination)
-		UI.Destroy(InputFieldTable[i].AttackMax)
-		UI.Destroy(InputFieldTable[i].row1)
-		UI.Destroy(InputFieldTable[i].row2)
-		UI.Destroy(InputFieldTable[i].row3)
-		UI.Destroy(InputFieldTable[i].row4)
-		UI.Destroy(InputFieldTable[i].row6)
-		UI.Destroy(InputFieldTable[i].row7)
-		UI.Destroy(InputFieldTable[i].row5)
-		UI.Destroy(InputFieldTable[i].row9)
-		UI.Destroy(InputFieldTable[i].row8)
-		UI.Destroy(InputFieldTable[i].row10)
-		UI.Destroy(InputFieldTable[i].row11)
-		UI.Destroy(InputFieldTable[i].row12)
-		UI.Destroy(InputFieldTable[i].row13)
-		UI.Destroy(InputFieldTable[i].row14)
-		UI.Destroy(InputFieldTable[i].row15)
-		UI.Destroy(InputFieldTable[i].row16)
-		UI.Destroy(InputFieldTable[i].row17)
-		UI.Destroy(InputFieldTable[i].row18)
-		UI.Destroy(InputFieldTable[i].row19)
-		UI.Destroy(InputFieldTable[i].row20)
+function Destroy()
 
-	elseif All == true then
-		for D = 1, BeforeMax do  -- deleting UI before generating a new one
+	for D = 1, BeforeMax do  -- deleting UI before generating a new one
 
-		if InputFieldTable[i].Template.GetIsChecked() ~= false or InputFieldTable[i].Template ~= nil then
+		UI.Destroy(InputFieldTable[D].text180)
+		UI.Destroy(InputFieldTable[D].Template)
+		InputFieldTable[D].TempCreated = false
+		uniteconfig[D] = {}
+
+		if InputFieldTable[D].TemplateStored == false then -- if true, that means UI was not generated and can skip
 			UI.Destroy(InputFieldTable[D].text1)
 			UI.Destroy(InputFieldTable[D].text2)
 			UI.Destroy(InputFieldTable[D].text3)
@@ -531,10 +465,13 @@ function Destroy(i, All)
 			UI.Destroy(InputFieldTable[D].row18)
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
-		end
+
+
 		end
 
 	end
+   Mod.Settings.access = 2
+	
 
 end
 
