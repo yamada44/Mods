@@ -76,8 +76,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if uniteconfig[i] == nil then uniteconfig[i] = {}end -- making sure the tables exist
 		if InputFieldTable[i] == nil then InputFieldTable[i] = {} end
 
-		if TempUI[i] == nil then TempUI[i] = {} end
-		print(TempUI[i],InputFieldTable[i],"table test")
+
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 
 		InputFieldTable[i].TempCreated = uniteconfig[i].TempCreated
@@ -173,7 +172,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	local row1 = InputFieldTable[i].row1
 	InputFieldTable[i].text1 = UI.CreateLabel(row1).SetText('Unit Type '..i).SetColor('#00D4FF')
 	InputFieldTable[i].text2 = UI.CreateLabel(row1).SetText('\nHow much gold it costs to buy Unit ' .. i)
-	TempUI[i].unitcost = UI.CreateNumberInputField(row1)
+	InputFieldTable[i].unitcost = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(40)
 		.SetValue(cost);
@@ -184,7 +183,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row2 = InputFieldTable[i].row2
 		UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units Power(in armies). Power works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the attack power of the unit. Set min & max the same to guarantee a value"); end);
 		InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('Min power range for Unit ' .. i .. ' (in armies)').SetColor('#dbddf4')
-		TempUI[i].unitpower = UI.CreateNumberInputField(row2)
+		InputFieldTable[i].unitpower = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(power)
@@ -194,7 +193,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row20 = InputFieldTable[i].row20
 		UI.CreateButton(row20).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the second setting of 2 settings that decides a units Power(in armies). Power works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the attack power of the unit. Set min & max the same to guarantee a value"); end);
 		InputFieldTable[i].text22 = UI.CreateLabel(row20).SetText('Max power range for Unit ' .. i .. ' (in armies)')
-		TempUI[i].AttackMax = UI.CreateNumberInputField(row20)
+		InputFieldTable[i].AttackMax = UI.CreateNumberInputField(row20)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(30)
 		.SetValue(attmax)
@@ -204,7 +203,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row15 = InputFieldTable[i].row15
 		UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The Defending power in terms of armies\nthis units health is decided between attack/defence power. which ever is higher"); end);
 		InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('How powerful Unit ' .. i .. ' is when defending (in armies)').SetColor('#dbddf4')
-		TempUI[i].Defend = UI.CreateNumberInputField(row15)
+		InputFieldTable[i].Defend = UI.CreateNumberInputField(row15)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(30)
 		.SetValue(defend)
@@ -214,7 +213,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row3 = InputFieldTable[i].row3
 		UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting decides how many units of this type you can have on the field at a time\nSet to 0 to disable this unit entirely"); end);
 		InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('How many units each player can have at a time')
-		TempUI[i].Maxunits = UI.CreateNumberInputField(row3)
+		InputFieldTable[i].Maxunits = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(5)
 		.SetValue(maxunits)
@@ -224,7 +223,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	local row10 = InputFieldTable[i].row10
 	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the first setting of 2 settings that decides a units life span. Life span works with a range. you decide the Minimum-Maximum range. the computer will decide a random value between those two numbers. that number is the turn it will die. Set Max value to 0 to disable"); end);
 	InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Life Span Minimum Range').SetColor('#dbddf4')
-	TempUI[i].Minlife = UI.CreateNumberInputField(row10)
+	InputFieldTable[i].Minlife = UI.CreateNumberInputField(row10)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(99)
 	.SetValue(minlife)
@@ -234,7 +233,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 	local row11 = InputFieldTable[i].row11
 	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This is the second setting of 2 settings that decides a units life span\nBy setting this setting to 0. you disable both Life span settings and this feature"); end);
 	InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Life span Maximum Range')
-	TempUI[i].Maxlife = UI.CreateNumberInputField(row11)
+	InputFieldTable[i].Maxlife = UI.CreateNumberInputField(row11)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(100)
 	.SetValue(maxlife)
@@ -244,7 +243,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row4 = InputFieldTable[i].row4
 		UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The number choosen corresponds with the images listed above\nSet to 0 to have random image every Spawn"); end);
 		InputFieldTable[i].text5 = UI.CreateLabel(row4).SetText('What Image will this Unit have').SetColor('#dbddf4')
-		TempUI[i].image = UI.CreateNumberInputField(row4)
+		InputFieldTable[i].image = UI.CreateNumberInputField(row4)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(Maxpictures)
 		.SetValue(picture)
@@ -254,7 +253,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row12 = InputFieldTable[i].row12
 		UI.CreateButton(row12).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When this unit dies, instead of dying. its transfered to the person that killed it. Neutrals wont work. every time this unit *dies*. this setting's value goes down by 1. once it reaches 0 the unit dies for real\nSet to 0 to disable\nSet to -1 to have unlimited tranfers"); end);
 		InputFieldTable[i].text14 = UI.CreateLabel(row12).SetText('Transfers unit upon death')
-		TempUI[i].Transfer = UI.CreateNumberInputField(row12)
+		InputFieldTable[i].Transfer = UI.CreateNumberInputField(row12)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
 		.SetValue(transfer)
@@ -264,7 +263,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row13 = InputFieldTable[i].row13
 		UI.CreateButton(row13).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("when this unit attacks someone it gains XP from the enemy troops killed(including special units). The setting determines how many troops are needed to kill before its first level up. it does retain XP between battles. When the unit levels up, its power/defence/health increase by there base amounts\nSet to 0 to disable"); end);
 		InputFieldTable[i].text15 = UI.CreateLabel(row13).SetText('How many troops needed to level up this unit').SetColor('#dbddf4')
-		TempUI[i].Level = UI.CreateNumberInputField(row13)
+		InputFieldTable[i].Level = UI.CreateNumberInputField(row13)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(500)
 		.SetValue(level)
@@ -274,7 +273,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row14 = InputFieldTable[i].row14
 		UI.CreateButton(row14).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting corrospondes to the turns in game. This Unit will be unable to be purchased until this Turn. "); end);
 		InputFieldTable[i].text16 = UI.CreateLabel(row14).SetText('Unit is locked till this turn')
-		TempUI[i].Active = UI.CreateNumberInputField(row14)
+		InputFieldTable[i].Active = UI.CreateNumberInputField(row14)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(200)
 		.SetValue(active)
@@ -284,7 +283,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row9 = InputFieldTable[i].row9
 		UI.CreateButton(row9).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting is the maximum amount of units of this type that can be spawned over the entire lifetime of the Game. This is compatiable with the shared feature\nSet to 0 to disable"); end);
 		InputFieldTable[i].text8 = UI.CreateLabel(row9).SetText('Max units Spawned over entire game').SetColor('#dbddf4')
-		TempUI[i].MaxServer = UI.CreateNumberInputField(row9)
+		InputFieldTable[i].MaxServer = UI.CreateNumberInputField(row9)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(50)
 		.SetValue(maxserver)
@@ -294,7 +293,7 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row17 = InputFieldTable[i].row17
 		UI.CreateButton(row17).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting determines the amount of turns needed to wait after buying this unit\nSet to 0 to disable"); end);
 		InputFieldTable[i].text19 = UI.CreateLabel(row17).SetText('Cool down Timer for unit')
-		TempUI[i].Cooldown = UI.CreateNumberInputField(row17)
+		InputFieldTable[i].Cooldown = UI.CreateNumberInputField(row17)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(100)
 		.SetValue(cooldown)
@@ -304,51 +303,49 @@ print (InputFieldTable[i].Template.GetIsChecked(),'template checker')
 		local row19 = InputFieldTable[i].row19
 		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to 0 to disable"); end);
 		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level').SetColor('#dbddf4')
-		TempUI[i].Assassination = UI.CreateNumberInputField(row19)
+		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5)
 		.SetValue(assass)
-
-print(TempUI[i].Assassination,'name config',InputFieldTable[i].Assassination)
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
 		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
-		TempUI[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
+		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
 		UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on, all players can see where this unit is at all times"); end);
 		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
-		TempUI[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
+		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
-		TempUI[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
 		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
-		TempUI[i].Name = UI.CreateTextInputField(vert)
+		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(25)
 
-print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
+
 
 		--Host Rules
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
 		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
-		TempUI[i].HostRules = UI.CreateTextInputField(vert)
+		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(500)
@@ -369,7 +366,25 @@ print(TempUI[i].Name,'name config',InputFieldTable[i].Name)
 end
 function TempAlreadyCreated(i)
 
-	TempUI = uniteconfig
+    InputFieldTable[i].unitcost = uniteconfig[i].unitcost
+InputFieldTable[i].unitpower = uniteconfig[i].unitpower 
+InputFieldTable[i].AttackMax = uniteconfig[i].AttackMax 
+InputFieldTable[i].Defend = uniteconfig[i].Defend 
+InputFieldTable[i].Maxunits = uniteconfig[i].Maxunits 
+InputFieldTable[i].Minlife = uniteconfig[i].Minlife 
+InputFieldTable[i].Maxlife = uniteconfig[i].Maxlife 
+InputFieldTable[i].image = uniteconfig[i].image 
+InputFieldTable[i].Transfer = uniteconfig[i].Transfer 
+InputFieldTable[i].Level = uniteconfig[i].Level 
+InputFieldTable[i].Active = uniteconfig[i].Active 
+InputFieldTable[i].MaxServer = uniteconfig[i].MaxServer 
+InputFieldTable[i].Cooldown = uniteconfig[i].Cooldown 
+InputFieldTable[i].Assassination = uniteconfig[i].Assassination 
+InputFieldTable[i].Shared = uniteconfig[i].Shared
+InputFieldTable[i].Visible = uniteconfig[i].Visible
+InputFieldTable[i].Altmoves = uniteconfig[i].Altmoves
+InputFieldTable[i].Name = uniteconfig[i].Name
+InputFieldTable[i].HostRules = uniteconfig[i].HostRules
 
 	
 end
