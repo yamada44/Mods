@@ -123,9 +123,9 @@ function Client_SaveConfigureUI(alert)
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
-         
-         if Mod.Settings.Unitdata[i].TempGroupcopy == nil then Mod.Settings.Unitdata[i].TempGroupcopy = {} end
-         Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
+
+       --  if Mod.Settings.Unitdata[i].TempGroupcopy == nil then Mod.Settings.Unitdata[i].TempGroupcopy = {} end
+      --   Mod.Settings.Unitdata[i].TempGroupcopy = InputFieldTable[i]
 
     end
     print('problem 4')
