@@ -402,9 +402,10 @@ print('before delete '.. D)
 		InputFieldTable[D].TempCreated = false
 		uniteconfig[D] = {}
 		print('before Mid delete '.. D)
+		UI.Alert('before Mid delete '.. D)
 		if InputFieldTable[D].Template.GetIsChecked() == true then -- if true, that means UI was not generated and can skip
 			print('start Mid delete '.. D)
-
+			UI.Alert('start Mid delete '.. D)
 			UI.Destroy(InputFieldTable[D].text1)
 			UI.Destroy(InputFieldTable[D].text2)
 			UI.Destroy(InputFieldTable[D].text3)
