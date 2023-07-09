@@ -171,4 +171,3 @@ function table.shallow_copy(t)
     return t2
   end
   
-  copy = table.shallow_copy(a)
