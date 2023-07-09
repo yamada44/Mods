@@ -397,10 +397,7 @@ function Destroy()
 
 	for D = 1, BeforeMax do  -- deleting UI before generating a new one
 print('before delete '.. D)
-		UI.Destroy(InputFieldTable[D].text180)
-		UI.Destroy(InputFieldTable[D].Template)
-		InputFieldTable[D].TempCreated = false
-		uniteconfig[D] = {}
+
 		print('before Mid delete '.. D)
 		UI.Alert('before Mid delete '.. D)
 		if InputFieldTable[D].Template.GetIsChecked() == true then -- if true, that means UI was not generated and can skip
@@ -470,6 +467,10 @@ print('before delete '.. D)
 
 			print('Mid delete '.. D)
 		end
+		UI.Destroy(InputFieldTable[D].text180)
+		UI.Destroy(InputFieldTable[D].Template)
+		InputFieldTable[D].TempCreated = false
+		uniteconfig[D] = {}
 		print('After delete '.. D)
 
 	end
