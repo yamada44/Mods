@@ -66,14 +66,13 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		Destroy()
 		
 	end
-
 	if UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
 	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
 
-	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 
+	for i = 1, UnitTypeMax do -- looping through all the units so you dont have to repeat code
 		local vert = UI.CreateVerticalLayoutGroup(NewrootParent);
 		local color = '#FF697A' -- redish
 		local templatetext = 'Empty Unit Template: '.. i
