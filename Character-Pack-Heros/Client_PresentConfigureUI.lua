@@ -402,7 +402,7 @@ print('before delete '.. D)
 		UI.Destroy(InputFieldTable[D].Template)
 		InputFieldTable[D].TempCreated = false
 		uniteconfig[D] = {}
-
+		print('before Mid delete '.. D)
 		if InputFieldTable[D].Template.GetIsChecked() == true then -- if true, that means UI was not generated and can skip
 			print('start Mid delete '.. D)
 
