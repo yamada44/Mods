@@ -142,6 +142,6 @@ local table = nil
         table = UIvalue
         print('template accessed')
     end
-
+print('any access')
     return table
 end
