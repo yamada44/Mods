@@ -135,6 +135,7 @@ end
 
 function UIorRemeberTemplate(UIvalue,templateValue)
 local table = nil
+print('start access',UIvalue,templateValue)
     if UIvalue == nil then
         table = templateValue
         print('ui accessed')
@@ -142,6 +143,6 @@ local table = nil
         table = UIvalue
         print('template accessed')
     end
-print('any access')
+print('any access',UIvalue,templateValue)
     return table
 end
