@@ -139,7 +139,7 @@ print('start access',UIvalue,templateValue)
     if UIvalue == nil then
         table = templateValue
         print('ui accessed')
-    elseif templateValue == nil then
+    elseif templateValue == nil or type(templateValue) == "table" then
         table = UIvalue
         print('template accessed')
     end
