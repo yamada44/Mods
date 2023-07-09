@@ -397,7 +397,7 @@ end
 function Destroy()
 
 	for D = 1, BeforeMax do  -- deleting UI before generating a new one
-
+print('before delete '.. D)
 		UI.Destroy(InputFieldTable[D].text180)
 		UI.Destroy(InputFieldTable[D].Template)
 		InputFieldTable[D].TempCreated = false
@@ -466,8 +466,9 @@ function Destroy()
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
 
-
+			print('Mid delete '.. D)
 		end
+		print('After delete '.. D)
 
 	end
 	
