@@ -84,7 +84,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		if InputFieldTable[i].TempCreated == nil then InputFieldTable[i].TempCreated = false 
 		elseif InputFieldTable[i].TempCreated == true then 
 			TempAlreadyCreated(i)
-			templatetext = 'Stored Unit Template: ' .. i
+			templatetext = 'Stored  ' .. uniteconfig[i].Name .. ' Template: ' .. i
 			color = '#00E9FF'
 		end
 		InputFieldTable[i].TemplateStored = uniteconfig[i].TemplateStored
