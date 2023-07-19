@@ -354,8 +354,8 @@ function Unittemplates(vert, i)
 
 
 		--more layout groups
-		InputFieldTable[i].rowb = UI.CreateHorizontalLayoutGroup(vert)
-		InputFieldTable[i].rowc = UI.CreateHorizontalLayoutGroup(vert)
+		InputFieldTable[i].rowb = UI.CreateVerticalLayoutGroup(vert)
+		InputFieldTable[i].rowc = UI.CreateVerticalLayoutGroup(vert)
 		local vertb = InputFieldTable[i].rowb
 		local vertc = InputFieldTable[i].rowc
 
