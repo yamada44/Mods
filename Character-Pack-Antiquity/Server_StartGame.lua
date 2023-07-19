@@ -8,7 +8,7 @@ function Server_StartGame (game,standing)
      for i=1, typeamount do
         for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
             if ts.NumArmies.NumArmies == unitdata[i].Autovalue then
-               standing.NumArmies.NumArmies = 9999 
+            --   standing.NumArmies.NumArmies = 9999 
             end
         end
     end
