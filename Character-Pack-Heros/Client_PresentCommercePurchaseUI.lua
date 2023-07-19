@@ -14,7 +14,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	ID = Game.Us.ID
 
 	-- changing over packs data
-	OrderstartsWith = "C&PC" -- the last letter represents the mod used
+	OrderstartsWith = ModSign(0) -- the last letter represents the mod used
 
 
 	TransferfromConfig()

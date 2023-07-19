@@ -141,3 +141,35 @@ function Baseamount(value,dividor)
 return value / dividor
 	
 end
+
+function ModSign(returnvalue)
+	local value
+
+	if returnvalue == 0 then -- Mod call sign
+		value = 'C&PD'
+	elseif returnvalue == 1 then
+		value = {}
+		value[1] = 'Emperor'
+		value[2] = 'Cavalry'
+		value[3] = 'Spear Man'
+		value[4] = 'Samurai'
+		value[5] = 'Daimyo'
+		value[6] = 'Random'
+	end
+
+	return value
+end
+
+function Filefinder(image)
+
+	if image == 0 then image = math.random(1,5) end
+	local filestorage = {}
+	
+		filestorage[1] = 'pack 1.a.png'
+		filestorage[2] = 'pack 1.b.png'
+		filestorage[3] = 'pack 1.c.png'
+		filestorage[4] = 'pack 1.d.png'
+		filestorage[5] = 'pack 1.e.png'
+	
+	return filestorage[image]
+end

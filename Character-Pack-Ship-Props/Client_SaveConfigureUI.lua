@@ -122,6 +122,11 @@ function Client_SaveConfigureUI(alert)
         if (assass < 0 or assass > 5)then assass = 0 alert("Mod set up failed\n Assassination level must be between 0 and 5\n(set to 0 to disable)")
         else Mod.Settings.Unitdata[i].Assassination = assass end
 
+        --Auto placer
+        local auto = TableFormat(InputFieldTable[i].Autovalue ,num)
+        if (auto < 0 )then auto = 0 alert("Mod set up failed\nAuto placer value cannot be below 0\n(set to 0 to disable)")
+        else Mod.Settings.Unitdata[i].Autovalue = auto end
+
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 

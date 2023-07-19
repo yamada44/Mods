@@ -1,4 +1,5 @@
--- one of two things to fix
+require('Utilities')
+
 function Client_PresentSettingsUI(rootParent)
 
 
@@ -70,17 +71,16 @@ end
 
 function Imagename (name)
 	local filename = {}
+	local sourcenames = ModSign(1)
 
-
-	filename[1] = 'Ship of the line'
-	filename[2] = 'Destroyer'
-	filename[3] = 'Caravel'
-	filename[4] = 'Carrier'
-	filename[5] = 'Galley'
-	filename[6] = 'Random'
+	filename[1] = sourcenames[1]
+	filename[2] = sourcenames[2]
+	filename[3] = sourcenames[3]
+	filename[4] = sourcenames[4]
+	filename[5] = sourcenames[5]
+	filename[6] = sourcenames[6]
 
 	if name == 0 then name = 6 end
-
 return filename[name]
 
 
