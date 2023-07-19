@@ -469,7 +469,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].text20)
 			UI.Destroy(InputFieldTable[D].text21)
 			UI.Destroy(InputFieldTable[D].text22)
-			UI.Destroy(InputFieldTable[i].text24) -- 23 skipped
+			UI.Destroy(InputFieldTable[D].text24) -- 23 skipped
 			UI.Destroy(InputFieldTable[D].unitcost)
 			UI.Destroy(InputFieldTable[D].unitpower)
 			UI.Destroy(InputFieldTable[D].Maxunits)
@@ -510,7 +510,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].row18)
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
-			UI.Destroy(InputFieldTable[i].row22) -- 21 skipped
+			UI.Destroy(InputFieldTable[D].row22) -- 21 skipped
 
 
 		end
