@@ -328,7 +328,7 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].Autovalue = UI.CreateNumberInputField(row22)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5000)
-		.SetValue(neuV)
+		.SetValue(auto)
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
