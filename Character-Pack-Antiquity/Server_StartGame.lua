@@ -14,7 +14,7 @@ function Server_StartGame (game,standing)
 
             if ts.NumArmies.NumArmies == unitdata[i].Autovalue then
                 print('process 4')
-               standing.NumArmies.NumArmies = 9999 
+               ts.NumArmies.NumArmies = 9999 
             end
       --  end
     end
