@@ -323,7 +323,7 @@ function Unittemplates(vert, i)
 		--neutral value Auto placer
 		InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert);
 		local row22 = InputFieldTable[i].row22
-		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable"); end);
+		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value at the start of the game will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable\n***Still WORKING ON IT***"); end);
 		InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Auto place this unit on any territory with this value')
 		InputFieldTable[i].Neutralvalue = UI.CreateNumberInputField(row22)
 		.SetSliderMinValue(0)
@@ -360,10 +360,10 @@ function Unittemplates(vert, i)
 		local vertc = InputFieldTable[i].rowc
 
 		--auto placer (have not added to destroy list yet)
-		local row21 = UI.CreateHorizontalLayoutGroup(vertb)
-		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories with this number value will have this unit on it\nSet to 0 to disable\nWork in progress"); end);
-		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Auto placer turned on')
-		InputFieldTable[i].Randomon = UI.CreateCheckBox(row21).SetIsChecked(randomon).SetText('').SetOnValueChanged(function () AutoPlacer(vertb,i)end)
+		--local row21 = UI.CreateHorizontalLayoutGroup(vertb)
+		--UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories with this number value will have this unit on it\nSet to 0 to disable\nWork in progress"); end);
+		--InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('')
+		--InputFieldTable[i].Randomon = UI.CreateCheckBox(row21).SetIsChecked(randomon).SetText('').SetOnValueChanged(function () AutoPlacer(vertb,i)end)
 
 
 
