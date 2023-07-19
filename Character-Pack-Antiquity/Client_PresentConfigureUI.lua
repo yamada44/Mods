@@ -324,7 +324,7 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert);
 		local row22 = InputFieldTable[i].row22
 		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value at the start of the game will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable\n***Still WORKING ON IT***"); end);
-		InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Auto place this unit on any territory with this value')
+		InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Auto place this unit on any territory with this value at game creation')
 		InputFieldTable[i].Neutralvalue = UI.CreateNumberInputField(row22)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5000)
