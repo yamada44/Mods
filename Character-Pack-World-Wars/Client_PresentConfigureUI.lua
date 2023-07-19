@@ -320,7 +320,7 @@ function Unittemplates(vert, i)
 		.SetSliderMaxValue(5)
 		.SetValue(assass)
 
-		--neutral value Auto placer
+		--Auto placer
 		InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert);
 		local row22 = InputFieldTable[i].row22
 		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value at the start of the game will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable\n***Still WORKING ON IT***"); end);
@@ -354,10 +354,10 @@ function Unittemplates(vert, i)
 
 
 		--more layout groups
-		InputFieldTable[i].rowb = UI.CreateVerticalLayoutGroup(vert)
-		InputFieldTable[i].rowc = UI.CreateVerticalLayoutGroup(vert)
-		local vertb = InputFieldTable[i].rowb
-		local vertc = InputFieldTable[i].rowc
+	--	InputFieldTable[i].rowb = UI.CreateVerticalLayoutGroup(vert)
+	--	InputFieldTable[i].rowc = UI.CreateVerticalLayoutGroup(vert)
+	--	local vertb = InputFieldTable[i].rowb
+	--	local vertc = InputFieldTable[i].rowc
 
 		--auto placer (have not added to destroy list yet)
 		--local row21 = UI.CreateHorizontalLayoutGroup(vertb)
@@ -421,6 +421,7 @@ InputFieldTable[i].Visible = uniteconfig[i].Visible
 InputFieldTable[i].Altmoves = uniteconfig[i].Altmoves
 InputFieldTable[i].Name = uniteconfig[i].Name
 InputFieldTable[i].HostRules = uniteconfig[i].HostRules
+InputFieldTable[i].Autovalue = uniteconfig[i].Autovalue
 
 	
 end
@@ -468,6 +469,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].text20)
 			UI.Destroy(InputFieldTable[D].text21)
 			UI.Destroy(InputFieldTable[D].text22)
+			UI.Destroy(InputFieldTable[i].text24) -- 23 skipped
 			UI.Destroy(InputFieldTable[D].unitcost)
 			UI.Destroy(InputFieldTable[D].unitpower)
 			UI.Destroy(InputFieldTable[D].Maxunits)
@@ -487,6 +489,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].HostRules)
 			UI.Destroy(InputFieldTable[D].Assassination)
 			UI.Destroy(InputFieldTable[D].AttackMax)
+			UI.Destroy(InputFieldTable[D].Autovalue)
 			UI.Destroy(InputFieldTable[D].row1)
 			UI.Destroy(InputFieldTable[D].row2)
 			UI.Destroy(InputFieldTable[D].row3)
@@ -507,6 +510,8 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].row18)
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
+			UI.Destroy(InputFieldTable[i].row22) -- 21 skipped
+
 
 		end
 		UI.Destroy(InputFieldTable[D].text180)
