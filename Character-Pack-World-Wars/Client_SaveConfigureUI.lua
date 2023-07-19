@@ -123,7 +123,7 @@ function Client_SaveConfigureUI(alert)
         else Mod.Settings.Unitdata[i].Assassination = assass end
 
         --Auto placer
-        local auto = TableFormat(InputFieldTable[i].Autovalue ,num)
+        local auto = TableFormat(Nonill(InputFieldTable[i].Autovalue) ,num)
         if (auto < 0 )then auto = 0 alert("Mod set up failed\nAuto placer value cannot be below 0\n(set to 0 to disable)")
         else Mod.Settings.Unitdata[i].Autovalue = auto end
 
