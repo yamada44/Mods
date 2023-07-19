@@ -167,8 +167,8 @@ function Unittemplates(vert, i)
 		local attmax = uniteconfig[i].AttackMax
 		if (attmax == nil ) then attmax = 0 end 
 
-		local neuV = uniteconfig[i].Neutralvalue
-		if (neuV == nil ) then neuV = 0 end 
+		local auto = uniteconfig[i].Neutralvalue
+		if (auto == nil ) then auto = 0 end 
 
 		local randomon = uniteconfig[i].Randomon
 		if (randomon == nil) then randomon = false end
@@ -325,7 +325,7 @@ function Unittemplates(vert, i)
 		local row22 = InputFieldTable[i].row22
 		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value at the start of the game will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable\n***Still WORKING ON IT***"); end);
 		InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Auto place this unit on any territory with this value at game creation')
-		InputFieldTable[i].Neutralvalue = UI.CreateNumberInputField(row22)
+		InputFieldTable[i].Autovalue = UI.CreateNumberInputField(row22)
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(5000)
 		.SetValue(neuV)
