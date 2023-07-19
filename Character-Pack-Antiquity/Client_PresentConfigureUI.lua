@@ -368,7 +368,7 @@ function Unittemplates(vert, i)
 
 
 		--name of unit
-		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vertc)
+		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
 		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
 		InputFieldTable[i].Name = UI.CreateTextInputField(vertc)
@@ -379,7 +379,7 @@ function Unittemplates(vert, i)
 
 
 		--Host Rules
-		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vertc)
+		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
 		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
