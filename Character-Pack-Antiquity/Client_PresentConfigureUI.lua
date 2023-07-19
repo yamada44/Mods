@@ -167,6 +167,12 @@ function Unittemplates(vert, i)
 		local attmax = uniteconfig[i].AttackMax
 		if (attmax == nil ) then attmax = 0 end 
 
+		local neuV = uniteconfig[i].Neutralvalue
+		if (neuV == nil ) then neuV = 0 end 
+
+		local randomon = uniteconfig[i].Randomon
+		if (randomon == nil) then randomon = false end
+
 		--setting up the UI and all its fields
 
 
@@ -314,6 +320,16 @@ function Unittemplates(vert, i)
 		.SetSliderMaxValue(5)
 		.SetValue(assass)
 
+		--neutral value Auto placer
+		InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert);
+		local row22 = InputFieldTable[i].row22
+		UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any Territory with this value will be given this unit. 40 auto placed units shared between all players and unit types\nSet to 0 to disable"); end);
+		InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Auto place this unit on any territory with this value')
+		InputFieldTable[i].Neutralvalue = UI.CreateNumberInputField(row22)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(5000)
+		.SetValue(neuV)
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
@@ -335,11 +351,27 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
+
+
+		--more layout groups
+		InputFieldTable[i].rowb = UI.CreateHorizontalLayoutGroup(vert)
+		InputFieldTable[i].rowc = UI.CreateHorizontalLayoutGroup(vert)
+		local vertb = InputFieldTable[i].rowb
+		local vertc = InputFieldTable[i].rowc
+
+		--auto placer (have not added to destroy list yet)
+		local row21 = UI.CreateHorizontalLayoutGroup(vertb)
+		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories will have this unit on it "); end);
+		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Auto placer turned on')
+		InputFieldTable[i].Randomon = UI.CreateCheckBox(row21).SetIsChecked(randomon).SetText('').SetOnValueChanged(function () AutoPlacer(vertb,i)end)
+
+
+
 		--name of unit
-		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
+		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vertc)
 		local row5 = InputFieldTable[i].row5
 		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
-		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
+		InputFieldTable[i].Name = UI.CreateTextInputField(vertc)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(25)
@@ -347,18 +379,18 @@ function Unittemplates(vert, i)
 
 
 		--Host Rules
-		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
+		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vertc)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
 		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
-		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
+		InputFieldTable[i].HostRules = UI.CreateTextInputField(vertc)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(500)
 
 
 		--spacer
-		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
+		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vertc)
 		local row8 = InputFieldTable[i].row8
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
@@ -391,6 +423,21 @@ InputFieldTable[i].Name = uniteconfig[i].Name
 InputFieldTable[i].HostRules = uniteconfig[i].HostRules
 
 	
+end
+-- Grand list of things to add
+-- 1- Auto placer
+-- 2- Random spawns
+--how many
+--anywhere,not neutral,any player(not ai), ai only,specific slots
+--spawn every x turn
+--when spawns stop
+-- 3- Only certain slots can buy this unit 
+--multi at a time
+--are these slots immune to the lock till feature
+function AutoPlacer(vertb,i)
+--List of things to add
+
+
 end
 
 function Destroy()
@@ -471,5 +518,7 @@ print('before delete '.. D)
 	access = 1
 
 end
+
+
 
 

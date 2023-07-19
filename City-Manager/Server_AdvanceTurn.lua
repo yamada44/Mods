@@ -6,7 +6,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 local cityGroups = publicdata.cityGroups
 print (cityGroups )
 if cityGroups == nil then cityGroups = {} end
-print (cityGroups )
+
+
 
     for _, bonus in pairs(game.Map.Bonuses) do
         print('bonus ------ ', bonus.Name)
@@ -43,6 +44,11 @@ print (cityGroups )
         end
     end
 
+  --game.Settings.CustomScenario.SlotsAvailable
+        
+
     publicdata.cityGroups = cityGroups
 Mod.PublicGameData = publicdata
 end
+
+
