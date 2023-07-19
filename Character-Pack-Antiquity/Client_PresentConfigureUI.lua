@@ -361,7 +361,7 @@ function Unittemplates(vert, i)
 
 		--auto placer (have not added to destroy list yet)
 		local row21 = UI.CreateHorizontalLayoutGroup(vertb)
-		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories with this number value will have this unit on it\nSet to 0 to disable"); end);
+		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories with this number value will have this unit on it\nSet to 0 to disable\nWork in progress"); end);
 		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Auto placer turned on')
 		InputFieldTable[i].Randomon = UI.CreateCheckBox(row21).SetIsChecked(randomon).SetText('').SetOnValueChanged(function () AutoPlacer(vertb,i)end)
 
