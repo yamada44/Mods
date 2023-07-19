@@ -32,7 +32,7 @@ print (cityGroups )
                     local mod = WL.TerritoryModification.Create(t)
                     mod.SetStructuresOpt = Cities
                     local UnitdiedMessage = ''
-                    addNewOrder(WL.GameOrderEvent.Create(terr.ID, 'Illegal city. Only 1 city stack per bonus', {}, {mod}));
+                    addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID , 'Illegal city placed. Removing\nOnly 1 city stack per bonus', {}, {mod}));
                 elseif cityGroups[bonus.ID].Hascity == false and Cities[WL.StructureType.City] ~= nil and Cities[WL.StructureType.City] > 0 then
                     cityGroups[bonus.ID].Hascity = true
                     cityGroups[bonus.ID].citylocation = t
