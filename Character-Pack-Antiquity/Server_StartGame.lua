@@ -9,7 +9,11 @@ function Server_StartGame (game,standing)
 
         for _,ts in pairs(standing.Territories) do
   --          if false then
+    print(ts.NumArmies.NumArmies)
+    print('process 3')
+
             if ts.NumArmies.NumArmies == unitdata[i].Autovalue then
+                print('process 4')
                standing.NumArmies.NumArmies = 9999 
             end
       --  end
