@@ -390,7 +390,7 @@ function Unittemplates(vert, i)
 
 
 		--spacer
-		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vertc)
+		InputFieldTable[i].row8 = UI.CreateHorizontalLayoutGroup(vert)
 		local row8 = InputFieldTable[i].row8
 		InputFieldTable[i].text10 = UI.CreateEmpty(row8)
 		InputFieldTable[i].text11 = UI.CreateLabel(row8).SetText('\n')
