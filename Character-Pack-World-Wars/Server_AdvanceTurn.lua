@@ -361,7 +361,7 @@ print (altmove,'altmove')
 							if (altmove > 0)then
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
-									territory = order.To
+									territory = order.From
 
 									local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
 									--local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
