@@ -365,7 +365,7 @@ print (altmove,'altmove')
 									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 
 									local terrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
-									local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
+									local terrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 
 									terrMod.AddSpecialUnits = {v.ID};
 									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
