@@ -301,7 +301,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = v.Name end
 
 						local Ordername = ''
-						local ID = ""
+						local ID = 1
 					--[[	if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
 					else Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
