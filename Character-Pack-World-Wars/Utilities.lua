@@ -146,14 +146,14 @@ function ModSign(returnvalue)
 	local value
 
 	if returnvalue == 0 then -- Mod call sign
-		value = 'C&PA'
+		value = 'C&PE'
 	elseif returnvalue == 1 then
 		value = {}
-		value[1] = 'Barbarian'
-		value[2] = 'Roman Legion'
-		value[3] = 'Horse'
-		value[4] = 'Man'
-		value[5] = 'Women'
+		value[1] = 'Soilder'
+		value[2] = 'Commander'
+		value[3] = 'Artillery'
+		value[4] = 'Machine Gun'
+		value[5] = 'Tank'
 		value[6] = 'Random'
 	end
 
