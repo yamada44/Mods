@@ -295,7 +295,9 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 				if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
 
-				local UnitKilledMessage = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) .. ':\n' ..
+					local Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+					if Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) == nil then name = 'Neutral' end
+				local UnitKilledMessage = Ordername .. ':\n' ..
 					v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
 					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
@@ -374,9 +376,9 @@ print (altmove,'altmove')
 									terrMod.AddSpecialUnits = {builder.Build()};
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {terrNomove}))
 									addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {terrMod}));
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {terrMod}))
 
 
 								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)

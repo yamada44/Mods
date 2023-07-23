@@ -167,7 +167,7 @@ function Unittemplates(vert, i)
 		local attmax = uniteconfig[i].AttackMax
 		if (attmax == nil ) then attmax = 0 end 
 
-		local auto = uniteconfig[i].Neutralvalue
+		local auto = uniteconfig[i].Autovalue
 		if (auto == nil ) then auto = 0 end 
 
 		local randomon = uniteconfig[i].Randomon
