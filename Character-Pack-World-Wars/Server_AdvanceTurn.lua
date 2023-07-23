@@ -300,6 +300,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 					local transfer = tonumber(payloadSplit[2])
+
 					if (transfer ~= 0 and transfer ~= nil)then
 						local transfermessage = v.TextOverHeadOpt .. ' the ' .. ' has been transfered to ' ..  Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
 
@@ -360,10 +361,17 @@ print (altmove,'altmove')
 							if (altmove > 0)then
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
+
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									 territory = order.From
+									local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
+									terrMod.AddSpecialUnits = {builder.Build()};
+									terrMod.RemoveSpecialUnitsOpt = {v.ID}
+
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
 
-								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+								--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
 								end
 
 							end
@@ -446,17 +454,17 @@ print (altmove,'altmove')
 								local iswholenumber = true
 								local territory = order.To
 
-								--move unit every other turne
-								if (altmove > 0)then
-									iswholenumber = Iswhole(Game2.Game.TurnNumber)
+								--move unit every other turne (this was commented out because its not moving. so should still gain the affects of it)
+								--[[if (altmove > 0)then
+									--iswholenumber = Iswhole(Game2.Game.TurnNumber)
 									if iswholenumber == false then
 										local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
 
-									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
+									--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
 									end
 
-								end
+								end]]--
 
 								if (result.AttackingArmiesKilled.AttackPower  > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
 									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
