@@ -304,7 +304,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local transfer = tonumber(payloadSplit[2])
 
 					if (transfer ~= 0 and transfer ~= nil)then
-						local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername
+						local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
 
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
@@ -313,7 +313,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 						local terrMod = WL.TerritoryModification.Create(order.To);
 						terrMod.AddSpecialUnits = {builder.Build()};
-						addNewOrder(WL.GameOrderEvent.Create(landfrom.OwnerPlayerID, transfermessage, nil, {terrMod}));
+						addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
 
 					else
 						addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
