@@ -304,7 +304,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local transfer = tonumber(payloadSplit[2])
 
 					if (transfer ~= 0 and transfer ~= nil)then
-						local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' 44444 has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
+						local transfermessage = 'jkjlkjkljkl'--v.TextOverHeadOpt .. ' the ' .. v.Name .. ' 44444 has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
 
 						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 						transfer = transfer - 1
