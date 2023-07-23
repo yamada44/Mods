@@ -301,8 +301,11 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = v.Name end
 
 						local Ordername = ''
+						local ID = ""
 						if land.IsNeutral == true then Ordername = 'Neutral' 
-					else Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
+							ID = 0
+					else Ordername = 'l'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
+					ID = land.OwnerPlayerID end
 						local UnitKilledMessage = Ordername .. ':\n' ..
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
@@ -319,10 +322,10 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 							local terrMod = WL.TerritoryModification.Create(order.To);
 							terrMod.AddSpecialUnits = {builder.Build()};
-							addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
+							addNewOrder(WL.GameOrderEvent.Create(ID, transfermessage, nil, {terrMod}));
 
 						else
-							addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+							addNewOrder(WL.GameOrderEvent.Create(ID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 						end
 					end
