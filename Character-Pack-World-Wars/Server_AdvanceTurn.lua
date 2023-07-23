@@ -49,7 +49,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
 
-			--LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 			Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
@@ -255,28 +255,32 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 		for i,v in pairs (specialUnitKilled)do
 			if v.proxyType == "CustomSpecialUnit" then
 				if v.ModData ~= nil then 
-					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-					if v.TextOverHeadOpt == nil then builder.TextOverHeadOpt = '' end
+					if startsWith(v.ModData, ModSign(0)) then
 
-				local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n' ..
-				builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle'   
-					
-					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-					local transfer = tonumber(payloadSplit[2]) 
-					if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
-						local transfermessage = v.TextOverHeadOpt .. ' gfddfdfgdfthe ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+
+						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+						if v.TextOverHeadOpt == nil then builder.TextOverHeadOpt = v.Name end
+
+					local UnitKilledMessage = Game2.Game.Players[order.PlayerID].DisplayName(nil,false) .. ':\n' ..
+					builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle'   
 						
-							transfer = transfer - 1
-							builder.OwnerID  = land.OwnerPlayerID
-							builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
-
-							local terrMod = WL.TerritoryModification.Create(order.To);
-							terrMod.AddSpecialUnits = {builder.Build()};
-						--	addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+						local transfer = tonumber(payloadSplit[2]) 
+						if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
+							local transfermessage = v.TextOverHeadOpt .. ' gfddfdfgdfthe ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 							
-					else
-						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+								transfer = transfer - 1
+								builder.OwnerID  = land.OwnerPlayerID
+								builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 
+								local terrMod = WL.TerritoryModification.Create(order.To);
+								terrMod.AddSpecialUnits = {builder.Build()};
+								addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, transfermessage, nil, {terrMod}));
+								
+						else
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+
+						end
 					end
 				end
 			end
@@ -292,32 +296,34 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 		for i,v in pairs (specialUnitKilled)do
 			if v.proxyType == "CustomSpecialUnit" then
 				if v.ModData ~= nil then 
+					if startsWith(v.ModData, ModSign(0)) then
 
-				if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = '' end
+						if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = v.Name end
 
-					local Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
-				--	if Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) == nil then Ordername = 'Neutral' end
-				local UnitKilledMessage = Ordername .. ':\n' ..
-					v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
+						local Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+					--	if Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) == nil then Ordername = 'Neutral' end
+						local UnitKilledMessage = Ordername .. ':\n' ..
+						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
-					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-					local transfer = tonumber(payloadSplit[2])
+						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+						local transfer = tonumber(payloadSplit[2])
 
-					if (transfer ~= 0 and transfer ~= nil)then
-						local transfermessage = 'jkjlkjkljkl'--v.TextOverHeadOpt .. ' the ' .. v.Name .. ' 44444 has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
+						if (transfer ~= 0 and transfer ~= nil)then
+							local transfermessage = 'jkjlkjkljkl'--v.TextOverHeadOpt .. ' the ' .. v.Name .. ' 44444 has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
 
-						local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-						transfer = transfer - 1
-						builder.OwnerID  = landfrom.OwnerPlayerID
-						builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
+							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+							transfer = transfer - 1
+							builder.OwnerID  = landfrom.OwnerPlayerID
+							builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. Nonill(payloadSplit[7]).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 
-						local terrMod = WL.TerritoryModification.Create(order.To);
-						terrMod.AddSpecialUnits = {builder.Build()};
-						--addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
+							local terrMod = WL.TerritoryModification.Create(order.To);
+							terrMod.AddSpecialUnits = {builder.Build()};
+							addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, transfermessage, nil, {terrMod}));
 
-					else
-						addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
+						else
+							addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID , UnitKilledMessage , nil,nil,nil ,{} ))
 
+						end
 					end
 
 				end
