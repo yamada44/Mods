@@ -322,10 +322,10 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 							local terrMod = WL.TerritoryModification.Create(order.To);
 							terrMod.AddSpecialUnits = {builder.Build()};
-							addNewOrder(WL.GameOrderEvent.Create(ID, transfermessage, nil, {terrMod}));
+						--	addNewOrder(WL.GameOrderEvent.Create(ID, transfermessage, nil, {terrMod}));
 
 						else
-							addNewOrder(WL.GameOrderEvent.Create(ID , UnitKilledMessage , nil,nil,nil ,{} ))
+						--	addNewOrder(WL.GameOrderEvent.Create(ID , UnitKilledMessage , nil,nil,nil ,{} ))
 
 						end
 					end
