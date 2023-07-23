@@ -363,12 +363,14 @@ print (altmove,'altmove')
 								if iswholenumber == false then
 
 									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									local s = {}
 
 									local terrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 									local terrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 
+									table.insert(s,v.ID)
 									terrMod.AddSpecialUnits = {v.ID};
-									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
+									terrNomove.RemoveSpecialUnitsOpt = {s}
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
