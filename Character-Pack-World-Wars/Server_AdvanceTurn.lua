@@ -366,12 +366,12 @@ print (altmove,'altmove')
 									local terrMod = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 									local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 
-									terrMod.AddSpecialUnits = {v.ID};
+									terrMod.AddSpecialUnits = {v.ID}
 									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrMod}));
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {terrNomove}));
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {0}, {terrNomove}));
 
 
 								--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
