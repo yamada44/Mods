@@ -302,11 +302,11 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 						local Ordername = ''
 						local ID = ""
-						if land.IsNeutral == true then Ordername = 'Neutral' 
+					--[[	if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
 					else Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
 					ID = land.OwnerPlayerID end
-
+					]]--
 					
 						local UnitKilledMessage = Ordername .. ':\n' ..
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
