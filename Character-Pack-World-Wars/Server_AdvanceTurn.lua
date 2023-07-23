@@ -367,7 +367,7 @@ print (altmove,'altmove')
 									local terrMod = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 									--local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 
-									--terrMod.AddSpecialUnits = {builder.Build()};
+									terrMod.AddSpecialUnits = {builder.Build()};
 									--terrNomove.RemoveSpecialUnitsOpt = {v.ID}
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
