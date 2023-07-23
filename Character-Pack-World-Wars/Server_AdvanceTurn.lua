@@ -371,8 +371,8 @@ print (altmove,'altmove')
 									terrNomove.RemoveSpecialUnitsOpt = {builder.Build()}
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrMod}));
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
+									--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
 
 
 								--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
