@@ -370,7 +370,7 @@ print (altmove,'altmove')
 
 									table.insert(s,v.ID)
 									terrMod.AddSpecialUnits = {v.ID};
-									terrNomove.RemoveSpecialUnitsOpt = {s}
+									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
