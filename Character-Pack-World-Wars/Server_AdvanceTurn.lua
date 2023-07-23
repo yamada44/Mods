@@ -51,7 +51,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
-			Deathlogic(game, order, result, skipThisOrder, addNewOrder)
+		--	Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 		end
 
