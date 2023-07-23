@@ -302,20 +302,21 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 						local Ordername = ''
 						local ID = 1
-						if land.IsNeutral == true then Ordername = 'Neutral' 
-							ID = 0
-					else Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
-					ID = land.OwnerPlayerID end
-					
-					
+
 						local UnitKilledMessage = Ordername .. ':\n' ..
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
+						if land.IsNeutral == true then Ordername = 'Neutral' 
+							ID = 0
+							UnitKilledMessage = 'A ' .. v.Name .. ' has been destroyed'
+							else Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+							ID = land.OwnerPlayerID end
+					
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2])
 
 						if (transfer ~= 0 and transfer ~= nil)then
-							local transfermessage = 'jkjlkjkljkl'--v.TextOverHeadOpt .. ' the ' .. v.Name .. ' 44444 has been transfered to ' ..  Ordername .. ' --  '.. #result.DefendingArmiesKilled.SpecialUnits
+							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername 
 
 							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
 							transfer = transfer - 1
