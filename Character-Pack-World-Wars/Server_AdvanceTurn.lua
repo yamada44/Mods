@@ -363,7 +363,7 @@ print (altmove,'altmove')
 								if iswholenumber == false then
 
 									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-									if result.IsSuccessful == true then territory = order.To
+									if result.IsSuccessful == true then territory = order.From
 									else territory = order.From end
 									local terrMod = WL.TerritoryModification.Create(territory); -- adding it to territory logic
 									terrMod.AddSpecialUnits = {builder.Build()};
