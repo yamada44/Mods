@@ -366,7 +366,7 @@ print (altmove,'altmove')
 									local s = {}
 
 									local terrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
-									local terrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
+									local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 
 									table.insert(s,v.ID)
 
