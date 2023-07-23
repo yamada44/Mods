@@ -49,7 +49,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
 			Game2 = game
 
-			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+			--LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 		--	Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
