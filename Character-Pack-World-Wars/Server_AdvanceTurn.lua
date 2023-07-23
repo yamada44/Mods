@@ -301,7 +301,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = v.Name end
 
 						local Ordername = ''
-						if Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) == nil then Ordername = 'Neutral' 
+						if land.OwnerPlayerID == 0 then Ordername = 'Neutral' 
 					else Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
 						local UnitKilledMessage = Ordername .. ':\n' ..
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
