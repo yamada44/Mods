@@ -371,12 +371,13 @@ print (altmove,'altmove')
 									table.insert(s,v.ID)
 
 									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
-									--terrMod.AddSpecialUnits = {builder.Build()};
+									terrMod.AddSpecialUnits = {builder.Build()};
 
 									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrNomove}));
-									--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrMod}));
 									addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrMod}));
+
 
 								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 								end
