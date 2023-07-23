@@ -304,8 +304,10 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local ID = ""
 						if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
-					else Ordername = 'l'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
+					else Ordername = 'kol'--Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false) end
 					ID = land.OwnerPlayerID end
+
+					
 						local UnitKilledMessage = Ordername .. ':\n' ..
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
@@ -521,7 +523,7 @@ print (altmove,'altmove')
 										terrMod.AddSpecialUnits = {builder.Build()};
 										terrMod.RemoveSpecialUnitsOpt = {v.ID}
 
-										addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
+									--	addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
 									
 									end
 
