@@ -264,7 +264,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 					local transfer = tonumber(payloadSplit[2]) 
 					if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
-						local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+						local transfermessage = v.TextOverHeadOpt .. ' gfddfdfgdfthe ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 						
 							transfer = transfer - 1
 							builder.OwnerID  = land.OwnerPlayerID
