@@ -378,7 +378,7 @@ print (altmove,'altmove')
 									--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, {terrMod}));
 									addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.To,order.From,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies,false))
 
-								--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 								end
 
 							end
