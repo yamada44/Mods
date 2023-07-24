@@ -344,7 +344,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 		local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
 		local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 		local wassuccessful = result.IsSuccessful
-		local NomoveList = {}
+		local NomoveList = nil
 		local buildertalble = {}
 		local NoMterrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 		local NoMterrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
