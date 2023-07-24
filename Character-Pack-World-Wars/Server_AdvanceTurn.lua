@@ -51,7 +51,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
-			Deathlogic(game, order, result, skipThisOrder, addNewOrder)
+			--Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 		end
 
@@ -385,7 +385,6 @@ print (altmove,'altmove')
 
 									table.insert(NomoveList,v.ID)
 									table.insert(buildertalble,unit)
-									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 
 								end
 
@@ -440,7 +439,7 @@ print (altmove,'altmove')
 				end
 			end
 		end
-		if NomoveList ~= nil then -- to delete all at once
+		if NomoveList ~= nil then -- to delete all special units all at once
 
 
 
@@ -454,6 +453,7 @@ print (altmove,'altmove')
 			addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
 
+			skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 
 			end
 
