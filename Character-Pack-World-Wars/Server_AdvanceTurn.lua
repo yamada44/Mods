@@ -380,6 +380,7 @@ print (altmove,'altmove')
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
 
+									NomoveList = {}
 									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 									local unit = builder.Build()
 
@@ -446,8 +447,8 @@ print (altmove,'altmove')
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 
 
-			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-			NoMterrMod.AddSpecialUnits = buildertalble;
+		--	NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
+		--	NoMterrMod.AddSpecialUnits = buildertalble;
 
 			--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 		--	addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
