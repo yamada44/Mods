@@ -386,8 +386,7 @@ print (altmove,'altmove')
 										NomoveList = {}
 										
 									end
-									NoMterrNomove.RemoveSpecialUnitsOpt = {v.ID}
-									table.insert(NomoveList,v)
+									table.insert(NomoveList,v.ID)
 									table.insert(buildertalble,builder.Build())
 
 								end
@@ -449,7 +448,7 @@ print (altmove,'altmove')
 
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 
-
+			NoMterrNomove.RemoveSpecialUnitsOpt = {NoMterrNomove}
 			--NoMterrMod.AddSpecialUnits = {buildertalble};
 
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
