@@ -345,6 +345,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 		local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 		local wassuccessful = result.IsSuccessful
 		local NomoveList = nil
+		local buildertalble = {}
 		local NoMterrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 		local NoMterrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 
@@ -379,10 +380,14 @@ print (altmove,'altmove')
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
 
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
+
 									if NomoveList == nil then 
 										NomoveList = {}
+										
 									end
 									table.insert(NomoveList,v)
+									table.insert(buildertalble,builder.Build())
 
 								end
 
@@ -441,11 +446,10 @@ print (altmove,'altmove')
 
 
 
-		--	local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 
 			NoMterrNomove.RemoveSpecialUnitsOpt = {NomoveList}
-			NoMterrMod.AddSpecialUnits = {NomoveList};
+			NoMterrMod.AddSpecialUnits = {buildertalble};
 
 			--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
