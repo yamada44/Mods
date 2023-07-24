@@ -347,7 +347,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 		local NomoveList = nil
 		local buildertalble = {}
 		local NoMterrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
-		local NoMterrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
+		local NoMterrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 
 		for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
 			if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
