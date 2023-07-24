@@ -452,10 +452,10 @@ print (altmove,'altmove')
 			NoMterrMod.AddSpecialUnits = buildertalble;
 
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
-			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-			--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+			addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
 
-			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+			skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 			end
 
 
