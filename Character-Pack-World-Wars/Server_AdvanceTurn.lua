@@ -444,8 +444,8 @@ print (altmove,'altmove')
 		--	local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 
-		--	NoMterrNomove.RemoveSpecialUnitsOpt = {NomoveList}
-			--NoMterrMod.AddSpecialUnits = {NomoveList};
+			NoMterrNomove.RemoveSpecialUnitsOpt = {NomoveList}
+			NoMterrMod.AddSpecialUnits = {NomoveList};
 
 			--addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
