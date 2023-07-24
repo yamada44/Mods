@@ -454,6 +454,7 @@ print (altmove,'altmove')
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
 
 			skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+			return
 
 			end
 
