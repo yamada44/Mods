@@ -181,7 +181,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
 		addedwords =  '\nLife ends on Turn: ' .. Turnkilled
 		end
-		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > unitpower then
+		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > Mod.Settings.Unitdata[type].unitpower then
 			addedwords2 = '\nAttack power: ' .. unitpower
 		end
 		if (levelamount > 0)then
@@ -309,8 +309,8 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
 							UnitKilledMessage = 'A ' .. v.Name .. ' has been destroyed'
-							else Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
-							ID = land.OwnerPlayerID end
+							else Ordername = Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
+							ID = landfrom.OwnerPlayerID end
 					
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2])
@@ -344,7 +344,10 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 		local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
 		local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
 		local wassuccessful = result.IsSuccessful
-
+		local NomoveList = nil
+		local buildertalble = {}
+		local NoMterrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
+		local NoMterrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 
 		for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
 			if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
@@ -377,24 +380,13 @@ print (altmove,'altmove')
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
 
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
-									local s = {}
+									NomoveList = {}
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
+									local unit = builder.Build()
 
-									local terrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
-									local terrNomove = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
+									table.insert(NomoveList,v.ID)
+									table.insert(buildertalble,unit)
 
-									table.insert(s,v.ID)
-
-									terrNomove.RemoveSpecialUnitsOpt = {v.ID}
-									terrMod.AddSpecialUnits = {builder.Build()};
-
-									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {terrNomove}))
-									addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {terrMod}))
-
-
-								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 								end
 
 							end
@@ -448,6 +440,26 @@ print (altmove,'altmove')
 				end
 			end
 		end
+		if NomoveList ~= nil then -- to delete all special units all at once
+
+
+
+			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+
+
+			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
+			NoMterrMod.AddSpecialUnits = buildertalble;
+
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
+			addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
+			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+
+			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+			
+			end
+
+
+		
 		if #defendingspecialUnits > 0 and wassuccessful == false then
 			print('defending special units found')
 

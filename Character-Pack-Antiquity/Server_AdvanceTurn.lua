@@ -181,7 +181,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
 		addedwords =  '\nLife ends on Turn: ' .. Turnkilled
 		end
-		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > unitpower then
+		if Mod.Settings.Unitdata[type].AttackMax ~= nil and Mod.Settings.Unitdata[type].AttackMax > Mod.Settings.Unitdata[type].unitpower then
 			addedwords2 = '\nAttack power: ' .. unitpower
 		end
 		if (levelamount > 0)then
@@ -309,8 +309,8 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
 							UnitKilledMessage = 'A ' .. v.Name .. ' has been destroyed'
-							else Ordername = Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
-							ID = land.OwnerPlayerID end
+							else Ordername = Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
+							ID = landfrom.OwnerPlayerID end
 					
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2])
