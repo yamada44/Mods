@@ -536,7 +536,7 @@ print (altmove,'altmove')
 										terrMod.AddSpecialUnits = {builder.Build()};
 										terrMod.RemoveSpecialUnitsOpt = {v.ID}
 
-									--	addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
+										addNewOrder(WL.GameOrderEvent.Create(land.OwnerPlayerID, levelupmessage, nil, {terrMod}));
 									
 									end
 
