@@ -303,8 +303,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local Ordername = ''
 						local ID = 1
 
-						local UnitKilledMessage = Ordername .. ':\n' ..
-						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
+
 
 						if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
@@ -314,6 +313,8 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 					
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2])
+						local UnitKilledMessage = Ordername .. ':\n' ..
+						v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has perished in battle' 
 
 						if (transfer ~= 0 and transfer ~= nil)then
 							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername 
