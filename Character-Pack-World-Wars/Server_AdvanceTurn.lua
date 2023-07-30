@@ -445,9 +445,10 @@ print (altmove,'altmove')
 
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 			--NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-
+UI.altert(#NomoveList)
 			local temptable2 = {}
 			local count2 = 1
+
 			for i, v in pairs(NomoveList) do -- checking to see if an attack had a special unit
 				table.insert(temptable2,v)
 				if count2 < 4 and i ~= #NomoveList then
