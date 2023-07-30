@@ -443,17 +443,32 @@ print (altmove,'altmove')
 		end
 		if NomoveList ~= nil then -- to delete all special units all at once
 
-
-
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-
-
 			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-			NoMterrMod.AddSpecialUnits = buildertalble;
-
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
-			addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,3,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+
+
+			local temptable = {}
+			local count = 1
+			for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
+				if count <= 4 then
+					table.insert(temptable,v)
+					count = count + 1
+				elseif count > 4 then
+					NoMterrMod.AddSpecialUnits = temptable
+					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+					temptable = {}
+					count = 1
+					table.insert(temptable,v)
+
+				end
+			end
+
+
+			--NoMterrMod.AddSpecialUnits = buildertalble;
+
+
+			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,3,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
 
 			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 			
