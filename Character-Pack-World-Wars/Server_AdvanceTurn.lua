@@ -445,7 +445,23 @@ print (altmove,'altmove')
 
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
+
+			local temptable2 = {}
+			local count2 = 1
+			for i, v in pairs(NomoveList) do -- checking to see if an attack had a special unit
+				table.insert(temptable2,v)
+				if count2 < 4 and i ~= #NomoveList then
+
+					count2 = count2 + 1
+				elseif count2 >= 4 or i == #NomoveList then
+					NoMterrMod.AddSpecialUnits = temptable2
+					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
+					temptable2 = {}
+					count2 = 1
+
+				end
+			end
+
 
 
 			local temptable = {}
@@ -460,7 +476,6 @@ print (altmove,'altmove')
 					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
 					temptable = {}
 					count = 1
-					table.insert(temptable,v)
 
 				end
 			end
