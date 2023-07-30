@@ -444,7 +444,7 @@ print (altmove,'altmove')
 		if NomoveList ~= nil then -- to delete all special units all at once
 
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
+			--NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
 
 			local temptable2 = {}
 			local count2 = 1
@@ -454,7 +454,7 @@ print (altmove,'altmove')
 
 					count2 = count2 + 1
 				elseif count2 >= 4 or i == #NomoveList then
-					NoMterrMod.AddSpecialUnits = temptable2
+					NoMterrNomove.RemoveSpecialUnitsOpt = temptable2
 					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 					temptable2 = {}
 					count2 = 1
