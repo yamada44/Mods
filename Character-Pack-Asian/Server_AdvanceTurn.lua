@@ -445,8 +445,8 @@ print (altmove,'altmove')
 			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 
-UI.altert(#NomoveList)
---[[
+
+			--[[
 			local temptable2 = {}
 			local count2 = 1
 
