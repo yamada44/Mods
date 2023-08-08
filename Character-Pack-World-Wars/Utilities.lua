@@ -165,7 +165,7 @@ function Filefinder(image)
 	if image == 0 then image = math.random(1,5) end
 	local filestorage = {}
 	
-		filestorage[1] = 'test/pack 1.a.png'
+		filestorage[1] = 'pack 1.a.png'
 		filestorage[2] = 'pack 1.b.png'
 		filestorage[3] = 'pack 1.c.png'
 		filestorage[4] = 'pack 1.d.png'
