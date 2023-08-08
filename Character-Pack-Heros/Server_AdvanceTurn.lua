@@ -425,8 +425,6 @@ print (altmove,'altmove')
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
 									builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 									print (v.ModData)
-									print (builder.ModData)
-									print (builder.AttackPower)
 									terrMod.AddSpecialUnits = {builder.Build()};
 									terrMod.RemoveSpecialUnitsOpt = {v.ID}
 
@@ -443,17 +441,51 @@ print (altmove,'altmove')
 		end
 		if NomoveList ~= nil then -- to delete all special units all at once
 
-
-
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-
-
 			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-			NoMterrMod.AddSpecialUnits = buildertalble;
-
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
-			addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,1,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+
+UI.altert(#NomoveList)
+--[[
+			local temptable2 = {}
+			local count2 = 1
+
+			for i, v in pairs(NomoveList) do -- checking to see if an attack had a special unit
+				table.insert(temptable2,v)
+				if count2 < 4 and i ~= #NomoveList then
+
+					count2 = count2 + 1
+				elseif count2 >= 4 or i == #NomoveList then
+					NoMterrNomove.RemoveSpecialUnitsOpt = temptable2
+					temptable2 = {}
+					count2 = 1
+
+				end
+			end
+]]--
+
+
+			local temptable = {}
+			local count = 0
+			for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
+				table.insert(temptable,v)
+				if count < 4 and i ~= #buildertalble then
+
+					count = count + 1
+				elseif count >= 4 or i == #buildertalble then
+					NoMterrMod.AddSpecialUnits = temptable
+					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+					temptable = {}
+					count = 0
+
+				end
+			end
+
+
+			--NoMterrMod.AddSpecialUnits = buildertalble;
+
+
+			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,3,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
 
 			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 			
@@ -553,4 +585,5 @@ print (altmove,'altmove')
 		end
 		
 	end
+
 
