@@ -266,8 +266,16 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2]) 
-						if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
-							local transfermessage = v.TextOverHeadOpt .. ' gfddfdfgdfthe ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
+						local altmove = Nonill(tonumber(payloadSplit[8]))
+						local iswholenumber = Iswhole(Game2.Game.TurnNumber)
+						local MoveOn = false
+						if altmove > 0 then
+							if iswholenumber == false then
+								MoveOn = true
+							end
+						end
+						if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil and MoveOn == false)then
+							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 							
 								transfer = transfer - 1
 								builder.OwnerID  = land.OwnerPlayerID
@@ -302,8 +310,6 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 
 						local Ordername = ''
 						local ID = 1
-
-
 
 						if land.IsNeutral == true then Ordername = 'Neutral' 
 							ID = 0
@@ -381,13 +387,16 @@ print (altmove,'altmove')
 								iswholenumber = Iswhole(Game2.Game.TurnNumber)
 								if iswholenumber == false then
 
-									NomoveList = {}
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
-									local unit = builder.Build()
+									--NomoveList = {}
+									--local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
+									--local unit = builder.Build()
 
-									table.insert(NomoveList,v.ID)
-									table.insert(buildertalble,unit)
-
+									--table.insert(NomoveList,v.ID)
+									--table.insert(buildertalble,unit)
+									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
+									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+									goto endloop
 								end
 
 							end
@@ -439,14 +448,14 @@ print (altmove,'altmove')
 				end
 			end
 		end
+
+	--[[
 		if NomoveList ~= nil then -- to delete all special units all at once
 
 			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
 
-
-			--[[
 			local temptable2 = {}
 			local count2 = 1
 
@@ -462,25 +471,31 @@ print (altmove,'altmove')
 
 				end
 			end
-]]--
 
 
-			local temptable = {}
 
-			for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
-				table.insert(temptable,v)
+				local temptable = {}
 
-				if #temptable >= 4 or i == #buildertalble then
-					NoMterrMod.AddSpecialUnits = temptable
-					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
-					temptable = {}
+				for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
+					table.insert(temptable,v)
 
+					if #temptable >= 4 or i == #buildertalble then
+						NoMterrMod.AddSpecialUnits = temptable
+						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
+						temptable = {}
+
+					end
 				end
-			end
 
+			--NoMterrMod.AddSpecialUnits = buildertalble;
+
+
+			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,3,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
+
+			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
 			
 			end
-
+]]--
 
 		
 		if #defendingspecialUnits > 0 and wassuccessful == false then
@@ -573,6 +588,6 @@ print (altmove,'altmove')
 
 
 		end
-		
+		::endloop::
 	end
 
