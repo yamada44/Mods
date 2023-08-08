@@ -466,17 +466,14 @@ print (altmove,'altmove')
 
 
 			local temptable = {}
-			local count = 0
+
 			for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
 				table.insert(temptable,v)
-				if count < 4 and i ~= #buildertalble then
 
-					count = count + 1
-				elseif count >= 4 or i == #buildertalble then
+				if #temptable >= 4 or i == #buildertalble then
 					NoMterrMod.AddSpecialUnits = temptable
 					addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
 					temptable = {}
-					count = 0
 
 				end
 			end
