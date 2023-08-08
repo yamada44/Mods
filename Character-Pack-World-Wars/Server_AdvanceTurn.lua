@@ -425,8 +425,6 @@ print (altmove,'altmove')
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
 									builder.ModData = ModSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. Nonill(unitdefence).. ';;'.. Nonill(payloadSplit[8]) .. ';;' .. Nonill(payloadSplit[9])
 									print (v.ModData)
-									print (builder.ModData)
-									print (builder.AttackPower)
 									terrMod.AddSpecialUnits = {builder.Build()};
 									terrMod.RemoveSpecialUnitsOpt = {v.ID}
 
