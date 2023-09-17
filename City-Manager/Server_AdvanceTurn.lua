@@ -64,7 +64,8 @@ local holdskipvalue = 14
     if base == holdskipvalue and over == nil then
         dontskip = false
     end
-print("in func ".. dontskip)
+
+print("in func ".. tostring(dontskip))
 return dontskip
 end
 
