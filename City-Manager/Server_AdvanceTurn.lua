@@ -62,6 +62,7 @@ local holdskipvalue = 14
     if base == holdskipvalue and over == base then
         dontskip = false
     end
+    print (over)
 
 return dontskip
 end
