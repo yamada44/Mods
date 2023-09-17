@@ -63,6 +63,7 @@ local holdskipvalue = 14
         dontskip = false
     end
     print (over)
+    print (base)
 
 return dontskip
 end
