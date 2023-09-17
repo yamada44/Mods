@@ -17,7 +17,7 @@ if cityGroups == nil then cityGroups = {} end
         end 
 
 local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
-print(Noskip)
+
         if Noskip == false  then
         print ('did you print value'.. bonus.Name)
             for _, t in pairs(bonus.Territories) do
