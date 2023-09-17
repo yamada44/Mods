@@ -17,7 +17,7 @@ if cityGroups == nil then cityGroups = {} end
         end 
 
         --if game.Settings.OverriddenBonuses[bonus.ID] ~= 0 then
-            print("bonus value found test ")
+            print("bonus value found test " .. bonus.Name)
         if bonus.Amount == 123 then  
             print("bonus value found " .. bonus.Name)
             for _, t in pairs(bonus.Territories) do
