@@ -15,13 +15,10 @@ if cityGroups == nil then cityGroups = {} end
             cityGroups[bonus.ID] = {} 
             cityGroups[bonus.ID].Hascity = false
         end 
-        print (game.Settings.OverriddenBonuses[bonus.ID])
-        print (bonus.ID)
-        print (game.Settings.OverriddenBonuses)
-        print   (bonus.Amount.. " -------- ")
+
 local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
         if Noskip == true  then
-print ('did you print value')
+        print ('did you print value')
             for _, t in pairs(bonus.Territories) do
 
                 local terr = game.ServerGame.LatestTurnStanding.Territories[t]
@@ -63,11 +60,9 @@ local holdskipvalue = 14
     if over ~= holdskipvalue then
         dontskip = true
     end
-    if base == holdskipvalue and over == base then
+    if base == holdskipvalue and over == nil then
         dontskip = false
     end
-    print (over)
-    print (base)
 
 return dontskip
 end
