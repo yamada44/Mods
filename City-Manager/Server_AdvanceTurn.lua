@@ -4,7 +4,7 @@ require('Utilities')
 function Server_AdvanceTurn_End(game, addNewOrder)
     local publicdata = Mod.PublicGameData
 local cityGroups = publicdata.cityGroups
-print (cityGroups )
+
 if cityGroups == nil then cityGroups = {} end
 
 
