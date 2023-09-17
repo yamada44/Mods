@@ -17,6 +17,7 @@ if cityGroups == nil then cityGroups = {} end
         end 
 
 local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
+print(Noskip)
         if Noskip == true  then
         print ('did you print value')
             for _, t in pairs(bonus.Territories) do
@@ -63,7 +64,7 @@ local holdskipvalue = 14
     if base == holdskipvalue and over == nil then
         dontskip = false
     end
-
+print("in func ".. dontskip)
 return dontskip
 end
 
