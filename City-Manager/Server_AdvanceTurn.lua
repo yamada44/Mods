@@ -10,7 +10,7 @@ if cityGroups == nil then cityGroups = {} end
 
 
     for _, bonus in pairs(game.Map.Bonuses) do
-        print('bonus ------ ', bonus.Name)
+       -- print('bonus ------ ', bonus.Name)
         if cityGroups[bonus.ID] == nil then
             cityGroups[bonus.ID] = {} 
             cityGroups[bonus.ID].Hascity = false
