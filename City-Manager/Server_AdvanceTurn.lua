@@ -15,8 +15,8 @@ if cityGroups == nil then cityGroups = {} end
             cityGroups[bonus.ID] = {} 
             cityGroups[bonus.ID].Hascity = false
         end 
-
-        if bonus.Amount ~= 14 and game.Settings.OverriddenBonuses[bonus.ID] == 14  then
+local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
+        if Noskip == true  then
 print ('did you print value')
             for _, t in pairs(bonus.Territories) do
 
@@ -52,4 +52,17 @@ print ('did you print value')
 Mod.PublicGameData = publicdata
 end
 
+function Bonuschecker(over,base)
+local dontskip = false
+local holdskipvalue = 14
+
+    if over ~= holdskipvalue then
+        dontskip = true
+    end
+    if base == holdskipvalue and over == base then
+        dontskip = false
+    end
+
+return dontskip
+end
 
