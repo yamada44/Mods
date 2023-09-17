@@ -16,7 +16,9 @@ if cityGroups == nil then cityGroups = {} end
             cityGroups[bonus.ID].Hascity = false
         end 
 
-        if game.Settings.OverriddenBonuses[bonus.ID] ~= 0 then
+        --if game.Settings.OverriddenBonuses[bonus.ID] ~= 0 then
+        if bonus.Amount == 123 then  
+            print("bonus value found " .. bonus.Name)
             for _, t in pairs(bonus.Territories) do
 
                 local terr = game.ServerGame.LatestTurnStanding.Territories[t]
