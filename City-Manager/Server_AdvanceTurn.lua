@@ -16,7 +16,7 @@ if cityGroups == nil then cityGroups = {} end
             cityGroups[bonus.ID].Hascity = false
         end 
 
-        if game.Settings.OverriddenBonuses[bonus.ID] == 14  then
+        if bonus.Amount ~= 14 or game.Settings.OverriddenBonuses[bonus.ID] ~= 14  then
 print ('did you print value')
             for _, t in pairs(bonus.Territories) do
 
