@@ -101,7 +101,7 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	local payload = {}
 	payload.type = Typerule
 	Game.SendGameCustomMessage("read rules...", payload, function(returnValue) end)
-
+print(publicdata[Typerule][ID].readrules, "???")
 	local rules = Playerdata.Unitdata[Typerule].HostRules
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
@@ -109,7 +109,6 @@ function HostRulesDialog(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(vert).SetText('These are custom Rules/Lore enforced by the host for this unit')
 	UI.CreateLabel(vert).SetText(rules).SetColor('#dbddf4')
 
-	--Game.CreateDialog
 	
 end
 
