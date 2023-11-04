@@ -634,6 +634,17 @@ function Modloader(loadnumber)
         list[3] = 'C&PC'
         list[4] = 'C&PD'
         list[5] = 'C&PE'
+        list[6] = 'C&PF'
+        list[7] = 'C&PG'
+        list[8] = 'C&PH'
+        list[9] = 'C&PI'
+        list[10] = 'C&PJ'
+        list[11] = 'C&PK'
+        list[12] = 'C&PL'
+        list[13] = 'C&PM'
+        list[14] = 'C&PN'
+        list[15] = 'C&PO'
+
         
     
     elseif loadnumber == 0 then 

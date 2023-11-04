@@ -5,6 +5,10 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	Close = close;
 	publicdata = Mod.PublicGameData
 	ID = game.Us.ID
+	Pass = nil
+	BaseName = "Agency"
+
+
 
 	setMaxSize(450, 320);
 	Root = rootParent
@@ -33,18 +37,19 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 
 	if publicdata[ID] ~= nil then -- Use this menu if you already have an agency created
-		UI.CreateLabel(row1).SetText("Welcome to the " .. publicdata[ID].Agency.agencyname .. " Agency" );
-		UI.CreateButton(row1).SetText("Access Agency").SetOnClick(function () Dialogwindow(2) end);
+		UI.CreateLabel(row1).SetText("Welcome to the " .. publicdata[ID].Agency.agencyname .. " " .. BaseName );
+		UI.CreateButton(row1).SetText("Access " .. BaseName).SetOnClick(function () Dialogwindow(2) end);
 
 		--run agency options --
 		--agent list
 		--check agency status
 		--buy options
 		-- Tutorial
+		-- Top Agent
 	else -- Use this menu if you dont have an agency
-		UI.CreateLabel(row1).SetText("you have no agency. it cost " ..creationfee.. " gold to start one\nWould you like to create one"  );
-		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Agency                       ").SetFlexibleWidth(1).SetCharacterLimit(50)
-		UI.CreateButton(row1).SetText("Create Agency").SetOnClick(function () Dialogwindow(1) end);
+		UI.CreateLabel(row1).SetText("you have no " .. BaseName ..". it cost " ..creationfee.. " gold to start one\nWould you like to create one"  );
+		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(50)
+		UI.CreateButton(row1).SetText("Create ".. BaseName ).SetOnClick(function () Dialogwindow(1) end);
 
 	
 	end
@@ -54,32 +59,35 @@ end
 
 function Dialogwindow(window) -- middle function to open up new windows
 	if window == 1 then --buying an agency
-		local pass = BuyingLogic("Agency",creationfee,0,Agencynamefield.GetText())
-		print (publicdata[ID], "pass")
-		if publicdata[ID].Agency ~= nil then Game.CreateDialog(AgencyOptions) end
-		print("WFT")
+		if Pass == nil then
+					BuyingLogic(BaseName,creationfee,0,Agencynamefield.GetText())
+		end
+		
     elseif window == 2 then -- opening agency menu
 		Game.CreateDialog(AgencyOptions)
+		Close()
 	
 	elseif window == 3 then -- special units/Assassination
 
 	elseif window == 4 then -- Agency Ranking
-		Game.CreateDialog(RankinglistAgency)
+		Game.CreateDialog(AgencyLogic)
 	elseif window == 5 then -- Buy optins
 		Game.CreateDialog(Buyoptions)
 	elseif window == 6 then -- Tutorial option		
 	elseif window == 7 then -- top agent list option		
+		Game.CreateDialog(AgentLogic)
 
 
 	end
 end
 
 function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- present the menu options for your agency
+	setMaxSize(450, 320);
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert);
 
 	UI.CreateButton(row1).SetText("Unit List").SetOnClick(function () Dialogwindow(3) end);
-	UI.CreateButton(row1).SetText("Agency Ranking").SetOnClick(function () Dialogwindow(4) end);
+	UI.CreateButton(row1).SetText(BaseName .. " Ranking").SetOnClick(function () Dialogwindow(4) end);
 	UI.CreateButton(row1).SetText("Top Agents").SetOnClick(function () Dialogwindow(7) end);
 	UI.CreateButton(row1).SetText("Shop").SetOnClick(function () Dialogwindow(5) end);
 	
@@ -87,8 +95,49 @@ function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- pr
 
 
 end
-function RankinglistAgency() -- present agency rank
+function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- present agency rank
+	publicdata = Mod.PublicGameData
+	setMaxSize(450, 320);
+print(publicdata.Ranklist)
+	for i = 1, #publicdata.Ranklist do 
+		local vert = UI.CreateVerticalLayoutGroup(rootParent);
+		local row1 = UI.CreateHorizontalLayoutGroup(vert);
+		local tempagents = 0
+		print("test 3")
+		if publicdata.Ranklist[i].Agentlist ~= nil then 
+			print("no agents")
+			tempagents = #publicdata.Ranklist[i].Agentlist end
+		
+	UI.CreateLabel(row1).SetText("Rank #" .. i .. " ::");
+	UI.CreateButton(row1).SetText(publicdata.Ranklist[i].agencyname .. " " .. BaseName)
+	UI.CreateLabel(row1).SetText(" --- " .. publicdata.Ranklist[i].agencyRank)
+	UI.CreateLabel(row1).SetText(" --- " .. publicdata.Ranklist[i].Missions)
+	UI.CreateLabel(row1).SetText(" --- " .. tempagents)
+
+	end
+
+end
+function AgentLogic(rootParent, setMaxSize, setScrollable, game, close)
+	publicdata = Mod.PublicGameData
+print("")
+	if #publicdata.AgentRank == 0 then
+		UI.CreateLabel(rootParent).SetText("No one has trained any Agents yet, go here to start training new Agents")
+		UI.CreateButton(rootParent).SetText("Train Agent").SetOnClick(function () Dialogwindow(5) end);
+		
+
+	else
+		for i = 1, #publicdata.Ranklist do 
+			local vert = UI.CreateVerticalLayoutGroup(rootParent);
+			local row1 = UI.CreateHorizontalLayoutGroup(vert);
+			
+		UI.CreateLabel(row1).SetText("Rank #" .. i .. " ::");
+		UI.CreateButton(row1).SetText(publicdata.AgentRank[i].codename)
+		UI.CreateLabel(row1).SetText(" --- " .. publicdata.AgentRank[i].level)
+		UI.CreateLabel(row1).SetText(" --- " .. publicdata.AgentRank[i].missions)
+		UI.CreateLabel(row1).SetText(" --- " .. publicdata.AgentRank[i].successfulmissions)
 	
+		end
+	end
 end
 function Buyoptions(rootParent, setMaxSize, setScrollable, game, close) -- present menu option for your buy menu
 	Closed2 = close
@@ -97,10 +146,12 @@ function Buyoptions(rootParent, setMaxSize, setScrollable, game, close) -- prese
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)	
 
 -- Buying decoy
+UI.CreateLabel(row2).SetText("Cost: " .. Decoycost .. " gold")
 	UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Buy a decoy agent, this decoy agent dies every time one of your special units/agents is assassinated"); end);
 	UI.CreateButton(row1).SetText("Buy Personal Decoy").SetOnClick(function ()  BuyingLogic("Decoy",Decoycost,1, nil)  end);
 
 	--Buying Agent
+	UI.CreateLabel(row2).SetText("Cost: " .. Agentcost .. " gold")
 	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Creates a Secret agent you can use to sagatage your opponent. you can kill there agents, special units, Destroy cards,cities and armies."); end);
 	UI.CreateButton(row2).SetText("Buy Agent").SetOnClick(function () BuyingLogic("Agent", Agentcost, 2, Chartracker.GetText()) end);
 	Chartracker = UI.CreateTextInputField(vert).SetPlaceholderText(" Code name of your Agent").SetFlexibleWidth(1).SetCharacterLimit(30)
@@ -108,39 +159,45 @@ end
 function BuyingLogic(typename, cost, type, text) -- logic for how buying works
 	print("jon")
 	local payload = {}
-	local Pass = false
+	Pass = nil
 	if text == "" then
 		UI.Alert("your " .. typename.. " has no code name.\nPlease provide a name")
 
-		return Pass
+		return
 	end
-	print("job 2")
+
 		payload.entrytype = type
 		payload.typename = typename
 		payload.cost = cost
 		payload.text = text
-		Game.SendGameCustomMessage("new agency...", payload, function(returnValue)
+		Game.SendGameCustomMessage("new " .. BaseName .. "...", payload, function(returnValue)
 			print("job 3")
 			if returnValue.Message ~= nil then 
 				UI.Alert(returnValue.Message)
 			end
-			print("job 4", ID, returnValue.id, publicdata[ID])
+
 			Pass = returnValue.Pass
 			print (Pass,"pass(sin)")
 			if Pass == true then
 				print( typename.. " was created")
-				
-			end	
-		end)
-			print("job 5")
 
+				Dialogwindow(2)
+				Close()
+			end	
+		end)		
 			
 end
 
 
 
+
+-- Objectives
+-- how rankings work
+    -- any new agency is instaly added to list
+	-- at turn end, empty table, then loop through agencies and list from highest to lowest on Scores
+
 -- Known Bugs
---window wont open up once you create an agency. returnvale is processing later
+--
 
 
 
