@@ -12,7 +12,7 @@ function Client_SaveConfigureUI(alert)
 
         --Decoy cost
         local decoy = InportDecoycost.GetValue()
-        if decoy > 5000 or decoy < 0 then alert('Decoy value not supported. please stay within 0-5000')
+        if decoy > 5000 or decoy < 0 then alert('Decoy value not supported. please stay within 0 - 5000')
             Mod.Settings.Decoycost = 1
         else 
             Mod.Settings.Decoycost = decoy 
@@ -20,25 +20,34 @@ function Client_SaveConfigureUI(alert)
 
         --city amount removed
         local city = InportCityamount.GetValue()
-        if city > 10 or city < 0 then alert('City amount value not supported. please stay within 0-10')
+        if city > 10 or city < 0 then alert('City value not supported. please stay within 0 - 10')
             Mod.Settings.Citylost = 1
         else 
             Mod.Settings.Citylost = city 
         end
 
-        --City Allowed or not
-        local cityallowed = InportCityallowed.GetIsChecked()
-        Mod.Settings.Cityremoved = cityallowed
+        --armylost Allowed or not
+        local armylost = InportArmieslost.GetValue()
+        if armylost > 5000 or armylost < 0 then alert('Army value not supported. please stay within 0 - 5000') 
+        else
+            Mod.Settings.ArmiesLost = armylost
+        end
+        --Cooldown for agents
+        local cooldown = InportCooldown.GetValue()
+        if cooldown > 25 or cooldown < 1 then alert('Cool down value not supported. please stay within 1 - 25') 
+        else
+            Mod.Settings.Cooldown = cooldown
+        end
 
         --Cards Allowed or not
         local Cardsallowed = InportCardsallowed.GetIsChecked()
         Mod.Settings.Cardsremoved = Cardsallowed
 
-        print (agent,decoy,city,cityallowed,Cardsallowed)
+    
 
         --Agency Creation feature
         local creation = Inportcreationfeecost.GetValue()
-        if creation > 5000 or creation < 0 then alert('Agency creation value not supported. please stay within 0-5000')
+        if creation > 5000 or creation < 0 then alert('Agency creation value not supported. please stay within 0 - 5000')
             Mod.Settings.Creationfee = 1
         else 
             Mod.Settings.Creationfee = creation 

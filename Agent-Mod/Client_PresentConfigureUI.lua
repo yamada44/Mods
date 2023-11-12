@@ -16,22 +16,26 @@ function Client_PresentConfigureUI(rootParent)
 
 	local citylost = Mod.Settings.Citylost;
 	if citylost == nil then
-		citylost = 1;
-	end
-
-	local cityremoved = Mod.Settings.Cityremoved;
-	if cityremoved == nil then
-		cityremoved = true;
+		citylost = 0;
 	end
 
 	local cardsremoved = Mod.Settings.Cardsremoved;
 	if cardsremoved == nil then
 		cardsremoved = true;
 	end
+	local armieslost = Mod.Settings.ArmiesLost;
+	if armieslost == nil then
+		armieslost = 0;
+	end
+
 
 	local creation = Mod.Settings.Creationfee;
 	if creation == nil then
 		creation = 1;
+	end
+	local cooldown = Mod.Settings.Cooldown;
+	if cooldown == nil then
+		cooldown = 1;
 	end
     
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
@@ -66,17 +70,28 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(decoycost);
 
 	local row3 = UI.CreateHorizontalLayoutGroup(vert); -- amount of cities removed when an assassin attempt successful on cities
-	UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Agents can remove cities on the map via Sabotage, how many cities at once will be removed when a sabotage is successful"); end);
-	UI.CreateLabel(row3).SetText('How many cities removed when a undercover agent Sabotage');
+	UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Agents can remove cities on the map via Sabotage, how many cities at once will be removed when a sabotage is successful\nPut 0 to disable feature"); end);
+	UI.CreateLabel(row3).SetText('How many cities removed when a undercover agent Sabotages');
 	InportCityamount = UI.CreateNumberInputField(row3)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(0)
 		.SetSliderMaxValue(10)
 		.SetValue(citylost);
 
 	local row4 = UI.CreateHorizontalLayoutGroup(vert); -- can cities allowed to be removed
-	UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("should city removal be allowed for agents to remove"); end);
-	UI.CreateLabel(row4).SetText('Can cities be removed via undercover agents');
-	InportCityallowed = UI.CreateCheckBox(row4).SetIsChecked(cityremoved).SetText('')
+	UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("After you buy an agent, how many armies are deleted when his/her mission is successful\nput 0 to disable"); end);
+	UI.CreateLabel(row4).SetText('How many armies removed when successfully sabotaged');
+	InportArmieslost = UI.CreateNumberInputField(row4)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(200)
+	.SetValue(armieslost)
+
+	local row45 = UI.CreateHorizontalLayoutGroup(vert); -- cooldown for agents
+	UI.CreateButton(row45).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The amount of turns your agent has to wait before starting a new mission. only one mission per agent, per cooldown"); end);
+	UI.CreateLabel(row45).SetText('How many turns should an agent cooldown before his next mission');
+	InportCooldown = UI.CreateNumberInputField(row45)
+	.SetSliderMinValue(1)
+	.SetSliderMaxValue(10)
+	.SetValue(cooldown)
 
 	local row5 = UI.CreateHorizontalLayoutGroup(vert); -- can cards be removed
 	UI.CreateButton(row5).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("should card removal be allowed for agents to remove"); end);

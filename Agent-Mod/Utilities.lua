@@ -49,12 +49,22 @@ function map(array, func)
 	local new_array = {}
 	local i = 1;
 	for _,v in pairs(array) do
+
 		new_array[i] = func(v);
 		i = i + 1;
 	end
 	return new_array
 end
-
+function map2(array, func)
+	local new_array = {}
+	local i = 1;
+	for N,v in pairs(array) do
+		
+		new_array[i] = func(N);
+		i = i + 1;
+	end
+	return new_array
+end
 
 function filter(array, func)
 	local new_array = {}
@@ -121,4 +131,52 @@ function Nonill(value)
 		return 0
 	
 else return value end
+end
+function SortTable(tableinput,field)
+	local newtable = {}
+	
+	for i,v in pairs (tableinput) do
+	local elementplaced = false
+		for p = 1, #newtable do
+			if newtable[p] == nil then table.insert(newtable,v) -- beginning of table
+				elementplaced = true
+				break
+			elseif tableinput[i][field] >= newtable[p][field] then -- normal placing. 
+				table.insert(newtable,p,v)
+				elementplaced = true
+				break
+			end
+		end
+		if elementplaced == false then -- found the end of a table
+			table.insert(newtable,v)
+		end
+	end
+
+	return newtable
+end
+
+function CardData(value)
+	local cards = {}
+
+	cards["Reinforcement"] = WL.CardID.Reinforcement
+	cards["Gift"] = WL.CardID.Gift
+	cards["Spy"] = WL.CardID.Spy
+	cards["EmergencyBlockade"] = WL.CardID.EmergencyBlockade
+	cards["Blockade"] = WL.CardID.Blockade
+	cards["OrderPriority"] = WL.CardID.OrderPriority
+	cards["OrderDelay"] = WL.CardID.OrderDelay
+	cards["Airlift"] = WL.CardID.Airlift
+	cards["Diplomacy"] = WL.CardID.Diplomacy
+	cards["Sanctions"] = WL.CardID.Sanctions
+	cards["Reconnaissance"] = WL.CardID.Reconnaissance
+	cards["Surveillance"] = WL.CardID.Surveillance
+	cards["Bomb"] = WL.CardID.Bomb
+
+	if type(value) ~= "number" then
+	return cards(value)
+	elseif type(value) == "number" then
+		return cards
+	end
+
+
 end

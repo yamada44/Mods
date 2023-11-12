@@ -1,17 +1,18 @@
-
+require('Utilities')
 
 
 
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
-  local type = payload.entrytype
-  local typename = payload.typename
-  local typecost = payload.cost
-  local typetext = payload.text
+  local type = Nonill(payload.entrytype)
+  local typename = Nonill(payload.typename)
+  local typecost = Nonill(payload.cost)
+  local typetext = Nonill(payload.text)
   local goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
    publicdata = Mod.PublicGameData
        if publicdata[playerID] == nil then publicdata[playerID] = {} end
        if publicdata.Ranklist == nil then publicdata.Ranklist = {} end
        if publicdata.AgentRank == nil then publicdata.AgentRank = {} end
+       if publicdata.id == nil then publicdata.id = 0 end
 
   
     if publicdata[playerID].Agency ~= nil and false then -- things being cheaper if your agency is ranked higher 
@@ -59,73 +60,30 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   
   elseif type == 2 then -- when your buying a new agent
     if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
-    if publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist] == nil then 
-      publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist]  = {} end 
+    if publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1] == nil then 
+      publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1 ]  = {} end 
       local short = publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist]
 
+      if short.PlayerofAgentID == nil then short.PlayerofAgentID = playerID end
       if short.codename == nil then short.codename = typetext end
       if short.level == nil then short.level = 1 end
       if short.kills == nil then short.kills = 0 end
       if short.missions == nil then short.missions = 0 end
-      if short.missuccessfulmissionssions == nil then short.successfulmissions = 0 end
-
+      if short.cooldownTill == nil then short.cooldownTill = 0 end
+      if short.agentID == nil then short.agentID = publicdata.id end
+      if short.missuccessfulmissionssions == nil then short.successfulmissions = math.random(1,30) end -- our XP
+      if short.agentHomeAgency == nil then short.agentHomeAgency = publicdata[playerID].Agency.agencyname end
+      print (short.codename)
       table.insert(publicdata.AgentRank,short)
-
+      publicdata.id = publicdata.id + 1
 
       publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- 1 for agent level. agency rating
       setReturnTable({ Message = "Agent Code Name '".. short.codename .. "' successfully Trained. ", Pass = true})
-      
+    elseif type == 3 then -- updating cooldown
+      publicdata[playerID].Agency.Agentlist[typetext].cooldownTill = game.Game.TurnNumber + Mod.Settings.Cooldown
 
-  end
+    end
   
     Mod.PublicGameData = publicdata
 
 end
-
---[[function RankingLogic(id)
-local pointer = publicdata[id].FirstRankpointer
-local pastpointer = {}
-
-  if publicdata[id].FirstRankpointer == nil then publicdata[id].FirstRankpointer = publicdata[id].Agency 
-    publicdata[id].Agency.agencyRank = 1
-  else 
-    while true do
-      if publicdata[id].Agency.agencyrating > pointer.agencyrating then
-        publicdata[id].Agency.Backwardspointer = pointer
-        publicdata[id].Agency.Frowardpointer = pastpointer
-        pastpointer.Backwardspointer = publicdata[id].Agency
-        pointer.Frowardpointer = publicdata[id].Agency
-      -- do shit
-      end
-     
-      pointer = pointer.Backwardspointer
-      pastpointer = pointer.Frowardpointer
-
-    end
-  end
-
-end--]]
---[[
-function AddRank(agency)
-
-  if publicdata.Ranklist == nil then publicdata.Ranklist = {} end
-  
-      print(#publicdata.Ranklist, "check 1")
-  if publicdata.Ranklist[#publicdata.Ranklist + 1] == nil then publicdata.Ranklist[#publicdata.Ranklist + 1] = {} end
-
-      print (#publicdata.Ranklist, "check 2")
-      print(publicdata.Ranklist[#publicdata.Ranklist], "check 2.5")
-
-
-  publicdata.Ranklist[#publicdata.Ranklist] = setmetatable({}, {__index = agency})
-  print ( publicdata.Ranklist[1].agencyname, "name")
-
-  for i,v in pairs (getmetatable(publicdata.Ranklist[#publicdata.Ranklist]))do -- testing purposes
-    print (i,v,"test tables")
-      for i,v in pairs (v)do
-        print (i,v,"test values")
-      end
-  end
-  print(publicdata.Ranklist)
-print ("end of test")
-end--]]
