@@ -78,13 +78,16 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
       publicdata.id = publicdata.id + 1
       publicdata.AgentRank[publicdata.id].codename = short.codename
-print(publicdata.AgentRank[publicdata.id] , short)
-print(publicdata.AgentRank[publicdata.id].codename , short.codename)
-print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename)
-publicdata[playerID].Agency.Agentlist[1].codename = "New name"
-short.codename = "True bobo"
-print(publicdata.AgentRank[publicdata.id].codename , short.codename)
-print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename)
+
+
+
+print(publicdata.AgentRank[publicdata.id] , short) -- prints table addresses of current cycle (the same)
+print(publicdata.AgentRank[publicdata.id].codename , short.codename) -- prints names (the same)
+print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename) -- prints name of cyle one, if on cycle one, line 1 and 2 are the same
+publicdata[playerID].Agency.Agentlist[1].codename = "Tim" -- i comment this out on cycle one, then on cycle two i remove the comment to update the table of cycle one
+short.codename = "True bobo" -- update current cycle name
+print(publicdata.AgentRank[publicdata.id].codename , short.codename) -- current cycle, they always update no matter what.
+print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename) -- heres the problem, when i uncomment from above. it does not update both tables with the new name " Tim"
       publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- 1 for agent level. agency rating
 
       setReturnTable({ Message = "Agent Code Name '".. short.codename .. "' successfully Trained. ", Pass = true})
