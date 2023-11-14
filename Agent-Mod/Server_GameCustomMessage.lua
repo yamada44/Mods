@@ -69,17 +69,27 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
       if short.level == nil then short.level = 1 end
       if short.kills == nil then short.kills = 0 end
       if short.missions == nil then short.missions = 0 end
-      if short.cooldownTill == nil then short.cooldownTill = 0 end
+      if short.cooldownTill == nil then short.cooldownTill = Mod.Settings.Cooldown end
       if short.agentID == nil then short.agentID = publicdata.id end
-      if short.missuccessfulmissionssions == nil then short.successfulmissions = math.random(1,30) end -- our XP
+      if short.missuccessfulmissionssions == nil then short.successfulmissions = 0 end -- our XP
       if short.agentHomeAgency == nil then short.agentHomeAgency = publicdata[playerID].Agency.agencyname end
-      print (short.codename)
       table.insert(publicdata.AgentRank,short)
-      publicdata.id = publicdata.id + 1
 
+
+      publicdata.id = publicdata.id + 1
+      publicdata.AgentRank[publicdata.id].codename = short.codename
+print(publicdata.AgentRank[publicdata.id] , short)
+print(publicdata.AgentRank[publicdata.id].codename , short.codename)
+print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename)
+publicdata[playerID].Agency.Agentlist[1].codename = "New name"
+short.codename = "True bobo"
+print(publicdata.AgentRank[publicdata.id].codename , short.codename)
+print(publicdata.AgentRank[1].codename , publicdata[playerID].Agency.Agentlist[1].codename)
       publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- 1 for agent level. agency rating
+
       setReturnTable({ Message = "Agent Code Name '".. short.codename .. "' successfully Trained. ", Pass = true})
     elseif type == 3 then -- updating cooldown
+      
       publicdata[playerID].Agency.Agentlist[typetext].cooldownTill = game.Game.TurnNumber + Mod.Settings.Cooldown
 
     end

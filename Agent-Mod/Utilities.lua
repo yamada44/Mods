@@ -177,6 +177,16 @@ function CardData(value)
 	elseif type(value) == "number" then
 		return cards
 	end
+end
+--returns place in table
+function Findmatch(findtable, match)
+    for i = 1, #findtable do
 
+        if findtable[i].agentID == match then
+            print(match, i, "match")
+            return i
 
+        end 
+    end
+    return nil
 end

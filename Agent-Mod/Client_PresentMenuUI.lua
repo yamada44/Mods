@@ -9,6 +9,14 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	BaseName = "Agency"
 	Orderstartwith = 'ISA'
 	Targettype = -1
+	local A = {}
+ A[1] = "name"
+local B = {}
+B = A
+print (B[1])
+	A[2] = "another name"
+	A[1] = "bobo"
+	print(B[1])
 
 
 
@@ -37,7 +45,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	 Cardremovalon = Mod.Settings.Cardsremoved
 	 creationfee = Mod.Settings.Creationfee
 
-print(close)
+
 	if publicdata[ID] ~= nil then -- Use this menu if you already have an agency created
 		UI.CreateLabel(row1).SetText("Welcome to the " .. publicdata[ID].Agency.agencyname .. " " .. BaseName );
 		UI.CreateButton(row1).SetText("Access " .. BaseName).SetOnClick(function () Dialogwindow(2, close, nil) end);
@@ -113,7 +121,7 @@ function AgentPresentLogic(rootParent, setMaxSize, setScrollable, game, close)
 			Nomission = false
 			spacertext = "Agent " .. publicdata[ID].Agency.Agentlist[i].codename .. " is in the field for " .. (publicdata[ID].Agency.Agentlist[i].cooldownTill - game.Game.TurnNumber) .. " more turns"
 		end
-		AgentBtntracker[i] = UI.CreateButton(row1).SetText(spacertext).SetOnClick(function ()Agentmissionoptions(rootParent, close, i) end).SetInteractable(Nomission)
+		AgentBtntracker[i] = UI.CreateButton(row1).SetText(spacertext).SetOnClick(function ()Agentmissionoptions(rootParent, close, publicdata[ID].Agency.Agentlist[i].agentID) end).SetInteractable(Nomission)
 		if i % 2 == 0 then vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 			row1 = UI.CreateHorizontalLayoutGroup(vert)
 		end
@@ -364,29 +372,31 @@ function TargetAgentLogic(rootParent, setMaxSize, setScrollable, game, close)
 
 	for i = 1, #publicdata.AgentRank do
 		--if publicdata.AgentRank[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
-			UI.CreateButton(vert).SetText("Agent " .. publicdata.AgentRank[i].codename).SetOnClick(function () CreateOrder(2,close, i) end) 
+			UI.CreateButton(vert).SetText("Agent " .. publicdata.AgentRank[i].codename).SetOnClick(function () CreateOrder(2,close, publicdata.AgentRank[i].agentID) end) 
 		--end
 	end
 end
 -- Create orders
 function CreateOrder(type,close, data)
 	close()
+
 	local baseload = {}
 	baseload.entrytype = 3
-	baseload.text = Agentdata
-
+	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata)
+	local killagent_Index = Findmatch(publicdata.AgentRank,data)
+	print(baseload.text,Agentdata)
 
 	Game.SendGameCustomMessage("new " .. BaseName .. "...", baseload, function(returnValue)
 		local datasent = 0
 		local msg = nil
 		if type == 0 then
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[Agentdata].codename .. " Has begun a operation in " .. SelectedTerritory.Name
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun a operation in " .. SelectedTerritory.Name
 			datasent = SelectedTerritory.ID
 		elseif type == 1 then
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[Agentdata].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land"
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land"
 			datasent = Cardsource
 		elseif type == 2 then
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[Agentdata].codename .. " has began a assassination operation on agent " .. publicdata.AgentRank[data].codename
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata.AgentRank[killagent_Index].codename
 			datasent = data
 			print(data, "client")
 		end

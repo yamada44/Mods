@@ -16,7 +16,7 @@ function Client_PresentConfigureUI(rootParent)
 
 	local citylost = Mod.Settings.Citylost;
 	if citylost == nil then
-		citylost = 0;
+		citylost = 1;
 	end
 
 	local cardsremoved = Mod.Settings.Cardsremoved;
@@ -25,7 +25,7 @@ function Client_PresentConfigureUI(rootParent)
 	end
 	local armieslost = Mod.Settings.ArmiesLost;
 	if armieslost == nil then
-		armieslost = 0;
+		armieslost = 1;
 	end
 
 

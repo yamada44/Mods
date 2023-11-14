@@ -7,42 +7,58 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "KillAgent")) then  
         local publicdata = Mod.PublicGameData
 		local payloadSplit = split(string.sub(order.Payload, 10), ';;')
-        local Killagenttarget = tonumber(payloadSplit[1])
-        local AgentID = tonumber(payloadSplit[2])
+        local agenttodieID = tonumber(payloadSplit[1])
+        local AgentonmissionID = tonumber(payloadSplit[2])
         local ID = order.PlayerID
-        local rivalID = publicdata.AgentRank[Killagenttarget].PlayerofAgentID
-        local attacker = publicdata[ID].Agency.Agentlist[AgentID].level
-print(order.Payload)
-        print(AgentID)
-print(Killagenttarget,"server")
-        Defaultchecker(order)
-        local battleresults = Combat(attacker + publicdata.AgentRank[Killagenttarget].level, attacker)
-print(battleresults)
-        if battleresults == 0 then -- Agent died
-            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentID].codename .. " died trying to assassinate agent " .. publicdata.AgentRank[Killagenttarget].codename
-            addNewOrder(WL.GameOrderEvent.Create(rivalID, message));
-            local matchid = Findmatch(publicdata.AgentRank,publicdata[ID].Agency.Agentlist[AgentID].AgentID)
-            table.remove(publicdata.AgentRank,matchid)
-            table.remove(publicdata[ID].Agency.Agentlist,AgentID)
 
+
+        local killed_Global_Index = Findmatch(publicdata.AgentRank,agenttodieID)
+        if killed_Global_Index == nil then -- if the kill target is already dead, cancel Operation
+            addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. 1 or more agents apart of this mission are already dead", {}, {})) return   end
+
+        local rivalID = publicdata.AgentRank[killed_Global_Index].PlayerofAgentID
+        local KillagentLocal = Findmatch(publicdata[rivalID].Agency.Agentlist,agenttodieID)        
+
+        local AgentIndex = Findmatch(publicdata[ID].Agency.Agentlist  ,  AgentonmissionID)
+        local agent_Global_Index = Findmatch(publicdata.AgentRank , AgentonmissionID)
+        if AgentIndex == nil then -- if the agent is already dead, cancel Operation
+            addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. 1 or more agents apart of this mission are already dead", {}, {}))            
+                return end
+
+        local attacker = publicdata[ID].Agency.Agentlist[AgentIndex].level
+
+        Defaultchecker(order)
+        local battleresults = Combat(attacker + publicdata.AgentRank[killed_Global_Index].level, attacker)
+print(battleresults, "battleresults")
+        if battleresults == 0 then -- Agent died
+            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to assassinate agent " .. publicdata.AgentRank[killed_Global_Index].codename .. "\nFrom: ".. publicdata[ID].Agency.agencyname .. " Agency"
+            addNewOrder(WL.GameOrderEvent.Create(rivalID, message));
+           
+            table.remove(publicdata.AgentRank,agent_Global_Index)
+            table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
         elseif battleresults == 1 then -- nothing happened
-            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentID].codename .. " failed to to assassinate agent " .. publicdata.AgentRank[Killagenttarget].codename .. "\nboth agents got away"
+            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed to to assassinate agent " .. publicdata.AgentRank[killed_Global_Index].codename .. "\nboth agents got away"
             addNewOrder(WL.GameOrderEvent.Create(rivalID, message)); 
        
         elseif battleresults == 2 then -- kill target was eliminated
-print("battleresults",battleresults,Killagenttarget,publicdata.AgentRank[Killagenttarget].agentID,publicdata.AgentRank[Killagenttarget].level)
-            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentID].codename .. " successfully assassinated agent " .. publicdata.AgentRank[Killagenttarget].codename
+            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " successfully assassinated agent " .. publicdata.AgentRank[killed_Global_Index].codename
             addNewOrder(WL.GameOrderEvent.Create(rivalID, message));
-            local matchid = Findmatch(publicdata[rivalID].Agency.Agentlist,publicdata.AgentRank[Killagenttarget].agentID)
 
-            table.remove(publicdata.AgentRank,Killagenttarget)
-            table.remove(publicdata[rivalID].Agency.Agentlist,matchid)
+            publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions = publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions + 1
+            publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+            --publicdata.AgentRank[agent_Global_Index] = publicdata[ID].Agency.Agentlist[AgentIndex]
+
+            table.remove(publicdata.AgentRank,killed_Global_Index)
+            table.remove(publicdata[rivalID].Agency.Agentlist,KillagentLocal)
+
+
         end
-        --do Combat
-        --win:remove agent, lose:nothing, critical win:agent dies
-        --update publicdata
 
+        --update publicdata
+        publicdata[ID].Agency.Missions = publicdata[ID].Agency.Missions + 1
+        publicdata[ID].Agency.successfulmissions = publicdata[ID].Agency.successfulmissions + 1
+        
         Mod.PublicGameData = publicdata
     end
 
@@ -143,13 +159,4 @@ function Defaultchecker(order)
         return; --shouldn't ever happen, unless another mod interferes
     end
     
-end
-function Findmatch(findtable, match)
-    for i = 1, #findtable do
-        if findtable[i].AgentID == match then
-            print(match, i, "match")
-            return i
-
-        end 
-    end
 end
