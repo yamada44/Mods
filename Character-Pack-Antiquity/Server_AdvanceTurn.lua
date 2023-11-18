@@ -236,10 +236,12 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 end
 
 function NumUnitsIn(armies, typename)
+	print("numamrieslogic")
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
 		if (su.proxyType == 'CustomSpecialUnit' and su.Name == typename) then
 			ret = ret + 1;
+			print(ret,"ret")
 		end
 	end
 	return ret;
