@@ -237,6 +237,7 @@ end
 
 function NumUnitsIn(armies, typename)
 	print("numamrieslogic")
+	print(armies.SpecialUnits)
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
 		if (su.proxyType == 'CustomSpecialUnit' and su.Name == typename) then
