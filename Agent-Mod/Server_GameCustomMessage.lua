@@ -44,6 +44,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
        if publicdata[playerID].Agency.successfulmissions == nil then publicdata[playerID].Agency.successfulmissions = 0 end
         if publicdata[playerID].Agency.Protectionrate == nil then  publicdata[playerID].Agency.Protectionrate = 0 end
         if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
+        if publicdata[playerID].Agency.Decoylist == nil then publicdata[playerID].Agency.Decoylist = {}end
       
         if FindmatchID(publicdata,playerID) == nil then
         table.insert(publicdata.Ranklist,playerID) 
@@ -54,13 +55,15 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
       
     elseif type == 1 then -- when you buy a decoy
-      if publicdata[playerID].Agency.Decoylist == nil then publicdata[playerID].Agency.Decoylist = {}end
-      if publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist] == nil then 
-        publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist]  = 0 end
+      if publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist + 1] == nil then 
+        publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist + 1]  = {} end
+        local Dshort = publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist]
 
+        Dshort.type = "all"
+
+print(publicdata[playerID].Agency.Decoylist, "decoylist client")
         publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- adding for agency rating
         setReturnTable({ Message = "Decoy successfully Set up ", Pass = true})
-        publicdata[playerID].Agency.Missions = 10
 
   
   elseif type == 2 then -- when your buying a new agent

@@ -29,6 +29,7 @@ print(killagentPlayerID)
         Defaultchecker(order)
         local battleresults = Combat(attacker + publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].level, attacker)
 print(battleresults, "battleresults")
+print(publicdata[killagentPlayerID].Agency.Decoylist, "decoylist")
         if battleresults == 0 then -- Agent died
             local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to assassinate agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
             addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message));
@@ -37,18 +38,33 @@ print(battleresults, "battleresults")
             table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
         elseif battleresults == 1 then -- nothing happened
-            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed to to assassinate agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nboth agents got away"
+            local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed to assassinate agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nboth agents got away"
             addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message)); 
+            publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
        
         elseif battleresults == 2 then -- kill target was eliminated
 
+            if #publicdata[killagentPlayerID].Agency.Decoylist > 0 then
+                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " assassinated Decoy instead of agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename
+                addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message))
+                table.remove(publicdata[killagentPlayerID].Agency.Decoylist,1)
+                print(#publicdata[killagentPlayerID].Agency.Decoylist, "decoylist 2")
+
+                return
+            end
             local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " successfully assassinated agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nFrom the " .. publicdata[killagentPlayerID].Agency.agencyname .. " Agency"
-            addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message));
+            addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message))
 
             publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions = publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions + 1
             publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
             publicdata[ID].Agency.successfulmissions = publicdata[ID].Agency.successfulmissions + 1
             publicdata[ID].Agency.agencyrating = publicdata[ID].Agency.agencyrating + 1
+
+            if publicdata[ID].Agency.Agentlist[AgentIndex].level < 7 then
+                if publicdata[ID].Agency.Agentlist[AgentIndex].level * (publicdata[ID].Agency.Agentlist[AgentIndex].level +1 ) <= publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions then
+                    publicdata[ID].Agency.Agentlist[AgentIndex].level = publicdata[ID].Agency.Agentlist[AgentIndex].level + 1
+                end
+            end
 
             --subtracting agencyrating
             publicdata[killagentPlayerID].Agency.agencyrating = publicdata[killagentPlayerID].Agency.agencyrating - publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].level
@@ -68,12 +84,15 @@ print(battleresults, "battleresults")
         local SelectedTerritory = tonumber(payloadSplit[1])
         local AgentID = tonumber(payloadSplit[2])
 
-        local result = 1
-        if results == 0 then -- agent died
+        --check the territroy for SU
+        --if it has SU, then
 
-        elseif result == 1 then
+        local battleresults = 1
+        if battleresults == 0 then -- agent died
+
+        elseif battleresults == 1 then
             
-        elseif result == 2 then
+        elseif battleresults == 2 then
             
         end
         Mod.PublicGameData = publicdata
@@ -150,7 +169,7 @@ function Combat(total, attacker)
     elseif rawdata <= attacker then
         results = 2
     end
-
+results = 2
     return results
 end
 

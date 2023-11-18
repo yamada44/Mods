@@ -152,14 +152,14 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
 			
 			if(shared == true )then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);
+				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);
 							
 			elseif(ts.OwnerPlayerID == order.PlayerID) then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);				
+				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);				
 			end
 		end
 		
-
+print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		
 	--skipping logic if any settings are set to limit the amount of units on field at a given time
 		if (numUnitsAlreadyHave >= unitmax) then
@@ -186,6 +186,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		end
 		if (levelamount > 0)then
 			typename = 'LV0 ' .. typename
+
 		end
 		
 		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
@@ -235,11 +236,24 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	end
 end
 
-function NumUnitsIn(armies, typename)
+function NumUnitsIn(armies, typename,type)
+
 	local ret = 0;
+	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == typename) then
-			ret = ret + 1;
+		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
+			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+				local stringskip = #su.Name - #typename 
+
+				compare = string.sub(su.Name, stringskip+1)
+				print(compare)
+			else
+				compare = su.Name
+			end
+			if (compare == typename and startsWith(su.ModData, OrderstartsWith)) then -- actually count unit
+				ret = ret + 1;
+				print(ret,"ret")
+			end
 		end
 	end
 	return ret;
