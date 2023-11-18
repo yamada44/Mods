@@ -239,15 +239,18 @@ end
 function NumUnitsIn(armies, typename,type)
 
 	local ret = 0;
+	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
 		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
 			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #typename 
-				print(stringskip)
-				typename = string.sub(typename, stringskip+1)
-				print(typename)
+
+				compare = string.sub(su.Name, stringskip+1)
+				print(compare)
+			else
+				compare = su.Name
 			end
-			if (su.Name == typename) then -- actually count unit
+			if (compare == typename) then -- actually count unit
 				ret = ret + 1;
 				print(ret,"ret")
 			end
