@@ -245,6 +245,7 @@ function NumUnitsIn(armies, typename,type)
 				local stringskip = #su.Name - #typename 
 				print(stringskip)
 				typename = string.sub(typename, stringskip+1)
+				print(typename)
 			end
 			if (su.Name == typename) then -- actually count unit
 				ret = ret + 1;
