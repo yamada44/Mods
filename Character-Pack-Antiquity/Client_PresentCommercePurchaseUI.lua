@@ -81,11 +81,24 @@ function TransferfromConfig() -- transfer the data from config to PlayerGameData
 
 end
 
-function NumUnitin(armies, type)
+function NumUnitsIn(armies,type)
+
 	local ret = 0;
+	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == Playerdata.Unitdata[type].Name and startsWith(su.ModData, OrderstartsWith)) then
-			ret = ret + 1;
+		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
+			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+				local stringskip = #su.Name - #Playerdata.Unitdata[type].Name 
+
+				compare = string.sub(su.Name, stringskip+1)
+				print(compare)
+			else
+				compare = su.Name
+			end
+			if (compare == Playerdata.Unitdata[type].Name and startsWith(su.ModData, OrderstartsWith)) then -- actually count unit
+				ret = ret + 1;
+				print(ret,"ret")
+			end
 		end
 	end
 	return ret;

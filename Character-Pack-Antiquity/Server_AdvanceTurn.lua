@@ -250,7 +250,7 @@ function NumUnitsIn(armies, typename,type)
 			else
 				compare = su.Name
 			end
-			if (compare == typename) then -- actually count unit
+			if (compare == typename and startsWith(su.ModData, OrderstartsWith)) then -- actually count unit
 				ret = ret + 1;
 				print(ret,"ret")
 			end
