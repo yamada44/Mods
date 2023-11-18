@@ -152,10 +152,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
 			
 			if(shared == true )then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);
+				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);
 							
 			elseif(ts.OwnerPlayerID == order.PlayerID) then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename);				
+				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);				
 			end
 		end
 		
@@ -186,6 +186,7 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		end
 		if (levelamount > 0)then
 			typename = 'LV0 ' .. typename
+
 		end
 		
 		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
@@ -235,15 +236,19 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 	end
 end
 
-function NumUnitsIn(armies, typename)
-	print("numamrieslogic")
-	print(#armies.SpecialUnits)
+function NumUnitsIn(armies, typename,type)
+
 	local ret = 0;
 	for _,su in pairs(armies.SpecialUnits) do
-		print(su.Name)
-		if (su.proxyType == 'CustomSpecialUnit' and su.Name == typename) then
-			ret = ret + 1;
-			print(ret,"ret")
+		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
+			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+				local stringskip = su.Name - typename 
+				typename = string.sub(typename, stringskip)
+			end
+			if (su.Name == typename) then -- actually count unit
+				ret = ret + 1;
+				print(ret,"ret")
+			end
 		end
 	end
 	return ret;
