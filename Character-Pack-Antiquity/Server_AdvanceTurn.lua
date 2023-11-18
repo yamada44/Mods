@@ -159,7 +159,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			end
 		end
 		
-
+print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		
 	--skipping logic if any settings are set to limit the amount of units on field at a given time
 		if (numUnitsAlreadyHave >= unitmax) then

@@ -179,14 +179,48 @@ function CardData(value)
 	end
 end
 --returns place in table
-function Findmatch(findtable, match)
+function Findmatch(findtable, match,what)
     for i = 1, #findtable do
 
-        if findtable[i].agentID == match then
+        if findtable[i][what] == match then
             print(match, i, "match")
             return i
 
         end 
     end
     return nil
+end
+function FindmatchID(findtable, match)
+    for i = 1, #findtable do
+
+        if findtable[i] == match then
+            print(match, i, "match")
+            return i
+
+        end 
+    end
+    return nil
+end
+--create tables from list of player ID's
+
+function Values2TableAgency(IDtable)
+	local newtable = {}
+	for i,v in pairs (IDtable) do
+		print(i,v,IDtable)
+		table.insert(newtable, publicdata[v].Agency)
+	end
+	return newtable
+end
+function Values2TableAgent(IDtable)
+	local newtable = {}
+	for i,v in pairs (IDtable) do
+		print(#publicdata[v].Agency.Agentlist, "agentlist amount")
+		if #publicdata[v].Agency.Agentlist > 0 then
+			for i,v in pairs (publicdata[v].Agency.Agentlist) do
+			table.insert(newtable, v)
+			end
+		end
+	end
+	print(IDtable)
+	return newtable
 end

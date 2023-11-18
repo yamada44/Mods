@@ -16,7 +16,8 @@ B = A
 print (B[1])
 	A[2] = "another name"
 	A[1] = "bobo"
-	print(B[1])
+	print(B[2])
+
 
 
 
@@ -70,6 +71,7 @@ end
 function Dialogwindow(window, close, data) -- middle function to open up new windows
 	publicdata = Mod.PublicGameData
 
+
 	if window == 1 then --buying an agency
 		if Pass == nil then
 					BuyingLogic(BaseName,creationfee,0,Agencynamefield.GetText(),close)
@@ -112,7 +114,7 @@ function AgentPresentLogic(rootParent, setMaxSize, setScrollable, game, close)
 	AgentBtntracker = {} 
 
 	UI.CreateLabel(row0).SetText("AGENTS");
-	if publicdata[ID].Agency.Agentlist ~= nil then
+	if  #publicdata[ID].Agency.Agentlist > 0 then
 
 	for i = 1, #publicdata[ID].Agency.Agentlist do 
 		local spacertext = publicdata[ID].Agency.Agentlist[i].codename
@@ -159,6 +161,7 @@ end
 
 function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- present the menu options for your agency
 	setMaxSize(450, 320);
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert);
 
@@ -173,8 +176,8 @@ function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- pr
 end
 function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- present agency rank
 	setMaxSize(450, 320);
-
-	local SortedAgency = SortTable(publicdata.Ranklist, "successfulmissions")
+	AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
+	local SortedAgency = SortTable(AgencyTable, "successfulmissions")
 	for i = 1, #SortedAgency do 
 		local vert = UI.CreateVerticalLayoutGroup(rootParent);
 		local row1 = UI.CreateHorizontalLayoutGroup(vert);
@@ -186,7 +189,7 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 		
 	UI.CreateLabel(row1).SetText("Rank #" .. i .. " ::");
 	UI.CreateButton(row1).SetText(SortedAgency[i].agencyname .. " " .. BaseName)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].agencyRank)
+	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].agencyrating)
 	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].Missions)
 	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].successfulmissions)
 	UI.CreateLabel(row1).SetText(" --- " .. tempagents)
@@ -196,13 +199,15 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 end
 function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- Top Agent
 	setMaxSize(450, 320)
-		if #publicdata.AgentRank == 0 then
+	Agentlist = Values2TableAgent(publicdata.Ranklist) -- list of all agencies
+		if #Agentlist == 0 then
 		UI.CreateLabel(rootParent).SetText("No one has trained any Agents yet, go here to start training new Agents")
 		UI.CreateButton(rootParent).SetText("Train Agent").SetOnClick(function () Dialogwindow(5) end);
 		
 
 	else
-	 local SortedAgents = SortTable(publicdata.AgentRank, "successfulmissions")
+
+	 local SortedAgents = SortTable(Agentlist, "successfulmissions")
 		for i = 1, #SortedAgents do 
 			local vert = UI.CreateVerticalLayoutGroup(rootParent);
 			local row1 = UI.CreateHorizontalLayoutGroup(vert);
@@ -249,7 +254,7 @@ function BuyingLogic(typename, cost, type, text, close) -- logic for how buying 
 		payload.text = text
 		Game.SendGameCustomMessage("new " .. BaseName .. "...", payload, function(returnValue)
 			print("job 3")
-
+			publicdata = Mod.PublicGameData
 			if returnValue.Message ~= nil then 
 				UI.Alert(returnValue.Message)
 			end
@@ -257,9 +262,11 @@ function BuyingLogic(typename, cost, type, text, close) -- logic for how buying 
 
 
 			if Pass == true then
+				print(returnValue.ranklist)
 				if type == 0 then
-					
+
 					Dialogwindow(2, close, nil)
+					return
 				end
 
 			end	
@@ -368,11 +375,12 @@ end
 function TargetAgentLogic(rootParent, setMaxSize, setScrollable, game, close)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	Agentlist = Values2TableAgent(publicdata.Ranklist)
 	UI.CreateLabel(vert).SetText("Choose an Agent to assassinate");
 
-	for i = 1, #publicdata.AgentRank do
+	for i = 1, #Agentlist do
 		--if publicdata.AgentRank[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
-			UI.CreateButton(vert).SetText("Agent " .. publicdata.AgentRank[i].codename).SetOnClick(function () CreateOrder(2,close, publicdata.AgentRank[i].agentID) end) 
+			UI.CreateButton(vert).SetText("Agent " .. Agentlist[i].codename).SetOnClick(function () CreateOrder(2,close, Agentlist[i].agentID) end) 
 		--end
 	end
 end
@@ -382,8 +390,10 @@ function CreateOrder(type,close, data)
 
 	local baseload = {}
 	baseload.entrytype = 3
-	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata)
-	local killagent_Index = Findmatch(publicdata.AgentRank,data)
+	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata,"agentID")
+	local killagent_Index = Findmatch(publicdata[ID].Agency.Agentlist,data,"agentID")
+	local agentsent = Agentdata
+	local datasent2 = 0
 	print(baseload.text,Agentdata)
 
 	Game.SendGameCustomMessage("new " .. BaseName .. "...", baseload, function(returnValue)
@@ -396,13 +406,14 @@ function CreateOrder(type,close, data)
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land"
 			datasent = Cardsource
 		elseif type == 2 then
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata.AgentRank[killagent_Index].codename
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[ID].Agency.Agentlist[killagent_Index].codename
 			datasent = data
+			datasent2 = publicdata[ID].Agency.Agentlist[killagent_Index].PlayerofAgentID
 			print(data, "client")
 		end
 		Orderstartwith = Targettype
 		local SelectedTerritoryID 
-		local payload = Orderstartwith  .. datasent .. ';;' .. Agentdata .. ';;' .. Nonill(TargetPlayerID) .. ';;'
+		local payload = Orderstartwith  .. datasent .. ';;' .. agentsent .. ';;' .. Nonill(TargetPlayerID) .. ';;' .. Nonill(datasent2)
 		local orders = Game.Orders;
 		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
 		Game.Orders = orders;
