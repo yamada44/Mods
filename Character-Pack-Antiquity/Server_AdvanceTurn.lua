@@ -244,7 +244,7 @@ function NumUnitsIn(armies, typename,type)
 			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #typename 
 				print(stringskip)
-				typename = string.sub(typename, stringskip)
+				typename = string.sub(typename+1, stringskip)
 			end
 			if (su.Name == typename) then -- actually count unit
 				ret = ret + 1;
