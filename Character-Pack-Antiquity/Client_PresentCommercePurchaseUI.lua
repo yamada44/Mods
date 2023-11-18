@@ -81,7 +81,7 @@ function TransferfromConfig() -- transfer the data from config to PlayerGameData
 
 end
 
-function NumUnitsIn(armies,type)
+function NumUnitin(armies,type)
 
 	local ret = 0;
 	local compare = ""
