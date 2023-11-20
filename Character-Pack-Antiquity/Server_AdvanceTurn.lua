@@ -418,7 +418,7 @@ print (altmove,'altmove')
 								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 									XP = XP + result.DefendingArmiesKilled.DefensePower
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 								
 									print (currlevel, "level", XP, 'XP')
 

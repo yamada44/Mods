@@ -16,7 +16,7 @@ if cityGroups == nil then cityGroups = {} end
             cityGroups[bonus.ID].Hascity = false
         end 
 
-local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
+        local Noskip = Bonuschecker(game.Settings.OverriddenBonuses[bonus.ID], bonus.Amount)
 
         if Noskip == true  then
 

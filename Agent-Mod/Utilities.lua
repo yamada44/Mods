@@ -158,23 +158,23 @@ end
 function CardData(value)
 	local cards = {}
 
-	cards["Reinforcement"] = WL.CardID.Reinforcement
-	cards["Gift"] = WL.CardID.Gift
-	cards["Spy"] = WL.CardID.Spy
-	cards["EmergencyBlockade"] = WL.CardID.EmergencyBlockade
-	cards["Blockade"] = WL.CardID.Blockade
-	cards["OrderPriority"] = WL.CardID.OrderPriority
-	cards["OrderDelay"] = WL.CardID.OrderDelay
-	cards["Airlift"] = WL.CardID.Airlift
-	cards["Diplomacy"] = WL.CardID.Diplomacy
-	cards["Sanctions"] = WL.CardID.Sanctions
-	cards["Reconnaissance"] = WL.CardID.Reconnaissance
-	cards["Surveillance"] = WL.CardID.Surveillance
-	cards["Bomb"] = WL.CardID.Bomb
+	cards["Reinforcement"] = "GameOrderPlayCardReinforcement"
+	cards["Gift"] = "GameOrderPlayCardGift"
+	cards["Spy"] = "GameOrderPlayCardSpy"
+	cards["EmergencyBlockade"] = "GameOrderPlayCardAbandon"
+	cards["Blockade"] = "GameOrderPlayCardBlockade"
+	cards["OrderPriority"] = "GameOrderPlayCardOrderPriority"
+	cards["OrderDelay"] = "GameOrderPlayCardOrderDelay"
+	cards["Airlift"] = "GameOrderPlayCardAirlift"
+	cards["Diplomacy"] = "GameOrderPlayCardDiplomacy"
+	cards["Sanctions"] = "GameOrderPlayCardSanctions"
+	cards["Reconnaissance"] = "GameOrderPlayCardReconnaissance"
+	cards["Surveillance"] = "GameOrderPlayCardSurveillance"
+	cards["Bomb"] = "GameOrderPlayCardBomb"
 
-	if type(value) ~= "number" then
+	if type(value) ~= "number" then -- return a single card
 	return cards(value)
-	elseif type(value) == "number" then
+	elseif type(value) == "number" then -- return entire table
 		return cards
 	end
 end

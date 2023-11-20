@@ -79,7 +79,7 @@ local t = {}
             mod.SetArmiesTo = NeutralValue
             local UnitdiedMessage = ''
             mod.RemoveSpecialUnitsOpt = t
-            neworder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
+            neworder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}))
         end 
     end
 

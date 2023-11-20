@@ -5,16 +5,12 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 	Game1 = game
 
 	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
-	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
-
 				for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
-					print('phase 2', "does have speical unit")
 					if v.proxyType == "CustomSpecialUnit" then
 						if v.ModData ~= nil then -- 
 							if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mods
-								print('phase 3', "unit is from I.S. mods")
 								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local diebitch = tonumber(payloadSplit[1])
 

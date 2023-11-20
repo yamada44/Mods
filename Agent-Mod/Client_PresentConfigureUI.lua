@@ -37,6 +37,10 @@ function Client_PresentConfigureUI(rootParent)
 	if cooldown == nil then
 		cooldown = 1;
 	end
+	local missioncost = Mod.Settings.MissionCost
+	if missioncost == nil then
+		missioncost = 1
+	end
     
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
@@ -92,6 +96,14 @@ function Client_PresentConfigureUI(rootParent)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(10)
 	.SetValue(cooldown)
+
+	local row46 = UI.CreateHorizontalLayoutGroup(vert); -- missioncost for agents
+	UI.CreateButton(row46).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How much gold it cost to launch a mission on another player"); end);
+	UI.CreateLabel(row46).SetText('Operation Cost');
+	Inportmissioncost = UI.CreateNumberInputField(row46)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(500)
+	.SetValue(missioncost)
 
 	local row5 = UI.CreateHorizontalLayoutGroup(vert); -- can cards be removed
 	UI.CreateButton(row5).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("should card removal be allowed for agents to remove"); end);

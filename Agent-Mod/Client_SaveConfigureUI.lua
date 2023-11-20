@@ -43,7 +43,13 @@ function Client_SaveConfigureUI(alert)
         local Cardsallowed = InportCardsallowed.GetIsChecked()
         Mod.Settings.Cardsremoved = Cardsallowed
 
-    
+        --Operation cost
+        local mission = Inportmissioncost.GetValue()
+        if mission > 10000 or mission < 0 then alert('Mission Cost value not supported. please stay within 0 - 10000') 
+        else
+            Mod.Settings.MissionCost = mission
+        end
+        
 
         --Agency Creation feature
         local creation = Inportcreationfeecost.GetValue()

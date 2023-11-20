@@ -14,22 +14,23 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
        if publicdata[playerID] == nil then publicdata[playerID] = {} end
        if publicdata.Ranklist == nil then publicdata.Ranklist = {} end
+       if publicdata.CardstoStop == nil then publicdata.CardstoStop = {} end
        if publicdata.id == nil then publicdata.id = 0 end
   
-    if publicdata[playerID].Agency ~= nil and false then -- things being cheaper if your agency is ranked higher 
+    --[[if publicdata[playerID].Agency ~= nil and false then -- things being cheaper if your agency is ranked higher 
       local hold = 1 / publicdata[playerID].Agency.agencyRank
       if hold == 1 then hold = 0.75 end -- making sure agents aren't free if there number one
       local costhold = typecost * hold
   
       typecost = typecost - costhold
-    end
+    end]]--
   
     if (goldhave < typecost) then  -- don't have enough money
       setReturnTable({ Message = "You need " .. typecost .. " gold to purchase a " .. typename .. ". you need ".. typecost - goldhave ..  " more gold to purchase this unit", Pass = false})
         return
       end
   
-      game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave - typecost);
+      game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave - typecost)
   
     if type == 0 then -- when your buying a new agency    
       --Initing  
@@ -89,9 +90,9 @@ print(publicdata[playerID].Agency.Decoylist, "decoylist client")
     elseif type == 3 then -- updating cooldown
       
       publicdata[playerID].Agency.Agentlist[typetext].cooldownTill = game.Game.TurnNumber + Mod.Settings.Cooldown
-
+      
     end
-  print(publicdata.Ranklist,"rank list")
+
     Mod.PublicGameData = publicdata
 
 end

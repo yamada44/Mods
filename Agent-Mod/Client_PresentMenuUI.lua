@@ -9,16 +9,6 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	BaseName = "Agency"
 	Orderstartwith = 'ISA'
 	Targettype = -1
-	local A = {}
- A[1] = "name"
-local B = {}
-B = A
-print (B[1])
-	A[2] = "another name"
-	A[1] = "bobo"
-	print(B[2])
-
-
 
 
 	setMaxSize(450, 320);
@@ -45,6 +35,7 @@ print (B[1])
 	 Armieslost = Mod.Settings.ArmiesLost
 	 Cardremovalon = Mod.Settings.Cardsremoved
 	 creationfee = Mod.Settings.Creationfee
+	 MissionCost = Mod.Settings.MissionCost
 
 
 	if publicdata[ID] ~= nil then -- Use this menu if you already have an agency created
@@ -148,7 +139,7 @@ function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 		UI.CreateButton(vert).SetText("Sabotage City").SetOnClick(function () Dialogwindow(8,close,"KillCity") end) -- target map
 	end
 	if Cardremovalon == true then
-		UI.CreateButton(vert).SetText("Sabotage influence").SetOnClick(function () Dialogwindow(9,close,"Killcard") end) -- target card type
+		UI.CreateButton(vert).SetText("Sabotage influence(Cards)").SetOnClick(function () Dialogwindow(9,close,"Killcard") end) -- target card type
 	end
 	if Armieslost ~= 0 then
 		UI.CreateButton(vert).SetText("Sabotage Army Logistics").SetOnClick(function () Dialogwindow(8,close,"Killarmy") end) -- target map
@@ -302,13 +293,10 @@ function TerritoryClicked(terrDetails)
 		BuyUnitBtn.SetInteractable(false);
 	else
 		--Territory was clicked, check it
-		if (Game.LatestStanding.Territories[terrDetails.ID].OwnerPlayerID ~= Game.Us.ID) then
-			TargetTerritorytext.SetText("You may only receive a territory you own.  Please try again.");
-		else
 			TargetTerritorytext.SetText("Selected territory: " .. terrDetails.Name);
 			SelectedTerritory = terrDetails;
 			BuyUnitBtn.SetInteractable(true);
-		end
+		
 	end
 end
 -- Select Player/card logic
@@ -321,9 +309,9 @@ function TargetCardLogic(rootParent, setMaxSize, setScrollable, game, close)
 
 
 	--select player
-	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select Nation/player...").SetOnClick(TargetPlayerClicked);
+	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select Nation/player...").SetOnClick(TargetPlayerClicked)
 	--Select Card 	
-	GetCardBtn = UI.CreateButton(vert).SetText("Select Card to Sabotage").SetOnClick(FinalcheckCardLogic);
+	GetCardBtn = UI.CreateButton(vert).SetText("Select Card to Sabotage").SetOnClick(FinalcheckCardLogic)
 	-- Start mission
 	StartCardmissionBtn = UI.CreateButton(row1).SetText("Start Mission").SetOnClick(function () CreateOrder(1,close) end).SetInteractable(Checkclear.allgood)
 
@@ -341,6 +329,11 @@ function CardlogicButton(card)
 		print(data)
 		Cardsource = Cardtable[data]
 		Checkclear.card = true
+		local cardtable = CardData(0)
+		Cardname = "No name found"
+        for i,v in pairs(cardtable)do
+            if v == Cardsource then Cardname = i break end
+        end
 		print(Checkclear.player,Checkclear.card)
 		if Checkclear.player == true and Checkclear.card == true then 
 			Checkclear.allgood = true end
@@ -352,7 +345,7 @@ end
 --Promt list logic for player list
 function TargetPlayerClicked()
 	
-	local players = filter(Game.Game.Players, function (p) return p.ID ~= Game.Us.ID end);
+	local players = Game.Game.Players--filter(Game.Game.Players, function (p) return p.ID ~= Game.Us.ID end);
 	local options = map(players, PlayerButton);
 	UI.PromptFromList("Select the player you'd like to give gold to", options);
 end
@@ -391,25 +384,27 @@ function CreateOrder(type,close, data)
 	local baseload = {}
 	baseload.entrytype = 3
 	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata,"agentID")
+	baseload.cost = MissionCost
 	local killagent_Index = Findmatch(publicdata[ID].Agency.Agentlist,data,"agentID")
-	local agentsent = Agentdata
+	local agentsent = Agentdata -- just to clear up the name
 	local datasent2 = 0
-	print(baseload.text,Agentdata)
+	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
 
 	Game.SendGameCustomMessage("new " .. BaseName .. "...", baseload, function(returnValue)
 		local datasent = 0
 		local msg = nil
-		if type == 0 then
+		if type == 0 then -- getting territory logic
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun a operation in " .. SelectedTerritory.Name
 			datasent = SelectedTerritory.ID
-		elseif type == 1 then
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land"
+
+
+		elseif type == 1 then -- getting card logic
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land" .."("..Cardname..")"
 			datasent = Cardsource
-		elseif type == 2 then
+		elseif type == 2 then -- getting agent on agent action
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[ID].Agency.Agentlist[killagent_Index].codename
 			datasent = data
 			datasent2 = publicdata[ID].Agency.Agentlist[killagent_Index].PlayerofAgentID
-			print(data, "client")
 		end
 		Orderstartwith = Targettype
 		local SelectedTerritoryID 
