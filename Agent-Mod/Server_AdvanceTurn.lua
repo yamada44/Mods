@@ -286,9 +286,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         local AgentonmissionID = tonumber(payloadSplit[2])
         local TargetplayerID = tonumber(payloadSplit[3])
         local ID = order.PlayerID
- 
         local modifier = 2
-
         local AgentIndex = Findmatch(publicdata[ID].Agency.Agentlist  ,  AgentonmissionID,"agentID") -- Getting Agents Index
         if AgentIndex == nil then -- if the agent is already dead, cancel Operation
             addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. This agent is already dead", {}, {}))            
@@ -313,7 +311,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
             totalpower = modifier
             end
 
-
+print(totalpower,"total")
         local battleresults = Combat(attacker + totalpower, attacker)
         local name = "Neutral"
         if TargetplayerID ~= 0 then name = game.Game.Players[TargetplayerID].DisplayName(nil,false) end
@@ -362,6 +360,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                 publicdata.CardstoStop[#publicdata.CardstoStop].agentname = publicdata[ID].Agency.Agentlist[AgentIndex].codename
                 publicdata.CardstoStop[#publicdata.CardstoStop].message = message
                 publicdata.CardstoStop[#publicdata.CardstoStop].TargetplayerID = TargetplayerID
+                publicdata.CardstoStop[#publicdata.CardstoStop].Cardname = cardname
+                publicdata.CardstoStop[#publicdata.CardstoStop].PlayerID = ID
+                publicdata.CardstoStop[#publicdata.CardstoStop].targetplayername = game.Game.Players[TargetplayerID].DisplayName(nil,false)
                 addNewOrder(WL.GameOrderEvent.Create(ID, "Card Mission successful",{},nil))
 
 

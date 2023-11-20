@@ -123,6 +123,20 @@ function AgentPresentLogic(rootParent, setMaxSize, setScrollable, game, close)
 		UI.CreateLabel(rootParent).SetText("No one has trained any Agents yet, go here to start training new Agents")
 		UI.CreateButton(rootParent).SetText("Train Agent").SetOnClick(function () Dialogwindow(5,close, "close") end);
 	end
+	if publicdata.CardstoStop ~= nil and #publicdata.CardstoStop > 0 then
+		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+		local row00 = UI.CreateHorizontalLayoutGroup(vert)
+
+		UI.CreateLabel(row00).SetText("Cards waiting to activate").SetColor('#4EC4FF')
+		for i = 1, #publicdata.CardstoStop do 
+			if publicdata.CardstoStop[i].PlayerID == ID then
+				local row2 = UI.CreateHorizontalLayoutGroup(vert)
+				UI.CreateLabel(row2).SetText(publicdata.CardstoStop[i].Cardname .. " Card").SetColor('#FF87FF')
+				UI.CreateLabel(row2).SetText("-- ".. publicdata.CardstoStop[i].targetplayername).SetColor('#FFFFFF')
+			end
+		end
+	end
+
 end
 function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 	for i = 1, #AgentBtntracker do 
@@ -139,7 +153,7 @@ function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 		UI.CreateButton(vert).SetText("Sabotage City").SetOnClick(function () Dialogwindow(8,close,"KillCity") end) -- target map
 	end
 	if Cardremovalon == true then
-		UI.CreateButton(vert).SetText("Sabotage influence(Cards)").SetOnClick(function () Dialogwindow(9,close,"Killcard") end) -- target card type
+		UI.CreateButton(vert).SetText("Sabotage influence (Cards)").SetOnClick(function () Dialogwindow(9,close,"Killcard") end) -- target card type
 	end
 	if Armieslost ~= 0 then
 		UI.CreateButton(vert).SetText("Sabotage Army Logistics").SetOnClick(function () Dialogwindow(8,close,"Killarmy") end) -- target map
@@ -372,9 +386,9 @@ function TargetAgentLogic(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(vert).SetText("Choose an Agent to assassinate");
 
 	for i = 1, #Agentlist do
-		--if publicdata.AgentRank[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
+		if Agentlist[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
 			UI.CreateButton(vert).SetText("Agent " .. Agentlist[i].codename).SetOnClick(function () CreateOrder(2,close, Agentlist[i].agentID) end) 
-		--end
+		end
 	end
 end
 -- Create orders
@@ -399,7 +413,7 @@ function CreateOrder(type,close, data)
 
 
 		elseif type == 1 then -- getting card logic
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land" .."("..Cardname..")"
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land" .." ("..Cardname..")"
 			datasent = Cardsource
 		elseif type == 2 then -- getting agent on agent action
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[ID].Agency.Agentlist[killagent_Index].codename
