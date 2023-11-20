@@ -217,12 +217,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         if publicdata[terr.OwnerPlayerID] ~= nil and #publicdata[terr.OwnerPlayerID].Agency.Agentlist > 0 then
             for i,v in pairs (publicdata[terr.OwnerPlayerID].Agency.Agentlist) do
                 totalpower = totalpower + v.level
-        end
-    else 
-        totalpower = modifier
-    end
-
+            end
         totalpower = (totalpower / #publicdata[terr.OwnerPlayerID].Agency.Agentlist ) + modifier
+        else 
+            totalpower = modifier
+        end
+
+
             local battleresults = Combat(attacker + totalpower, attacker)
             local name = "Neutral"
 
