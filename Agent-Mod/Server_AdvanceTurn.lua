@@ -137,7 +137,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                 if builder.TextOverHeadOpt ~= nil then
                     TempNameOverHead = builder.TextOverHeadOpt .. " the "
                 end
-                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed to eliminate " .. TempNameOverHead .. builder.Name  .. " agent and target got away"
+                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed to eliminate " .. TempNameOverHead .. builder.Name  .. "\nagent and target got away"
                 addNewOrder(WL.GameOrderEvent.Create(ts.OwnerPlayerID, message)); 
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
            
@@ -214,9 +214,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
     -- getting average power of agency
         local totalpower = 0
+        if publicdata[terr.OwnerPlayerID] ~= nil and #publicdata[terr.OwnerPlayerID].Agency.Agentlist > 0 then
             for i,v in pairs (publicdata[terr.OwnerPlayerID].Agency.Agentlist) do
                 totalpower = totalpower + v.level
         end
+    else 
+        totalpower = modifier
+    end
 
         totalpower = (totalpower / #publicdata[terr.OwnerPlayerID].Agency.Agentlist ) + modifier
             local battleresults = Combat(attacker + totalpower, attacker)
