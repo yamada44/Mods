@@ -24,7 +24,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	--checking to see if we're in the game
 	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
-		UI.CreateLabel(vert).SetText("You cannot gift gold since you're not in the game");
+		UI.CreateLabel(vert).SetText("You cannot use an agency since your not in the game");
 		return;
 	end
 
