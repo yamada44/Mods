@@ -17,13 +17,6 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
        if publicdata.CardstoStop == nil then publicdata.CardstoStop = {} end
        if publicdata.id == nil then publicdata.id = 0 end
   
-    --[[if publicdata[playerID].Agency ~= nil and false then -- things being cheaper if your agency is ranked higher 
-      local hold = 1 / publicdata[playerID].Agency.agencyRank
-      if hold == 1 then hold = 0.75 end -- making sure agents aren't free if there number one
-      local costhold = typecost * hold
-  
-      typecost = typecost - costhold
-    end]]--
   
     if (goldhave < typecost) then  -- don't have enough money
       setReturnTable({ Message = "You need " .. typecost .. " gold to purchase a " .. typename .. ". you need ".. typecost - goldhave ..  " more gold to purchase this unit", Pass = false})
@@ -47,10 +40,9 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
         if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
         if publicdata[playerID].Agency.Decoylist == nil then publicdata[playerID].Agency.Decoylist = {}end
       
-        if FindmatchID(publicdata,playerID) == nil then
-        table.insert(publicdata.Ranklist,playerID) 
-        print("added to table",publicdata.Ranklist)
-      end
+
+        table.insert(publicdata.Ranklist,playerID)
+
 
         setReturnTable({ Message = nil, Pass = true})
 
