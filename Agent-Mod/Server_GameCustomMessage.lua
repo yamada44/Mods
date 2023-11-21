@@ -80,7 +80,7 @@ print(publicdata[playerID].Agency.Decoylist, "decoylist client")
       publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- 1 for agent level. agency rating
       setReturnTable({ Message = "Agent Code Name '".. short.codename .. "' successfully Trained. ", Pass = true})
     elseif type == 3 then -- updating cooldown
-      
+      print(Mod.Settings.Cooldown,"cool")
       publicdata[playerID].Agency.Agentlist[typetext].cooldownTill = game.Game.TurnNumber + Mod.Settings.Cooldown
       
     end
