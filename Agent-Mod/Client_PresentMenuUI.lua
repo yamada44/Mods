@@ -401,7 +401,7 @@ function CreateOrder(type,close, data)
 	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata,"agentID")
 	baseload.cost = MissionCost
 
-	local killagent_Index = Findmatch(Agentlist,data.agentid,"agentID")
+
 	local agentsent = Agentdata -- just to clear up the name
 	local datasent2 = 0
 	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
@@ -419,6 +419,8 @@ function CreateOrder(type,close, data)
 			datasent = Cardsource
 		elseif type == 2 then -- getting agent on agent action
 			targetagentplayerID = data.playeridofagent
+			local killagent_Index = Findmatch(publicdata[targetagentplayerID].Agency.Agentlist,data.agentid,"agentID")
+
 			print(targetagentplayerID)
 			print(killagent_Index)
 			print(publicdata[ID].Agency.Agentlist[baseload.text].codename)
