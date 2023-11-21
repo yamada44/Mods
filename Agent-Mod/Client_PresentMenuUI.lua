@@ -431,6 +431,7 @@ function CreateOrder(type,close, data)
 		end
 		Orderstartwith = Targettype
 		local SelectedTerritoryID 
+		
 		local payload = Orderstartwith  .. datasent .. ';;' .. agentsent .. ';;' .. Nonill(TargetPlayerID) .. ';;' .. Nonill(datasent2)
 		local orders = Game.Orders;
 		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
