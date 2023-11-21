@@ -426,7 +426,7 @@ function CreateOrder(type,close, data)
 			print(publicdata[ID].Agency.Agentlist[baseload.text].codename)
 			print(publicdata[targetagentplayerID].Agency.Agentlist[killagent_Index].codename)
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[targetagentplayerID].Agency.Agentlist[killagent_Index].codename
-			datasent = data
+			datasent = data.agentid
 			datasent2 = publicdata[targetagentplayerID].Agency.Agentlist[killagent_Index].PlayerofAgentID
 		end
 		Orderstartwith = Targettype
