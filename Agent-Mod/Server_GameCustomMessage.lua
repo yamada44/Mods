@@ -10,7 +10,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   local typecost = Nonill(payload.cost)
   local typetext = Nonill(payload.text)
   local goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
-  print("----------------")
+
 
        if publicdata[playerID] == nil then publicdata[playerID] = {} end
        if publicdata.Ranklist == nil then publicdata.Ranklist = {} end

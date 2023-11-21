@@ -385,9 +385,10 @@ function TargetAgentLogic(rootParent, setMaxSize, setScrollable, game, close)
 	Agentlist = Values2TableAgent(publicdata.Ranklist)
 	UI.CreateLabel(vert).SetText("Choose an Agent to assassinate");
 
-	for i = 1, #Agentlist do
+	for i,v in pairs (Agentlist) do
 		if Agentlist[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
-			UI.CreateButton(vert).SetText("Agent " .. Agentlist[i].codename).SetOnClick(function () CreateOrder(2,close, Agentlist[i].agentID) end) 
+			temptable = {agentid = Agentlist[i].agentID, playeridofagent = Agentlist[i].PlayerofAgentID}
+			UI.CreateButton(vert).SetText("Agent " .. Agentlist[i].codename).SetOnClick(function () CreateOrder(2,close, temptable) end) 
 		end
 	end
 end
@@ -399,7 +400,8 @@ function CreateOrder(type,close, data)
 	baseload.entrytype = 3
 	baseload.text = Findmatch(publicdata[ID].Agency.Agentlist,Agentdata,"agentID")
 	baseload.cost = MissionCost
-	local killagent_Index = Findmatch(publicdata[ID].Agency.Agentlist,data,"agentID")
+
+	--local killagent_Index = Findmatch(publicdata[ID].Agency.Agentlist,data,"agentID")
 	local agentsent = Agentdata -- just to clear up the name
 	local datasent2 = 0
 	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
@@ -416,9 +418,11 @@ function CreateOrder(type,close, data)
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " Has begun Sabotaging political influence in " .. TargetPlayerBtn.GetText() .. "'s land" .." ("..Cardname..")"
 			datasent = Cardsource
 		elseif type == 2 then -- getting agent on agent action
-			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[ID].Agency.Agentlist[killagent_Index].codename
+			targetagentplayerID = data.playeridofagent
+			indexofagent = data.agentid
+			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[targetagentplayerID].Agency.Agentlist[indexofagent].codename
 			datasent = data
-			datasent2 = publicdata[ID].Agency.Agentlist[killagent_Index].PlayerofAgentID
+			datasent2 = publicdata[targetagentplayerID].Agency.Agentlist[indexofagent].PlayerofAgentID
 		end
 		Orderstartwith = Targettype
 		local SelectedTerritoryID 
