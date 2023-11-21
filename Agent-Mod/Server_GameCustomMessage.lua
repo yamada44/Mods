@@ -54,7 +54,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
         Dshort.type = "all"
 
-print(publicdata[playerID].Agency.Decoylist, "decoylist client")
+
         publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- adding for agency rating
         setReturnTable({ Message = "Decoy successfully Set up ", Pass = true})
 
@@ -81,11 +81,11 @@ print(publicdata[playerID].Agency.Decoylist, "decoylist client")
       setReturnTable({ Message = "Agent Code Name '".. short.codename .. "' successfully Trained. ", Pass = true})
    
     elseif type == 3 then -- updating cooldown
-      print(Mod.Settings.Cooldown,"cool")
+
       publicdata[playerID].Agency.Agentlist[typetext].cooldownTill = game.Game.TurnNumber + Mod.Settings.Cooldown
       
     end
-print("what the fuck",type)
+
     Mod.PublicGameData = publicdata
 
 end
