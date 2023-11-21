@@ -387,8 +387,8 @@ function TargetAgentLogic(rootParent, setMaxSize, setScrollable, game, close)
 
 	for i,v in pairs (Agentlist) do
 		if Agentlist[i].agentHomeAgency ~= publicdata[ID].Agency.agencyname then --making sure our own agents dont appear there
-			temptable = {agentid = v.agentID, playeridofagent = v.PlayerofAgentID}
-			UI.CreateButton(vert).SetText("Agent " .. v.codename).SetOnClick(function () CreateOrder(2,close, temptable) end) 
+
+			UI.CreateButton(vert).SetText("Agent " .. v.codename).SetOnClick(function () CreateOrder(2,close, {agentid = v.agentID, playeridofagent = v.PlayerofAgentID}) end) 
 		end
 	end
 end
