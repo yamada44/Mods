@@ -420,6 +420,10 @@ function CreateOrder(type,close, data)
 		elseif type == 2 then -- getting agent on agent action
 			targetagentplayerID = data.playeridofagent
 			indexofagent = data.agentid
+			print(targetagentplayerID)
+			print(indexofagent)
+			print(publicdata[ID].Agency.Agentlist[baseload.text].codename)
+			print(publicdata[targetagentplayerID].Agency.Agentlist[indexofagent].codename)
 			msg = "Agent " .. publicdata[ID].Agency.Agentlist[baseload.text].codename .. " has began a assassination operation on agent " .. publicdata[targetagentplayerID].Agency.Agentlist[indexofagent].codename
 			datasent = data
 			datasent2 = publicdata[targetagentplayerID].Agency.Agentlist[indexofagent].PlayerofAgentID
