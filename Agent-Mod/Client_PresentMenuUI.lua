@@ -407,6 +407,7 @@ function CreateOrder(type,close, data)
 	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
 
 	Game.SendGameCustomMessage("new " .. BaseName .. "...", baseload, function(returnValue)
+		if returnValue.Pass == false then UI.Alert(returnValue.message) return end
 		local datasent = 0
 		local msg = nil
 		if type == 0 then -- getting territory logic
