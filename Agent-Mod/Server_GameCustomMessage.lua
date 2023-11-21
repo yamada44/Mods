@@ -42,7 +42,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
       
 
         table.insert(publicdata.Ranklist,playerID)
-
+      print(publicdata.Ranklist)
 
         setReturnTable({ Message = nil, Pass = true})
 
