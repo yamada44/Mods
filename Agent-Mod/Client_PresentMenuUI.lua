@@ -147,7 +147,7 @@ function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 --name = " agent won" -- Bring in agents name
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	UI.CreateLabel(vert).SetText("Missions Cost" .. MissionCost).SetColor('#4EC4FF')
+	UI.CreateLabel(vert).SetText("Missions Cost " .. MissionCost .. "\n").SetColor('#4EC4FF')
 
 	UI.CreateButton(vert).SetText("Assassinate Rival Agent").SetOnClick(function () Dialogwindow(10,close,"KillAgent") end) -- target agent
 	UI.CreateButton(vert).SetText("Assassinate Important Target").SetOnClick(function () Dialogwindow(8,close,"Killguy") end) -- target map
