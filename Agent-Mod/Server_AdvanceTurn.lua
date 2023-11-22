@@ -466,9 +466,8 @@ print(totalpower,"total")
         end
 
         if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
+            local publicdata = Mod.PublicGameData
             if publicdata.CardstoStop ~= nil then
-                local publicdata = Mod.PublicGameData
-
                 for i = 1, #publicdata.CardstoStop do
                     if order.PlayerID == publicdata.CardstoStop[i].TargetplayerID then
                         if(order.proxyType == publicdata.CardstoStop[i].orderproxy)then
