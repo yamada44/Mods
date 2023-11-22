@@ -201,7 +201,7 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].Missions)
 	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].successfulmissions)
 	UI.CreateLabel(row1).SetText(" --- " .. tempagents)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].playerID
+	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].playerID)
 
 	end
 
