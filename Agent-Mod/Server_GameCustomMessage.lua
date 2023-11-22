@@ -62,7 +62,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
   
   elseif type == 2 then -- when your buying a new agent
-    if #publicdata[playerID].Agency.Agentlist >= 4 then       setReturnTable({ Message = "The max amount of agents is 4. you have already reached that limit", Pass = false})
+    if #publicdata[playerID].Agency.Agentlist >= 4 then       setReturnTable({ Message = "The max amount of agents is 4. you have already reached that limit", Pass = false}) end
     if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
     if publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1] == nil then 
       publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1 ]  = {} end 
