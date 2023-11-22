@@ -41,7 +41,8 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
         if publicdata[playerID].Agency.Protectionrate == nil then  publicdata[playerID].Agency.Protectionrate = 0 end
         if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
         if publicdata[playerID].Agency.Decoylist == nil then publicdata[playerID].Agency.Decoylist = {}end
-      
+        if publicdata[playerID].Agency.playerID == nil then publicdata[playerID].Agency.playerID = playerID end
+        
 
         table.insert(publicdata.Ranklist,playerID)
 
