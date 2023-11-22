@@ -466,22 +466,23 @@ print(totalpower,"total")
         end
 
         if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
-            local publicdata = Mod.PublicGameData
+            if publicdata.CardstoStop ~= nil then
+                local publicdata = Mod.PublicGameData
 
-            for i = 1, #publicdata.CardstoStop do
-                if order.PlayerID == publicdata.CardstoStop[i].TargetplayerID then
-                    if(order.proxyType == publicdata.CardstoStop[i].orderproxy)then
-                        local message = publicdata.CardstoStop[i].message
-                        addNewOrder(WL.GameOrderEvent.Create(publicdata.CardstoStop[i].TargetplayerID, message,nil,nil))
-                        table.remove(publicdata.CardstoStop,i)
-                        skipThisOrder(WL.ModOrderControl.Skip)
-                        Mod.PublicGameData = publicdata
-                        break
+                for i = 1, #publicdata.CardstoStop do
+                    if order.PlayerID == publicdata.CardstoStop[i].TargetplayerID then
+                        if(order.proxyType == publicdata.CardstoStop[i].orderproxy)then
+                            local message = publicdata.CardstoStop[i].message
+                            addNewOrder(WL.GameOrderEvent.Create(publicdata.CardstoStop[i].TargetplayerID, message,nil,nil))
+                            table.remove(publicdata.CardstoStop,i)
+                            skipThisOrder(WL.ModOrderControl.Skip)
+                            Mod.PublicGameData = publicdata
+                            break
 
+                        end
                     end
                 end
             end
-
         end
 end
 -- 0: death of attacking agent
