@@ -1,6 +1,12 @@
 require('Utilities')
-
+-- add a viewing port for players not in the game to see the ranking
 function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close)
+		--checking to see if we're in the game
+		if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
+			UI.CreateLabel(vert).SetText("You cannot use an agency since your not in the game");
+			return;
+		end
+
 	Game = game;
 	--Close = close;
 	publicdata = Mod.PublicGameData
@@ -22,11 +28,6 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		return;
 	end
 
-	--checking to see if we're in the game
-	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
-		UI.CreateLabel(vert).SetText("You cannot use an agency since your not in the game");
-		return;
-	end
 
 	--Setting up variable
 	 Agentcost = Mod.Settings.Agentcost
@@ -146,6 +147,7 @@ function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 --name = " agent won" -- Bring in agents name
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	UI.CreateLabel(vert).SetText("Missions Cost" .. MissionCost).SetColor('#4EC4FF')
 
 	UI.CreateButton(vert).SetText("Assassinate Rival Agent").SetOnClick(function () Dialogwindow(10,close,"KillAgent") end) -- target agent
 	UI.CreateButton(vert).SetText("Assassinate Important Target").SetOnClick(function () Dialogwindow(8,close,"Killguy") end) -- target map
@@ -435,7 +437,7 @@ function CreateOrder(type,close, data)
 		
 		local payload = Orderstartwith  .. datasent .. ';;' .. agentsent .. ';;' .. Nonill(TargetPlayerID) .. ';;' .. Nonill(datasent2)
 		local orders = Game.Orders;
-		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
+		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost }));
 		Game.Orders = orders;
 	end)
 end

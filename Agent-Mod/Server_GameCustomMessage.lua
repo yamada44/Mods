@@ -22,8 +22,10 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
       setReturnTable({ Message = "You need " .. typecost .. " gold to purchase a " .. typename .. ". you need ".. typecost - goldhave ..  " more gold to purchase this unit", Pass = false})
         return
       end
-  
-      game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave - typecost)
+      if type < 3 then
+        game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave - typecost)
+      end
+
   
     if type == 0 then -- when your buying a new agency    
       --Initing  
@@ -60,11 +62,12 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
   
   elseif type == 2 then -- when your buying a new agent
+    if #publicdata[playerID].Agency.Agentlist >= 4 then       setReturnTable({ Message = "The max amount of agents is 4. you have already reached that limit", Pass = false})
     if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
     if publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1] == nil then 
       publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist + 1 ]  = {} end 
       local short = publicdata[playerID].Agency.Agentlist[#publicdata[playerID].Agency.Agentlist]
-
+      
       if short.PlayerofAgentID == nil then short.PlayerofAgentID = playerID end
       if short.codename == nil then short.codename = typetext end
       if short.level == nil then short.level = 1 end
