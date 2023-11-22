@@ -186,7 +186,6 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 	AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
 	local SortedAgency = SortTable(AgencyTable, "successfulmissions")
 	for i = 1, #SortedAgency do 
-		local playerid = FindmatchID(publicdata,)
 		local vert = UI.CreateVerticalLayoutGroup(rootParent)
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		local tempagents = 0
