@@ -116,3 +116,9 @@ function groupBy(tbl, funcToGetKey)
 
 	return ret;
 end
+function Nonill(value)
+	if value == nil then
+		return 0
+	
+else return value end
+end

@@ -437,7 +437,7 @@ print (altmove,'altmove')
 
 										levelamount = levelamount + Baseamount(levelamount, currlevel)
 										builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-										builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+										builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 										builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 										builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
@@ -572,7 +572,7 @@ print (altmove,'altmove')
 
 											levelamount = levelamount + Baseamount(levelamount, currlevel)
 											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+											builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
