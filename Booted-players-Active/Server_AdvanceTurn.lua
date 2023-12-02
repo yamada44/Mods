@@ -4,6 +4,7 @@ require('Utilities')
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
   publicdata = Mod.PublicGameData
+  if publicdata.Action == nil then publicdata.Action = {} end
   local ActivePlayers = 0
   local NeedPercent = Mod.Settings.Percentthreshold
   NeutralValue = Mod.Settings.WastelandAmount
@@ -17,7 +18,7 @@ end
 local array = {}
 
 local i = 1
-  while i <= #Nonill(publicdata.Action) do -- Action logic
+  while i <= #publicdata.Action do -- Action logic
     print(i,"i ===")
     local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
     if percentVote >= NeedPercent then
