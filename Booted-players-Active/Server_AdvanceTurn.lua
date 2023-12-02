@@ -17,7 +17,7 @@ end
 local array = {}
 
 local i = 1
-  while i <= #publicdata.Action do -- Action logic
+  while i <= #Nonill(publicdata.Action) do -- Action logic
     print(i,"i ===")
     local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
     if percentVote >= NeedPercent then
