@@ -242,7 +242,7 @@ function NumUnitsIn(armies, typename,type)
 	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
 		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
-			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+			if Nonill(Mod.Settings.Unitdata[type].Level) > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #typename 
 
 				compare = string.sub(su.Name, stringskip+1)
@@ -418,7 +418,7 @@ print (altmove,'altmove')
 								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 									XP = XP + result.DefendingArmiesKilled.DefensePower
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 								
 									print (currlevel, "level", XP, 'XP')
 
@@ -437,7 +437,7 @@ print (altmove,'altmove')
 
 										levelamount = levelamount + Baseamount(levelamount, currlevel)
 										builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-										builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+										builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 										builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 										builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
@@ -572,7 +572,7 @@ print (altmove,'altmove')
 
 											levelamount = levelamount + Baseamount(levelamount, currlevel)
 											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+											builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'

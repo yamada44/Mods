@@ -5,12 +5,16 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 	Game1 = game
 
 	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
+	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
+
 				for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+					print('phase 2', "does have speical unit")
 					if v.proxyType == "CustomSpecialUnit" then
 						if v.ModData ~= nil then -- 
 							if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mods
+								print('phase 3', "unit is from I.S. mods")
 								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local diebitch = tonumber(payloadSplit[1])
 
@@ -238,7 +242,7 @@ function NumUnitsIn(armies, typename,type)
 	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
 		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
-			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+			if Nonill(Mod.Settings.Unitdata[type].Level) > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #typename 
 
 				compare = string.sub(su.Name, stringskip+1)
@@ -414,7 +418,7 @@ print (altmove,'altmove')
 								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 									XP = XP + result.DefendingArmiesKilled.DefensePower
-									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v);
+									local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 								
 									print (currlevel, "level", XP, 'XP')
 
@@ -433,7 +437,7 @@ print (altmove,'altmove')
 
 										levelamount = levelamount + Baseamount(levelamount, currlevel)
 										builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-										builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+										builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 										builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 										builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
@@ -568,7 +572,7 @@ print (altmove,'altmove')
 
 											levelamount = levelamount + Baseamount(levelamount, currlevel)
 											builder.AttackPower = builder.AttackPower + Baseamount(builder.AttackPower, currlevel)
-											builder.DefensePower = unitdefence + Baseamount(builder.DefensePower, currlevel);
+											builder.DefensePower = builder.DefensePower + Baseamount(builder.DefensePower, currlevel);
 											builder.DamageToKill = absoredDamage + Baseamount(absoredDamage, currlevel);
 											builder.DamageAbsorbedWhenAttacked = absoredDamage + Baseamount(builder.DamageAbsorbedWhenAttacked, currlevel)
 											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
