@@ -80,11 +80,14 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
+	HelperMessage = "select a Action, then click on this again, it will have a help tip"
 
 	UI.CreateLabel(row1).SetText("Original Player: ").SetColor('#4EC4FF')
 	OrigPlayerBtn = UI.CreateButton(row1).SetText("Select Old player...").SetOnClick(function ()PromptListSetup(1) end)
 	UI.CreateLabel(row2).SetText("Action: ").SetColor('#4EC4FF')
 	ActPlayerBtn = UI.CreateButton(row2).SetText("Select Action...").SetOnClick(function ()PromptListSetup(3) end)
+	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert(HelperMessage); end);
+
 
 	UI.CreateLabel(row3).SetText("New Player: ").SetColor('#4EC4FF')
 	SwapPlayerBtn = UI.CreateButton(row3).SetText("Select New player...").SetOnClick(function ()PromptListSetup(2) end)
@@ -163,18 +166,23 @@ function ActionButton(action)
 		if name == BaseTable[2] then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "New player takes Original player's land, and New player's former land is turn to wasteland"
 		elseif name == BaseTable[1] then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "New player and Original player Swap all land, armies, cities ect. with each other"
 		elseif name == BaseTable[3] then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "Original player is simply turned neutral, his land is left untouched"
 		elseif name == BaseTable[4] then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "Original player's land is factory wiped. cities, armies, special units, commanders. Everything is removed and replaced with wastelands"
 		elseif name == BaseTable[5] then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land as well"
 		end
 	end
 	return ret;
