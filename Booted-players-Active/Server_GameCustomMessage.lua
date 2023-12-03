@@ -13,10 +13,13 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
 
   if type == 1 then -- Creating a new option from scrath  
+    
     if publicdata.Action == nil then publicdata.Action = {} end
     if #publicdata.Action >= 5 then       
       setReturnTable({ Message = "Cannot have more then 5 actions at a time\nActions fall off after 3 turns"})
       return end
+    if data1 == data2 then setReturnTable({ Message = "Cannot pick the same player twice"}) end
+    
       if typetext == "Eliminate as is" or typetext == "Eliminate to Wasteland" then data2 = "Neutral" end 
 print(data2,"data2")
     if publicdata.Action[#publicdata.Action + 1] == nil then publicdata.Action[#publicdata.Action + 1] = {} end
@@ -29,6 +32,7 @@ print(data2,"data2")
     short.VotingIDs[#short.VotingIDs + 1] = playerID
     short.Actiontype = typetext
     short.Todelete = false
+
 
   elseif type == 2 then -- Adding Vote
   table.insert(publicdata.Action[data1].VotingIDs,playerID)
