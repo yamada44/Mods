@@ -20,7 +20,7 @@ local array = {}
 local i = 1
   while i <= #publicdata.Action do -- Action logic
     print(i,"i ===")
-    if publicdata.Action[i].NewPlayerID == publicdata.Action[i].OrigPlayerID then table.remove(publicdata.Action,i) i = i -1 goto next end
+    if publicdata.Action[i].NewPlayerID == publicdata.Action[i].OrigPlayerID then table.remove(publicdata.Action,i) break end
     local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
     if percentVote >= NeedPercent then
         local temp = publicdata.Action[i].NewPlayerID
@@ -53,7 +53,7 @@ local i = 1
         print("point 1")
         ::jump::
     end
-    ::next::
+
     i = i + 1
   end
 
