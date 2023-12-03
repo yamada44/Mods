@@ -76,7 +76,7 @@ function SUDelete(land,neworder)
 end
 function InAction( origID,newID)
     local notyet = true
-    for i = 1, InActionAlready do
+    for i = 1, #InActionAlready do
         if origID == InActionAlready[i] or newID == InActionAlready[i] then
             notyet = false 
         end
