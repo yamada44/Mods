@@ -18,8 +18,8 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     if #publicdata.Action >= 5 then       
       setReturnTable({ Message = "Cannot have more then 5 actions at a time\nActions fall off after 3 turns"})
       return end
-    if data1 == data2 then setReturnTable({ Message = "Cannot pick the same player twice"}) end
-    
+    if data1 == data2 then setReturnTable({ Message = "Cannot pick the same player twice"})  return end
+
       if typetext == "Eliminate as is" or typetext == "Eliminate to Wasteland" then data2 = "Neutral" end 
 print(data2,"data2")
     if publicdata.Action[#publicdata.Action + 1] == nil then publicdata.Action[#publicdata.Action + 1] = {} end
