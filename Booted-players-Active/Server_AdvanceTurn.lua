@@ -4,6 +4,7 @@ require('Utilities')
 function Server_AdvanceTurn_Start(game, addNewOrder)
 
   publicdata = Mod.PublicGameData
+  InActionAlready = {}
   if publicdata.Action == nil then publicdata.Action = {} end
   local ActivePlayers = 0
   local NeedPercent = Mod.Settings.Percentthreshold
@@ -20,22 +21,10 @@ local array = {}
 local i = 1
   while i <= #publicdata.Action do -- Action logic
     print(i,"i ===")
-    if publicdata.Action[i].NewPlayerID == publicdata.Action[i].OrigPlayerID then table.remove(publicdata.Action,i) break end
+
     local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
-    if percentVote >= NeedPercent then
-        local temp = publicdata.Action[i].NewPlayerID
-        if temp ~= "Neutral" then temp = game.Game.PlayingPlayers[publicdata.Action[i].NewPlayerID].State 
-            print("yes")
-        else temp = 2 print("no") end
-       print(temp,"temp")
-        if game.Game.PlayingPlayers[publicdata.Action[i].OrigPlayerID].State ~= 2 or temp ~= 2 then
-            table.remove(publicdata.Action,i)
-            i = i-1
-            print("point 2",game.Game.PlayingPlayers[publicdata.Action[i].OrigPlayerID].State,temp)
-            goto jump
-        end
-
-
+    if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
+ 
 
         if publicdata.Action[i].Actiontype == "Swapped" then
         SwitchingLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) 
@@ -50,8 +39,7 @@ local i = 1
         end
         table.remove(publicdata.Action,i)
         i = i-1
-        print("point 1")
-        ::jump::
+
     end
 
     i = i + 1
@@ -86,7 +74,15 @@ function SUDelete(land,neworder)
     end
 
 end
-
+function InAction( origID,newID)
+    local notyet = true
+    for i = 1, InActionAlready do
+        if origID == InActionAlready[i] or newID == InActionAlready[i] then
+            notyet = false 
+        end
+    end
+    return notyet
+end
 function SwitchingLogic(game,addNewOrder,OrigID,NewID)
     --645468
     local boot = {} 
@@ -101,6 +97,8 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID)
     local ArmyStackBoot
     local ArmystackSwitch
     local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+    table.insert(InActionAlready,NewID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
@@ -194,6 +192,8 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID)
     local ArmyStackBoot
     local ArmystackSwitch
     local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+    table.insert(InActionAlready,NewID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
@@ -275,6 +275,8 @@ function Absorblogic(game,addNewOrder,OrigID,NewID)
     local ArmyStackBoot
     local ArmystackSwitch
     local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+    table.insert(InActionAlready,NewID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
@@ -342,6 +344,7 @@ function EliminateasisLogic(game,addNewOrder,OrigID)
     local ArmyStackBoot
     local ArmystackSwitch
     local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
@@ -375,6 +378,7 @@ function EliminateWasteLogic(game,addNewOrder,OrigID)
     local ArmyStackBoot
     local ArmystackSwitch
     local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
