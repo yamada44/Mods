@@ -41,6 +41,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
         if publicdata[playerID].Agency.Protectionrate == nil then  publicdata[playerID].Agency.Protectionrate = 0 end
         if publicdata[playerID].Agency.Agentlist == nil then publicdata[playerID].Agency.Agentlist = {} end
         if publicdata[playerID].Agency.Decoylist == nil then publicdata[playerID].Agency.Decoylist = {}end
+        if publicdata[playerID].Agency.Infil == nil then publicdata[playerID].Agency.Infil = {}end
         if publicdata[playerID].Agency.playerID == nil then publicdata[playerID].Agency.playerID = game.Game.Players[playerID].DisplayName(nil, false) end
         
 
@@ -56,6 +57,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
         local Dshort = publicdata[playerID].Agency.Decoylist[#publicdata[playerID].Agency.Decoylist]
 
         Dshort.type = "all"
+        Dshort.PlayerID = playerID
 
 
         publicdata[playerID].Agency.agencyrating = publicdata[playerID].Agency.agencyrating + 1 -- adding for agency rating

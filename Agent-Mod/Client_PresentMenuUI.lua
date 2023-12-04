@@ -124,7 +124,7 @@ function AgentPresentLogic(rootParent, setMaxSize, setScrollable, game, close)
 		UI.CreateLabel(rootParent).SetText("No one has trained any Agents yet, go here to start training new Agents")
 		UI.CreateButton(rootParent).SetText("Train Agent").SetOnClick(function () Dialogwindow(5,close, "close") end);
 	end
-	if publicdata.CardstoStop ~= nil and #publicdata.CardstoStop > 0 then
+	if publicdata.CardstoStop ~= nil and #publicdata.CardstoStop > 0 then -- displaying Cards ready
 		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 		local row00 = UI.CreateHorizontalLayoutGroup(vert)
 
@@ -136,6 +136,16 @@ function AgentPresentLogic(rootParent, setMaxSize, setScrollable, game, close)
 				UI.CreateLabel(row2).SetText("-- ".. publicdata.CardstoStop[i].targetplayername).SetColor('#FFFFFF')
 			end
 		end
+	end
+	if publicdata[ID].Agency.Decoylist ~= nil and #publicdata[ID].Agency.Decoylist > 0 then -- displaying Decoys ready
+		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+		local row00 = UI.CreateHorizontalLayoutGroup(vert)
+
+		UI.CreateLabel(row00).SetText("Decoys Set up around your country").SetColor('#4EC4FF')
+
+				local row2 = UI.CreateHorizontalLayoutGroup(vert)
+				UI.CreateLabel(row2).SetText(" You have " .. #publicdata[ID].Agency.Decoylist .. " decoys").SetColor('#FF87FF')
+
 	end
 
 end
@@ -187,7 +197,7 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 	local SortedAgency = SortTable(AgencyTable, "successfulmissions")
 	for i = 1, #SortedAgency do 
 		local vert = UI.CreateVerticalLayoutGroup(rootParent)
-		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		local row1 = UI.CreateVerticalLayoutGroup(vert)
 		local tempagents = 0
 		print("test 3")
 		if SortedAgency[i].Agentlist ~= nil then 
@@ -237,7 +247,7 @@ function Buyoptions(rootParent, setMaxSize, setScrollable, game, close) -- prese
 
 -- Buying decoy
 UI.CreateLabel(row1).SetText("Cost: " .. Decoycost .. " gold")
-	UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Buy a decoy agent, this decoy agent dies every time one of your special units/agents is assassinated"); end);
+	UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set up a decoy, Every time a rival agent has a succeesful mission on you. these decoys will be destroyed in the place of there target"); end);
 	UI.CreateButton(row1).SetText("Buy Personal Decoy").SetOnClick(function ()  BuyingLogic("Decoy",Decoycost,1, nil)  end);
 
 	--Buying Agent
