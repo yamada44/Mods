@@ -87,7 +87,7 @@ function NumUnitin(armies,type)
 	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
 		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
-			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+			if Nonill(Mod.Settings.Unitdata[type].Level) > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #Playerdata.Unitdata[type].Name 
 
 				compare = string.sub(su.Name, stringskip+1)
