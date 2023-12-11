@@ -1,6 +1,7 @@
 require('Utilities')
 -- add a viewing port for players not in the game to see the ranking
 function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close)
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 		--checking to see if we're in the game
 		if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
 			UI.CreateLabel(vert).SetText("You cannot use an agency since your not in the game");
@@ -18,8 +19,8 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 
 	setMaxSize(450, 320);
-	Root = rootParent
-	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local Avert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local vert = UI.CreateVerticalLayoutGroup(Avert).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert);
 
 
@@ -51,10 +52,15 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		-- Top Agent
 	else -- Use this menu if you dont have an agency
 		UI.CreateLabel(row1).SetText("you have no " .. BaseName ..". it cost " ..creationfee.. " gold to start one\nWould you like to create one"  );
-		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(50)
+		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(12)
 		UI.CreateButton(row1).SetText("Create ".. BaseName ).SetOnClick(function () Dialogwindow(1, close, nil) end);
 
-	
+		local vert2 = UI.CreateVerticalLayoutGroup(vert).SetFlexibleWidth(1)
+		
+		local row2 = UI.CreateHorizontalLayoutGroup(vert2);
+		local row3 = UI.CreateHorizontalLayoutGroup(row2);
+
+		UI.CreateButton(row3).SetText("View all ".. BaseName ).SetOnClick(function () Dialogwindow(4, close, nil) end);
 	end
 
 
@@ -192,31 +198,70 @@ function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- pr
 
 end
 function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- present agency rank
-	setMaxSize(650, 320);
-	AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
-	local SortedAgency = SortTable(AgencyTable, "successfulmissions")
-	for i = 1, #SortedAgency do 
-		local vert = UI.CreateVerticalLayoutGroup(rootParent)
-		local row1 = UI.CreateVerticalLayoutGroup(vert)
-		local tempagents = 0
-		print("test 3")
-		if SortedAgency[i].Agentlist ~= nil then 
-			print("no agents")
-			tempagents = #SortedAgency[i].Agentlist end
-		
-	UI.CreateLabel(row1).SetText("Rank #" .. i .. " ::");
-	UI.CreateButton(row1).SetText(SortedAgency[i].agencyname .. " " .. BaseName)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].agencyrating)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].Missions)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].successfulmissions)
-	UI.CreateLabel(row1).SetText(" --- " .. tempagents)
-	UI.CreateLabel(row1).SetText(" --- " .. SortedAgency[i].playerID)
+	setMaxSize(900, 320);
+	if publicdata.Ranklist ~= nil then
+		AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
+		local SortedAgency = SortTable(AgencyTable, "successfulmissions")
 
+		local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
+
+
+		local tpyename = {"agencyname","agencyrating","Missions","successfulmissions","","playerID"}
+		local Namegroups = {UI.CreateHorizontalLayoutGroup(vert2)}
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+
+		local Rowtable = {}
+
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[7]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[6]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[5]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[4]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[3]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[2]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[1]))
+		--UI.CreateLabel(row11).SetText("\n\n")
+		UI.CreateLabel(Rowtable[1]).SetText("Rank").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[2]).SetText("Agency Name").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[3]).SetText("Agency Rating").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[4]).SetText("Missions").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[5]).SetText("succeesful missions").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[6]).SetText("Agent Amount").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[7]).SetText("Agency Owner").SetColor("#FF697A")
+
+
+
+		for i = 1, #SortedAgency do 
+			local row000 = UI.CreateVerticalLayoutGroup(Rowtable[1])
+			UI.CreateLabel(row000).SetText("# ".. i.. " : " )
+			for i2 = 1, #tpyename do 
+			local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2+1])
+			local tempagents = 0
+			local spacerText = ""
+			local spacerCore = SortedAgency[i][tpyename[i2]]
+			local color = "#BABABC"
+			print("test 3")
+			if SortedAgency[i].Agentlist ~= nil then 
+				print("no agents")
+				tempagents = #SortedAgency[i].Agentlist end
+			if i2 == 1 then spacerText = " " .. BaseName color = "#FFF700" end
+			if i2 == 5 then spacerCore = tempagents end
+			
+				UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
+
+			end
+		end
+	else 
+		UI.CreateLabel(rootParent).SetText("No Agency has been formed from any player")
 	end
-
 end
 function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- Top Agent
-	setMaxSize(450, 320)
+	setMaxSize(700, 320)
 	Agentlist = Values2TableAgent(publicdata.Ranklist) -- list of all agencies
 		if #Agentlist == 0 then
 		UI.CreateLabel(rootParent).SetText("No one has trained any Agents yet, go here to start training new Agents")
@@ -225,17 +270,53 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 
 	else
 
+		local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
+
+
+		local tpyename = {"codename","level","missions","successfulmissions"}
+		local Namegroups = {UI.CreateHorizontalLayoutGroup(vert2)}
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+		table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+
+		local Rowtable = {}
+
+		
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[5]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[4]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[3]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[2]))
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[1]))
+		--UI.CreateLabel(row11).SetText("\n\n")
+		UI.CreateLabel(Rowtable[1]).SetText("Rank").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[2]).SetText("Code Name").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[3]).SetText("Level").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[4]).SetText("Missions").SetColor("#FF697A")
+		UI.CreateLabel(Rowtable[5]).SetText("Successful Missions").SetColor("#FF697A")
+
+
+
+
 	 local SortedAgents = SortTable(Agentlist, "successfulmissions")
 		for i = 1, #SortedAgents do 
-			local vert = UI.CreateVerticalLayoutGroup(rootParent);
-			local row1 = UI.CreateHorizontalLayoutGroup(vert);
+			local row000 = UI.CreateVerticalLayoutGroup(Rowtable[1])
+			UI.CreateLabel(row000).SetText("# ".. i.. " : " )
+			for i2 = 1, #tpyename do 
+			local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2+1])
+
+			local spacerText = ""
+			local spacerCore = SortedAgents[i][tpyename[i2]]
+			local color = "#BABABC"
+			print("test 3")
+			if i2 == 1 then spacerCore = "Agent " .. SortedAgents[i][tpyename[i2]] color = "#FFF700" end
+
 			
-		UI.CreateLabel(row1).SetText("Rank #" .. i .. " ::");
-		UI.CreateButton(row1).SetText(SortedAgents[i].codename)
-		UI.CreateLabel(row1).SetText(" --- " .. SortedAgents[i].level)
-		UI.CreateLabel(row1).SetText(" --- " .. SortedAgents[i].missions)
-		UI.CreateLabel(row1).SetText(" --- " .. SortedAgents[i].successfulmissions)
-	
+				UI.CreateLabel(row1).SetText(spacerCore).SetColor(color)
+
+			end
+
 		end
 	end
 end

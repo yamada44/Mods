@@ -62,7 +62,7 @@ end
 	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
 	if (Ruleson == true )then
 		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
 
 	
 
