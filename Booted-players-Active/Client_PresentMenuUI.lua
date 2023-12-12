@@ -43,7 +43,8 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 
 			local row2 = UI.CreateHorizontalLayoutGroup(vert)
 			local row3 = UI.CreateHorizontalLayoutGroup(vert)
-			local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
+			local Tempvote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
+			local percentVote = math.floor(Tempvote * 100) / 100 
 			local votedplayer = Votedplayers(publicdata.Action[i].VotingIDs)
 			local tempname = publicdata.Action[i].NewPlayerID
 			if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
