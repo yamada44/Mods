@@ -197,7 +197,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         local SelectedTerritory = tonumber(payloadSplit[1])
         local AgentonmissionID = tonumber(payloadSplit[2])
         local ID = order.PlayerID
-        local modifier = 1
+        local modifier = 2
         local citiesToRemove = Mod.Settings.Citylost
 
         local terr = game.ServerGame.LatestTurnStanding.Territories[SelectedTerritory] -- Making sure it has cities
@@ -291,7 +291,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         local AgentonmissionID = tonumber(payloadSplit[2])
         local TargetplayerID = tonumber(payloadSplit[3])
         local ID = order.PlayerID
-        local modifier = 1
+        local modifier = 2
         local AgentIndex = Findmatch(publicdata[ID].Agency.Agentlist  ,  AgentonmissionID,"agentID") -- Getting Agents Index
         if AgentIndex == nil then -- if the agent is already dead, cancel Operation
             addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. This agent is already dead", {}, {}))            
@@ -302,7 +302,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         for i,v in pairs(cardtable)do
             if v == Carddata then cardname = i break end
         end
-        if cardname == "Bomb" or cardname == "Sanctions" or cardname == "Diplomacy" or cardname == "Airlift" then modifier = 2 end -- diplos, sanctions, and airlifts are harder
+        if cardname == "Bomb" or cardname == "Sanctions" or cardname == "Diplomacy" or cardname == "Airlift" then modifier = modifier + 1 end -- diplos, sanctions, and airlifts are harder
 --end of Init variables
 
             --- logic to get powerlevel of player
@@ -383,7 +383,7 @@ print(totalpower,"total")
         local AgentonmissionID = tonumber(payloadSplit[2])
         local ID = order.PlayerID
         local ArmiesToRemove = Mod.Settings.ArmiesLost
-        local armyModifier  = 1
+        local armyModifier  = 2
         local AgentIndex = Findmatch(publicdata[ID].Agency.Agentlist  ,  AgentonmissionID,"agentID") -- Getting Agents Index
         if AgentIndex == nil then -- if the agent is already dead, cancel Operation
             addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. This agent is already dead", {}, {}))            
