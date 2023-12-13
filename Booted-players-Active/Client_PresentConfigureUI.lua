@@ -9,11 +9,6 @@ function Client_PresentConfigureUI(rootParent)
 	if percent == nil then
 		percent = 66
 	end
-	local turned = Mod.Settings.TurnedPercent
-	if turned == nil then
-		turned = 100
-	end
-
 
     local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	
@@ -33,12 +28,4 @@ function Client_PresentConfigureUI(rootParent)
         .SetSliderMinValue(50)
         .SetSliderMaxValue(100)
         .SetValue(percent)
-
-		local row03 = UI.CreateHorizontalLayoutGroup(vert); -- Percent threshold amount
-		UI.CreateButton(row03).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How much of the orignal players lands are affected by each action\nSet to 100 to disable this feature"); end);
-		UI.CreateLabel(row03).SetText('Percent Turned in Action');
-		TurnedInput = UI.CreateNumberInputField(row03)
-			.SetSliderMinValue(1)
-			.SetSliderMaxValue(100)
-			.SetValue(turned)
 end

@@ -15,11 +15,4 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.Percentthreshold = percent 
     end
 
-    local turn = TurnedInput.GetValue()
-    if turn > 100 or turn < 1 then alert('Turned value not supported. please stay within 1-100')
-        Mod.Settings.TurnedPercent = 100
-    else 
-        Mod.Settings.TurnedPercent = turn 
-    end
-
 end
