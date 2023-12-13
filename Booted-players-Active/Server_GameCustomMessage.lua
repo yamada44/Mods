@@ -8,6 +8,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   local type = Nonill(payload.entrytype)
   local data1 = payload.data1
   local data2 = payload.data2
+  local data3 = payload.data3
 
   local typetext = Nonill(payload.text)
 
@@ -20,7 +21,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
       return end
     if data1 == data2 then setReturnTable({ Message = "Cannot pick the same player twice"})  return end
 
-      if typetext == "Eliminate as is" or typetext == "Eliminate to Wasteland" then data2 = "Neutral" end 
+      if typetext == ActionTypeNames(3) or typetext == ActionTypeNames(4) or typetext == ActionTypeNames(6) then data2 = "Neutral" end 
 print(data2,"data2")
     if publicdata.Action[#publicdata.Action + 1] == nil then publicdata.Action[#publicdata.Action + 1] = {} end
       local short = publicdata.Action[#publicdata.Action]
@@ -32,6 +33,7 @@ print(data2,"data2")
     short.VotingIDs[#short.VotingIDs + 1] = playerID
     short.Actiontype = typetext
     short.Todelete = false
+    short.turned = data3
 
 
   elseif type == 2 then -- Adding Vote

@@ -5,11 +5,11 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	Game = game;
 	Close = close;
-	BaseTable = {"Swapped","Swap & Wasteland", "Eliminate as is","Eliminate to Wasteland","Absorb"}
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local ActivePlayers = 0
 	local NeedPercent = Mod.Settings.Percentthreshold
+	local IDletter = {"A","B","C","D","E"}
 
 
 	setMaxSize(570, 400);
@@ -50,13 +50,14 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
 
 
-			UI.CreateLabel(row2).SetText(Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
+			UI.CreateLabel(row2).SetText("--- " .. IDletter[i] .. "\n" .. Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
 			UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
 			UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 
-			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%").SetColor('#00FF05')
+			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..publicdata.Action[i].turned .. "% of land affected").SetColor('#00FF05')
 			UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
-
+			UI.CreateLabel(row3).SetText("Turns left before action is deleted " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
+			 
 	end
 end
 
@@ -80,6 +81,7 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
+	local row33 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 	HelperMessage = "select a Action, then click on this again, it will have a help tip"
 
@@ -89,9 +91,15 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	ActPlayerBtn = UI.CreateButton(row2).SetText("Select Action...").SetOnClick(function ()PromptListSetup(3) end)
 	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert(HelperMessage); end);
 
-
 	UI.CreateLabel(row3).SetText("New Player: ").SetColor('#4EC4FF')
 	SwapPlayerBtn = UI.CreateButton(row3).SetText("Select New player...").SetOnClick(function ()PromptListSetup(2) end)
+
+	--TurnedBtn = UI.CreateCheckBox(row33).SetIsChecked(false).SetText("Land Affected percent") endt
+    UI.CreateLabel(row33).SetText('Percent of Land affected');
+    TurnedBtn = UI.CreateNumberInputField(row33)
+        .SetSliderMinValue(5)
+        .SetSliderMaxValue(100)
+        .SetValue(100)
 
 	UI.CreateButton(row4).SetText("Commit").SetOnClick(function ()Serverload(1,ActPlayerBtn.GetText(),OrigPlayerID,SwapPlayerID, close) end)
 
@@ -118,7 +126,7 @@ function PromptListSetup(data,votedplayers)
 		message = "Select the new player for this action"
 	elseif data == 3 then
 		funcvar = ActionButton
-		Senttable = BaseTable
+		Senttable = ActionTypeNames(0)
 		message = "Select the Action you'd like to do"
 	elseif data == 4 then
 		funcvar = ViewButton
@@ -164,26 +172,30 @@ function ActionButton(action)
 		ActPlayerBtn.SetText(name)
 		ActionType = action
 
-		if name == BaseTable[2] then
+		if name == ActionTypeNames(2) then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "New player takes Original player's land, and New player's former land is turn to wasteland"
-		elseif name == BaseTable[1] then
+		elseif name == ActionTypeNames(1) then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "New player and Original player Swap all land, armies, cities ect. with each other"
-		elseif name == BaseTable[3] then
+		elseif name == ActionTypeNames(3) then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player is simply turned neutral, his land is left untouched"
-		elseif name == BaseTable[4] then
+		elseif name == ActionTypeNames(4) then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's land is factory wiped. cities, armies, special units, commanders. Everything is removed and replaced with wastelands"
-		elseif name == BaseTable[5] then
+		elseif name == ActionTypeNames(5) then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land as well"
+		elseif name == ActionTypeNames(6) then
+			SwapPlayerBtn.SetInteractable(false)
+			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "Original player's has all of his armies/special units removed"
 		end
 	end
 	return ret;
@@ -203,15 +215,17 @@ function Serverload(type, text,data1, data2,close)
 	close()
 	local payload = {}
 	Pass = nil
-	if text == "Select New player..." or data1 == nil or data2 == nil then
-		--UI.Alert("Did not fill out all fields before Commiting")
-		--return
-	end
 
 		payload.entrytype = type
 		payload.text = text
 		payload.data1 = Nonill(data1)
 		payload.data2 = Nonill(data2)
+		payload.data3 = 100
+		if TurnedBtn ~= nil then
+		local data3 = TurnedBtn.GetValue()
+		if data3 > 100 or data3 < 5 then data3 = 100 end
+		payload.data3 = data3
+		end
 
 		Game.SendGameCustomMessage("new " .. "playerControl" .. "...", payload, function(returnValue)
 			publicdata = Mod.PublicGameData

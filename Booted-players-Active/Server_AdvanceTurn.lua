@@ -5,6 +5,8 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
   publicdata = Mod.PublicGameData
   InActionAlready = {}
+
+
   if publicdata.Action == nil then publicdata.Action = {} end
   local ActivePlayers = 0
   local NeedPercent = Mod.Settings.Percentthreshold
@@ -24,18 +26,21 @@ local i = 1
 
     local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
     if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
- 
+        TurnPercent = publicdata.Action[i].turned
 
-        if publicdata.Action[i].Actiontype == "Swapped" then
+
+        if publicdata.Action[i].Actiontype == ActionTypeNames(1) then
         SwitchingLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) 
-        elseif publicdata.Action[i].Actiontype == "Swap & Wasteland" then
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(2) then
             SwapThenWasteland(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
-        elseif publicdata.Action[i].Actiontype == "Eliminate as is" then
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(3) then
             EliminateasisLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        elseif publicdata.Action[i].Actiontype == "Eliminate to Wasteland" then
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(4) then
             EliminateWasteLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        elseif publicdata.Action[i].Actiontype == "Absorb" then
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(5) then
             Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(6) then
+            ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
         end
         table.remove(publicdata.Action,i)
         i = i-1
@@ -74,7 +79,7 @@ function SUDelete(land,neworder)
     end
 
 end
-function InAction( origID,newID)
+function InAction( origID,newID) -- checks to see if a player in one action has already participated at all
     local notyet = true
     for i = 1, #InActionAlready do
         if origID == InActionAlready[i] or newID == InActionAlready[i] then
@@ -83,7 +88,13 @@ function InAction( origID,newID)
     end
     return notyet
 end
-function SwitchingLogic(game,addNewOrder,OrigID,NewID)
+function Turnlogic(origlandamount)
+    local percent = math.floor(origlandamount * (TurnPercent / 100))
+    
+
+    return percent
+end
+function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
     --645468
     local boot = {} 
     local Switch = {} 
@@ -162,13 +173,18 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID)
      end
 
 
+     local amountTurned = Turnlogic(#boot.bootedTerr)
+
    for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
     addNewOrder(WL.GameOrderEvent.Create(0, "Switching", {}, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
+   local amountTurned = Turnlogic(#Switch.SwitchTerr)
    for i,ts in pairs (Switch.SwitchTerr) do
+    if amountTurned < i then break end
     local mod1 = WL.TerritoryModification.Create(ts)
      mod1.SetOwnerOpt = boot.ID
      addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod1}))
@@ -177,8 +193,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID)
 
 end
 
-
-function SwapThenWasteland(game,addNewOrder,OrigID,NewID)
+function SwapThenWasteland(game,addNewOrder,OrigID,NewID) --- Swapping to wasteland
     --645468
     local boot = {} 
     local Switch = {} 
@@ -220,7 +235,7 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID)
 
 --- Moving commander logic
 
-
+local amountTurned = Turnlogic(#boot.bootedTerr)
 
 
 ---------------------------------
@@ -243,6 +258,7 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID)
 
 
    for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
     addNewOrder(WL.GameOrderEvent.Create(0, "Switching", {}, {mod}))
@@ -301,40 +317,22 @@ function Absorblogic(game,addNewOrder,OrigID,NewID)
     end
    end
 
---- Moving commander logic
-
-
-
+--- Percent logic
+   local amountTurned = Turnlogic(#boot.bootedTerr)
 
 ---------------------------------
-     local idAirlift2 = 0
-     for i,ts in pairs (boot.bootedTerr) do --turning first spot switch into boot 
-      if #Terr[ts].NumArmies.SpecialUnits == 0 then
-        local mod = WL.TerritoryModification.Create(ts)
-        mod.SetOwnerOpt = Switch.ID
-        idAirlift2 = Terr[ts].ID
-        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod}));
-        break
-      end
-     end
-     if Switch.Commander ~= 0 then
-     local cardinstance = {}
-     table.insert(cardinstance,WL.NoParameterCardInstance.Create(WL.CardID.Airlift))
-      addNewOrder(WL.GameOrderReceiveCard.Create(Switch.ID, cardinstance))
-       addNewOrder(WL.GameOrderPlayCardAirlift.Create(cardinstance[1].ID, Switch.ID, Switch.Commander, idAirlift2, ArmystackSwitch))
-     end
-
 
    for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
-    addNewOrder(WL.GameOrderEvent.Create(0, "Switching", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Absorbing", {}, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
 
 
 end
-function EliminateasisLogic(game,addNewOrder,OrigID)
+function EliminateasisLogic(game,addNewOrder,OrigID) --- Eliminating as is
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -358,7 +356,10 @@ function EliminateasisLogic(game,addNewOrder,OrigID)
     end
    end
 
+   local amountTurned = Turnlogic(#boot.bootedTerr)
+
    for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt = 0
     addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", {}, {mod}))
@@ -367,7 +368,7 @@ function EliminateasisLogic(game,addNewOrder,OrigID)
 
 
 end
-function EliminateWasteLogic(game,addNewOrder,OrigID)
+function EliminateWasteLogic(game,addNewOrder,OrigID) -- Eliminate to wasteland 
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -391,8 +392,10 @@ function EliminateWasteLogic(game,addNewOrder,OrigID)
         table.insert(boot.bootedTerr,ts.ID)
     end
    end
+   local amountTurned = Turnlogic(#boot.bootedTerr)
 
    for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     local Cities = {}
     Cities[WL.StructureType.City] = 0
@@ -400,6 +403,42 @@ function EliminateWasteLogic(game,addNewOrder,OrigID)
      mod.SetArmiesTo = NeutralValue
      mod.SetStructuresOpt = Cities
     addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", {}, {mod}))
+    SUDelete(Terr[ts],addNewOrder)
+   end
+
+
+end
+function ArmiesGone(game,addNewOrder,OrigID) --- Remove Armies
+    --645468
+    local boot = {} 
+     boot.ID = OrigID 
+    boot.Commander = 0 
+    boot.bootedTerr = {} 
+
+
+    local ArmyStackBoot
+    local ArmystackSwitch
+    local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+
+   for _,ts in pairs(Terr)do -- getting the Territories of each player
+    if ts.OwnerPlayerID == boot.ID then -- boot
+        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+            if v.proxyType == "Commander" then
+                boot.Commander = ts.ID
+                ArmyStackBoot = ts.NumArmies
+            end
+        end
+        table.insert(boot.bootedTerr,ts.ID)
+    end
+   end
+   local amountTurned = Turnlogic(#boot.bootedTerr)
+
+   for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
+    local mod = WL.TerritoryModification.Create(ts)
+     mod.SetArmiesTo = 0
+    addNewOrder(WL.GameOrderEvent.Create(0, "Erase Armies", {}, {mod}))
     SUDelete(Terr[ts],addNewOrder)
    end
 
