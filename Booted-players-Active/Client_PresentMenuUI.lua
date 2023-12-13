@@ -54,7 +54,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
 			UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 
-			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..publicdata.Action[i].turned .. "% of land affected").SetColor('#00FF05')
+			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..Nonill(publicdata.Action[i].turned) .. "% of land affected").SetColor('#00FF05')
 			UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
 			UI.CreateLabel(row3).SetText("Turns left before action is deleted " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
 			 
