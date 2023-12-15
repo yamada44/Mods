@@ -10,6 +10,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local ActivePlayers = 0
 	local NeedPercent = Mod.Settings.Percentthreshold
 	local IDletter = {"A","B","C","D","E"}
+	ID = game.Us.ID
 
 
 	setMaxSize(570, 400);
@@ -28,7 +29,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 if publicdata.Action ~= nil and #publicdata.Action > 0 then
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row00 = UI.CreateHorizontalLayoutGroup(vert)
-	ID = game.Us.ID
+
 	print("getting access",#publicdata.Action)
 	UI.CreateLabel(row00).SetText("Vote on Actions to be processed").SetColor('#4EC4FF')
 	for i = 1, #publicdata.Action do 
@@ -60,10 +61,17 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			 
 	end
 end
-
+	print("")
+	local NoActionCreated = true
+	print(publicdata.CreatedActionID,"test 00")
+	if publicdata.CreatedActionID ~= nil then
+	for i = 1, #publicdata.CreatedActionID do
+		print(publicdata.CreatedActionID[i],"test")
+		if ID == publicdata.CreatedActionID[i] then NoActionCreated = false end
+	end end
 	UI.CreateLabel(row1).SetText("Begin player management")
 	-- add check if it has already been clicked
-	MainBtn = UI.CreateButton(vert).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end)
+	MainBtn = UI.CreateButton(vert).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
 
 
 end
