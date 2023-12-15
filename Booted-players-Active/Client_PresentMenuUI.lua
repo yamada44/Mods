@@ -62,7 +62,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 	end
 end
 	print("")
-	Serverload(0, 0,0, 0)
+	Serverload(0, 0,0, 0,nil)
 	local NoActionCreated = true
 	print(publicdata.CreatedActionID,"test 00")
 	if publicdata.CreatedActionID ~= nil then
@@ -221,7 +221,10 @@ function ViewButton(action)
 end
 
 function Serverload(type, text,data1, data2,close)
-	close()
+	if close ~= nil then
+		close()
+	end
+
 	local payload = {}
 	Pass = nil
 
