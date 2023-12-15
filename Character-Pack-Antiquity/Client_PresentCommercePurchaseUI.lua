@@ -220,7 +220,7 @@ function TerritoryClicked(terrDetails)
 end
 
 function CompletePurchaseClicked()
-
+print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures;
