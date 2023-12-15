@@ -101,6 +101,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local currentxp = 0
 		local defence = unitpower / 2
 		local altmove = 0 
+		local combatorder = 123
 		local cooldown = Nonill(Mod.Settings.Unitdata[type].Cooldown)
 		local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
 
@@ -188,9 +189,11 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 			typename = 'LV0 ' .. typename
 
 		end
-		
-		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
+			if Nonill(Mod.Settings.Unitdata[type].CombatOrder) == 1 then
+			combatorder = combatorder * -1
+			end
 
+			--- Building Unit now
 		local absoredDamage = AbsoredDecider(unitpower,defence)
 		local startinglevel = 0
 
@@ -200,7 +203,7 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.ImageFilename = filename;
 		builder.AttackPower = unitpower;
 		builder.DefensePower = defence;
-		builder.CombatOrder = 3415; --defends commanders
+		builder.CombatOrder = combatorder
 		builder.DamageToKill = absoredDamage;
 		builder.DamageAbsorbedWhenAttacked = absoredDamage;
 		builder.CanBeGiftedWithGiftCard = true;

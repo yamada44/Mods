@@ -170,8 +170,11 @@ function Unittemplates(vert, i)
 		local auto = uniteconfig[i].Autovalue
 		if (auto == nil ) then auto = 0 end 
 
-		local randomon = uniteconfig[i].Randomon
-		if (randomon == nil) then randomon = false end
+		local combatorder = uniteconfig[i].CombatOrder
+		if (combatorder == nil) then combatorder = false end
+
+		local onCity = uniteconfig[i].Oncity
+		if (onCity == nil) then onCity = false end
 
 		--setting up the UI and all its fields
 
@@ -330,6 +333,23 @@ function Unittemplates(vert, i)
 		.SetSliderMaxValue(5000)
 		.SetValue(auto)
 
+		--Combat order
+		InputFieldTable[i].row21 = UI.CreateHorizontalLayoutGroup(vert);
+		local row21 = InputFieldTable[i].row21
+		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Select the order in which the special unit does combat\n1 - special unit does combat before armies\n2 - special unit does combat after armies"); end);
+		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Select the Combat order')
+		InputFieldTable[i].Combat = UI.CreateNumberInputField(row21)
+		.SetSliderMinValue(1)
+		.SetSliderMaxValue(2)
+		.SetValue(combatorder)
+
+		--Only on cities
+		InputFieldTable[i].row23 = UI.CreateHorizontalLayoutGroup(vert);
+		local row23 = InputFieldTable[i].row23
+		UI.CreateButton(row23).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("unit can only be built on cities"); end);
+		InputFieldTable[i].text25 = UI.CreateLabel(row23).SetText('Only deployed on cities')
+		InputFieldTable[i].City = UI.CreateCheckBox(row23).SetIsChecked(onCity).SetText('')
+
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
@@ -352,21 +372,6 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 
-
-		--more layout groups
-	--	InputFieldTable[i].rowb = UI.CreateVerticalLayoutGroup(vert)
-	--	InputFieldTable[i].rowc = UI.CreateVerticalLayoutGroup(vert)
-	--	local vertb = InputFieldTable[i].rowb
-	--	local vertc = InputFieldTable[i].rowc
-
-		--auto placer (have not added to destroy list yet)
-		--local row21 = UI.CreateHorizontalLayoutGroup(vertb)
-		--UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("At the start of the game, designated territories with this number value will have this unit on it\nSet to 0 to disable\nWork in progress"); end);
-		--InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('')
-		--InputFieldTable[i].Randomon = UI.CreateCheckBox(row21).SetIsChecked(randomon).SetText('').SetOnValueChanged(function () AutoPlacer(vertb,i)end)
-
-
-
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
@@ -387,6 +392,7 @@ function Unittemplates(vert, i)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(500)
+
 
 
 		--spacer
@@ -422,19 +428,12 @@ InputFieldTable[i].Altmoves = uniteconfig[i].Altmoves
 InputFieldTable[i].Name = uniteconfig[i].Name
 InputFieldTable[i].HostRules = uniteconfig[i].HostRules
 InputFieldTable[i].Autovalue = uniteconfig[i].Autovalue
+InputFieldTable[i].City = uniteconfig[i].Oncity
+InputFieldTable[i].Combat = uniteconfig[i].CombatOrder
 
 	
 end
--- Grand list of things to add
--- 1- Auto placer
--- 2- Random spawns
---how many
---anywhere,not neutral,any player(not ai), ai only,specific slots
---spawn every x turn
---when spawns stop
--- 3- Only certain slots can buy this unit 
---multi at a time
---are these slots immune to the lock till feature
+
 function AutoPlacer(vertb,i)
 --List of things to add
 
@@ -469,7 +468,9 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].text20)
 			UI.Destroy(InputFieldTable[D].text21)
 			UI.Destroy(InputFieldTable[D].text22)
-			UI.Destroy(InputFieldTable[D].text24) -- 23 skipped
+			UI.Destroy(InputFieldTable[D].text24) 
+			UI.Destroy(InputFieldTable[D].text23)
+			UI.Destroy(InputFieldTable[D].text25)
 			UI.Destroy(InputFieldTable[D].unitcost)
 			UI.Destroy(InputFieldTable[D].unitpower)
 			UI.Destroy(InputFieldTable[D].Maxunits)
@@ -490,6 +491,8 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].Assassination)
 			UI.Destroy(InputFieldTable[D].AttackMax)
 			UI.Destroy(InputFieldTable[D].Autovalue)
+			UI.Destroy(InputFieldTable[D].Combat)
+			UI.Destroy(InputFieldTable[D].City)
 			UI.Destroy(InputFieldTable[D].row1)
 			UI.Destroy(InputFieldTable[D].row2)
 			UI.Destroy(InputFieldTable[D].row3)
@@ -510,7 +513,9 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].row18)
 			UI.Destroy(InputFieldTable[D].row19)
 			UI.Destroy(InputFieldTable[D].row20)
-			UI.Destroy(InputFieldTable[D].row22) -- 21 skipped
+			UI.Destroy(InputFieldTable[D].row22)
+			UI.Destroy(InputFieldTable[D].row21)
+			UI.Destroy(InputFieldTable[D].row23)
 
 
 		end

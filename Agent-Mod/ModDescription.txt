@@ -1,4 +1,4 @@
-
-This mod will change territories to neutral. Consult the Theme in the settings to determine which territories will change, such as the 'Sea Tiles' theme which affects all territories commonly seen as ocean territories.
-When a special unit from a specific mod (The mod used can be found in settings) enters one of these themed territories, that territory will be immune from the affects of this mod. I.E. sea Tiles with a Ship special unit now creates navel combat
-This mod may perform slowly on the first turn during its process
+In this mod, create a Spy agency. these spy agencies have the ability to discard cards, destory armies, destroy cities, kill other agents and much more. 
+With this mod, compete to become the number 1 Agency. 
+The owner of each agent is unknown, unless they die during one of there missions. then the agency that hired the agent is revealed in the order panel.
+The owner of each agency is known. so if a agent dies, you. are. KNOWN. good luck 

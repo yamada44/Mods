@@ -221,9 +221,19 @@ end
 
 function CompletePurchaseClicked()
 
-print (tostring(Playerdata.Unitdata[Type].Shared) , tostring(Playerdata.Unitdata[Type].Visible))
+	if Mod.Settings.Unitdata[type].Oncity ~= nil and Mod.Settings.Unitdata[type].Oncity == true then
+		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
+		local Cities = Land.Structures;
+		if (Cities == nil) then Cities = {}; end;
+		if Cities[WL.StructureType.City] == 0 then
+			UI.Alert("Territory has no City. This unit must be built on a city")
+			return
+		end
+	end
 
-local power = math.random(Playerdata.Unitdata[Type].unitpower,Playerdata.Unitdata[Type].AttackMax)
+
+
+	local power = math.random(Playerdata.Unitdata[Type].unitpower,Playerdata.Unitdata[Type].AttackMax)
 
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type

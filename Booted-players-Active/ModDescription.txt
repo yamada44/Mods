@@ -1,4 +1,3 @@
+This Mod makes unwanted Ai's/Bad actors and even unrulely players a thing of the past. And lets the good faith players continue playing the game the way the host intended
 
-This mod will change territories to neutral. Consult the Theme in the settings to determine which territories will change, such as the 'Sea Tiles' theme which affects all territories commonly seen as ocean territories.
-When a special unit from a specific mod (The mod used can be found in settings) enters one of these themed territories, that territory will be immune from the affects of this mod. I.E. sea Tiles with a Ship special unit now creates navel combat
-This mod may perform slowly on the first turn during its process
+This Mod can eliminate, erase armies, swap between players and much more. PEs are a thing of the past
