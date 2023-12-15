@@ -276,7 +276,7 @@ function dynamicInfo(i)
 		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
 	end
 	if Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity == true then
-		message = message .. "\nUnit can only be built on cities"
+		message = message .. "\nBuild on cities Only"
 	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '
