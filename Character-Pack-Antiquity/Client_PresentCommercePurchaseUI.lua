@@ -224,8 +224,8 @@ print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures;
-		print(Cities[WL.StructureType.City],Cities)
 		if (Cities == nil) then Cities = {}; end
+
 		print(Cities[WL.StructureType.City],Cities)
 		if Cities[WL.StructureType.City] == 0 or Cities == {} then
 			UI.Alert("Territory has no City. This unit must be built on a city")
