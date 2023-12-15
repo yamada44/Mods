@@ -171,7 +171,7 @@ function Unittemplates(vert, i)
 		if (auto == nil ) then auto = 0 end 
 
 		local combatorder = uniteconfig[i].CombatOrder
-		if (combatorder == nil) then combatorder = false end
+		if (combatorder == nil) then combatorder = 2 end
 
 		local onCity = uniteconfig[i].Oncity
 		if (onCity == nil) then onCity = false end
