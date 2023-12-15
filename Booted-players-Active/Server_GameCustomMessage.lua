@@ -12,7 +12,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
   local typetext = Nonill(payload.text)
   if publicdata.CreatedActionID == nil then publicdata.CreatedActionID = {} end
-  if publicdata.Action ~= nil and publicdata.Action[#publicdata.Action].TurnCreated ~= game.Game.TurnNumber then
+  if publicdata.Action ~= nil and #publicdata.Action > 0 and publicdata.Action[#publicdata.Action].TurnCreated ~= game.Game.TurnNumber then
     publicdata.CreatedActionID = {}
   end  
 
