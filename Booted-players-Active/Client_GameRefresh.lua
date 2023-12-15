@@ -10,7 +10,8 @@ function Client_GameRefresh(game)
 	end
     if (game.Us == nil) then return;
     end -- don't show pop-ups for spectators
-
+	local payload = {}
+	Game.SendGameCustomMessage("new " .. "playerControl" .. "...", payload, function(returnValue) end)-- just to update the game everytime client is refreshed
 	if publicdata.Action ~= nil and #publicdata.Action > 0 then
 		for i,v in pairs (publicdata.Action) do 
 			if game.Game.TurnNumber >= (publicdata.Action[i].TurnCreated + voteTimer) then
