@@ -224,13 +224,14 @@ function CompletePurchaseClicked()
 	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures;
-		if (Cities == nil) then Cities = {}; end;
-		if Cities[WL.StructureType.City] == 0 then
+		print({"city access"})
+		if (Cities == nil) then Cities = {}; end
+		if Cities[WL.StructureType.City] == 0 or Cities == {} then
 			UI.Alert("Territory has no City. This unit must be built on a city")
 			return
 		end
 	end
-
+	
 
 
 	local power = math.random(Playerdata.Unitdata[Type].unitpower,Playerdata.Unitdata[Type].AttackMax)

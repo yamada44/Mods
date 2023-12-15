@@ -135,6 +135,7 @@ function Client_SaveConfigureUI(alert)
         -- only on cities
         local cities = TableFormat(InputFieldTable[i].City,boo)
         Mod.Settings.Unitdata[i].Oncity = cities
+        print (cities,"City value")
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
