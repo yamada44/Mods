@@ -221,7 +221,7 @@ end
 
 function CompletePurchaseClicked()
 
-	if Mod.Settings.Unitdata[type].Oncity ~= nil and Mod.Settings.Unitdata[type].Oncity == true then
+	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures;
 		if (Cities == nil) then Cities = {}; end;
