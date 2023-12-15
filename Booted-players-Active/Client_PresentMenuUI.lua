@@ -62,6 +62,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 	end
 end
 	print("")
+	Serverload(0, 0,0, 0)
 	local NoActionCreated = true
 	print(publicdata.CreatedActionID,"test 00")
 	if publicdata.CreatedActionID ~= nil then
