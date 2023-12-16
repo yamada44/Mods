@@ -380,6 +380,99 @@ print(totalpower,"total")
         Mod.PublicGameData = publicdata
         end
 
+        if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killcard2")) then  
+            local publicdata = Mod.PublicGameData
+            local payloadSplit = split(string.sub(order.Payload, 10), ';;')
+            local Carddata = payloadSplit[1]
+            local AgentonmissionID = tonumber(payloadSplit[2])
+            local TargetplayerID = tonumber(payloadSplit[3])
+            local ID = order.PlayerID
+            local modifier = 2
+            local AgentIndex = Findmatch(publicdata[ID].Agency.Agentlist  ,  AgentonmissionID,"agentID") -- Getting Agents Index
+            if AgentIndex == nil then -- if the agent is already dead, cancel Operation
+                addNewOrder(WL.GameOrderEvent.Create(ID, "Operation canceled. This agent is already dead", {}, {}))            
+                    return end
+            local attacker = publicdata[ID].Agency.Agentlist[AgentIndex].level
+            local cardtable = CardData(0)
+            local cardname = "No name found"
+            for i,v in pairs(cardtable)do
+                if v == Carddata then cardname = i break end
+            end
+            if cardname == "Bomb" or cardname == "Sanctions" or cardname == "Diplomacy" or cardname == "Airlift" then modifier = modifier + 1 end -- diplos, sanctions, and airlifts are harder
+    --end of Init variables
+    local cardinstance = {}
+    table.insert(cardinstance,WL.NoParameterCardInstance.Create(CardWLData(cardname)))
+  --  WL.GameOrderDiscard.Create(playerID PlayerID, cardInstanceID CardInstanceID)
+
+    addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
+
+                --- logic to get powerlevel of player
+            local totalpower = 0
+                if publicdata[TargetplayerID] ~= nil and #publicdata[TargetplayerID].Agency.Agentlist > 0 then
+                    for i,v in pairs (publicdata[TargetplayerID].Agency.Agentlist) do
+                        totalpower = totalpower + v.level
+                    end
+                    totalpower = (totalpower / #publicdata[TargetplayerID].Agency.Agentlist ) + modifier
+                else 
+                totalpower = modifier
+                end
+    
+    print(totalpower,"total")
+            local battleresults = Combat(attacker + totalpower, attacker)
+            local name = "Neutral"
+            if TargetplayerID ~= 0 then name = game.Game.Players[TargetplayerID].DisplayName(nil,false) end
+            if battleresults == 0 then -- agent died
+    
+                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Sabotage " .. name .. "'s Internal influence(cards)" .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
+                addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message));
+            
+                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
+                publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+    
+            elseif battleresults == 1 then -- nothing happens
+    
+                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed trying to Sabotage " .. name .. "'s Internal influence(cards)\nAgent got away" 
+                addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message)); 
+                publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+    
+            elseif battleresults == 2 then -- mission complete
+    
+                if publicdata[TargetplayerID] ~= nil and #publicdata[TargetplayerID].Agency.Decoylist > 0 then
+                    local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " was intercepted in his plan to Sabotage " .. name .. "'s Internal influence(cards) by a Decoy\nAgent got away"
+                    addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message))
+                    table.remove(publicdata[TargetplayerID].Agency.Decoylist,1)
+    
+                
+                else 
+                    local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " successfully Sabotaged " .. name .. "'s Internal influence" .. "("..cardname.." card)"
+    
+                    --adding to tables for database
+                    publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions = publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions + 1
+                    publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+                    publicdata[ID].Agency.successfulmissions = publicdata[ID].Agency.successfulmissions + 1
+    
+    
+                    if publicdata[ID].Agency.Agentlist[AgentIndex].level < 7 then -- leveling up
+                        if publicdata[ID].Agency.Agentlist[AgentIndex].level * (publicdata[ID].Agency.Agentlist[AgentIndex].level+1 ) <= publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions then
+                            publicdata[ID].Agency.Agentlist[AgentIndex].level = publicdata[ID].Agency.Agentlist[AgentIndex].level + 1
+                            publicdata[ID].Agency.agencyrating = publicdata[ID].Agency.agencyrating + 1
+                        end
+                    end
+    
+                    --removing Armies from territroy
+                    local cardinstance = {}
+                    table.insert(cardinstance,WL.NoParameterCardInstance.Create(CardWLData(cardname)))
+                  --  WL.GameOrderDiscard.Create(playerID PlayerID, cardInstanceID CardInstanceID)
+
+                    addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
+
+    
+    
+                end
+            end
+            Mod.PublicGameData = publicdata
+            end
+
     if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killarmy")) then  -- killing army orders
         local publicdata = Mod.PublicGameData
 		local payloadSplit = split(string.sub(order.Payload, 9), ';;'); 

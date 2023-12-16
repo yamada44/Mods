@@ -178,6 +178,30 @@ function CardData(value)
 		return cards
 	end
 end
+
+function CardWLData(value)
+	local cards = {}
+
+	cards["Reinforcement"] = WL.CardID.Reinforcement
+	cards["Gift"] = WL.CardID.Gift
+	cards["Spy"] = WL.CardID.Spy
+	cards["EmergencyBlockade"] = WL.CardID.Abandon
+	cards["Blockade"] = WL.CardID.Blockade
+	cards["OrderPriority"] = WL.CardID.OrderPriority
+	cards["OrderDelay"] = WL.CardID.OrderDelay
+	cards["Airlift"] = WL.CardID.Airlift
+	cards["Diplomacy"] = WL.CardID.Diplomacy
+	cards["Sanctions"] = WL.CardID.Sanctions
+	cards["Reconnaissance"] = WL.CardID.Reconnaissance
+	cards["Surveillance"] = WL.CardID.Surveillance
+	cards["Bomb"] = WL.CardID.Bomb
+
+	if type(value) ~= "number" then -- return a single card
+	return cards(value)
+	elseif type(value) == "number" then -- return entire table
+		return cards
+	end
+end
 --returns place in table
 function Findmatch(findtable, match,what)
     for i = 1, #findtable do
