@@ -401,7 +401,7 @@ print(totalpower,"total")
             if cardname == "Bomb" or cardname == "Sanctions" or cardname == "Diplomacy" or cardname == "Airlift" then modifier = modifier + 1 end -- diplos, sanctions, and airlifts are harder
     --end of Init variables
     local cardinstance = {}
-    table.insert(cardinstance,WL.NoParameterCardInstance.Create(CardWLData(cardname)))
+    table.insert(cardinstance,WL.NoParameterCardInstance.Create(WL.CardID.Spy))
   --  WL.GameOrderDiscard.Create(playerID PlayerID, cardInstanceID CardInstanceID)
 
     addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
