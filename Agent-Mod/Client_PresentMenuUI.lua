@@ -201,7 +201,7 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 	setMaxSize(900, 320);
 	if publicdata.Ranklist ~= nil then
 		AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
-		local SortedAgency = SortTable(AgencyTable, "successfulmissions")
+		local SortedAgency = SortTable(AgencyTable, "agencyrating")
 
 		local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
 
