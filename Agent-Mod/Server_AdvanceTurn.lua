@@ -402,7 +402,9 @@ print(totalpower,"total")
     --end of Init variables
     local cardinstance = {}
     table.insert(cardinstance,WL.NoParameterCardInstance.Create(WL.CardID.Airlift))
-
+    if game.ServerGame.LatestTurnStanding.Cards[TargetplayerID].WholeCards[WL.CardID.Airlift] ~= nil then
+        print ("bob")
+    end
     addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
 
                 --- logic to get powerlevel of player
