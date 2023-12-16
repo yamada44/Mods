@@ -30,6 +30,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         if battleresults == 0 then -- Agent died
             local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to assassinate agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
             addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message));
+            publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
            
             table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
@@ -131,6 +132,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                 addNewOrder(WL.GameOrderEvent.Create(ts.OwnerPlayerID, message));
                
                 table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
+                publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
     
             elseif battleresults == 1 then -- nothing happens
                 local TempNameOverHead = "a "
@@ -234,6 +236,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                 addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message));
                
                 table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
+                publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
     
             elseif battleresults == 1 then -- nothing happens
 
@@ -326,6 +329,7 @@ print(totalpower,"total")
             addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message));
         
             table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
+            publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
 
         elseif battleresults == 1 then -- nothing happens
 
@@ -416,6 +420,7 @@ print(totalpower,"total")
         addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message));
        
         table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
+        publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
 
     elseif battleresults == 1 then -- nothing happens
 
