@@ -195,9 +195,9 @@ function CardWLData(value)
 	cards["Reconnaissance"] = WL.CardID.Reconnaissance
 	cards["Surveillance"] = WL.CardID.Surveillance
 	cards["Bomb"] = WL.CardID.Bomb
-print (cards(value))
+
 	if type(value) ~= "number" then -- return a single card
-	return cards(value)
+	return cards[value]
 	elseif type(value) == "number" then -- return entire table
 		return cards
 	end
