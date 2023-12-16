@@ -402,7 +402,6 @@ print(totalpower,"total")
     --end of Init variables
     local cardinstance = {}
     table.insert(cardinstance,WL.NoParameterCardInstance.Create(WL.CardID.Airlift))
-  --  WL.GameOrderDiscard.Create(playerID PlayerID, cardInstanceID CardInstanceID)
 
     addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
 
