@@ -499,7 +499,7 @@ function CreateOrder(type,close, data)
 
 	local agentsent = Agentdata -- just to clear up the name
 	local datasent2 = 0
-	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
+	if Targettype ~= "KillAgent" and Targettype ~= "Killcard" and  Targettype ~= "Killcard2" and Game.LatestStanding.Territories[SelectedTerritory.ID].FogLevel > 3 then UI.Alert("Must pick a territory with visible Territory") return end
 
 	Game.SendGameCustomMessage("new " .. BaseName .. "...", baseload, function(returnValue)
 		if returnValue.Pass == false then UI.Alert("Not enough gold to beign a operation, you need MissionCost") return end
