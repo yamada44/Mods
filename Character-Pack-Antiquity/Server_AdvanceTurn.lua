@@ -239,6 +239,38 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 	end
 end
 
+function Server_AdvanceTurn_End(game, addNewOrder)
+
+	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+
+
+		for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+			if v.proxyType == "CustomSpecialUnit" then
+				if v.ModData ~= nil then -- 
+					if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mods
+						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+						local mod = WL.TerritoryModification.Create(ts.ID)
+						
+						if v.OwnerID ~= ts.OwnerPlayerID then -- making sure every unit transfer properly
+							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
+
+							builder.OwnerID = ts.OwnerPlayerID
+							mod.AddSpecialUnits = {builder.Build()}
+							mod.RemoveSpecialUnitsOpt = {v.ID}
+							local UnitdiedMessage = "Chaning to proper Owner of SU"
+
+							addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+
+						end
+					end
+				end
+			end
+		end
+		
+end
+
+end
+
 function NumUnitsIn(armies, typename,type)
 
 	local ret = 0;
