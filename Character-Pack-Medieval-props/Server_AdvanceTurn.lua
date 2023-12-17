@@ -101,6 +101,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local currentxp = 0
 		local defence = unitpower / 2
 		local altmove = 0 
+		local combatorder = 123
 		local cooldown = Nonill(Mod.Settings.Unitdata[type].Cooldown)
 		local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
 
@@ -188,9 +189,11 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 			typename = 'LV0 ' .. typename
 
 		end
-		
-		-- for 'DamageAbsorbedWhenAttacked'. this value is deicded between attackpower and defence power. which ever is IsVersionOrHigher
+			if Nonill(Mod.Settings.Unitdata[type].CombatOrder) == 1 then
+			combatorder = combatorder * -1
+			end
 
+			--- Building Unit now
 		local absoredDamage = AbsoredDecider(unitpower,defence)
 		local startinglevel = 0
 
@@ -200,7 +203,7 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.ImageFilename = filename;
 		builder.AttackPower = unitpower;
 		builder.DefensePower = defence;
-		builder.CombatOrder = 3415; --defends commanders
+		builder.CombatOrder = combatorder
 		builder.DamageToKill = absoredDamage;
 		builder.DamageAbsorbedWhenAttacked = absoredDamage;
 		builder.CanBeGiftedWithGiftCard = true;
@@ -234,6 +237,38 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		print('type',type,'id',ID,'cooldown',publicdata[type][ID].cooldowntimer)
 		 Mod.PublicGameData = publicdata
 	end
+end
+
+function Server_AdvanceTurn_End(game, addNewOrder)
+
+	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+
+
+		for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+			if v.proxyType == "CustomSpecialUnit" then
+				if v.ModData ~= nil then -- 
+					if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mods
+						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+						local mod = WL.TerritoryModification.Create(ts.ID)
+						
+						if v.OwnerID ~= ts.OwnerPlayerID then -- making sure every unit transfer properly
+							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
+
+							builder.OwnerID = ts.OwnerPlayerID
+							mod.AddSpecialUnits = {builder.Build()}
+							mod.RemoveSpecialUnitsOpt = {v.ID}
+							local UnitdiedMessage = "Chaning to proper Owner of SU"
+
+							addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+
+						end
+					end
+				end
+			end
+		end
+		
+end
+
 end
 
 function NumUnitsIn(armies, typename,type)

@@ -62,7 +62,7 @@ end
 	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
 	if (Ruleson == true )then
 		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(15)
+	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
 
 	
 
@@ -87,7 +87,7 @@ function NumUnitin(armies,type)
 	local compare = ""
 	for _,su in pairs(armies.SpecialUnits) do
 		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
-			if Mod.Settings.Unitdata[type].Level > 0 then -- check to see if levels are turned on, and if so subtract extra text
+			if Nonill(Mod.Settings.Unitdata[type].Level) > 0 then -- check to see if levels are turned on, and if so subtract extra text
 				local stringskip = #su.Name - #Playerdata.Unitdata[type].Name 
 
 				compare = string.sub(su.Name, stringskip+1)
@@ -220,10 +220,21 @@ function TerritoryClicked(terrDetails)
 end
 
 function CompletePurchaseClicked()
+print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
+	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
+		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
+		local Cities = Land.Structures;
+		if (Cities == nil) then Cities = {}; end
 
-print (tostring(Playerdata.Unitdata[Type].Shared) , tostring(Playerdata.Unitdata[Type].Visible))
+		if Cities[WL.StructureType.City] == nil then
+			UI.Alert("Territory has no City. This unit must be built on a city")
+			return
+		end
+	end
+	
 
-local power = math.random(Playerdata.Unitdata[Type].unitpower,Playerdata.Unitdata[Type].AttackMax)
+
+	local power = math.random(Playerdata.Unitdata[Type].unitpower,Playerdata.Unitdata[Type].AttackMax)
 
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
@@ -264,7 +275,9 @@ function dynamicInfo(i)
 	if Mod.Settings.Unitdata[i].Level ~= nil and Mod.Settings.Unitdata[i].Level > 0 then
 		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
 	end
-
+	if Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity == true then
+		message = message .. "\nBuild on cities Only"
+	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '
 

@@ -10,7 +10,7 @@ function Server_StartGame (game,standing)
 
      for type=1, typeamount do
         for _,ts in pairs(standing.Territories) do
-            if ts.NumArmies.NumArmies == Nonill(unitdata[type].Autovalue) and unitdata[type].Autovalue > 0 and maxauto <= 40 then
+            if ts.NumArmies.NumArmies == unitdata[type].Autovalue and unitdata[type].Autovalue > 0 and maxauto <= 40 then
                 maxauto = maxauto + 1
 
                 local unitpower = Mod.Settings.Unitdata[type].unitpower

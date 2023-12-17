@@ -127,6 +127,16 @@ function Client_SaveConfigureUI(alert)
         if (auto < 0 )then auto = 0 alert("Mod set up failed\nAuto placer value cannot be below 0\n(set to 0 to disable)")
         else Mod.Settings.Unitdata[i].Autovalue = auto end
 
+        --combat order
+        local combat = TableFormat(Nonill(InputFieldTable[i].Combat) ,num)
+        if (combat < 1 or combat > 2)then combat = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+        else Mod.Settings.Unitdata[i].CombatOrder = combat end
+
+        -- only on cities
+        local cities = TableFormat(InputFieldTable[i].City,boo)
+        Mod.Settings.Unitdata[i].Oncity = cities
+        print (cities,"City value")
+
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 

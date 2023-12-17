@@ -12,6 +12,8 @@ function Client_PresentSettingsUI(rootParent)
 			local Shared = 'False'
 			local Vis = 'False'
 			local even = 'False'
+			local city = "False"
+			local combat = "After Armies"
 			local MaxServer = 0
 			local transfer = 0
 			local level = 0
@@ -19,13 +21,13 @@ function Client_PresentSettingsUI(rootParent)
 			local defend = 0
 			local cooldown = 0
 			local assass = 0
-			local attmax = 0
+			local auto = 0
 			local powermessage = 'Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower
 		
 		
 			if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 		
-		
+
 		
 						if (Mod.Settings.Unitdata[i].Shared == true)then Shared = 'True' end
 						if (Mod.Settings.Unitdata[i].Visible == true)then Vis = 'True' end
@@ -38,10 +40,11 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].Cooldown ~= nil)then cooldown = Mod.Settings.Unitdata[i].Cooldown end
 						if (Mod.Settings.Unitdata[i].Assassination ~= nil)then assass = Mod.Settings.Unitdata[i].Assassination end
 						if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Mod.Settings.Unitdata[i].unitpower) then
-							 attmax = Mod.Settings.Unitdata[i].AttackMax 
 							 powermessage = "Attack Range is: " .. Mod.Settings.Unitdata[i].unitpower .. ' - ' .. Mod.Settings.Unitdata[i].AttackMax
 							end
-
+						if (Mod.Settings.Unitdata[i].Oncity == true )then city = "True" end
+						if (Nonill(Mod.Settings.Unitdata[i].CombatOrder) == 1 )then combat = "Before Armies" end
+						if (Mod.Settings.Unitdata[i].Autovalue ~= nil)then auto = Mod.Settings.Unitdata[i].Autovalue end
 							
 
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
@@ -54,11 +57,14 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer)
 				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active)
+				UI.CreateLabel(vert).SetText('Combat order: ' .. combat).SetColor('#dbddf4') --
+				UI.CreateLabel(vert).SetText('Create on Cities only: ' .. city) --
 				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis)
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown)
 				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Auto Place Number: ' .. auto)
 				UI.CreateLabel(vert).SetText('Image used: ' .. image)
 	
 
