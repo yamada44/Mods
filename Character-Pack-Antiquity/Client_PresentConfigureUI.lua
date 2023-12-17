@@ -316,7 +316,7 @@ function Unittemplates(vert, i)
 		--Assassinations
 		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
 		local row19 = InputFieldTable[i].row19
-		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to 0 to disable"); end);
+		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("To determine how hard it is for an Assassination to kill this unit with the I.S. Agency mod. Set to 0 to make impossible to kill"); end);
 		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level').SetColor('#dbddf4')
 		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
 		.SetSliderMinValue(0)
