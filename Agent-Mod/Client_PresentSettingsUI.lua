@@ -10,7 +10,7 @@ function Client_PresentSettingsUI(rootParent)
 	local Citylost = Mod.Settings.Citylost
 	local Cardsremoved = Mod.Settings.Cardsremoved
 	local MissionCost = Mod.Settings.MissionCost
-if Cardsremoved == true then Cardsremoved = "true" else Cardsremoved = "false"
+if Cardsremoved == true then Cardsremoved = "true" else Cardsremoved = "false" end
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
