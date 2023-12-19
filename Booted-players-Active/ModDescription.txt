@@ -1,2 +1,3 @@
-This Mod can eliminate entire players, erase there armies, swap them, and even absorb them. Toxic players, a thing of the past
-All these features are server voted. once a threshold has been reached, the voted action processes. 
+This Mod can eliminate entire players, erase there armies, swap them, or have one player absorb another player's territories. All these features can be voted into effect by the players. Once a vote threshold has been reached, the voted action processes.
+
+This is designed to be used against toxic players, such as PEs in diplomacy games. Note that you should only use this mod with players you trust, as it could be used to eliminate anyone if the rest of the players vote to.
