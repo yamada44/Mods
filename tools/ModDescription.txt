@@ -1,0 +1,8 @@
+Is a helper mod for Immersive system style multi day days. but anyone can use it.
+
+In short, makes sure only one city stack per bonus is allowed. would recommand with local deployment
+but no required. if you dont use local deployment just know super bonuses always override regular bonuses,
+meaning since you can only have 1 city stack per bonus, the super bonuse will delete everything in it except
+1 city stack
+
+city stack = a territroy with 1 or more cities on it.
