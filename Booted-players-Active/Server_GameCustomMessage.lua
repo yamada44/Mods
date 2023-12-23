@@ -45,6 +45,7 @@ print(data2,"data2")
     short.Actiontype = typetext
     short.Todelete = false
     short.turned = data3
+    short.playerWhoCreated = playerID
 
 
   elseif type == 2 then -- Adding Vote
