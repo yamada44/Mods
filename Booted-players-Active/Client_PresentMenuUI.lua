@@ -50,7 +50,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			local tempname = publicdata.Action[i].NewPlayerID
 			local propername = Nonill(publicdata.Action[i].playerWhoCreated)
 			if propername ~= 0 then
-				propername = Game.Game.Players[publicdata.Action[i].playerWhoCreatedD].DisplayName(nil, false)
+				propername = Game.Game.Players[publicdata.Action[i].playerWhoCreated].DisplayName(nil, false)
 			end
 			if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
 
