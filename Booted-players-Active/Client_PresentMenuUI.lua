@@ -62,7 +62,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..Nonill(publicdata.Action[i].turned) .. "% of land affected").SetColor('#00FF05')
 			UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
 			UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
-			UI.CreateLabel(row3).SetText("Created by: " .. propername).SetColor('#00F4FF')
+			UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF0000')
 	end
 end
 	print("")
