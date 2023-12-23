@@ -48,6 +48,10 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			local percentVote = math.floor(Tempvote * 100) / 100 
 			local votedplayer = Votedplayers(publicdata.Action[i].VotingIDs)
 			local tempname = publicdata.Action[i].NewPlayerID
+			local propername = Nonill(publicdata.Action[i].playerWhoCreated)
+			if propername ~= 0 then
+				propername = Game.Game.Players[publicdata.Action[i].playerWhoCreatedD].DisplayName(nil, false)
+			end
 			if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
 
 
@@ -58,7 +62,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..Nonill(publicdata.Action[i].turned) .. "% of land affected").SetColor('#00FF05')
 			UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
 			UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
-			UI.CreateLabel(row3).SetText("Created by: " .. Nonill(publicdata.Action[i].playerWhoCreated)).SetColor('#00F4FF')
+			UI.CreateLabel(row3).SetText("Created by: " .. propername).SetColor('#00F4FF')
 	end
 end
 	print("")
