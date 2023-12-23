@@ -409,6 +409,7 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 						local altmove = Nonill(tonumber(payloadSplit[8]))
 						if (altmove > 0)then
 							iswholenumber = Iswhole(Game2.Game.TurnNumber)
+							print(iswholenumber, "iswhole")
 							if iswholenumber == false then
 
 
@@ -424,6 +425,7 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 			end
 		end
 	end
+	print(iswholenumber,"iswhole 2")
 	return iswholenumber
 end
 
