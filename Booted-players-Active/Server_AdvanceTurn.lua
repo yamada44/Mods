@@ -14,7 +14,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
             goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
            if income.Total <= MaxGold then
             local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for being weak')
-            addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}));
+            addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, nil,nil,{incomeMod}));
             --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
             --
            end
@@ -82,7 +82,7 @@ function SUcompatibility(land,neworder,newowner)
             builder.OwnerID = newowner
             terrMod.AddSpecialUnits = {builder.Build()}
             terrMod.RemoveSpecialUnitsOpt = {v.ID}
-            neworder(WL.GameOrderEvent.Create(0, 'Switching SU ID', {}, {terrMod}))
+            neworder(WL.GameOrderEvent.Create(0, 'Switching SU ID', nil, {terrMod}))
         end
     end
 end
@@ -93,7 +93,7 @@ function SUDelete(land,neworder)
 
 
             terrMod.RemoveSpecialUnitsOpt = {v.ID}
-            neworder(WL.GameOrderEvent.Create(0, 'Delete SU', {}, {terrMod}))
+            neworder(WL.GameOrderEvent.Create(0, 'Delete SU', nil, {terrMod}))
  
     end
 
@@ -163,7 +163,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
         local mod1 = WL.TerritoryModification.Create(ts)
         mod1.SetOwnerOpt = boot.ID
         idAirlift = Terr[ts].ID
-        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod1}));
+        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', nil, {mod1}));
         break
     end
    end
@@ -180,7 +180,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
         local mod = WL.TerritoryModification.Create(ts)
         mod.SetOwnerOpt = Switch.ID
         idAirlift2 = Terr[ts].ID
-        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod}));
+        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', nil, {mod}));
         break
       end
      end
@@ -198,7 +198,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
-    addNewOrder(WL.GameOrderEvent.Create(0, "Switching", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Switching", nil, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
    local amountTurned = Turnlogic(#Switch.SwitchTerr)
@@ -206,7 +206,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
     if amountTurned < i then break end
     local mod1 = WL.TerritoryModification.Create(ts)
      mod1.SetOwnerOpt = boot.ID
-     addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod1}))
+     addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', nil, {mod1}))
      SUcompatibility(Terr[ts],addNewOrder,boot.ID)
     end
 
@@ -264,7 +264,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
         local mod = WL.TerritoryModification.Create(ts)
         mod.SetOwnerOpt = Switch.ID
         idAirlift2 = Terr[ts].ID
-        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod}));
+        addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', nil, {mod}));
         break
       end
      end
@@ -280,7 +280,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
-    addNewOrder(WL.GameOrderEvent.Create(0, "Switching", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Switching", nil, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
    for i,ts in pairs (Switch.SwitchTerr) do
@@ -290,7 +290,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
      mod1.SetOwnerOpt = 0
      mod1.SetArmiesTo = NeutralValue
      mod1.SetStructuresOpt = Cities
-     addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', {}, {mod1}))
+     addNewOrder(WL.GameOrderEvent.Create(0, 'Switching', nil, {mod1}))
      SUDelete(Terr[ts],addNewOrder)
     end
 
@@ -345,7 +345,7 @@ function Absorblogic(game,addNewOrder,OrigID,NewID)
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt  = Switch.ID
-    addNewOrder(WL.GameOrderEvent.Create(0, "Absorbing", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Absorbing", nil, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
 
@@ -381,7 +381,7 @@ function EliminateasisLogic(game,addNewOrder,OrigID) --- Eliminating as is
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
     mod.SetOwnerOpt = 0
-    addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", nil, {mod}))
 
    end
 
@@ -421,7 +421,7 @@ function EliminateWasteLogic(game,addNewOrder,OrigID) -- Eliminate to wasteland
      mod.SetOwnerOpt = 0
      mod.SetArmiesTo = NeutralValue
      mod.SetStructuresOpt = Cities
-    addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", nil, {mod}))
     SUDelete(Terr[ts],addNewOrder)
    end
 
@@ -457,7 +457,7 @@ function ArmiesGone(game,addNewOrder,OrigID) --- Remove Armies
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
      mod.SetArmiesTo = 0
-    addNewOrder(WL.GameOrderEvent.Create(0, "Erase Armies", {}, {mod}))
+    addNewOrder(WL.GameOrderEvent.Create(0, "Erase Armies", nil, {mod}))
     SUDelete(Terr[ts],addNewOrder)
    end
 
