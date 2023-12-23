@@ -394,38 +394,36 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 
 	local iswholenumber = true
 	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+		print("access 1")
 		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+			print("access 2")
 			if v.ModData ~= nil then -- making sure it has data to read from
-
+				print("access 3")
 				if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mod
-					local dead = false
-					local territory = nil 
-					for i2, v2 in pairs( result.AttackingArmiesKilled.SpecialUnits) do -- checking to see if he died
-						if v.ID == v2.ID then
-							dead = true
+
+
+					print("access 4")
+					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+					local altmove = Nonill(tonumber(payloadSplit[8]))
+					if (altmove > 0)then
+						iswholenumber = Iswhole(Game2.Game.TurnNumber)
+						print(iswholenumber, "iswhole",Game2.Game.TurnNumber)
+						if iswholenumber == false then
+
+
+							local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
+							skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+							return iswholenumber
 						end
 
-						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-						local altmove = Nonill(tonumber(payloadSplit[8]))
-						if (altmove > 0)then
-							iswholenumber = Iswhole(Game2.Game.TurnNumber)
-							print(iswholenumber, "iswhole",Game2.Game.TurnNumber)
-							if iswholenumber == false then
-
-
-								local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-								addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
-								skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-								return iswholenumber
-							end
-
-						end
 					end
+					
 				end
 			end
 		end
 	end
-	print(iswholenumber,"iswhole 2")
+	print(iswholenumber,"iswhole 2", Game2.Game.TurnNumbe)
 	return iswholenumber
 end
 
