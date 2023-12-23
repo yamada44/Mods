@@ -423,7 +423,7 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 			end
 		end
 	end
-	print(iswholenumber,"iswhole 2", Game2.Game.TurnNumbe)
+	print(iswholenumber,"iswhole 2", Game2.Game.TurnNumber)
 	return iswholenumber
 end
 
