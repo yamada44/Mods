@@ -12,8 +12,8 @@ function Server_StartGame (game,standing)
         for _,ts in pairs(standing.Territories) do
             if ts.NumArmies.NumArmies == unitdata[type].Autovalue and unitdata[type].Autovalue > 0 and maxauto <= 60 then
                 maxauto = maxauto + 1
-
-                local unitpower = Mod.Settings.Unitdata[type].unitpower
+                
+                local unitpower = math.random(Playerdata.Unitdata[type].unitpower,Playerdata.Unitdata[type].AttackMax)
                 local typename = Mod.Settings.Unitdata[type].Name
                 local image = Mod.Settings.Unitdata[type].image
                 local visible = Mod.Settings.Unitdata[type].Visible
