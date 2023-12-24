@@ -46,12 +46,17 @@ end
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
 
-		if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
+		if order.proxyType == "GameOrderAttackTransfer" then 
 			Game2 = game
 
-			LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+			local even = Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 
-			Deathlogic(game, order, result, skipThisOrder, addNewOrder)
+			if even == true and result.IsAttack then
+				LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+
+				Deathlogic(game, order, result, skipThisOrder, addNewOrder)
+			end
+
 
 		end
 
@@ -204,10 +209,10 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.AttackPower = unitpower;
 		builder.DefensePower = defence;
 		builder.CombatOrder = combatorder
-		builder.DamageToKill = absoredDamage;
-		builder.DamageAbsorbedWhenAttacked = absoredDamage;
+		builder.DamageToKill = absoredDamage
+		builder.DamageAbsorbedWhenAttacked = absoredDamage * 0.5
 		builder.CanBeGiftedWithGiftCard = true;
-		builder.CanBeTransferredToTeammate = true;
+		builder.CanBeTransferredToTeammate = false
 		builder.CanBeAirliftedToSelf = true;
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
@@ -241,9 +246,7 @@ end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
 
-	for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
-
-
+	--[[for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 		for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
 			if v.proxyType == "CustomSpecialUnit" then
 				if v.ModData ~= nil then -- 
@@ -267,7 +270,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 			end
 		end
 		
-end
+	end]]--
 
 end
 
@@ -315,15 +318,8 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 						local transfer = tonumber(payloadSplit[2]) 
-						local altmove = Nonill(tonumber(payloadSplit[8]))
-						local iswholenumber = Iswhole(Game2.Game.TurnNumber)
-						local MoveOn = false
-						if altmove > 0 then
-							if iswholenumber == false then
-								MoveOn = true
-							end
-						end
-						if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil and MoveOn == false)then
+
+						if (transfer ~= 0 and land.OwnerPlayerID ~= 0 and transfer ~= nil)then
 							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Game2.Game.Players[land.OwnerPlayerID].DisplayName(nil,false)
 							
 								transfer = transfer - 1
@@ -395,6 +391,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 	end
 	end
 
+
 function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 		local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
@@ -425,31 +422,13 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 							local unitpower = tonumber(Nonill(payloadSplit[5]))
 							local currlevel = tonumber(payloadSplit[6])
 							local unitdefence = Nonill(tonumber(payloadSplit[7]))
-							print (unitdefence, "unit defense")
 							local absoredDamage = AbsoredDecider(unitpower,unitdefence)
 							local altmove = Nonill(tonumber(payloadSplit[8]))
 print (altmove,'altmove')
 							local iswholenumber = true
 
-							--move unit every other turne
-							if (altmove > 0)then
-								iswholenumber = Iswhole(Game2.Game.TurnNumber)
-								if iswholenumber == false then
 
-									--NomoveList = {}
-									--local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
-									--local unit = builder.Build()
-
-									--table.insert(NomoveList,v.ID)
-									--table.insert(buildertalble,unit)
-									local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-									addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
-									skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-									goto endloop
-								end
-
-							end
-							if (result.DefendingArmiesKilled.DefensePower > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
+							if (result.DefendingArmiesKilled.DefensePower > 0)then -- making sure the attack actually had people who died
 								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 									XP = XP + result.DefendingArmiesKilled.DefensePower
@@ -497,55 +476,6 @@ print (altmove,'altmove')
 				end
 			end
 		end
-
-	--[[
-		if NomoveList ~= nil then -- to delete all special units all at once
-
-			local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-			NoMterrNomove.RemoveSpecialUnitsOpt = NomoveList
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {NoMterrNomove}))-- remove from territory
-
-			local temptable2 = {}
-			local count2 = 1
-
-			for i, v in pairs(NomoveList) do -- checking to see if an attack had a special unit
-				table.insert(temptable2,v)
-				if count2 < 4 and i ~= #NomoveList then
-
-					count2 = count2 + 1
-				elseif count2 >= 4 or i == #NomoveList then
-					NoMterrNomove.RemoveSpecialUnitsOpt = temptable2
-					temptable2 = {}
-					count2 = 1
-
-				end
-			end
-
-
-
-				local temptable = {}
-
-				for i, v in pairs(buildertalble) do -- checking to see if an attack had a special unit
-					table.insert(temptable,v)
-
-					if #temptable >= 4 or i == #buildertalble then
-						NoMterrMod.AddSpecialUnits = temptable
-						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'territory Mod' , {}, {NoMterrMod}))
-						temptable = {}
-
-					end
-				end
-
-			--NoMterrMod.AddSpecialUnits = buildertalble;
-
-
-			--addNewOrder(WL.GameOrderAttackTransfer.Create(order.PlayerID,order.From,order.To,3,false,Game2.ServerGame.LatestTurnStanding.Territories[order.From].NumArmies,false))
-
-			--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-			
-			end
-]]--
-
 		
 		if #defendingspecialUnits > 0 and wassuccessful == false then
 			print('defending special units found')
@@ -570,25 +500,11 @@ print (altmove,'altmove')
 								local unitpower = tonumber(Nonill(payloadSplit[5]))
 								local currlevel = tonumber(payloadSplit[6])
 								local unitdefence = Nonill(tonumber(payloadSplit[7]))
-								print (unitdefence, "unit defense")
 								local absoredDamage = AbsoredDecider(unitpower,unitdefence)
-								local altmove = Nonill(tonumber(payloadSplit[8]))
-								local iswholenumber = true
 								local territory = order.To
 
-								--move unit every other turne (this was commented out because its not moving. so should still gain the affects of it)
-								--[[if (altmove > 0)then
-									--iswholenumber = Iswhole(Game2.Game.TurnNumber)
-									if iswholenumber == false then
-										local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-										addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , nil, nil, nil, {}));
 
-									--skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
-									end
-
-								end]]--
-
-								if (result.AttackingArmiesKilled.AttackPower  > 0 and iswholenumber == true)then -- making sure the attack actually had people who died
+								if (result.AttackingArmiesKilled.AttackPower  > 0)then -- making sure the attack actually had people who died
 									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
 
 										XP = XP + result.AttackingArmiesKilled.AttackPower
@@ -634,9 +550,35 @@ print (altmove,'altmove')
 					end
 				end
 			end
-
-
 		end
-		::endloop::
 	end
 
+function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
+
+	local iswholenumber = true
+	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+			if v.ModData ~= nil then -- making sure it has data to read from
+				if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mod
+
+					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+					local altmove = Nonill(tonumber(payloadSplit[8]))
+					if (altmove > 0)then
+						iswholenumber = Iswhole(Game2.Game.TurnNumber)
+						if iswholenumber == false then
+
+
+							local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
+							skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+							return iswholenumber
+						end
+
+					end
+					
+				end
+			end
+		end
+	end
+	return iswholenumber
+end

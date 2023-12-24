@@ -209,10 +209,10 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.AttackPower = unitpower;
 		builder.DefensePower = defence;
 		builder.CombatOrder = combatorder
-		builder.DamageToKill = absoredDamage;
-		builder.DamageAbsorbedWhenAttacked = absoredDamage;
+		builder.DamageToKill = absoredDamage
+		builder.DamageAbsorbedWhenAttacked = absoredDamage * 0.5
 		builder.CanBeGiftedWithGiftCard = true;
-		builder.CanBeTransferredToTeammate = true;
+		builder.CanBeTransferredToTeammate = false
 		builder.CanBeAirliftedToSelf = true;
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
@@ -390,42 +390,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 		end
 	end
 	end
-function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 
-	local iswholenumber = true
-	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
-		print("access 1")
-		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
-			print("access 2")
-			if v.ModData ~= nil then -- making sure it has data to read from
-				print("access 3")
-				if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mod
-
-
-					print("access 4")
-					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-					local altmove = Nonill(tonumber(payloadSplit[8]))
-					if (altmove > 0)then
-						iswholenumber = Iswhole(Game2.Game.TurnNumber)
-						print(iswholenumber, "iswhole",Game2.Game.TurnNumber)
-						if iswholenumber == false then
-
-
-							local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
-							skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-							return iswholenumber
-						end
-
-					end
-					
-				end
-			end
-		end
-	end
-	print(iswholenumber,"iswhole 2", Game2.Game.TurnNumber)
-	return iswholenumber
-end
 
 function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
@@ -588,3 +553,32 @@ print (altmove,'altmove')
 		end
 	end
 
+function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
+
+	local iswholenumber = true
+	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
+			if v.ModData ~= nil then -- making sure it has data to read from
+				if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mod
+
+					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+					local altmove = Nonill(tonumber(payloadSplit[8]))
+					if (altmove > 0)then
+						iswholenumber = Iswhole(Game2.Game.TurnNumber)
+						if iswholenumber == false then
+
+
+							local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
+							addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
+							skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+							return iswholenumber
+						end
+
+					end
+					
+				end
+			end
+		end
+	end
+	return iswholenumber
+end

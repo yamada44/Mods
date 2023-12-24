@@ -26,6 +26,7 @@ function Server_StartGame (game,standing)
                 local currentxp = 0 
                 local defence = Mod.Settings.Unitdata[type].Defend
                 local altmove = 0
+                local combatorder = 123
                 local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
 
                 if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
@@ -38,6 +39,9 @@ function Server_StartGame (game,standing)
                 if (levelamount > 0)then
                     typename = 'LV0 ' .. typename
                 end
+                if Nonill(Mod.Settings.Unitdata[type].CombatOrder) == 1 then
+                    combatorder = combatorder * -1
+                    end
 
                 local absoredDamage = AbsoredDecider(unitpower,defence)
                 local startinglevel = 0
@@ -48,13 +52,13 @@ function Server_StartGame (game,standing)
                 builder.ImageFilename = filename;
                 builder.AttackPower = unitpower;
                 builder.DefensePower = defence;
-                builder.CombatOrder = 3415; --defends commanders
-                builder.DamageToKill = absoredDamage;
-                builder.DamageAbsorbedWhenAttacked = absoredDamage;
-                builder.CanBeGiftedWithGiftCard = true;
-                builder.CanBeTransferredToTeammate = true;
-                builder.CanBeAirliftedToSelf = true;
-                builder.CanBeAirliftedToTeammate = true;
+                builder.CombatOrder = combatorder
+                builder.DamageToKill = absoredDamage
+                builder.DamageAbsorbedWhenAttacked = absoredDamage * 0.5
+                builder.CanBeGiftedWithGiftCard = true
+                builder.CanBeTransferredToTeammate = false
+                builder.CanBeAirliftedToSelf = true
+                builder.CanBeAirliftedToTeammate = true
                 builder.TextOverHeadOpt = charactername
                 builder.IsVisibleToAllPlayers = visible;
                 builder.ModData = ModSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass

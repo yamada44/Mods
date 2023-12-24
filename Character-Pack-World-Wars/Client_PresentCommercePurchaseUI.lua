@@ -221,7 +221,7 @@ end
 
 function CompletePurchaseClicked()
 print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
-	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
+	--if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures;
 		if (Cities == nil) then Cities = {}; end
@@ -230,7 +230,7 @@ print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 			UI.Alert("Territory has no City. This unit must be built on a city")
 			return
 		end
-	end
+	--end
 	
 
 
