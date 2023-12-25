@@ -3,7 +3,7 @@ require('Utilities')
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
 -- only for 1 or two turns
-    local goldhave
+  --[[  local goldhave
     local MaxGold = 19
     local added = 100
     local standing = game.ServerGame.LatestTurnStanding
@@ -19,7 +19,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
             --
            end
         end
-    end
+    end--]]
 
 
   publicdata = Mod.PublicGameData

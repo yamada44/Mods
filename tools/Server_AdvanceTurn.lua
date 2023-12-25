@@ -1,6 +1,20 @@
 require('Utilities')
 
+function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
+		
 
+  if order.proxyType == "GameOrderAttackTransfer" then 
+    --for _,terr in pairs (game.Map.Territories)do
+      terr = game.Map.Territories[1]
+      print(terr.ConnectedTo)
+      for i,v in pairs (terr.ConnectedTo)do
+        print(game.Map.Territories[game.Map.Territories[i].ID].Name)
+      --PlayerID
+      end
+   -- end
+  end
+
+end
 function Server_AdvanceTurn_End(game, addNewOrder)
     local publicdata = Mod.PublicGameData
     --local playergroup = {}
@@ -21,6 +35,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
            end
         end
     end
+
+
 
   --game.Settings.CustomScenario.SlotsAvailable
         
