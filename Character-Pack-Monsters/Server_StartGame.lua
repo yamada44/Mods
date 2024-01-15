@@ -13,7 +13,7 @@ function Server_StartGame (game,standing)
             if ts.NumArmies.NumArmies == unitdata[type].Autovalue and unitdata[type].Autovalue > 0 and maxauto <= 60 then
                 maxauto = maxauto + 1
                 
-                local unitpower = math.random(Playerdata.Unitdata[type].unitpower,Playerdata.Unitdata[type].AttackMax)
+                local unitpower = math.random(Mod.Settings.Unitdata[type].unitpower,Mod.Settings.Unitdata[type].AttackMax)
                 local typename = Mod.Settings.Unitdata[type].Name
                 local image = Mod.Settings.Unitdata[type].image
                 local visible = Mod.Settings.Unitdata[type].Visible
@@ -43,7 +43,7 @@ function Server_StartGame (game,standing)
                     combatorder = combatorder * -1
                     end
 
-                local absoredDamage = AbsoredDecider(unitpower,defence)
+                local absoredDamage = (unitpower+defence)/2
                 local startinglevel = 0
         
                 local builder = WL.CustomSpecialUnitBuilder.Create(ts.OwnerPlayerID);
@@ -54,7 +54,7 @@ function Server_StartGame (game,standing)
                 builder.DefensePower = defence;
                 builder.CombatOrder = combatorder
                 builder.DamageToKill = absoredDamage
-                builder.DamageAbsorbedWhenAttacked = absoredDamage * 0.5
+                builder.DamageAbsorbedWhenAttacked = absoredDamage
                 builder.CanBeGiftedWithGiftCard = true
                 builder.CanBeTransferredToTeammate = false
                 builder.CanBeAirliftedToSelf = true
@@ -66,7 +66,7 @@ function Server_StartGame (game,standing)
 
                 local S = {}
                 table.insert(S,unit)
-                ts.NumArmies = WL.Armies.Create(0,S);
+                ts.NumArmies = WL.Armies.Create(10,S);
 
             end
     end
