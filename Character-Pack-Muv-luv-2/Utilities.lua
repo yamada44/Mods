@@ -146,7 +146,7 @@ function ModSign(returnvalue)
 	local value
 
 	if returnvalue == 0 then -- Mod call sign
-		value = 'C&PE'
+		value = 'C&PO'
 	elseif returnvalue == 1 then
 		value = {}
 		value[1] = 'Japanese Type-94 Shiranui TSF'
