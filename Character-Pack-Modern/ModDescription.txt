@@ -1,7 +1,7 @@
 This mod allows players to Create and purchase there own custom units. There are 5 pictures to choose from. 
 1 - Modern Tank
 2 - Armored Car
-3 - Rocket launcher
+3 - Fighter
 4 - Modern Soldier
 5 - Jet
 This is the Modern war Pack and has a Modern leaning theme. You can name each unit, give damage, how powerful they are, if only so many units can be placed per game and a few more.

@@ -46,12 +46,12 @@ end
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
 
-		if order.proxyType == "GameOrderAttackTransfer" then 
+		if order.proxyType == "GameOrderAttackTransfer"  and result.IsAttack then 
 			Game2 = game
 
 			local even = Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 
-			if even == true and result.IsAttack then
+			if even == true then
 				LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 				Deathlogic(game, order, result, skipThisOrder, addNewOrder)

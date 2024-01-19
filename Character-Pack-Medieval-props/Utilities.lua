@@ -149,9 +149,9 @@ function ModSign(returnvalue)
 		value = 'C&PH'
 	elseif returnvalue == 1 then
 		value = {}
-		value[1] = 'Flag'
+		value[1] = 'Ring'
 		value[2] = 'Sword'
-		value[3] = 'Crown'
+		value[3] = 'Catapult'
 		value[4] = 'Chalice'
 		value[5] = 'Tresure Chest'
 		value[6] = 'Random'

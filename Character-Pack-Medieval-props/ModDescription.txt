@@ -1,7 +1,7 @@
 This mod allows players to Create and purchase there own custom units. There are 5 pictures to choose from. 
-1 - Flag
+1 - Ring
 2 - Sword
-3 - Crown 
+3 - Catapult
 4 - Chalice
 5 - Tresure Chest
 This is the Medieval Props Pack and has a Medieval leaning theme. You can name each unit, give damage, how powerful they are, if only so many units can be placed per game and a few more.

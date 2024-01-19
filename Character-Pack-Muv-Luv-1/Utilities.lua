@@ -146,15 +146,16 @@ function ModSign(returnvalue)
 	local value
 
 	if returnvalue == 0 then -- Mod call sign
-		value = 'C&PI'
+		value = 'C&PP'
 	elseif returnvalue == 1 then
 		value = {}
-		value[1] = 'Modern Tank'
-		value[2] = 'Armored Car'
-		value[3] = 'Fighter'
-		value[4] = 'Modern Soldier'
-		value[5] = 'Jet'
+		value[1] = 'Fort Class BETA'
+		value[2] = 'Tank Class BETA'
+		value[3] = 'Grappler Class BETA'
+		value[4] = 'Heavy Laser Class BETA'
+		value[5] = 'Destroyer Class BETA'
 		value[6] = 'Random'
+
 	end
 
 	return value
