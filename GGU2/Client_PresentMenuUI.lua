@@ -10,7 +10,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	publicdate = Mod.PublicGameData
 	
 
-	setMaxSize(550, 320)
+	setMaxSize(600, 320)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
 		UI.CreateLabel(vert).SetText("You cannot gift gold since you're not in the game")
@@ -231,9 +231,16 @@ function Byplayer(vert)
 	for i, v in pairs (publicdate.PayP.History) do
 		if TargetPlayerID == publicdate.PayP.History[i].from then
 			if searchtable[v.to] == nil then 
-				searchtable[v.to] = v.goldamount 
+				if v.noshow ~= nil then searchtable[v.to].hide = v.noshow 
+				else 
+					searchtable[v.to].gold = v.goldamount 
+				end
+
+				
 			else
-				searchtable[v.to] = searchtable[v.to] + v.goldamount
+				if v.noshow ~= nil then searchtable[v.to].hide = v.noshow 
+				else 
+				searchtable[v.to].gold = searchtable[v.to].gold + v.goldamount end
 			end
 		end
 	end
@@ -245,8 +252,10 @@ function Byplayer(vert)
 	Destroygroup[#Destroygroup+1] = UI.CreateLabel(row0).SetText(" " ..playername ).SetColor('#FFE5B4')
 	for i, v in pairs (searchtable) do
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		local spacer = ""
+		if v.hide ~= nil then spacer = v.hide .. " gold + "
 		table.insert(Destroygroup,row1)
-		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(v .. " gold to ").SetColor('#FF697A')
+		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(spacer .. v.gold .. " gold to ").SetColor('#FF697A')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[i].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 	end
 end

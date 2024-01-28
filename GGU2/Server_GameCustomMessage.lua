@@ -313,8 +313,9 @@ function Addhistory(targetplayerid,publicdate, actualgold,playerid,reveal)
 		local short = publicdate.PayP.History[#publicdate.PayP.History]
 		short.from = playerid
 		short.to = targetplayerid
-		if reveal == false then actualgold = "???" end 
+		if reveal == false then short.noshow = "???" end 
 		short.goldamount = actualgold
+
 		short.turn = Game.Game.TurnNumber
 	end
 	
