@@ -253,7 +253,7 @@ function Byplayer(vert)
 	for i, v in pairs (searchtable) do
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		local spacer = ""
-		if v.hide ~= nil then spacer = v.hide .. " gold + "
+		if v.hide ~= nil then spacer = v.hide .. " gold + "end
 		table.insert(Destroygroup,row1)
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(spacer .. v.gold .. " gold to ").SetColor('#FF697A')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[i].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
