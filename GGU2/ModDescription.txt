@@ -1,0 +1,9 @@
+Allows players to gift Gold to each other, friend or foe. All gifts are tracked via the order list and every gift has the option to be revealed to the public for Host purposes or to show whats actaully being gifted to allies. The choice is yours
+
+The option for Gold Multiplier works the same as Army multiplier. except only with gold sent. like army multipiler its reset every turn
+
+The option for Hidden Orders is available. if checked whenever your order is not revealed your identiy will remain hidden. if your gift was revealed all details of your order will become public. if Hidden orders is not checked. your gift gold orders will become vague to everyone else, but they will know you sent it
+
+You cannot have Tax multipiler and Tax Percent at the same time, if both are enabled Tax multipiler will be choosen and Tax Percent disabled
+
+Have fun and good luck
