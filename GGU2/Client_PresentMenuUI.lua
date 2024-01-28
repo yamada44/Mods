@@ -230,7 +230,8 @@ function Byplayer(vert)
 	local searchtable = {}
 	for i, v in pairs (publicdate.PayP.History) do
 		if TargetPlayerID == publicdate.PayP.History[i].from then
-			if searchtable[v.to] == nil then 
+			if searchtable[v.to] == nil then
+				searchtable[v.to] = {}
 				if v.noshow ~= nil then searchtable[v.to].hide = v.noshow 
 				else 
 					searchtable[v.to].gold = v.goldamount 
