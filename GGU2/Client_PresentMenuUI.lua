@@ -196,8 +196,8 @@ function OptionAfunc(vert)
 	Destroylogic()
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	table.insert(Destroygroup,row1)
-
-	for i, v in pairs (publicdate.PayP.History) do
+	local sortedpayments = SortTable(publicdate.PayP.History,"turn")
+	for i, v in pairs (sortedpayments) do
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		local spacer = v.goldamount
 		table.insert(Destroygroup,row1)
@@ -346,8 +346,8 @@ close()
 		local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID
 		
 
-		local orders = Game.Orders;
-		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload));
+		local orders = Game.Orders
+		table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload))
 		Game.Orders = orders
 
 		

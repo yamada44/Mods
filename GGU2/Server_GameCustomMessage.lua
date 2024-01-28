@@ -69,7 +69,6 @@ function Newpayment(payload,publicdate,playerid)
 local setgold = payload.setgold
 local setturn = (payload.setturn) + Game.Game.TurnNumber
 local contu = payload.Cont
-local goldSending = setgold 
 local goldtax = payload.multiplier
 local percent = payload.percent
 	-- 1 = continues || 2 = set
@@ -85,11 +84,11 @@ local percent = payload.percent
 
 	if (publicdate.PayP.Plan[#publicdate.PayP.Plan + 1] == nil )then publicdate.PayP.Plan[#publicdate.PayP.Plan + 1] = {}
 	local short = publicdate.PayP.Plan[#publicdate.PayP.Plan]	
-	short.goldsent = goldSending
-	short.aftertax = 0
+	short.goldsent = setgold
+	short.aftertax = setgold
 	short.targetplayer = id
 	short.cont = contu -- what kind of plan needed for the action
-	short.Turntill = setturn
+	short.Turntill = setturn 
 	short.reveal = payload.reveal
 	short.hidden = payload.hidden
 	short.percent = percent
@@ -100,7 +99,7 @@ local percent = payload.percent
 	print(short.ID,"payment create")
 	end
 	print("interesting")
-	return goldSending
+	return setgold
 end
 function Banked(publicdate,setgold)
 	local total = 0
@@ -112,11 +111,10 @@ function Banked(publicdate,setgold)
 end
 
 function Removepayment(planid,publicdate)
-	print(#publicdate.PayP.Plan,planid,"final test")
 	table.remove(publicdate.PayP.Plan,planid)
 end
 
-function Paymentprocess(game,playerID,payload,setReturnTable,publicdate,i)
+function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 
 
 	local id = payload.TargetPlayerID
@@ -292,11 +290,7 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate,i)
 	
 		local targetPlayer = game.Game.Players[payload.TargetPlayerID];
 		local targetPlayerHasGold = game.ServerGame.LatestTurnStanding.NumResources(targetPlayer.ID, WL.ResourceType.Gold)
-		if #publicdate.PayP.Plan > 0 then
-		if newPlan == 2 then planid = 1 
-			publicdate.PayP.Plan[planid].aftertax = actualGoldSent
-		end
- end
+		
 		Addhistory(id,publicdate,actualGoldSent,playerID,payload.reveal)
 		Mod.PublicGameData = publicdate -- end of packaging
 
