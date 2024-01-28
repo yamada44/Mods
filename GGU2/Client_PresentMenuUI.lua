@@ -199,10 +199,12 @@ function OptionAfunc(vert)
 
 	for i, v in pairs (publicdate.PayP.History) do
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		local spacer = v.goldamount
 		table.insert(Destroygroup,row1)
 		local playername = Game.Game.Players[v.from].DisplayName(nil, false)
+		if v.noshow ~= nil then spacer = v.noshow end
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(playername ).SetColor('#FFE5B4')
-		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " sent " .. v.goldamount .. " gold to ").SetColor('#FF697A')
+		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " sent " .. spacer .. " gold to ").SetColor('#FF697A')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[v.to].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " On turn ".. v.turn).SetColor('#FF697A')
 	end
