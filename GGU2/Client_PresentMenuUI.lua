@@ -47,13 +47,14 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert)
+	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	
 	UI.CreateButton(row0).SetText("Single payment").SetOnClick(function () Dialogwindow(1,close,nil) end )
 	UI.CreateButton(row0).SetText("Set payments").SetOnClick(function () Dialogwindow(4,close,nil) end )
 	UI.CreateButton(row0).SetText("Payment History").SetOnClick(function () Dialogwindow(3,close,nil) end ).SetInteractable(not temphidden)
 	UI.CreateButton(row0).SetText("Payment Plans").SetOnClick(function () Dialogwindow(2,close,nil) end )
 
-	
+	TaxText(row3)
 
 end
 
@@ -83,7 +84,7 @@ function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
  -- creating rows
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
-	local row3 = UI.CreateHorizontalLayoutGroup(vert)
+
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 
 	UI.CreateLabel(row1).SetText("Gift gold to this player: ") -- selecting player
@@ -99,7 +100,7 @@ function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
 	Giftbtn = UI.CreateButton(vert).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(playerpicked).SetColor('#0021FF')
 
 	--Tax logic
-	TaxText(row3)
+
 
 	Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true)
 
