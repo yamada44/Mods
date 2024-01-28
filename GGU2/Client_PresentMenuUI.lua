@@ -361,7 +361,7 @@ end
 
 function TaxText(row3)
 	if (tempGoldtax > 0 )then
-		UI.CreateLabel(row3).SetText("Gifting Gold to someone applies a Tax. Tax is equal to " .. tempGoldtax .. " multiplier in game settings").SetColor('#00F4FF')
+		UI.CreateLabel(row3).SetText("Gifting Gold to someone applies a Tax. First tax applies after " .. tempGoldtax .. " gold has been sent. each gold piece after that cost 1 gold for every " .. tempGoldtax .. " you send").SetColor('#00F4FF')
 		elseif (Temppercent > 0)then
 			UI.CreateLabel(row3).SetText("Gifting Gold to someone applies a Tax. Tax is equal to " .. Temppercent .. "%").SetColor('#00F4FF')
 		else 
