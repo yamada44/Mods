@@ -135,14 +135,16 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 		.SetSliderMaxValue(MaxTurns)
 		.SetValue(1).SetInteractable(false)
 
-		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool)
+		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).SetOnClick(Numberson)
 		Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true).SetInteractable(false)
 		AdvanceBtn = UI.CreateButton(row4).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(false).SetColor('#0021FF')
 
 		UI.CreateLabel(vert).SetText("You cannot cancel this payment early if the 'Locked' button is selected").SetColor('#E5FF00')
 
 end
-
+function Numberson()
+	TurnSetbtn.SetInteractable(Cont.GetIsChecked())
+end
 function Plans(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(560, 320)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
