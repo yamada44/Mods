@@ -135,7 +135,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 		.SetSliderMaxValue(MaxTurns)
 		.SetValue(1).SetInteractable(false)
 
-		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).SetOnClick(Numberson)
+		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).OnValueChanged(Numberson)
 		Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true).SetInteractable(false)
 		AdvanceBtn = UI.CreateButton(row4).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(false).SetColor('#0021FF')
 
@@ -169,7 +169,7 @@ function Plans(rootParent, setMaxSize, setScrollable, game, close)
 			elseif publicdate.PayP.Plan[i].cont == 1 then -- only continues
 				local mind = true
 				if publicdate.PayP.Plan[i].ID ~= Game.Us.ID then mind = false end
-				UI.CreateButton(rowT).SetText("Cancel Plan").SetOnClick(function ()  end ).SetColor('#1274A4').SetOnClick(function () SubmitClicked(close,i)end).SetInteractable(mind)
+				UI.CreateButton(rowT).SetText("Cancel Plan").SetColor('#1274A4').SetOnClick(function () SubmitClicked(close,i)end).SetInteractable(mind)
 			end
 		end
 	else 
