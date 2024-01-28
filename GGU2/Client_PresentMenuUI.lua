@@ -156,7 +156,7 @@ function Plans(rootParent, setMaxSize, setScrollable, game, close)
 			if temphidden == true then playername = "???" end
 			UI.CreateLabel(rowT).SetText(playername ).SetColor('#FFE5B4')
 			UI.CreateLabel(rowT).SetText( " sends " .. publicdate.PayP.Plan[i].aftertax .. " gold per turn to ").SetColor('#FF697A')
-			UI.CreateLabel(rowT).SetText( " " .. Game.Game.Players[publicdate.PayP.Plan[i].targetplayer].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
+			UI.CreateLabel(rowT).SetText(Game.Game.Players[publicdate.PayP.Plan[i].targetplayer].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 
 			print(publicdate.PayP.Plan[i].cont,"cont")
 			if publicdate.PayP.Plan[i].cont == 2 then -- Set amount
@@ -254,7 +254,7 @@ function Byplayer(vert)
 	for i, v in pairs (searchtable) do
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		local spacer = ""
-		if v.hide ~= nil then spacer = v.hide .. " gold + "end
+		if v.hide ~= nil then spacer = v.hide .. " + "end
 		table.insert(Destroygroup,row1)
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(spacer .. v.gold .. " gold to ").SetColor('#FF697A')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[i].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
