@@ -232,7 +232,8 @@ function Byplayer(vert)
 		if TargetPlayerID == publicdate.PayP.History[i].from then
 			if searchtable[v.to] == nil then
 				searchtable[v.to] = {}
-				if v.noshow ~= nil then searchtable[v.to].hide = v.noshow 
+				if v.noshow ~= nil then searchtable[v.to].hide = v.noshow
+					searchtable[v.to].gold = 0
 				else 
 					searchtable[v.to].gold = v.goldamount 
 				end
