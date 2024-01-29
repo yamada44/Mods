@@ -167,21 +167,10 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 	
 		if (ourid == payload.TargetPlayerID) then
 			setReturnTable({ Message = "You can't gift yourself" });
-			return;
+			return
 		end
-	
-	
-		if (goldHave < goldSending) then  -- don't have enough money
-			setReturnTable({ Message = "You have less then " .. goldSending .. " gold. your current gold reserve is: " .. goldHave .. '\n\n' .. 'Refresh Page for best results' })
-				return
-		end
-	
-		-- checking to see if a gold tax was set during game creation
-		if (goldtax == nil)then goldtax = 0 end;
-	
+		
 		if newPlan > 0 then -- Adding continued/Set turns logic
-
-	
 			local standing = game.ServerGame.LatestTurnStanding
 			local player = game.Game.PlayingPlayers[ourid]
 			local income = player.Income(0, standing, false, false) 
@@ -205,6 +194,16 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 
 			end
 		end
+	
+		if (goldHave < goldSending) then  -- don't have enough money
+			setReturnTable({ Message = "You have less then " .. goldSending .. " gold. your current gold reserve is: " .. goldHave .. '\n\n' .. 'Refresh Page for best results' })
+				return
+		end
+	
+		-- checking to see if a gold tax was set during game creation
+		if (goldtax == nil)then goldtax = 0 end;
+	
+
 	
 
 
