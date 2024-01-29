@@ -17,7 +17,7 @@ function Client_SaveConfigureUI(alert)
     else 
     Mod.Settings.Percent = percent
     end
-    if (plan > 25 or percent < 1)then plan = 20 alert('Payment plan value not supported. please stay within 1 - 25')
+    if (plan > 25 or plan < 1)then plan = 20 alert('Payment plan value not supported. please stay within 1 - 25')
     else 
     Mod.Settings.Plan = plan
     end
