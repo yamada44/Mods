@@ -109,10 +109,12 @@ end
 function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(500, 320)
 	MaxTurns = 20
-	if Mod.Settings.MaxTurn ~= nil then
-		MaxTurns = Mod.Settings.MaxTurn
+	if Mod.Settings.Plan ~= nil then
+		MaxTurns = Mod.Settings.Plan
 	end
-
+	local player = game.Game.PlayingPlayers[Game.Us.ID]
+	local income = player.Income(0, game.LatestStanding, false, false) 
+	Max75 = math.floor(income.Total * 0.75)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
@@ -126,7 +128,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(row2).SetText("The amount of gold to send per turn")
     GoldSetbtn = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(1)
-		.SetSliderMaxValue(math.floor(GoldHave * 0.75))
+		.SetSliderMaxValue(Max75)
 		.SetValue(1)
 
 	UI.CreateLabel(row3).SetText("The amount of turns this process will last")
@@ -314,7 +316,7 @@ close()
 	
 	if GoldSetbtn ~= nil and plan == 0 and gold == 0 then
 		if GoldSetbtn.GetValue() < 1 or TurnSetbtn.GetValue() < 1  or TurnSetbtn.GetValue() > MaxTurns or GoldSetbtn.GetValue() > (GoldHave * 0.75) then
-			 UI.Alert("Your Set gold/Turns cannot be a negative number\nYour set Gold cannot exceed 75% of your max income\nYour Set Turns cannot exceed " .. MaxTurns .. " amount of turns")
+			 UI.Alert("Your gold/Turns cannot be a negative number\nYour Gold cannot exceed 75% (" .. Max75 .." gold) of your max income\nYour Set Turns cannot exceed " .. MaxTurns .. " amount of turns")
 				 return end
 		setturns = TurnSetbtn.GetValue()
 		setgold = GoldSetbtn.GetValue()
