@@ -181,7 +181,7 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 				print("did not pay payment")
 				if contu == 2 then
 					publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
-					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled".. game.Game.Players[ourid].DisplayName(nil, false) .. "boooom" })
+					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled".. game.Game.Players[ourid].DisplayName(nil, false) })
 			return end
 
 			if newPlan == 2 then --creating new payment plan

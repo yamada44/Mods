@@ -222,7 +222,7 @@ function OptionBfunc(vert)
 
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	TargetPlayerBtn = UI.CreateButton(row1).SetText("from player...").SetOnClick(TargetPlayerClicked)
-	Searchbtn = UI.CreateButton(row1).SetText("seach").SetOnClick(function()Byplayer(vert)end).SetInteractable(false)
+	Searchbtn = UI.CreateButton(row1).SetText("search").SetOnClick(function()Byplayer(vert)end).SetInteractable(false)
 	table.insert(Destroygroup,TargetPlayerBtn)
 	table.insert(Destroygroup,row1)
 	table.insert(Destroygroup,Searchbtn)
