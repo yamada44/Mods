@@ -186,15 +186,15 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 			local player = game.Game.PlayingPlayers[ourid]
 			local income = player.Income(0, standing, false, false) 
 			print(#publicdate.PayP.Plan,"plans")
-	
+			if (#publicdate.PayP.Plan > 0 and income.Total *0.75) <= Banked(publicdate,setgold) then 
+				print("did not pay payment")
+				if contu == 2 then
+					publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
+				setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled" })
+			return end
 
 			if newPlan == 2 then --creating new payment plan
-				if (income.Total *0.75) <= Banked(publicdate,setgold) then 
-					print("did not pay payment")
-					if contu == 2 then
-						publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
-					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled" })
-				return end
+	
 				goldSending = Newpayment(payload,publicdate,playerID)
 					
 			elseif newPlan == 3 then -- removing payment plan
