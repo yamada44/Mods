@@ -215,6 +215,7 @@ function OptionAfunc(vert)
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[v.to].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " On turn ".. v.turn).SetColor(color)
 		if turn ~= v.turn then
+			turn = v.turn
 			if color == "#BABABC" then color = '#FF697A'
 			else 
 			color = "#BABABC"
