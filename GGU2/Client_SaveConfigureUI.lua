@@ -6,18 +6,21 @@ function Client_SaveConfigureUI(alert)
     local percent = PercentInputField.GetValue()
     local plan = Paymentfield.GetValue()
 
-    if Tax < 0 then alert('Tax must be positive'); end
 
-    Mod.Settings.GoldTax = Tax;
     Mod.Settings.Hidden = hidden
 
-    if (percent > 100 or percent < 0)then percent = 0
+    if Tax < 0 then alert('Tax value not supported. please stay within 0 - Go') 
     else 
-    Mod.Settings.Percent = PercentInputField.GetValue()
+        Mod.Settings.GoldTax = Tax
     end
-    if (plan > 25 or percent < 1)then plan = 20
+    if (percent > 100 or percent < 0)then percent = 0 alert('Percent value not supported. please stay within 0 - 100')
     else 
-    Mod.Settings.Plan = Paymentfield.GetValue()
+    Mod.Settings.Percent = percent
     end
+    if (plan > 25 or percent < 1)then plan = 20 alert('Payment plan value not supported. please stay within 1 - 25')
+    else 
+    Mod.Settings.Plan = plan
+    end
+   
     
 end
