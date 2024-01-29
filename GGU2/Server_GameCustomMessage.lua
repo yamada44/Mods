@@ -101,10 +101,11 @@ local percent = payload.percent
 	print("interesting")
 	return setgold
 end
-function Banked(publicdate,setgold)
+function Banked(publicdate,setgold,ID)
 	local total = 0
 	for i, v in pairs (publicdate.PayP.Plan) do
-		total = total + v.goldsent
+		if ID == v.ID then
+		total = total + v.goldsent end
 	end
 
 	return total + setgold
@@ -177,11 +178,11 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 			print(#publicdate.PayP.Plan,"plans")
 			local tempgold = 0 
 			if newPlan == 2 then tempgold = setgold end
-			if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,tempgold) then 
+			if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,tempgold,ourid) then 
 				print("did not pay payment")
 				if contu == 2 then
 					publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
-					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled-".. game.Game.Players[ourid].DisplayName(nil, false).."-".. Banked(publicdate,tempgold)})
+					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled"})
 			return end
 
 			if newPlan == 2 then --creating new payment plan
