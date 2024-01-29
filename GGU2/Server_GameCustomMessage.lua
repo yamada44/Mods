@@ -175,7 +175,9 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 			local player = game.Game.PlayingPlayers[ourid]
 			local income = player.Income(0, standing, false, false) 
 			print(#publicdate.PayP.Plan,"plans")
-			if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,setgold) then 
+			local tempgold = 0 
+			if newPlan == 2 then tempgold = setgold end
+			if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,tempgold) then 
 				print("did not pay payment")
 				if contu == 2 then
 					print(publicdate.PayP.Plan[planid].Turntill,income.Total *0.75,Banked(publicdate,setgold))
