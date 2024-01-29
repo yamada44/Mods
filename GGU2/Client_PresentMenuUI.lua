@@ -151,24 +151,24 @@ function Plans(rootParent, setMaxSize, setScrollable, game, close)
 	if publicdate.PayP ~= nil and #publicdate.PayP.Plan > 0 then
 
 		local row0 = UI.CreateHorizontalLayoutGroup(vert)
-
-		for i = 1, #publicdate.PayP.Plan do
+		local sortedPlans = SortTable(publicdata.PayP.Plan,"Turntill")
+		for i = 1, #sortedPlans do
 			local rowT = UI.CreateHorizontalLayoutGroup(vert)
 	
-			local playername = Game.Game.Players[publicdate.PayP.Plan[i].ID].DisplayName(nil, false)
+			local playername = Game.Game.Players[sortedPlans[i].ID].DisplayName(nil, false)
 			if temphidden == true then playername = "???" end
 			UI.CreateLabel(rowT).SetText(playername ).SetColor('#FFE5B4')
-			UI.CreateLabel(rowT).SetText( " sends " .. publicdate.PayP.Plan[i].aftertax .. " gold per turn to ").SetColor('#FF697A')
-			UI.CreateLabel(rowT).SetText(Game.Game.Players[publicdate.PayP.Plan[i].targetplayer].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
+			UI.CreateLabel(rowT).SetText( " sends " .. sortedPlans[i].aftertax .. " gold per turn to ").SetColor('#FF697A')
+			UI.CreateLabel(rowT).SetText(Game.Game.Players[sortedPlans[i].targetplayer].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 
-			print(publicdate.PayP.Plan[i].cont,"cont")
-			if publicdate.PayP.Plan[i].cont == 2 then -- Set amount
+			print(sortedPlans[i].cont,"cont")
+			if sortedPlans[i].cont == 2 then -- Set amount
 
-				UI.CreateLabel(rowT).SetText("  Turns left: " .. publicdate.PayP.Plan[i].Turntill - game.Game.TurnNumber).SetColor('#00B5FF')
+				UI.CreateLabel(rowT).SetText("  Turns left: " .. sortedPlans[i].Turntill - game.Game.TurnNumber).SetColor('#00B5FF')
 
-			elseif publicdate.PayP.Plan[i].cont == 1 then -- only continues
+			elseif sortedPlans[i].cont == 1 then -- only continues
 				local mind = true
-				if publicdate.PayP.Plan[i].ID ~= Game.Us.ID then mind = false end
+				if sortedPlans[i].ID ~= Game.Us.ID then mind = false end
 				UI.CreateButton(rowT).SetText("Cancel Plan").SetColor('#1274A4').SetOnClick(function () SubmitClicked(close,i)end).SetInteractable(mind)
 			end
 		end
