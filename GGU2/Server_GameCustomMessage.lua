@@ -178,9 +178,9 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 			if #publicdate.PayP.Plan > 0 and income.Total *0.75 <= Banked(publicdate,setgold) then 
 				print("did not pay payment")
 				if contu == 2 then
-					print(publicdate.PayP.Plan[planid].Turntill)
+					--print(publicdate.PayP.Plan[planid].Turntill)
 					publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
-					print(publicdate.PayP.Plan[planid].Turntill,"turn till")
+					--print(publicdate.PayP.Plan[planid].Turntill,"turn till")
 					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled" })
 			return end
 
