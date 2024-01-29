@@ -205,21 +205,25 @@ function OptionAfunc(vert)
 	local color = '#FF697A'
 	local turn = 1
 	for i, v in pairs (sortedpayments) do
+		if turn ~= v.turn then -- colors
+			turn = v.turn
+			if color == "#BABABC" then color = '#FF697A'
+			else 
+			color = "#BABABC"
+			end end -- end of colors
+
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		local spacer = v.goldamount
 		table.insert(Destroygroup,row1)
 		local playername = Game.Game.Players[v.from].DisplayName(nil, false)
 		if v.noshow ~= nil then spacer = v.noshow end
+
+		
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(playername ).SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " sent " .. spacer .. " gold to ").SetColor(color)
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Game.Game.Players[v.to].DisplayName(nil, false) .. "  ").SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " On turn ".. v.turn).SetColor(color)
-		if turn ~= v.turn then
-			turn = v.turn
-			if color == "#BABABC" then color = '#FF697A'
-			else 
-			color = "#BABABC"
-			end end
+
 	end
 
 
