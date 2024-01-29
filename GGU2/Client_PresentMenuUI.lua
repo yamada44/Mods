@@ -316,7 +316,7 @@ close()
 	
 	if GoldSetbtn ~= nil and plan == 0 and gold == 0 then
 		if GoldSetbtn.GetValue() < 1 or TurnSetbtn.GetValue() < 1  or TurnSetbtn.GetValue() > MaxTurns or GoldSetbtn.GetValue() > Max75 then
-			 UI.Alert("Your gold/Turns cannot be a negative number\nYour Gold cannot exceed 75% (" .. Max75 .." gold) of your max income\nYour Turns cannot exceed " .. MaxTurns .. " amount of turns")
+			 UI.Alert("Your gold/Turns cannot be a negative number\nYour Gold cannot exceed 75% (" .. Max75 .." gold) of your max income\nYour Turns cannot exceed " .. MaxTurns .. " turns")
 				 return end
 		setturns = TurnSetbtn.GetValue()
 		setgold = GoldSetbtn.GetValue()
