@@ -36,10 +36,10 @@ function Client_PresentConfigureUI(rootParent)
 	local row22 = UI.CreateHorizontalLayoutGroup(vert);
 
 	UI.CreateLabel(row22).SetText('How many turns a payment plan can last')
-	PercentInputField = UI.CreateNumberInputField(row22)
+	Paymentfield = UI.CreateNumberInputField(row22)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(25)
-		.SetValue(percent)
+		.SetValue(plan)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	HiddenGoldField = UI.CreateCheckBox(row3).SetText('Hidden gold orders on').SetIsChecked(hiddengold)
 
