@@ -133,7 +133,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 
 	UI.CreateLabel(row3).SetText("The amount of turns this process will last")
     TurnSetbtn = UI.CreateNumberInputField(row3)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(2)
 		.SetSliderMaxValue(MaxTurns)
 		.SetValue(1).SetInteractable(false)
 
@@ -327,8 +327,8 @@ close()
 	end
 	
 	if GoldSetbtn ~= nil and plan == 0 and gold == 0 then
-		if GoldSetbtn.GetValue() < 1 or TurnSetbtn.GetValue() < 1  or TurnSetbtn.GetValue() > MaxTurns or GoldSetbtn.GetValue() > Max75 then
-			 UI.Alert("Your gold/Turns cannot be a negative number\nYour Gold cannot exceed 75% (" .. Max75 .." gold) of your max income\nYour Turns cannot exceed " .. MaxTurns .. " turns")
+		if GoldSetbtn.GetValue() < 1 or TurnSetbtn.GetValue() < 2  or TurnSetbtn.GetValue() > MaxTurns or GoldSetbtn.GetValue() > Max75 then
+			 UI.Alert("Your gold/Turns cannot go below 2\nYour Gold cannot exceed 75% (" .. Max75 .." gold) of your income\nYour Turns cannot exceed " .. MaxTurns .. " turns")
 				 return end
 		setturns = TurnSetbtn.GetValue()
 		setgold = GoldSetbtn.GetValue()
