@@ -135,7 +135,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
     TurnSetbtn = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(2)
 		.SetSliderMaxValue(MaxTurns)
-		.SetValue(1).SetInteractable(false)
+		.SetValue(2).SetInteractable(false)
 
 		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).SetOnValueChanged(Numberson)
 		Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true).SetInteractable(false)
