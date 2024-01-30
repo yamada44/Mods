@@ -172,7 +172,7 @@ function Agentmissionoptions(rootParent, close, agentdata) -- building Orders
 	end
 	if Cardremovalon == true then
 		UI.CreateButton(vert).SetText("Sabotage External influence (Delay Cards playing)").SetOnClick(function () Dialogwindow(9,close,"Killcard") end) -- target card type
-		--UI.CreateButton(vert).SetText("Sabotage Internal influence (Discard Cards)").SetOnClick(function () Dialogwindow(9,close,"Killcard2") end) -- target card type
+		UI.CreateButton(vert).SetText("Sabotage Internal influence (Discard Cards)").SetOnClick(function () Dialogwindow(9,close,"Killcard2") end) -- discard card type
 	end
 	if Armieslost ~= 0 then
 		UI.CreateButton(vert).SetText("Sabotage Army Logistics").SetOnClick(function () Dialogwindow(8,close,"Killarmy") end) -- target map
