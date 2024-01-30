@@ -61,3 +61,25 @@ end
 function startsWith(str, sub)
 	return string.sub(str, 1, string.len(sub)) == sub;
 end
+function SortTable(tableinput,field)
+	local newtable = {}
+	
+	for i,v in pairs (tableinput) do
+	local elementplaced = false
+		for p = 1, #newtable do
+			if newtable[p] == nil then table.insert(newtable,v) -- beginning of table
+				elementplaced = true
+				break
+			elseif tableinput[i][field] >= newtable[p][field] then -- normal placing. 
+				table.insert(newtable,p,v)
+				elementplaced = true
+				break
+			end
+		end
+		if elementplaced == false then -- found the end of a table
+			table.insert(newtable,v)
+		end
+	end
+
+	return newtable
+end

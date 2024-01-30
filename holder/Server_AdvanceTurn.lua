@@ -4,7 +4,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	local publicgamedata = Mod.PublicGameData
 
     if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'GiftGold2')) then  --look for the order that we inserted in Client_PresentMenuUI
-		
 		skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage); 
 		--we replaced the GameOrderCustom with a GameOrderEvent, so get rid of the custom order.  
 		--There wouldn't be any harm in leaving it there, but it adds clutter to the orders 
@@ -29,7 +28,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local ourid = publicgamedata.orderAlt[i].us
 
 			local localmessage = '(Local info) \n' .. goldsent  .. ' gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber;
-			local publicmessage =  '(public info) \n Unknown amount of gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
+			local publicmessage =  '(public info) \nUnknown amount of gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
 			local revealmessage =  '(public info) \n' .. goldsent  .. ' gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
 			local hiddenmessage =  '(public info) \n' .. goldsent .. ' gold sent from an unknown party to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
 
@@ -61,6 +60,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		publicgamedata.orderaccess = false
 		publicgamedata.orderAlt = {}
 		publicgamedata.orderamount = 0
+		publicgamedata.PayP.accessed = false
 
 		Mod.PublicGameData = publicgamedata
 	end
