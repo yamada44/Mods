@@ -1,9 +1,9 @@
 require('Utilities')
 
 
-function Server_AdvanceTurn_Start(game, addNewOrder)
+function Server_AdvanceTurn_End(game, addNewOrder)
 
- local publicdata = Mod.PublicGameData
+    local publicdata = Mod.PublicGameData
 
 
     if (publicdata.solidlist == nil)then publicdata.solidlist = {} end
