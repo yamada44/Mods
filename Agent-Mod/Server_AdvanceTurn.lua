@@ -600,7 +600,7 @@ function Combat(total, attacker)
     elseif rawdata <= attacker then
         results = 2
     end
-    results = 2
+
     return results
 end
 
