@@ -2,7 +2,7 @@ require('Utilities')
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 		
-
+--[[
   if order.proxyType == "GameOrderAttackTransfer" then 
     --for _,terr in pairs (game.Map.Territories)do
       terr = game.Map.Territories[1]
@@ -12,10 +12,24 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       --PlayerID
       end
    -- end
-  end
+
+   
+  end]]
+
+
 
 end
 function Server_AdvanceTurn_End(game, addNewOrder)
+
+  local cardinhand = game.ServerGame.LatestTurnStanding.Cards[1].WholeCards
+  for i,v in pairs (cardinhand)do
+    print(" i -- ".. i,"\n V -- " .. v.CardID)
+
+    addNewOrder(WL.GameOrderDiscard.Create(1, v.ID) )
+
+  end
+  
+  --[[
     local publicdata = Mod.PublicGameData
     --local playergroup = {}
     local goldhave
@@ -41,6 +55,6 @@ function Server_AdvanceTurn_End(game, addNewOrder)
   --game.Settings.CustomScenario.SlotsAvailable
         
 
-Mod.PublicGameData = publicdata
+Mod.PublicGameData = publicdata]]
 end
 

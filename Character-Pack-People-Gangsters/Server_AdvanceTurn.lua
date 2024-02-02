@@ -371,6 +371,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						v.TextOverHeadOpt .. ' the ' .. v.Name .. '. it perished in battle' 
 
 						if (transfer ~= 0 and transfer ~= nil)then
+							Ordername = Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
 							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername 
 
 							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)

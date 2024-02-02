@@ -3,7 +3,7 @@ require('Utilities')
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 
-	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "KillAgent")) then  
+	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "KillAgent")) then    --------------------------------------------------------
         local publicdata = Mod.PublicGameData
 		local payloadSplit = split(string.sub(order.Payload, 10), ';;')
         local agenttodieID = tonumber(payloadSplit[1])
@@ -75,7 +75,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         Mod.PublicGameData = publicdata
     end
 
-    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killguy")) then  
+    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killguy")) then    --------------------------------------------------------
         local publicdata = Mod.PublicGameData
 		local payloadSplit = split(string.sub(order.Payload, 8), ';;')
         local SelectedTerritory = tonumber(payloadSplit[1])
@@ -129,7 +129,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                     TempNameOverHead = builder.TextOverHeadOpt .. " the "
                 end
                 local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Eliminate " .. TempNameOverHead .. builder.Name .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
-                addNewOrder(WL.GameOrderEvent.Create(ts.OwnerPlayerID, message));
+                addNewOrder(WL.GameOrderEvent.Create(ts.OwnerPlayerID, message))
                
                 table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
@@ -193,7 +193,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         Mod.PublicGameData = publicdata
     end
 
-    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "KillCity")) then  
+    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "KillCity")) then    --------------------------------------------------------
         local publicdata = Mod.PublicGameData
         local payloadSplit = split(string.sub(order.Payload, 9), ';;')
         local SelectedTerritory = tonumber(payloadSplit[1])
@@ -287,7 +287,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         Mod.PublicGameData = publicdata
     end
 
-    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killcard")) then  
+    if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killcard")) then    --------------------------------------------------------
         local publicdata = Mod.PublicGameData
 		local payloadSplit = split(string.sub(order.Payload, 9), ';;')
         local Carddata = payloadSplit[1]
@@ -346,7 +346,7 @@ print(totalpower,"total")
 
             
             else 
-                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " successfully Sabotaged " .. name .. "'s political influence" .. "("..cardname.." card)"
+                local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " successfully Sabotaged " .. name .. "'s political influence " .. "("..cardname.." card)"
 
                 --adding to tables for database
                 publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions = publicdata[ID].Agency.Agentlist[AgentIndex].successfulmissions + 1
@@ -371,6 +371,7 @@ print(totalpower,"total")
                 publicdata.CardstoStop[#publicdata.CardstoStop].TargetplayerID = TargetplayerID
                 publicdata.CardstoStop[#publicdata.CardstoStop].Cardname = cardname
                 publicdata.CardstoStop[#publicdata.CardstoStop].PlayerID = ID
+                publicdata.CardstoStop[#publicdata.CardstoStop].Cardint = nil
                 publicdata.CardstoStop[#publicdata.CardstoStop].targetplayername = game.Game.Players[TargetplayerID].DisplayName(nil,false)
                 addNewOrder(WL.GameOrderEvent.Create(ID, "Card Mission successful",{},nil))
 
@@ -380,7 +381,7 @@ print(totalpower,"total")
         Mod.PublicGameData = publicdata
         end
 
-        if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killcard2")) then  
+        if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Killcard2")) then  --------------------------------------------------------
             local publicdata = Mod.PublicGameData
             local payloadSplit = split(string.sub(order.Payload, 10), ';;')
             local Carddata = payloadSplit[1]
@@ -400,12 +401,6 @@ print(totalpower,"total")
             end
             if cardname == "Bomb" or cardname == "Sanctions" or cardname == "Diplomacy" or cardname == "Airlift" then modifier = modifier + 1 end -- diplos, sanctions, and airlifts are harder
     --end of Init variables
-    local cardinstance = {}
-    table.insert(cardinstance,WL.NoParameterCardInstance.Create(WL.CardID.Airlift))
-    if game.ServerGame.LatestTurnStanding.Cards[TargetplayerID].WholeCards[WL.CardID.Airlift] ~= nil then
-        print ("bob")
-    end
-    addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
 
                 --- logic to get powerlevel of player
             local totalpower = 0
@@ -461,11 +456,7 @@ print(totalpower,"total")
                     end
     
                     --removing Armies from territroy
-                    local cardinstance = {}
-                    table.insert(cardinstance,WL.NoParameterCardInstance.Create(CardWLData(cardname)))
-                  --  WL.GameOrderDiscard.Create(playerID PlayerID, cardInstanceID CardInstanceID)
 
-                    addNewOrder(WL.GameOrderDiscard.Create(TargetplayerID, cardinstance))
 
     
     
@@ -565,6 +556,9 @@ print(totalpower,"total")
         end
 
         if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
+            print("cardid")
+
+
             local publicdata = Mod.PublicGameData
             if publicdata.CardstoStop ~= nil then
                 for i = 1, #publicdata.CardstoStop do
@@ -572,8 +566,12 @@ print(totalpower,"total")
                         if(order.proxyType == publicdata.CardstoStop[i].orderproxy)then
                             local message = publicdata.CardstoStop[i].message
                             addNewOrder(WL.GameOrderEvent.Create(publicdata.CardstoStop[i].TargetplayerID, message,nil,nil))
+
                             table.remove(publicdata.CardstoStop,i)
                             skipThisOrder(WL.ModOrderControl.Skip)
+
+                            addNewOrder(WL.GameOrderDiscard.Create(order.PlayerID, order.CardInstanceID) )
+
                             Mod.PublicGameData = publicdata
                             break
 
@@ -608,7 +606,11 @@ end
 
 function Defaultchecker(order)
     if (order.CostOpt == nil) then
-        return; --shouldn't ever happen, unless another mod interferes
+        return --shouldn't ever happen, unless another mod interferes
     end
     
+end
+
+function Server_AdvanceTurn_End(game, addNewOrder)
+   
 end
