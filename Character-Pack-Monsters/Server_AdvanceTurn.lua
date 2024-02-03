@@ -563,7 +563,7 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
 		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
 			if v.ModData ~= nil then -- making sure it has data to read from
-				if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mod
+				if startsWith(v.ModData, "C&P") then -- make sure the speical unit is only from I.S. mod
 
 					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 					local altmove = Nonill(tonumber(payloadSplit[8]))
