@@ -15,7 +15,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 						if v.ModData ~= nil then -- 
 							if startsWith(v.ModData, ModSign(0)) then -- make sure the speical unit is only from I.S. mods
 								print('phase 3', "unit is from I.S. mods")
-								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+								local payloadSplit = split(string.sub(v.ModData, 5), ';;')
 								local diebitch = tonumber(payloadSplit[1])
 
 								if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
@@ -27,7 +27,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 									mod.RemoveSpecialUnitsOpt = t
 									local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
 		
-									addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+									addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}))
 		
 								end
 							end

@@ -116,3 +116,53 @@ function groupBy(tbl, funcToGetKey)
 
 	return ret;
 end
+
+function Finddayofweek(Daystable,Month,Cday)
+
+	local total = 0
+
+
+		for i = 1, Month do
+
+			if i == Month then
+				total = total + Cday
+			else
+				total = total + Daystable[i]
+				
+			end
+			 
+		end
+		print (total,"total")
+	return total
+end
+
+function Calculateweek(totaldays,weekdays)
+	local weeknameindex = 0
+	print(totaldays,"totaldays",weekdays)
+	if totaldays < weekdays then
+		weeknameindex = totaldays
+	else
+		local W = math.floor(totaldays / weekdays) 
+		print(W," W")
+		local tw = W * weekdays
+		print(tw," tW")
+		weeknameindex = totaldays - tw
+		print(weeknameindex," Week")
+		if weeknameindex == 0 then weeknameindex = weekdays end
+	end
+
+	return weeknameindex
+end
+function Addhistroy(record,Time,turn)
+	record.year = Time.year 
+	record.month = Time.month 
+	record.day = Time.day 
+	record.hour = Time.hour 
+	record.mintue = Time.mintue 
+	record.second = Time.second 
+	record.abb = Time.abb 
+	record.DayName = Time.DayName 
+	record.turn = turn
+	
+	return record
+end

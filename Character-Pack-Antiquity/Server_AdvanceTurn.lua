@@ -1,4 +1,4 @@
-require('Utilities');
+require('Utilities')
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
 								
@@ -72,7 +72,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		print (order.Payload, 'payload')	
 		local publicdata = Mod.PublicGameData
 
-		local payloadSplit = split(string.sub(order.Payload, 7), ';;'); 
+		local payloadSplit = split(string.sub(order.Payload, 7), ';;')
 
 
 		print (order.Payload)

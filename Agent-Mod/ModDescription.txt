@@ -1,4 +1,4 @@
-In this mod, create a Spy agency. these spy agencies have the ability to discard cards, destory armies, destroy cities, kill other agents and much more. 
+In this mod, the players create a Spy agency by clicking on the mod menu button, Naming it then clicking the create agency button. these spy agencies have the ability to discard cards, destory armies, destroy cities, kill other agents and much more. 
 With this mod, compete to become the number 1 Agency. 
 The owner of each agent is unknown, unless they die during one of there missions. then the agency that hired the agent is revealed in the order panel.
 The owner of each agency is known. so if a agent dies, you. are. KNOWN. good luck 
