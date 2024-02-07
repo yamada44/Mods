@@ -125,8 +125,8 @@ local monthdays = {}
 
 --Day
     local day = Dayfield.GetValue()
-    if monthdays[month] < day then alert("Mod set up failed\nCurrent Day must stay within your starting month length, which is between 1-"..monthdays[month]) return end
-    if day > HoursinDay or day < 1 then alert("Mod set up failed\nCurrent Day value Must be between 0-99")
+    if monthdays[month] < day and day < 1 then alert("Mod set up failed\nCurrent Day must stay within your starting month length, which is between 1-"..monthdays[month]) return 
+   -- if day > 365 or day < 1 then alert("Mod set up failed\nCurrent Day value Must be between 0-99")
     else 
         Mod.Settings.Day = day
     end 
