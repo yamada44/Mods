@@ -137,13 +137,6 @@ local monthdays = {}
     else 
         Mod.Settings.Year = year
     end 
-    
---Template
-    local temp = Tempfield.GetValue()
-    if temp > Templates or temp < 1 then alert("Mod set up failed\nYour Template value Must be between 1-"..Templates)
-    else 
-        Mod.Settings.Template = temp
-    end 
 
 --Viewing
     local view = Viewfield.GetValue()

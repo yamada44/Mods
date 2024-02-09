@@ -39,14 +39,14 @@ function Server_AdvanceTurn_End(game, addNewOrder)
   --Year
     Time.year = Time.year + TP.year
 
-    Time.abb = pub.After
-    if Time.year < 0 then Time.abb = pub.Before end
+    local abb = pub.After
+    if Time.year < 0 then abb = pub.Before end
     --finding weekname
     local totaldays = Finddayofweek(pub.Daysinmonths,Time.month,Time.day)
     local nameindex = Calculateweek(totaldays,pub.NumberofWeekdays)
-    Time.DayName = pub.Daysofweek[nameindex]
+    local dayofweek = pub.Daysofweek[nameindex]
     table.insert(pub.History,{})
-    pub.History[#pub.History] = Addhistroy(pub.History[#pub.History],Time,game.Game.TurnNumber,pub.NameofMonths)
+    pub.History[#pub.History] = Addhistroy(pub.History[#pub.History],Time,game.Game.TurnNumber,pub.NameofMonths,abb,dayofweek)
    
 
 

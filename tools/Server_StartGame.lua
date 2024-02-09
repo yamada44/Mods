@@ -56,7 +56,7 @@ local view = true
 	Pub.TimePassing.second = short.ISecond
 --Templates
     Pub.template.year = view
-    Pub.template.monthday = false
+    Pub.template.monthname = false
 	Pub.template.month = view
     Pub.template.DayName = false
 	Pub.template.day = view
@@ -64,7 +64,16 @@ local view = true
     Pub.template.mintue = (not view)
 	Pub.template.second = (not view)
     Pub.template.abb = view
-    Pub.template.template = short.Template
+
+    Pub.template.Display = {}
+    Pub.template.Display[1] = {value = "year",see = view,text = "Year",order = 1}
+    Pub.template.Display[2] = {value = "month",see = view,text = "Month",order = 2}
+    Pub.template.Display[3] = {value = "day",see = view,text = "Day",order = 3}
+    Pub.template.Display[4] = {value = "hour",see = (not view),text = "Hour",order = 4}
+    Pub.template.Display[5] = {value = "mintue",see = (not view),text = "Mintue",order = 5}
+    Pub.template.Display[6] = {value = "second",see = (not view),text = "Second",order = 6}
+ 
+
 --History
 Pub.Date.abb = Pub.After
 if Pub.Date.year < 0 then Pub.Date.abb = Pub.Before end
@@ -81,9 +90,11 @@ local nameindex = Calculateweek(totaldays,Pub.NumberofWeekdays)
     Pub.History[1].second = short.Second 
     Pub.History[1].abb = Pub.Date.abb
     Pub.History[1].DayName =  Pub.Daysofweek[nameindex]
-    Pub.History[1].turn = 0
+    Pub.History[1].turn = 1
     Pub.History[1].monthname = short.Monthnames[short.Month]
 
-
+--Continued Templates
+    Pub.template.Display[7] = {text = "Month Name",see = false,value = "monthname",order = 7}
+    Pub.template.Display[8] = {text =  "Week Day",see = false,value = "DayName",order = 8}
 
 end
