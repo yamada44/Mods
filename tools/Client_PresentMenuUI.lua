@@ -316,7 +316,7 @@ function Ordersetup(view)
 	return ret
 end
 function Layout(rootParent, setMaxSize, setScrollable, game, close)
-	setMaxSize(400, 300)
+	setMaxSize(300, 450)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 
