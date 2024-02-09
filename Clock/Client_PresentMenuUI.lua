@@ -21,7 +21,8 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		return
 	end
 
-
+	print(short)
+	print(short.Date,"date")
 --	local totaldays = Finddayofweek(short.Daysinmonths,Time.month,Time.day)
 --	local nameindex = Calculateweek(totaldays,short.NumberofWeekdays)
 	ShowLayout(vert,rootParent,setMaxSize)
