@@ -137,7 +137,7 @@ function Viewing(rootParent, setMaxSize, setScrollable, game, close)
 	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.mintue).SetText('Mintues')
 	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.second).SetText('Seconds')
 	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.abb).SetText('Abbreviation')
-	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.monthday).SetText('Month Names')
+	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.monthname).SetText('Month Names')
 	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.DayName).SetText('Week Day Names')
 
 
