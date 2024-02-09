@@ -76,7 +76,7 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 
 
 	local tpyename = ViewableTable --accesses the field
-	if #tpyename <= 3 then setMaxSize(720-350, 400) else setMaxSize(720, 400) end
+	if #tpyename <= 3 then setMaxSize(680-350, 400) else setMaxSize(720, 400) end
 	local Namegroups = {UI.CreateHorizontalLayoutGroup(vert2)}
 	--First layout group
 	for i = 1, #tpyename do
@@ -319,6 +319,8 @@ function Layout(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(400, 300)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+
+	UI.CreateLabel(row1).SetText("Choose the layout/order in which your calender will display")
 	
 	OrderList = {{},{},{},{},{},{},{},{}}
 	orderelement = {}
