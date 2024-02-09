@@ -68,6 +68,7 @@ local nameindex = Calculateweek(totaldays,Pub.NumberofWeekdays)
     Pub.History[1].monthname = short.Monthnames[short.Month]
 
     for playerID, player in pairs(Game.Game.PlayingPlayers)do
+        print(playerID)
     for i = 1, #short.Monthdays do
     
         total = total + short.Monthdays[i]
