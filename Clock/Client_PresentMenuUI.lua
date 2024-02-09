@@ -27,7 +27,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 --	local nameindex = Calculateweek(totaldays,short.NumberofWeekdays)
 	ShowLayout(vert,rootParent,setMaxSize)
 
-	UI.CreateEmpty(row2)
+	UI.CreateEmpty(row2) 
 	UI.CreateButton(row4).SetText("Settings").SetOnClick(function () Dialogwindow(1,close,"") end).SetColor("#1274A4") -- Settings option
 
 
