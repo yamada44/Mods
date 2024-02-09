@@ -49,7 +49,7 @@ function map(array, func)
 	local new_array = {}
 	local i = 1;
 	for _,v in pairs(array) do
-		new_array[i] = func(v);
+		new_array[i] = func(v)
 		i = i + 1;
 	end
 	return new_array
@@ -148,16 +148,18 @@ function Calculateweek(totaldays,weekdays)
 
 	return weeknameindex
 end
-function Addhistroy(record,Time,turn,monthnames)
-	record.year = Time.year 
+function Addhistroy(record,Time,turn,monthnames,abb,dayofweek)
+	local year = Time.year
+	if year < 0 then year = year * -1 end
+	record.year = year
 	record.month = Time.month 
 	record.day = Time.day 
 	record.hour = Time.hour 
 	record.mintue = Time.mintue 
 	record.second = Time.second 
-	record.abb = Time.abb 
-	record.DayName = Time.DayName 
-	record.turn = turn
+	record.abb = abb
+	record.DayName = dayofweek 
+	record.turn = turn + 1
 	record.monthname = monthnames[Time.month]
 	
 	return record
@@ -184,4 +186,22 @@ function SortTable(tableinput,field)
 	end
 
 	return newtable
+end
+
+function ViewingOptions(type)
+	local style = {}
+
+	style[1] = "Years"
+	style[2] = "Month"
+	style[3] = "Days"
+	style[4] = "Hour"
+	style[5] = "Mintue"
+	style[6] = "Second"
+	style[7] = "Month Name"
+	style[8] = "Day Name"
+	style[9] = "None"
+
+	if type == 0 then return style 
+	elseif type > 0 then return style[type] end
+
 end

@@ -16,7 +16,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	ID = game.Us.ID
 
 	
-	setMaxSize(400, 400)
+
 	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
 		UI.CreateLabel(vert).SetText("You cannot Vote since you're not in the game")
 		return
@@ -24,15 +24,18 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	--Time = {y = short.Year,m=short.Month,d=short.Day,mm=short.Mintue,s=short.Second}
 	
 	--print (Time.y.."/"..short.Monthnames[Time.m] .. ": ".. Time.m.."/"..Time.d.."--"..Time.mm..":"..Time.s)
-	local year = Time.year
-	local Abb = short.After
-	if year < 0 then year = year * -1 Abb = short.Before end
+
 
 	local totaldays = Finddayofweek(short.Daysinmonths,Time.month,Time.day)
 	local nameindex = Calculateweek(totaldays,short.NumberofWeekdays)
-	UI.CreateLabel(row1).SetText("Year " .. year.. " " .. Abb.. "\nMonth name "..short.NameofMonths[Time.month] .. "\nMonth ".. Time.month.."\nDay name ".. short.Daysofweek[nameindex] .. "\nDays "..Time.day .."\nHour ".. Time.hour .. "\nMintue "..Time.mintue.."\nsecond "..Time.second)
+	ShowLayout(vert,rootParent,setMaxSize)
+
+	--UI.CreateLabel(row1).SetText("Year " .. year.. " " .. Abb.. "\nMonth name "..short.NameofMonths[Time.month] .. "\nMonth ".. Time.month.."\nDay name ".. short.Daysofweek[nameindex] .. "\nDays "..Time.day .."\nHour ".. Time.hour .. "\nMintue "..Time.mintue.."\nsecond "..Time.second)
 	UI.CreateEmpty(row2)
-	UI.CreateButton(row4).SetText("Settings").SetOnClick(function () Dialogwindow(1,close,"") end) -- Settings option
+	UI.CreateButton(row4).SetText("Settings").SetOnClick(function () Dialogwindow(1,close,"") end).SetColor("#1274A4") -- Settings option
+
+
+
 
 end
 function Dialogwindow(window, close, data) -- middle function to open up new windows
@@ -43,23 +46,80 @@ function Dialogwindow(window, close, data) -- middle function to open up new win
 		close()
 		Game.CreateDialog(Settingoptions) 
 	elseif window == 2 then
-		close()
+
 		Game.CreateDialog(Viewing) 
 	elseif window == 3 then
-		close()
+
 		Game.CreateDialog(History) 
 	elseif window == 4 then
-		close()
-		Game.CreateDialog(Template) 
+		
+		Game.CreateDialog(Layout) 
 	end
 	
+end
+function ShowLayout(vert2,rootParent,setMaxSize)
+
+
+	local year = short.Date.year
+	local Abb = short.After
+	if year < 0 then year = year * -1 Abb = short.Before end
+	
+
+	--local vert = UI.CreateVerticalLayoutGroup(rootParent)
+	--local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local ViewableTable = oldtableNewformat(short.template.Display,"value",false)
+	local ViewableTable2 = oldtableNewformat(short.template.Display,"text",false)
+	local ViewableTable3 = oldtableNewformat(short.template.Display,"",true)
+
+
+	--local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
+
+
+	local tpyename = ViewableTable --accesses the field
+	if #tpyename <= 3 then setMaxSize(720-350, 400) else setMaxSize(720, 400) end
+	local Namegroups = {UI.CreateHorizontalLayoutGroup(vert2)}
+	--First layout group
+	for i = 1, #tpyename do
+	table.insert(Namegroups, UI.CreateHorizontalLayoutGroup(Namegroups[#Namegroups]))
+	end
+--Second layout group
+	local reverse = #tpyename
+	local Rowtable = {}
+	for i = 1, #tpyename do
+		print(reverse)
+		table.insert(Rowtable, UI.CreateVerticalLayoutGroup(Namegroups[reverse]))
+
+		reverse = reverse - 1
+	end
+--Third layout group
+	for i = 1, #tpyename do
+	UI.CreateLabel(Rowtable[i]).SetText(ViewableTable2[i]).SetColor("#FF697A")
+	end
+
+
+	local color = "#BABABC"
+	for i = 1, 1 do 
+		for i2 = 1, #tpyename do 
+		local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2])
+		local spacerText = ""
+		local spacerCore = short.History[#short.History][ViewableTable3[i2].value]
+		--local color = 
+
+		if ViewableTable3[i2].value == "year" and spacerCore < 0 then spacerCore = spacerCore * -1 end
+		if short.template.abb == true and ViewableTable3[i2].value == "year" then spacerText = " " ..  short.History[#short.History].abb end
+		print(tpyename[i2],spacerCore,#ViewableTable3)
+			UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
+
+		end
+	end
+
 end
 function Settingoptions(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(400, 300)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 
-	UI.CreateButton(vert).SetText("Template Style").SetOnClick(function () Dialogwindow(4,close,"") end) -- Templates
+	Choose = UI.CreateButton(row1).SetText("Create New Template").SetOnClick(function ()Dialogwindow(4,close,"")end).SetInteractable(true) -- Settings option
 	UI.CreateButton(vert).SetText("Viewing options").SetOnClick(function () Dialogwindow(2,close,"") end) -- Viewing
 	UI.CreateButton(vert).SetText("History").SetOnClick(function () Dialogwindow(3,close,"") end) -- History
 
@@ -85,7 +145,7 @@ function Viewing(rootParent, setMaxSize, setScrollable, game, close)
 	ViewValues[#ViewValues+1] = UI.CreateCheckBox(vert).SetIsChecked(Temp.DayName).SetText('Week Day Names')
 
 
-	UI.CreateButton(vert).SetText("Submit Changes").SetOnClick(function () Serverload(1,ViewValues,close) end) -- Settings option
+	UI.CreateButton(vert).SetText("Submit Changes").SetOnClick(function () Serverload(1,ViewValues,close) end).SetColor("#1274A4") -- Settings option
 
 end
 function History(rootParent, setMaxSize, setScrollable, game, close)
@@ -139,7 +199,7 @@ function History(rootParent, setMaxSize, setScrollable, game, close)
 		local spacerText = ""
 		local spacerCore = SortedAgency[i][tpyename[i2]]
 		--local color = 
-		if i2 == 1 then spacerText = " " ..  short.History[i].abb end
+		if i2 == 1 then spacerText = " " ..  SortedAgency[i].abb end
 		
 			UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
 
@@ -149,21 +209,11 @@ function History(rootParent, setMaxSize, setScrollable, game, close)
 
 end
 
-
-
-
-function Template(rootParent, setMaxSize, setScrollable, game, close)
-		setMaxSize(450, 400)
-	local vert = UI.CreateVerticalLayoutGroup(rootParent)
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-
-
-end
 function Serverload(type,data1,close)
 	if close ~= nil then
 		close()
 	end
-	local viewdata = 0
+	local viewdata = data1
 
 	if type == 1 then
 		viewdata = {}
@@ -172,6 +222,7 @@ function Serverload(type,data1,close)
 			viewdata[data1[i].GetText()] = data1[i].GetIsChecked()
 
 		end
+
 	end
 
 	local payload = {}
@@ -186,4 +237,109 @@ function Serverload(type,data1,close)
 		
 
 		end)	
+end
+
+--Prompt list logic
+
+function TargetTemplateClicked(close)
+	--close()
+
+	local options = map(Templateoptions(0), Stylesetup)
+	UI.PromptFromList("Select the Template style you'd like to have", options)
+end
+function Stylesetup(style)
+
+	local name = style
+	local ret = {}
+	ret["text"] = name
+	ret["selected"] = function() 
+		Choose.SetInteractable(false)
+		if style == Templateoptions(1)then
+			Measure = {4,2}
+		elseif style == Templateoptions(2) then	
+			Measure = {1,8}
+		elseif style == Templateoptions(3) then
+			Measure = {2,4}	
+		elseif style == Templateoptions(4) then	
+			Measure = {8,1}
+			Game.CreateDialog(Layout) 
+		end	
+
+	end
+
+	return ret
+end
+--Prompted list for Order
+function TargetOrderClicked(order)
+	--close()
+	OrderRank = order
+
+	local options = map(ViewingOptions(0), Ordersetup)
+	UI.PromptFromList("Select the Order Element you'd like to have", options)
+end
+function Ordersetup(view)
+
+	local name = view
+	local ret = {}
+	ret["text"] = name
+	ret["selected"] = function() 
+		print(view,"tell",OrderRank)
+		if view == ViewingOptions(1)then
+			OrderList[OrderRank].value = "year"
+			OrderList[OrderRank].text = ViewingOptions(1)
+		elseif view == ViewingOptions(2) then	
+			OrderList[OrderRank].value = "month"
+			OrderList[OrderRank].text = ViewingOptions(2)
+		elseif view == ViewingOptions(3) then
+			OrderList[OrderRank].value = "day"
+			OrderList[OrderRank].text = ViewingOptions(3)
+		elseif view == ViewingOptions(4) then
+			OrderList[OrderRank].value = "hour"	
+			OrderList[OrderRank].text = ViewingOptions(4)
+		elseif view == ViewingOptions(5) then
+			OrderList[OrderRank].value = "mintue"	
+			OrderList[OrderRank].text = ViewingOptions(5)
+		elseif view == ViewingOptions(6) then
+			OrderList[OrderRank].value = "second"	
+			OrderList[OrderRank].text = ViewingOptions(6)
+		elseif view == ViewingOptions(7) then
+			OrderList[OrderRank].value = "monthname"
+			OrderList[OrderRank].text = ViewingOptions(7)	
+		elseif view == ViewingOptions(8) then
+			OrderList[OrderRank].value = "DayName"	
+			OrderList[OrderRank].text = ViewingOptions(8)			
+		end	
+		orderelement[OrderRank].SetColor("#00755E")
+		orderelement[OrderRank].SetText(name)
+	end
+
+	return ret
+end
+function Layout(rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(400, 300)
+	local vert = UI.CreateVerticalLayoutGroup(rootParent)
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	
+	OrderList = {{},{},{},{},{},{},{},{}}
+	orderelement = {}
+	for i = 1, 8 do
+		orderelement[i] = UI.CreateButton(vert).SetText("Select").SetOnClick(function () TargetOrderClicked(i) end) -- Order Ranking
+
+	end
+	UI.CreateButton(vert).SetText("Submit").SetOnClick(function () Serverload(2,OrderList,close) end).SetColor("#1274A4") -- Order Ranking
+end
+
+function oldtableNewformat(Otable,Get,sortOn)
+	local Ntable = {}
+	for i,v in pairs (Otable)do 
+		if v.value ~= nil then
+			if v.see == true and sortOn == false then
+				table.insert(Ntable,v[Get])
+			elseif v.see == true then 
+				table.insert(Ntable,v)
+			end
+		end
+	end
+
+	return Ntable
 end

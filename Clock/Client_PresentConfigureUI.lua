@@ -76,10 +76,6 @@ local iyear = Mod.Settings.IYear
 	if isecond == nil then
 		isecond = 0
 	end
-	local template = Mod.Settings.Template
-	if template == nil then
-		template = 1
-	end
 	local view = Mod.Settings.Viewing
 	if view == nil then
 		view = 1
@@ -176,14 +172,6 @@ local iyear = Mod.Settings.IYear
 		.SetSliderMinValue(0)
 		.SetSliderMaxValue(MinSec)
 		.SetValue(isecond)
-
-		local rowA = UI.CreateHorizontalLayoutGroup(vert) -- Templates
-		UI.CreateButton(rowA).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('This will determine the viewing template for players\n1 - 4 over/2 down\n2 - 1 over/8 down\n3 - 2 over/4 down\n4 - 8 over/1 down') end)
-		UI.CreateLabel(rowA).SetText('Template style')
-		Tempfield = UI.CreateNumberInputField(rowA)
-			.SetSliderMinValue(0)
-			.SetSliderMaxValue(Templates)
-			.SetValue(template)
 
 		local row12B = UI.CreateHorizontalLayoutGroup(vert) -- Viewing
 		UI.CreateButton(row12B).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('this will decide the default viewing style\n1 - Calander\n2 - Clock') end)
