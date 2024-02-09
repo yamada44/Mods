@@ -4,7 +4,7 @@ require('Utilities')
 
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
-  Pub = Mod.PublicGameData
+  Pub = Mod.PublicGameData[playerID]
 
   local type = payload.entrytype
   local data1 = payload.data1

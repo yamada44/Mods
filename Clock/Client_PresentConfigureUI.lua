@@ -76,10 +76,6 @@ local iyear = Mod.Settings.IYear
 	if isecond == nil then
 		isecond = 0
 	end
-	local view = Mod.Settings.Viewing
-	if view == nil then
-		view = 1
-	end
 
 
 
@@ -173,13 +169,6 @@ local iyear = Mod.Settings.IYear
 		.SetSliderMaxValue(MinSec)
 		.SetValue(isecond)
 
-		local row12B = UI.CreateHorizontalLayoutGroup(vert) -- Viewing
-		UI.CreateButton(row12B).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('this will decide the default viewing style\n1 - Calander\n2 - Clock') end)
-		UI.CreateLabel(row12B).SetText('Viewing style')
-		Viewfield = UI.CreateNumberInputField(row12B)
-			.SetSliderMinValue(1)
-			.SetSliderMaxValue(2)
-			.SetValue(view)
 		--Text
 ----------------
 

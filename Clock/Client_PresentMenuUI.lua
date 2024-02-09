@@ -10,10 +10,11 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateVerticalLayoutGroup(row3)
+	ID = game.Us.ID
 	short = Mod.PublicGameData
 	local Time = Mod.PublicGameData.Date
 	ViewValues = {}
-	ID = game.Us.ID
+
 
 	
 
@@ -67,9 +68,9 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 
 	--local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	--local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	local ViewableTable = oldtableNewformat(short.template.Display,"value",false)
-	local ViewableTable2 = oldtableNewformat(short.template.Display,"text",false)
-	local ViewableTable3 = oldtableNewformat(short.template.Display,"",true)
+	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
+	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
+	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
 
 
 	--local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
@@ -106,7 +107,7 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 		--local color = 
 
 		if ViewableTable3[i2].value == "year" and spacerCore < 0 then spacerCore = spacerCore * -1 end
-		if short.template.abb == true and ViewableTable3[i2].value == "year" then spacerText = " " ..  short.History[#short.History].abb end
+		if short[ID].template.abb == true and ViewableTable3[i2].value == "year" then spacerText = " " ..  short.History[#short.History].abb end
 		print(tpyename[i2],spacerCore,#ViewableTable3)
 			UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
 
@@ -130,7 +131,7 @@ function Viewing(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(400, 500)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	local Temp = short.template
+	local Temp = short[ID].template
 	UI.CreateLabel(row1).SetText("Viewing options for main menu")
 
 

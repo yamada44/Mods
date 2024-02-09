@@ -137,13 +137,6 @@ local monthdays = {}
     else 
         Mod.Settings.Year = year
     end 
-
---Viewing
-    local view = Viewfield.GetValue()
-    if view > 2 or view < 1 then alert("Mod set up failed\nYour Viewing value Must be between 1-2")
-    else 
-        Mod.Settings.Viewing = view
-    end 
     
 
 end
