@@ -62,6 +62,6 @@ print(playerID)
     end
   end
   
-
+  Pub[playerID] = Pub
   Mod.PublicGameData[playerID] = Pub
 end
