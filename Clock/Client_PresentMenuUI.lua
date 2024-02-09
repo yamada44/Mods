@@ -1,7 +1,6 @@
 require('Utilities')
 
 function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close)
-	publicdata = Mod.PublicGameData
 
 	Game = game;
 	Close = close;
@@ -12,7 +11,6 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local row4 = UI.CreateVerticalLayoutGroup(row3)
 	ID = game.Us.ID
 	short = Mod.PublicGameData
-	local Time = Mod.PublicGameData.Date
 	ViewValues = {}
 
 
@@ -22,16 +20,12 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		UI.CreateLabel(vert).SetText("You cannot Vote since you're not in the game")
 		return
 	end
-	--Time = {y = short.Year,m=short.Month,d=short.Day,mm=short.Mintue,s=short.Second}
-	
-	--print (Time.y.."/"..short.Monthnames[Time.m] .. ": ".. Time.m.."/"..Time.d.."--"..Time.mm..":"..Time.s)
 
 
-	local totaldays = Finddayofweek(short.Daysinmonths,Time.month,Time.day)
-	local nameindex = Calculateweek(totaldays,short.NumberofWeekdays)
+--	local totaldays = Finddayofweek(short.Daysinmonths,Time.month,Time.day)
+--	local nameindex = Calculateweek(totaldays,short.NumberofWeekdays)
 	ShowLayout(vert,rootParent,setMaxSize)
 
-	--UI.CreateLabel(row1).SetText("Year " .. year.. " " .. Abb.. "\nMonth name "..short.NameofMonths[Time.month] .. "\nMonth ".. Time.month.."\nDay name ".. short.Daysofweek[nameindex] .. "\nDays "..Time.day .."\nHour ".. Time.hour .. "\nMintue "..Time.mintue.."\nsecond "..Time.second)
 	UI.CreateEmpty(row2)
 	UI.CreateButton(row4).SetText("Settings").SetOnClick(function () Dialogwindow(1,close,"") end).SetColor("#1274A4") -- Settings option
 
