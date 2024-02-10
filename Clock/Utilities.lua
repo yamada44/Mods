@@ -195,7 +195,7 @@ function ViewingOptions(type)
 	style[2] = "Month"
 	style[3] = "Days"
 	style[4] = "Hour"
-	style[5] = "Mintue"
+	style[5] = "Minutes"
 	style[6] = "Second"
 	style[7] = "Month Name"
 	style[8] = "Day Name"
