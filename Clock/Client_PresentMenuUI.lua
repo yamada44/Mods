@@ -63,6 +63,9 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 
 	--local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	--local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	for i, v in pairs(ViewableTable)do 
+		print (i,v.value,"before view table") end
+
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
@@ -236,36 +239,6 @@ function Serverload(type,data1,close)
 		end)	
 end
 
---Prompt list logic
-
-function TargetTemplateClicked(close)
-	--close()
-
-	local options = map(Templateoptions(0), Stylesetup)
-	UI.PromptFromList("Select the Template style you'd like to have", options)
-end
-function Stylesetup(style)
-
-	local name = style
-	local ret = {}
-	ret["text"] = name
-	ret["selected"] = function() 
-		Choose.SetInteractable(false)
-		if style == Templateoptions(1)then
-			Measure = {4,2}
-		elseif style == Templateoptions(2) then	
-			Measure = {1,8}
-		elseif style == Templateoptions(3) then
-			Measure = {2,4}	
-		elseif style == Templateoptions(4) then	
-			Measure = {8,1}
-			Game.CreateDialog(Layout) 
-		end	
-
-	end
-
-	return ret
-end
 --Prompted list for Order
 function TargetOrderClicked(order)
 	--close()
