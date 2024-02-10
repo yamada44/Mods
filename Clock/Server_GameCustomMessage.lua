@@ -16,7 +16,8 @@ print(playerID)
     Pub[playerID].template.month = data1["Months"]
     Pub[playerID].template.day = data1["Days"]
     Pub[playerID].template.hour = data1["Hours"]
-    Pub[playerID].template.mintue = data1["Mintues"]
+    print(data1["Minutes"],"mintue")
+    Pub[playerID].template.mintue = data1["Minutes"]
     Pub[playerID].template.second = data1["Seconds"]
     Pub[playerID].template.abb = data1["Abbreviation"]
     Pub[playerID].template.monthname = data1["Month Names"]
