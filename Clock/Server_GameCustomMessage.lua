@@ -10,17 +10,17 @@ print(playerID)
   local data1 = payload.data1
 
   if type == 1 then --changing what is viewed
-    local temp = Pub.template 
 
-    temp.year = data1["Years"]
-    temp.month = data1["Months"]
-    temp.day = data1["Days"]
-    temp.hour = data1["Hours"]
-    temp.mintue = data1["Mintues"]
-    temp.second = data1["Seconds"]
-    temp.abb = data1["Abbreviation"]
-    temp.monthname = data1["Month Names"]
-    temp.DayName = data1["Week Day Names"]
+
+    Pub.template.year = data1["Years"]
+    Pub.template.month = data1["Months"]
+    Pub.template.day = data1["Days"]
+    Pub.template.hour = data1["Hours"]
+    Pub.template.mintue = data1["Mintues"]
+    Pub.template.second = data1["Seconds"]
+    Pub.template.abb = data1["Abbreviation"]
+    Pub.template.monthname = data1["Month Names"]
+    Pub.template.DayName = data1["Week Day Names"]
 
 
   elseif type == 2 then --changing viewing order
