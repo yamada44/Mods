@@ -67,7 +67,8 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
 
-
+for i, v in pairs(ViewableTable)do 
+	print (i,v,"view table") end
 	--local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
 
 
