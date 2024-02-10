@@ -92,7 +92,7 @@ local nameindex = Calculateweek(totaldays,Pub.NumberofWeekdays)
     Pub[playerID].template.Display[2] = {value = "month",see = true,text = "Month",order = 2}
     Pub[playerID].template.Display[3] = {value = "day",see = true,text = "Day",order = 3}
     Pub[playerID].template.Display[4] = {value = "hour",see = true,text = "Hour",order = 4}
-    Pub[playerID].template.Display[5] = {value = "mintue",see = true,text = "Mintue",order = 5}
+    Pub[playerID].template.Display[5] = {value = "mintue",see = true,text = "Minutes",order = 5}
     Pub[playerID].template.Display[6] = {value = "second",see = true,text = "Second",order = 6}
  
 
