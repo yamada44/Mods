@@ -63,7 +63,7 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 
 	--local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	--local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	for i, v in pairs(ViewableTable)do 
+	for i, v in pairs(short[ID].template.Display)do 
 		print (i,v.value,"before view table") end
 
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
