@@ -60,19 +60,9 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local Abb = short.After
 	if year < 0 then year = year * -1 Abb = short.Before end
 	
-
-	--local vert = UI.CreateVerticalLayoutGroup(rootParent)
-	--local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	for i, v in pairs(short[ID].template.Display)do 
-		print (i,v.value,"before view table") end
-
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
-
-for i, v in pairs(ViewableTable)do 
-	print (i,v,"view table") end
-	--local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
 
 
 	local tpyename = ViewableTable --accesses the field
@@ -277,7 +267,10 @@ function Ordersetup(view)
 			OrderList[OrderRank].text = ViewingOptions(7)	
 		elseif view == ViewingOptions(8) then
 			OrderList[OrderRank].value = "DayName"	
-			OrderList[OrderRank].text = ViewingOptions(8)			
+			OrderList[OrderRank].text = ViewingOptions(8)		
+		elseif view == ViewingOptions(9) then
+			OrderList[OrderRank].value = nil
+			OrderList[OrderRank].text = ViewingOptions(9)	
 		end	
 		orderelement[OrderRank].SetColor("#00755E")
 		orderelement[OrderRank].SetText(name)
