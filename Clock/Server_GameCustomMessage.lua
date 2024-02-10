@@ -63,5 +63,5 @@ print(playerID)
   end
   
   Pub[playerID] = Pub
-  Mod.PublicGameData[playerID] = Pub
+  Mod.PublicGameData = Pub
 end
