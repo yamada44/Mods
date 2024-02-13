@@ -17,9 +17,9 @@ function Client_PresentSettingsUI(rootParent)
 	UI.CreateLabel(vert).SetText('Passing Months: ' .. time.IMonth).SetColor('#00B5FF')
 	UI.CreateLabel(vert).SetText('Passing Years: ' .. time.IYear).SetColor('#00B5FF')
 
-	UI.CreateLabel(vert).SetText('Month Names ' .. time.HMonthnames).SetColor('#00B5FF')
-	UI.CreateLabel(vert).SetText('Week Day Names ' .. time.HWeeknames).SetColor('#00B5FF')
-	UI.CreateLabel(vert).SetText('Days in each month ' .. time.HMonthdays).SetColor('#00B5FF')
+	UI.CreateLabel(vert).SetText('Month Names \n' .. time.HMonthnames).SetColor('#00B5FF')
+	UI.CreateLabel(vert).SetText('Week Day Names \n' .. time.HWeeknames).SetColor('#00B5FF')
+	UI.CreateLabel(vert).SetText('Days in each month \n' .. time.HMonthdays).SetColor('#00B5FF')
 
 	UI.CreateLabel(vert).SetText('Before 0 : ' .. time.Before).SetColor('#00B5FF')
 	UI.CreateLabel(vert).SetText('After 0 : ' .. time.After).SetColor('#00B5FF')
