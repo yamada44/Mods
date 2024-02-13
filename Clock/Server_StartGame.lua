@@ -14,6 +14,10 @@ function Datecreation()
 	local short = Mod.Settings
     local total = 0
 
+    for i = 1, #short.Monthdays do
+    
+        total = total + short.Monthdays[i]
+    end
     Pub.Date = {}
     Pub.TimePassing = {}
     Pub.History = {}
@@ -69,10 +73,7 @@ local nameindex = Calculateweek(totaldays,Pub.NumberofWeekdays)
 
     for playerID, player in pairs(Game.Game.PlayingPlayers)do
         print(playerID)
-    for i = 1, #short.Monthdays do
-    
-        total = total + short.Monthdays[i]
-    end
+
     Pub[playerID] = {} 
     Pub[playerID].template = {}
 
