@@ -1,4 +1,26 @@
-In this mod, the players create a Spy agency by clicking on the mod menu button, Naming it then clicking the create agency button. these spy agencies have the ability to discard cards, destory armies, destroy cities, kill other agents and much more. 
-With this mod, compete to become the number 1 Agency. 
-The owner of each agent is unknown, unless they die during one of there missions. then the agency that hired the agent is revealed in the order panel.
-The owner of each agency is known. so if a agent dies, you. are. KNOWN. good luck 
+	This is the Agencies mod. Each player can create a Spy agency by clicking on the mod menu button, Naming it, paying the creation cost then clicking the create agency button. From there your faced with 4 options. Lets run through them. Train Agents, view all agents, view all agencies, view all agents you control.
+The train agents button does just that, it give you the option to train a standard agent and a decoy agent. These both usually cost money depending on what host decides when creating the game. 
+
+The view agents button lets you view all your agent and there states, its sorted by successful missions (how many missions it has completed) and the player ID of each agent is left unknown (to create interesting gameplay)
+
+The view all agencies button does the same as the one above, only difference is that its your entire agency and sums up all states over the lifetime of the agency. The player who owns the agency is revealed here on this page
+
+View your agents button lets you view 3 things.  1- active agents(agents on current missions), 2 – non active agents (agents not on missions), 3 – Cards set for a trap. (we're get there dont worry)
+
+When you click on a agent in the view your agents button it will show the cost to do a mission and what kind of missions you can do.
+
+The missions you can do is as follows card trap, destroy armies, destroy cities, kill other agents and kill special units.
+
+Card trap: this mission will let you pick a card and a player, if you mission is a success the next time that player plays that card his card will be discarded instead
+
+Destroy armies: pick a spot on the map, if the mission is a success, a predetermined amount of armies (set by host) will be removed from that spot
+
+Destroy cities: pick a spot on the map, if the mission is a success, a predetermined amount of cities (set by host) will be removed from that spot
+
+kill special units: pick a spot on the map, if the mission is a success, 1 random special unit will be removed from that spot
+
+Kill Agent:  pick a player and a agent from the agent list, if the mission is a success, that agent you picked dies
+
+What determines if a mission passes or fails. You take the current agents level, add it to the defense level of the object your choosing (each defense level for objects is different) plus the levels of all other agents that player added up and then divided by the amount of agents he has to form a solid defense level. 
+
+Agents level up by completing missions
