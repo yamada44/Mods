@@ -20,15 +20,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 end
 function Server_AdvanceTurn_End(game, addNewOrder)
-  for playerID, player in pairs(game.Game.PlayingPlayers) do
-    print(playerID,player.Slot)
-
-  end
-  print("_________")
-    for playerID, player in pairs(game.Settings.CustomScenario.SlotsAvailable) do
-    print(playerID,player)
-    
-  end
+ 
+  
   --[[
     local publicdata = Mod.PublicGameData
     --local playergroup = {}

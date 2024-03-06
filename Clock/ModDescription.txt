@@ -1,7 +1,4 @@
-yamada sergata
-OP
- — 02/13/2024 12:55 AM
-Host choose a custom time in the mod menu and decide how much time passes per turn.
+This mod displays a custom time in the mod menu. The game host gets to decide how much time passes per turn.
 
 The host can name months and days, and also determine how many days there are in a month
-this mod is UI only, it has no impact on the game but is merely for scenario enhancement.
+This mod is UI only, it has no impact on the game but is merely for scenario enhancement.
