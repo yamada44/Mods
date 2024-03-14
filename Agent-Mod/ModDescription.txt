@@ -1,5 +1,4 @@
-The I.S. tag is a identification for all mods who have been designed to work off and interact with each other. I.S. All I.S. mods are cross compatible with all other I.S. mods
-
 With the agencies mod, each player can create a spy agency from within the mod menu. Spy agencies can be to train agents, and agents have the power to destroy armies, destroy cities, kill other agents, kill special units, or trap cards (making an opponent's card do nothing when they try to play it).
-
 Agents accomplish these things by going on a mission. Missions can succeed or fail based on the agent's level, the mission difficulty, and the opponent's agent's levels. Agents can level up by completing missions, making their future missions more likely to succeed.
+
+The I.S. tag is a identification for all mods who have been designed to work off and interact with each other. I.S. All I.S. mods are cross compatible with all other I.S. mods
