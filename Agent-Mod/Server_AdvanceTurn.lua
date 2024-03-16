@@ -556,8 +556,6 @@ print(totalpower,"total")
         end
 
         if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
-            print("cardid")
-
 
             local publicdata = Mod.PublicGameData
             if publicdata.CardstoStop ~= nil then

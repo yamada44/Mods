@@ -221,13 +221,15 @@ end
 
 function CompletePurchaseClicked()
 print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
-	if Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity == true then
+	if Mod.Settings.Unitdata[Type].Oncity ~= nil and (Mod.Settings.Unitdata[Type].Oncity == true or Mod.Settings.Unitdata[Type].Oncity > 0) then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
-		local Cities = Land.Structures;
-		if (Cities == nil) then Cities = {}; end
+		local Cities = Land.Structures
+		local struc = Mod.Settings.Unitdata[Type].Oncity
+		if (Cities == nil) then Cities = {} end
+		if Mod.Settings.Unitdata[Type].Oncity == true then struc = 1 end
 
-		if Cities[WL.StructureType.City] == nil then
-			UI.Alert("Territory has no City. This unit must be built on a city")
+		if Cities[Buildtype(struc)] == nil then
+			UI.Alert("Territory has no " .. Buildname(struc) .. " structure type. This unit must be built on a " .. Buildname(struc))
 			return
 		end
 	end
@@ -282,4 +284,56 @@ function dynamicInfo(i)
 	message = message .. '\nMore details on this unit type in full Settings        '
 
 	return message
+end
+
+function Buildtype(type)
+	local build = {}
+
+	build[1] = WL.StructureType.City
+	build[2] = WL.StructureType.ArmyCamp
+	build[3] = WL.StructureType.Mine
+	build[4] = WL.StructureType.Smelter
+	build[5] = WL.StructureType.Crafter
+	build[6] = WL.StructureType.Market
+	build[7] = WL.StructureType.ArmyCache
+	build[8] = WL.StructureType.MoneyCache
+	build[9] = WL.StructureType.ResourceCache
+	build[10] = WL.StructureType.MercenaryCamp -- real fort
+	build[11] = WL.StructureType.Power
+	build[12] = WL.StructureType.Draft
+	build[13] = WL.StructureType.Arena
+	build[14] = WL.StructureType.Hospital
+	build[15] = WL.StructureType.DigSite
+	build[16] = WL.StructureType.Attack
+	build[17] =	WL.StructureType.Mortar
+	build[18] = WL.StructureType.Recipe
+
+	if type == 0 then return 0 end
+	return build[type]
+end
+
+function Buildname(type)
+	local build = {}
+
+	build[1] = "City"
+	build[2] = "Army Camp"
+	build[3] = "Mine"
+	build[4] = "Smelter"
+	build[5] = "Crafter"
+	build[6] = "Market"
+	build[7] = "Army Cache"
+	build[8] = "Money Cache"
+	build[9] = "Resource Cache"
+	build[10] = "Mercenary Camp" -- real fort
+	build[11] = "Power"
+	build[12] = "Man with Hand"
+	build[13] = "Arena"
+	build[14] = "Hospital"
+	build[15] = "Dig Site"
+	build[16] = "Artillery"
+	build[17] =	"Mortar"
+	build[18] = "Book"
+
+	if type == 0 then return 0 end
+	return build[type]
 end

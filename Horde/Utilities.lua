@@ -117,27 +117,14 @@ function groupBy(tbl, funcToGetKey)
 	return ret;
 end
 
-function Buildtype(type)
-	local build = {}
-
-	build[1] = WL.StructureType.City
-	build[2] = WL.StructureType.ArmyCamp
-	build[3] = WL.StructureType.Mine
-	build[4] = WL.StructureType.Smelter
-	build[5] = WL.StructureType.Crafter
-	build[6] = WL.StructureType.Market
-	build[7] = WL.StructureType.ArmyCache
-	build[8] = WL.StructureType.MoneyCache
-	build[9] = WL.StructureType.ResourceCache
-	build[10] = WL.StructureType.MercenaryCamp
-	build[11] = WL.StructureType.Power
-	build[12] = WL.StructureType.Draft
-	build[13] = WL.StructureType.Arena
-	build[14] = WL.StructureType.Hospital
-	build[15] = WL.StructureType.DigSite
-	build[16] = WL.StructureType.Attack
-	build[17] =	WL.StructureType.Mortar
-	build[18] = WL.StructureType.Recipe
-
-	return build[type]
+function Buildnumber(Build)
+	local ret = 0
+	
+	if Build ~= nil and Build[Mod.Settings.StructureType] ~= nil then
+		if Build[Mod.Settings.StructureType] > 0 then 
+			ret = Build[Mod.Settings.StructureType]
+		end	
+	end
+	
+	return ret
 end

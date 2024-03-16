@@ -174,7 +174,7 @@ function Unittemplates(vert, i)
 		if (combatorder == nil) then combatorder = 2 end
 
 		local onCity = uniteconfig[i].Oncity
-		if (onCity == nil) then onCity = false end
+		if (onCity == nil) then onCity = 0 end
 
 		--setting up the UI and all its fields
 
@@ -346,9 +346,12 @@ function Unittemplates(vert, i)
 		--Only on cities
 		InputFieldTable[i].row23 = UI.CreateHorizontalLayoutGroup(vert);
 		local row23 = InputFieldTable[i].row23
-		UI.CreateButton(row23).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("unit can only be built on cities"); end);
-		InputFieldTable[i].text25 = UI.CreateLabel(row23).SetText('Only deployed on cities')
-		InputFieldTable[i].City = UI.CreateCheckBox(row23).SetIsChecked(onCity).SetText('')
+		UI.CreateButton(row23).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("You can only deploy troops on this Structure type\n0 - Feature disabled\n1 - Cities\n2 - Army Camp\n3 - Mine\n4 - Smelter\n5 - Crafter\n6 - Market\n7 - Army Cache\n8 - Money Cache\n9 - Money Cache\n10 - Resource Cache\n11 - Mercenary Camp\n12 - Man and gun\n13 - Arena\n14 - Hospital\n15 - Dig Site\n16 - Artillery\n17 - Mortar\n18 - Book") end)
+		InputFieldTable[i].text25 = UI.CreateLabel(row23).SetText('Only deploy on Structure')
+		InputFieldTable[i].City = UI.CreateNumberInputField(row23).SetIsChecked(onCity)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(18)
+		.SetValue(onCity)
 
 		--Max amount shared between players
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);

@@ -5,6 +5,8 @@ function Client_PresentConfigureUI(rootParent)
 	local slot = Mod.Settings.Slot
 	if slot == nil then
 		slot = 1
+	else 
+		slot = slot + 1
 	end
 
 	local troopscon = Mod.Settings.TConv
@@ -60,6 +62,24 @@ function Client_PresentConfigureUI(rootParent)
 		trdeploy = true
 	end	
 
+	-- can play Reinforcement
+	local ref = Mod.Settings.PlayRef
+	if ref == nil then
+		ref = false
+	end	
+
+	-- cities are removed if owned by this slot
+	local cityremoved = Mod.Settings.CityG
+	if cityremoved == nil then
+		cityremoved = 1
+	end
+
+	--This slot cannot build cities
+	local city9 = Mod.Settings.Nocities
+	if city9 == nil then
+		city9 = false
+	end	
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
@@ -107,6 +127,13 @@ function Client_PresentConfigureUI(rootParent)
 		.SetSliderMaxValue(1234)
 		.SetValue(auto)
 
+	local row55 = UI.CreateHorizontalLayoutGroup(vert) -- City removed for Hives
+	UI.CreateLabel(row55).SetText('Cities removed if Owned')
+	CityGone = UI.CreateNumberInputField(row55)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(10)
+		.SetValue(cityremoved)
+
 		local row6 = UI.CreateHorizontalLayoutGroup(vert) -- Can Deploy troops
 	UI.CreateLabel(row6).SetText('Can this slot Deploy Troops')
 	Deployfield = UI.CreateCheckBox(row6).SetText("").SetIsChecked(trdeploy)
@@ -124,5 +151,13 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateLabel(row9).SetText('Can this slot play Diplomacy cards')
 	Dipfield = UI.CreateCheckBox(row9).SetText("").SetIsChecked(playD)
 
+	local row11 = UI.CreateHorizontalLayoutGroup(vert) -- can play Refin cards
+	UI.CreateLabel(row11).SetText('Can this slot play Reinforcement cards')
+	Reffield = UI.CreateCheckBox(row11).SetText("").SetIsChecked(ref)
 
+	local row10 = UI.CreateHorizontalLayoutGroup(vert) -- cannot build cities if true
+	UI.CreateLabel(row10).SetText('Can this Slot build cities')
+	Nocities = UI.CreateCheckBox(row10).SetText("").SetIsChecked(city9)
+
+	
 end

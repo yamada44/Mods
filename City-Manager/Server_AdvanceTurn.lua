@@ -23,7 +23,7 @@ if cityGroups == nil then cityGroups = {} end
             for _, t in pairs(bonus.Territories) do
 
                 local terr = game.ServerGame.LatestTurnStanding.Territories[t]
-                local Cities = terr.Structures;
+                local Cities = terr.Structures
                 if (Cities == nil) then Cities = {}; end;
 
                 if(terr.Structures ~= nil)then

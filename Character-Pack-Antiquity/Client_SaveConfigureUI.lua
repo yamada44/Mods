@@ -133,8 +133,9 @@ function Client_SaveConfigureUI(alert)
         else Mod.Settings.Unitdata[i].CombatOrder = combat end
 
         -- only on cities
-        local cities = TableFormat(InputFieldTable[i].City,boo)
-        Mod.Settings.Unitdata[i].Oncity = cities
+        local cities = TableFormat(InputFieldTable[i].City,num)
+        if (cities < 0 or cities > 18)then cities = 0 alert("Mod set up failed\nStructure value must be between 0-18\nSet to 0 to disable")
+        Mod.Settings.Unitdata[i].Oncity = cities end
         print (cities,"City value")
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
@@ -144,7 +145,7 @@ function Client_SaveConfigureUI(alert)
     Mod.Settings.Unitdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
    end
 
-   if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
+   --if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
