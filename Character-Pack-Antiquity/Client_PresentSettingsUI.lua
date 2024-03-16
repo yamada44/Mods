@@ -42,7 +42,8 @@ function Client_PresentSettingsUI(rootParent)
 						if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Mod.Settings.Unitdata[i].unitpower) then
 							 powermessage = "Attack Range is: " .. Mod.Settings.Unitdata[i].unitpower .. ' - ' .. Mod.Settings.Unitdata[i].AttackMax
 							end
-						if (Mod.Settings.Unitdata[i].Oncity == true )then city = "True" end
+						if (Mod.Settings.Unitdata[i].Oncity == true )then city = Buildname(1)
+						elseif Mod.Settings.Unitdata[i].Oncity > 0 then city = Buildname(Mod.Settings.Unitdata[i].Oncity) end
 						if (Nonill(Mod.Settings.Unitdata[i].CombatOrder) == 1 )then combat = "Before Armies" end
 						if (Mod.Settings.Unitdata[i].Autovalue ~= nil)then auto = Mod.Settings.Unitdata[i].Autovalue end
 							
@@ -58,14 +59,14 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active)
 				UI.CreateLabel(vert).SetText('Combat order: ' .. combat).SetColor('#dbddf4') --
-				UI.CreateLabel(vert).SetText('Create on Cities only: ' .. city) --
+				UI.CreateLabel(vert).SetText('Create on Structure type only: ' .. city) --
 				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis)
 				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown)
 				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Auto Place Number: ' .. auto)
-				UI.CreateLabel(vert).SetText('Image used: ' .. image)
+				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
 	
 
 
@@ -90,4 +91,29 @@ function Imagename (name)
 return filename[name]
 
 
+end
+function Buildname(type)
+	local build = {}
+
+	build[1] = "Cities"
+	build[2] = "Army Camp"
+	build[3] = "Mine"
+	build[4] = "Smelter"
+	build[5] = "Crafter"
+	build[6] = "Market"
+	build[7] = "Army Cache"
+	build[8] = "Money Cache"
+	build[9] = "Resource Cache"
+	build[10] = "Mercenary Camp" -- real fort
+	build[11] = "Power"
+	build[12] = "Man with Hand"
+	build[13] = "Arena"
+	build[14] = "Hospital"
+	build[15] = "Dig Site"
+	build[16] = "Artillery"
+	build[17] =	"Mortar"
+	build[18] = "Book"
+
+	if type == 0 then return 0 end
+	return build[type]
 end

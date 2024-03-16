@@ -337,7 +337,7 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].row21 = UI.CreateHorizontalLayoutGroup(vert);
 		local row21 = InputFieldTable[i].row21
 		UI.CreateButton(row21).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Select the order in which the special unit does combat\n1 - special unit does combat before armies\n2 - special unit does combat after armies"); end);
-		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Select the Combat order')
+		InputFieldTable[i].text23 = UI.CreateLabel(row21).SetText('Select the Combat order').SetColor('#dbddf4')
 		InputFieldTable[i].Combat = UI.CreateNumberInputField(row21)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(2)
@@ -358,7 +358,7 @@ function Unittemplates(vert, i)
 		local row6 = InputFieldTable[i].row6
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
 		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
-		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
+		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('').SetColor('#dbddf4')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
@@ -372,7 +372,7 @@ function Unittemplates(vert, i)
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
-		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('').SetColor('#dbddf4')
 
 
 		--name of unit
