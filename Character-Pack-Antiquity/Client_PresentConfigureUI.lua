@@ -357,28 +357,28 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 		local row6 = InputFieldTable[i].row6
 		UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The maximum amount of units is shared between all players. If *Max units Spawned over entire game* is turned on, The share feature will switch from sharing the *How many units each player can have at a time* value to the previous one mentioned value\nSet to 0 to disable"); end);
-		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players')
-		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('').SetColor('#dbddf4')
+		InputFieldTable[i].text6 = UI.CreateLabel(row6).SetText('Check if you want the Maximum amount of units to be shared between all players').SetColor('#dbddf4')
+		InputFieldTable[i].Shared = UI.CreateCheckBox(row6).SetIsChecked(shared).SetText('')
 
 		--Visible unit setting
 		InputFieldTable[i].row7 = UI.CreateHorizontalLayoutGroup(vert);
 		local row7 = InputFieldTable[i].row7
 		UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on, all players can see where this unit is at all times"); end);
-		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times').SetColor('#dbddf4')
+		InputFieldTable[i].text7 = UI.CreateLabel(row7).SetText('Check if you want this unit visible at all times')
 		InputFieldTable[i].Visible = UI.CreateCheckBox(row7).SetIsChecked(visible).SetText('')
 
 		--Units can only move every other turn
 		InputFieldTable[i].row16 = UI.CreateHorizontalLayoutGroup(vert);
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
-		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn')
-		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('').SetColor('#dbddf4')
+		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetText('').SetColor('#dbddf4')
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves)
 
 
 		--name of unit
 		InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
 		local row5 = InputFieldTable[i].row5
-		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu').SetColor('#dbddf4')
+		InputFieldTable[i].text9 = UI.CreateLabel(row5).SetText('Name of Unit in buy menu')
 		InputFieldTable[i].Name = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Name of Unit Type        ").SetText(name)
 		.SetFlexibleWidth(1)
@@ -390,7 +390,7 @@ function Unittemplates(vert, i)
 		InputFieldTable[i].row18 = UI.CreateHorizontalLayoutGroup(vert)
 		local row18 = InputFieldTable[i].row18
 		UI.CreateButton(row18).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert('input rules here for player intructions on how to use this unit in your game. WARNING: these rules are entierly enforced by you. put them there at your own discretion') end);
-		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules')
+		InputFieldTable[i].text20 = UI.CreateLabel(row18).SetText('Host Custom rules').SetColor('#dbddf4')
 		InputFieldTable[i].HostRules = UI.CreateTextInputField(vert)
 		.SetPlaceholderText(" Host Custom Rules").SetText(hostrules)
 		.SetFlexibleWidth(1)
