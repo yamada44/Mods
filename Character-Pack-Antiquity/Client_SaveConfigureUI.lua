@@ -138,7 +138,7 @@ function Client_SaveConfigureUI(alert)
         print(cities, "city",type(cities))
         if (cities < 0 or cities > 18)then cities = 0 alert("Mod set up failed\nStructure value must be between 0-18\nSet to 0 to disable")
         Mod.Settings.Unitdata[i].Oncity = cities end
-        print (Mod.Settings.Unitdata[i].Oncity,cities,"City value")
+        print ("bob",Mod.Settings.Unitdata[i].Oncity,cities,"City value")
 
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
