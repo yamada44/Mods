@@ -280,7 +280,7 @@ function dynamicInfo(i)
 	print (Mod.Settings.Unitdata[i].Oncity,"info values")
 	if Mod.Settings.Unitdata[i].Oncity ~= nil and (Mod.Settings.Unitdata[i].Oncity == true or Mod.Settings.Unitdata[i].Oncity > 0) then
 		local name = Buildname(1)
-		if Mod.Settings.Unitdata[i].Oncity > 0 then name = Buildname(Mod.Settings.Unitdata[i].Oncity) end
+		if Mod.Settings.Unitdata[i].Oncity > 1 then name = Buildname(Mod.Settings.Unitdata[i].Oncity) end
 		message = message .. "\nBuild on ".. name .." Only"
 	end
  
