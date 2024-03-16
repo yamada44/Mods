@@ -110,6 +110,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
   if Slotchecker(order.PlayerID) then    
 
     print(order.proxyType, "orderproxy")
+    --No certain cards
     if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
     
       if order.proxyType == "GameOrderPlayCardAirlift" and Mod.Settings.PlayAir == false then
@@ -125,10 +126,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
       end
     end
-    print(order.proxyType, Mod.Settings.Nocities,"before")
+    -- No cities
     if order.proxyType == "GameOrderPurchase" and Mod.Settings.Nocities == false then
       skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
     end
+    --No deployment
     if order.proxyType == "GameOrderDeploy"then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
         if Mod.Settings.TDep == false and (build == nil or build[Mod.Settings.StructureType] == 0)  then

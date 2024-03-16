@@ -13,19 +13,19 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 print (SettingData.Slot, Game.Us.Slot )
 	if SettingData.Slot ~= Game.Us.Slot then 
-		UI.CreateLabel(rootParent).SetText("This Slot cannot build things in this template")
+		UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Mod.Settings.Buildname)
 		return 	end
 
 	if SettingData.StructureType == 0 then
 		UI.CreateLabel(rootParent).SetText("No building types for this Game")
 		return end
 	if SettingData.Maxhives == 0 then
-		UI.CreateLabel(rootParent).SetText("This building type can be played with but not built by players")
+		UI.CreateLabel(rootParent).SetText("This structure " .. Mod.Settings.Buildname .. " can be played with but not built by players")
 		return end
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	local buttonmessage = "Build Structure"
+	local buttonmessage = "Build a " .. Mod.Settings.Buildname
 	local infomessage = "This unit cost " .. SettingData.HiveCost .. "\nYou can only have ".. SettingData.Maxhives .. " at a time"
 
 	UI.CreateLabel(row1).SetText(infomessage)
@@ -42,7 +42,7 @@ function PurchaseClicked(type)
 	--checking orders for Building
 	for _,order in pairs(Game.Orders) do
 		if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, OrderstartsWith)) then
-			UI.Alert("Can only build 1 structure per turn")
+			UI.Alert("Can only build 1 " .. Mod.Settings.Buildname .. " per turn")
 			return
 		end
 	end
@@ -57,7 +57,7 @@ function PurchaseClicked(type)
 
 
 	if (numUnitAlreadyHave >= SettingData.Maxhives) then
-		UI.Alert("You already have the Max amount of this Structure type")
+		UI.Alert("You already have the Max amount of " .. Mod.Settings.Buildname)
 		return
 	end
 
@@ -81,7 +81,7 @@ end
 
 function SelectTerritoryClicked() -- Needs type
 	UI.InterceptNextTerritoryClick(TerritoryClicked);
-	TargetTerritoryInstructionLabel.SetText("Please click on the territory you wish to build your structure on")
+	TargetTerritoryInstructionLabel.SetText("Please click on the territory you wish to build your " .. Mod.Settings.Buildname .. " on")
 	SelectTerritoryBtn.SetInteractable(false);
 end
 
@@ -110,7 +110,7 @@ function CompletePurchaseClicked()
 
 
 
-	local msg = 'Building a '.. "Structure" ..' on ' .. SelectedTerritory.Name
+	local msg = 'Building a ' .. Mod.Settings.Buildname .. ' on ' .. SelectedTerritory.Name
 	local payload = OrderstartsWith .. ";;"..  SelectedTerritory.ID
 
 	
