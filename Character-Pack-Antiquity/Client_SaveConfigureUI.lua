@@ -135,7 +135,7 @@ function Client_SaveConfigureUI(alert)
         -- only on cities
         local cities = TableFormat(InputFieldTable[i].City,num)
         if type(cities) == "bool" then cities = 1 end 
-        print(cities, "city")
+        print(cities, "city",type(cities))
         if (cities < 0 or cities > 18)then cities = 0 alert("Mod set up failed\nStructure value must be between 0-18\nSet to 0 to disable")
         Mod.Settings.Unitdata[i].Oncity = cities end
         print (cities,"City value")
