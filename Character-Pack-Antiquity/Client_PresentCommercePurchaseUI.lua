@@ -278,7 +278,7 @@ function dynamicInfo(i)
 		message = message .. "\nKills needed for first level up: " .. Mod.Settings.Unitdata[i].Level
 	end
 	print (Mod.Settings.Unitdata[i].Oncity,"info values")
-	if Mod.Settings.Unitdata[i].Oncity ~= nil and (Mod.Settings.Unitdata[Type].Oncity == true or Mod.Settings.Unitdata[Type].Oncity > 0) then
+	if Mod.Settings.Unitdata[i].Oncity ~= nil and (Mod.Settings.Unitdata[i].Oncity == true or Mod.Settings.Unitdata[i].Oncity > 0) then
 		message = message .. "\nBuild on ".. Buildname(i) .." Only"
 	end
  
