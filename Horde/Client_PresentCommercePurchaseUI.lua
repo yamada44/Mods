@@ -26,7 +26,7 @@ print (SettingData.Slot, Game.Us.Slot )
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local buttonmessage = "Build a " .. Mod.Settings.Buildname
-	local infomessage = "This unit cost " .. SettingData.HiveCost .. "\nYou can only have ".. SettingData.Maxhives .. " at a time"
+	local infomessage = "This Structure cost " .. SettingData.HiveCost .. "\nYou can only have ".. SettingData.Maxhives .. " at a time"
 
 	UI.CreateLabel(row1).SetText(infomessage)
 	UI.CreateButton(row1).SetText(buttonmessage).SetOnClick(PurchaseClicked).SetInteractable(true).SetFlexibleWidth(1)
