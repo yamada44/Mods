@@ -134,7 +134,7 @@ function Client_SaveConfigureUI(alert)
 
         -- only on cities
         local cities = TableFormat(InputFieldTable[i].City,num)
-        if type(cities) == "bool" then cities = 1 end 
+        if type(cities) == "boolean" then cities = 1 end 
         print(cities, "city",type(cities))
         if (cities < 0 or cities > 18)then cities = 0 alert("Mod set up failed\nStructure value must be between 0-18\nSet to 0 to disable")
         Mod.Settings.Unitdata[i].Oncity = cities end
@@ -162,7 +162,7 @@ if type(templateValue) == "table" then -- to check type and make sure proper tab
     if tabletype == 'number' then 
         returnvalue = templateValue.GetValue()
 
-    elseif tabletype == 'bool' then 
+    elseif tabletype == 'boolean' then 
         returnvalue = templateValue.GetIsChecked()
     elseif tabletype == 'text' then 
         returnvalue = templateValue.GetText()
