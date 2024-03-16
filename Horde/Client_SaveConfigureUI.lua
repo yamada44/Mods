@@ -25,6 +25,7 @@ if build > 18 or build < 0 then alert("Mod set up failed\nYour Build value Must 
 else 
 
    Mod.Settings.StructureType = Buildtype(build)
+   Mod.Settings.Buildname = Buildname(build)
 end 
 
 --Cost

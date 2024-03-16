@@ -174,7 +174,7 @@ function Unittemplates(vert, i)
 		if (combatorder == nil) then combatorder = 2 end
 
 		local onCity = uniteconfig[i].Oncity
-		if (onCity == nil) then onCity = 0 end
+		if (onCity == nil or onCity == false or onCity == true) then onCity = 0 end
 
 		--setting up the UI and all its fields
 
