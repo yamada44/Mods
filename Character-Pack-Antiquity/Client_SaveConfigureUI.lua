@@ -147,7 +147,7 @@ function Client_SaveConfigureUI(alert)
     Mod.Settings.Unitdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
    end
 
-   --if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
+   if (noUnitsOn <= 0)then alert("Failed to add any Unit types")  end 
    if (tomanyunits > Unitsallowed)then alert("You are only allowed ".. Unitsallowed .. " total units across all unit types") end
    Mod.Settings.access = 3
    Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
