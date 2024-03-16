@@ -13,7 +13,7 @@ function Client_SaveConfigureUI(alert)
 
 --troop converstion
 local tcon = Convfield.GetValue()
-if tcon > 200 or slot < 0 then alert("Mod set up failed\nYour Troop converstion value Must be between 0-200")
+if tcon > 200 or tcon < 0 then alert("Mod set up failed\nYour Troop converstion value Must be between 0-200")
 else 
 
    Mod.Settings.TConv = tcon
