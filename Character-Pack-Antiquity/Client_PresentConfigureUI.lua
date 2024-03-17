@@ -531,7 +531,3 @@ print('before delete '.. D)
 	access = 1
 
 end
-
-
-
-
