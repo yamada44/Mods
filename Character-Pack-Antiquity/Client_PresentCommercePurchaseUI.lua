@@ -257,6 +257,7 @@ end
 function dynamicInfo(i)
 	local message = 'Name: ' ..Playerdata.Unitdata[i].Name -- Attack message
 	local defend = Playerdata.Unitdata[i].unitpower / 2
+	local city = false
 
 	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost 
 
@@ -279,9 +280,14 @@ function dynamicInfo(i)
 	end
 	print (Mod.Settings.Unitdata[i].Oncity,"info values")
 	if Mod.Settings.Unitdata[i].Oncity ~= nil and (Mod.Settings.Unitdata[i].Oncity == true or Mod.Settings.Unitdata[i].Oncity > 0) then
+
+	if (Mod.Settings.Unitdata[i].Oncity == true )then city = true
+	elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity ~= false and Mod.Settings.Unitdata[i].Oncity > 0 then city = true end
+	if city then
 		local name = Buildname(1)
-		if type(Mod.Settings.Unitdata[i].Oncity) == "number" then name = Buildname(Mod.Settings.Unitdata[i].Oncity) end
-		message = message .. "\nBuild on ".. name .." Only"
+			if type(Mod.Settings.Unitdata[i].Oncity) == "number" then name = Buildname(Mod.Settings.Unitdata[i].Oncity) end
+			message = message .. "\nBuild on ".. name .." Only"
+		end
 	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '
