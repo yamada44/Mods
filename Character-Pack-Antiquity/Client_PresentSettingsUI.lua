@@ -43,7 +43,7 @@ function Client_PresentSettingsUI(rootParent)
 							 powermessage = "Attack Range is: " .. Mod.Settings.Unitdata[i].unitpower .. ' - ' .. Mod.Settings.Unitdata[i].AttackMax
 							end
 						if (Mod.Settings.Unitdata[i].Oncity == true )then city = Buildname(1)
-						elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity > 0 then city = Buildname(Mod.Settings.Unitdata[i].Oncity) end
+						elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity ~= false and Mod.Settings.Unitdata[i].Oncity > 0 then city = Buildname(Mod.Settings.Unitdata[i].Oncity) end
 						if (Nonill(Mod.Settings.Unitdata[i].CombatOrder) == 1 )then combat = "Before Armies" end
 						if (Mod.Settings.Unitdata[i].Autovalue ~= nil)then auto = Mod.Settings.Unitdata[i].Autovalue end
 							
