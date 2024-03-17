@@ -209,7 +209,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 Mod.PublicGameData = publicdata]]
 end
 function Slotchecker(playerid)
-  if playerid == 0 or playerid == nil or (not playerid > 0) then return false end
+  print (playerid,"id")
+  if playerid == 0 or playerid == nil then return false end
   local issame = false
   	--SettingData.Slot
 	--game.Settings.CustomScenario.SlotsAvailable
