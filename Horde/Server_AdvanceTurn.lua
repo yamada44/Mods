@@ -40,8 +40,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
 
+    for i,v in pairs (result.DamageToSpecialUnits) do 
+      print(i,v, "print")
+    end
+
     --Attacking for zombies
       if attackerZom == true then
+      --  local SUdamage = SUdamageCal(order,result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
         local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
         local land = game.Map.Territories[order.From]
         local zomland = 0
@@ -216,4 +221,19 @@ function Slotchecker(playerid)
   end
 
   return issame
+end
+
+function SUdamageCal(order,SU,deathSU)
+  local totaldamage
+  local notdeadyetSU = {}
+
+  for i,v in pairs(SU)do
+
+    for i2, v2 in pairs(deathSU) do -- checking to see if he died
+      if SU.ID == deathSU then end
+    end
+  end
+
+
+return totaldamage
 end

@@ -372,7 +372,7 @@ function Unittemplates(vert, i)
 		local row16 = InputFieldTable[i].row16
 		UI.CreateButton(row16).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When turned on. this unit can only move on Even turns"); end);
 		InputFieldTable[i].text18 = UI.CreateLabel(row16).SetText('Check if you only want this unit moving every other turn').SetText('').SetColor('#dbddf4')
-		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves)
+		InputFieldTable[i].Altmoves = UI.CreateCheckBox(row16).SetIsChecked(altmoves).SetText('')
 
 
 		--name of unit
