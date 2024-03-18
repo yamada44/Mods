@@ -39,76 +39,94 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
   if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
-
+    local troopgain = true
+    if attackerZom == true or defenderZom == true then
+      if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then
+        if Mod.Settings.Attack == 2 then
+          troopgain = false
+        skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+        elseif Mod.Settings.Attack == 3 then
+        troopgain = false
+        elseif Mod.Settings.Attack > 3 then
+        local armies = game.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.NumArmies 
+          if armies == Mod.Settings.Attack or armies == 0 then
+          skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+          troopgain = false
+          end
+       end
+      end
     for i,v in pairs (result.DamageToSpecialUnits) do 
       print(i,v, "print")
     end
 
     --Attacking for zombies
-      if attackerZom == true then
-      --  local SUdamage = SUdamageCal(order,result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
-        local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
-        local land = game.Map.Territories[order.From]
-        local zomland = 0
-        for i,v in pairs (land.ConnectedTo) do 
-          if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID then
-          zomland = zomland + 1
+      if troopgain then
+        if attackerZom == true then
+        --  local SUdamage = SUdamageCal(order,result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
+          local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
+          local land = game.Map.Territories[order.From]
+          local zomland = 0
+          for i,v in pairs (land.ConnectedTo) do 
+            if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID then
+            zomland = zomland + 1
+            end
           end
-        end
-        if zomland == 0 then 
-          -- check if the attack failed
-          local mod = WL.TerritoryModification.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].ID)
-          mod.AddArmies = newzombies
-          addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "killed forces absorbed into ranks", {}, {mod}))
-          goto next end
-        local placedZomb = math.ceil(newzombies / zomland) 
-        local totalzoms = 0
-        local modtable = {}
-        for i,v in pairs (land.ConnectedTo) do 
-          if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID then
-            
-            local mod = WL.TerritoryModification.Create(i)
-            mod.AddArmies = placedZomb
-            table.insert(modtable,mod)
-            totalzoms = totalzoms + placedZomb
-            if totalzoms >= newzombies then break end
+          if zomland == 0 then 
+            -- check if the attack failed
+            local mod = WL.TerritoryModification.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].ID)
+            mod.AddArmies = newzombies
+            addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "killed forces absorbed into ranks", {}, {mod}))
+            goto next end
+          local placedZomb = math.ceil(newzombies / zomland) 
+          local totalzoms = 0
+          local modtable = {}
+          for i,v in pairs (land.ConnectedTo) do 
+            if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID then
+              
+              local mod = WL.TerritoryModification.Create(i)
+              mod.AddArmies = placedZomb
+              table.insert(modtable,mod)
+              totalzoms = totalzoms + placedZomb
+              if totalzoms >= newzombies then break end
+            end
           end
-        end
-        addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "killed forces absorbed into ranks", {}, modtable))
+          addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "killed forces absorbed into ranks", {}, modtable))
 
- -- Defending for zombies
-      elseif defenderZom == true then
-        local newzombies = result.AttackingArmiesKilled.AttackPower * (Mod.Settings.TConv / 100)
-        local land = game.Map.Territories[order.To]
-        local zomland = 0
-        for i,v in pairs (land.ConnectedTo) do 
-          if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID then
-          zomland = zomland + 1
+  -- Defending for zombies
+        elseif defenderZom == true then
+          local newzombies = result.AttackingArmiesKilled.AttackPower * (Mod.Settings.TConv / 100)
+          local land = game.Map.Territories[order.To]
+          local zomland = 0
+          for i,v in pairs (land.ConnectedTo) do 
+            if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID then
+            zomland = zomland + 1
+            end
           end
-        end
-        if zomland == 0 then 
-          -- check if the attack failed
-          if result.IsSuccessful == false then 
-          local mod = WL.TerritoryModification.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].ID)
-          mod.AddArmies = newzombies
-          addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID, "killed forces absorbed into ranks", {}, {mod}))
-          goto next end end
-        local placedZomb = math.ceil(newzombies / zomland) 
-        local totalzoms = 0
-        local modtable = {}
-        for i,v in pairs (land.ConnectedTo) do 
-          if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID then
-            
-            local mod = WL.TerritoryModification.Create(i)
-            mod.AddArmies = placedZomb
-            table.insert(modtable,mod)
-            totalzoms = totalzoms + placedZomb
-            if totalzoms >= newzombies then break end
+          if zomland == 0 then 
+            -- check if the attack failed
+            if result.IsSuccessful == false then 
+            local mod = WL.TerritoryModification.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].ID)
+            mod.AddArmies = newzombies
+            addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID, "killed forces absorbed into ranks", {}, {mod}))
+            goto next end end
+          local placedZomb = math.ceil(newzombies / zomland) 
+          local totalzoms = 0
+          local modtable = {}
+          for i,v in pairs (land.ConnectedTo) do 
+            if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID then
+              
+              local mod = WL.TerritoryModification.Create(i)
+              mod.AddArmies = placedZomb
+              table.insert(modtable,mod)
+              totalzoms = totalzoms + placedZomb
+              if totalzoms >= newzombies then break end
+            end
           end
+          addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID, "killed forces absorbed into ranks", {}, modtable))
+      
         end
-        addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID, "killed forces absorbed into ranks", {}, modtable))
-     
       end
+    end
       ::next::
 
   end

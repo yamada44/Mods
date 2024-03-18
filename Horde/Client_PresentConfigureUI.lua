@@ -80,6 +80,12 @@ function Client_PresentConfigureUI(rootParent)
 		city9 = false
 	end	
 
+	--This slot Attack Rules
+	local attack = Mod.Settings.Attack
+	if attack == nil then
+		attack = 1
+	end	
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- Slot
@@ -145,6 +151,14 @@ function Client_PresentConfigureUI(rootParent)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(3)
 	.SetValue(trdeploy)
+
+	local row66 = UI.CreateHorizontalLayoutGroup(vert) -- attack Rules
+	UI.CreateButton(row66).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - no Rules on Attacks\n2 - Cannot attack neutral\n3 - does not gain troops from attacks on neutral\nNumber Above 3 - Does not attack neutrals with this number only, also does not attack neutrals with 0") end)
+	UI.CreateLabel(row66).SetText('Attack Rules')
+	Attackfield = UI.CreateNumberInputField(row66)
+	.SetSliderMinValue(1)
+	.SetSliderMaxValue(1000)
+	.SetValue(attack)
 
 	local row7 = UI.CreateHorizontalLayoutGroup(vert) -- can play airlift cards
 	UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Airlift cards") end)
