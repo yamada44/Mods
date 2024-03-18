@@ -136,10 +136,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
     end
     --No deployment
-    if order.proxyType == "GameOrderDeploy"then 
+    if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
-        if Mod.Settings.TDep == false and (build == nil or build[Mod.Settings.StructureType] == 0)  then
-
+        if Mod.Settings.TDep == 3 then 
+          skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+        elseif Mod.Settings.TDep == 2 and (build == nil or build[Mod.Settings.StructureType] == 0)  then
           skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
         end
     end

@@ -57,9 +57,9 @@ function Client_PresentConfigureUI(rootParent)
 	end
 
 	--can/cannot deploy troops
-	local trdeploy = Mod.Settings.TDep
+	local trdeploy = Mod.Settings.TDep -- 1 = no limits, 2 == only on StructureType, 3 == never 
 	if trdeploy == nil then
-		trdeploy = true
+		trdeploy = 1
 	end	
 
 	-- can play Reinforcement
@@ -131,7 +131,7 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(auto)
 
 	local row55 = UI.CreateHorizontalLayoutGroup(vert) -- City removed for Hives
-	UI.CreateButton(row55).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row55).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many cities removed when controlled by this slot") end)
 	UI.CreateLabel(row55).SetText('Cities removed if Owned')
 	CityGone = UI.CreateNumberInputField(row55)
 		.SetSliderMinValue(0)
@@ -139,32 +139,35 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(cityremoved)
 
 	local row6 = UI.CreateHorizontalLayoutGroup(vert) -- Can Deploy troops
-	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - no limits on deployment\n2 - only on Structure Type, 3 == Cannot deploy at all") end)
 	UI.CreateLabel(row6).SetText('Can this slot Deploy Troops')
-	Deployfield = UI.CreateCheckBox(row6).SetText("").SetIsChecked(trdeploy)
+	Deployfield = UI.CreateNumberInputField(row6)
+	.SetSliderMinValue(1)
+	.SetSliderMaxValue(3)
+	.SetValue(trdeploy)
 
 	local row7 = UI.CreateHorizontalLayoutGroup(vert) -- can play airlift cards
-	UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Airlift cards") end)
 	UI.CreateLabel(row7).SetText('Can this slot play Airlift cards')
 	Airfield = UI.CreateCheckBox(row7).SetText("").SetIsChecked(playA)
 
 	local row8 = UI.CreateHorizontalLayoutGroup(vert) -- can play sanction cards
-	UI.CreateButton(row8).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row8).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Sanction cards") end)
 	UI.CreateLabel(row8).SetText('Can this slot play Sanction cards')
 	Sanfield = UI.CreateCheckBox(row8).SetText("").SetIsChecked(playS)
 
 	local row9 = UI.CreateHorizontalLayoutGroup(vert) -- can play Diplo cards
-	UI.CreateButton(row9).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row9).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Diplomacy cards") end)
 	UI.CreateLabel(row9).SetText('Can this slot play Diplomacy cards')
 	Dipfield = UI.CreateCheckBox(row9).SetText("").SetIsChecked(playD)
 
 	local row11 = UI.CreateHorizontalLayoutGroup(vert) -- can play Refin cards
-	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Reinforcement cards") end)
 	UI.CreateLabel(row11).SetText('Can this slot play Reinforcement cards')
 	Reffield = UI.CreateCheckBox(row11).SetText("").SetIsChecked(ref)
 
 	local row10 = UI.CreateHorizontalLayoutGroup(vert) -- cannot build cities if true
-	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("") end)
+	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot build cities") end)
 	UI.CreateLabel(row10).SetText('Can this Slot build cities')
 	Nocities = UI.CreateCheckBox(row10).SetText("").SetIsChecked(city9)
 

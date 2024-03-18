@@ -61,7 +61,12 @@ end
 
 
 --Can Deploy troops
-   Mod.Settings.TDep = Deployfield.GetIsChecked()
+   
+   local dtroop= Deployfield.GetValue()
+   if dtroop > 3 or dtroop < 1 then alert("Mod set up failed\nYour Deployment value Must be between 1 and 3")
+   else 
+      Mod.Settings.TDep = dtroop
+   end 
 
 --Airlift card
    Mod.Settings.PlayAir = Airfield.GetIsChecked()

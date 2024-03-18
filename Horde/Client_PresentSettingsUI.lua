@@ -18,7 +18,7 @@ function Client_PresentSettingsUI(rootParent)
 	UI.CreateLabel(row1).SetText(": " .. Mod.Settings.HiveCost)
 
 	local row2 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row2).SetText('Max amount of' .. name).SetColor('#00B5FF')
+	UI.CreateLabel(row2).SetText('Max amount of ' .. name .. '`s').SetColor('#00B5FF')
 	UI.CreateLabel(row2).SetText(": " .. Mod.Settings.Maxhives)
 
 	local row3 = UI.CreateHorizontalLayoutGroup(vert) 
@@ -36,8 +36,11 @@ function Client_PresentSettingsUI(rootParent)
 	UI.CreateLabel(row10).SetText(Mod.Settings.Nocities)
 
 	local row5 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row5).SetText('Can deploy troops: ').SetColor('#00B5FF')
-	UI.CreateLabel(row5).SetText(Mod.Settings.TDep) 
+	UI.CreateLabel(row5).SetText('Deployment Rules: ').SetColor('#00B5FF')
+	local deploy = "No limits"
+	if Mod.Settings.TDep == 2 then deploy = "can only deploy on " .. name
+	elseif Mod.Settings.TDep == 3 then deploy = "Cannot deploy troops" end
+	UI.CreateLabel(row5).SetText(deploy) 
 
 	local row6 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row6).SetText('Can play Airlift cards: ').SetColor('#00B5FF')
