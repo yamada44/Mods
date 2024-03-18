@@ -176,13 +176,17 @@ end
     local targetTerritoryID = tonumber(payloadSplit[1])
 
     local numUnitsAlreadyHave = 0;
-    for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
+    for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure builds are not above the Given amount
 
       if(ts.OwnerPlayerID == order.PlayerID) then
         numUnitsAlreadyHave = numUnitsAlreadyHave + Buildnumber(ts.Structures)
       end
     end
-    
+    if numUnitsAlreadyHave > Mod.Settings.Maxhives then 
+      addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Already at Max Structure limit. cannot build'))
+      skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+      return
+    end
     local mod = WL.TerritoryModification.Create(targetTerritoryID)
     local struc = {}
 
