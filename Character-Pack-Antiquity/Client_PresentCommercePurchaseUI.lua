@@ -221,7 +221,10 @@ end
 
 function CompletePurchaseClicked()
 print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
-	if Mod.Settings.Unitdata[Type].Oncity ~= nil and (Mod.Settings.Unitdata[Type].Oncity == true or Mod.Settings.Unitdata[Type].Oncity > 0) then
+	local city = false
+	if (Mod.Settings.Unitdata[i].Oncity == true )then city = true
+	elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity ~= false and Mod.Settings.Unitdata[i].Oncity > 0 then city = true end
+	if city then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures
 		local struc = Mod.Settings.Unitdata[Type].Oncity
