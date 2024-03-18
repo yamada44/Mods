@@ -105,7 +105,7 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(troopscon)
 
 	local row2 = UI.CreateHorizontalLayoutGroup(vert) -- structure type
-	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What Structure type can this slot build\n0 - Feature disabled\n1 - Cities\n2 - Army Camp\n3 - Mine\n4 - Smelter\n5 - Crafter\n6 - Market\n7 - Army Cache\n8 - Money Cache\n9 - Money Cache\n10 - Resource Cache\n11 - Mercenary Camp\n12 - Man and gun\n13 - Arena\n14 - Hospital\n15 - Dig Site\n16 - Artillery\n17 - Mortar\n18 - Book\nSet to 0 to disable") end)
+	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What Structure type can this slot build\n0 - Feature disabled\n1 - Cities\n2 - Army Camp\n3 - Mine\n4 - Smelter\n5 - Crafter\n6 - Market\n7 - Army Cache\n8 - Money Cache\n9 - Resource Cache\n10 - Mercenary Camp\n11 - DNA \n12 - Man and gun\n13 - Arena\n14 - Hospital\n15 - Dig Site\n16 - Artillery\n17 - Mortar\n18 - Book") end)
 	UI.CreateLabel(row2).SetText('Building type')
 	Buildfield = UI.CreateNumberInputField(row2)
 		.SetSliderMinValue(0)

@@ -21,7 +21,7 @@ end
 
 --build
 local build = Buildfield.GetValue()
-if build > 18 or build < 0 then alert("Mod set up failed\nYour Build value Must be between 0-18\nSet to 0 to disable Structures")
+if build > 17 or build < 0 then alert("Mod set up failed\nYour Build value Must be between 0-18\nSet to 0 to disable Structures")
 else 
 
    Mod.Settings.StructureType = Buildtype(build)
