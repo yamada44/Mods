@@ -58,13 +58,13 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(CostX)
 
 	local row6 = UI.CreateHorizontalLayoutGroup(vert) -- Troops needed to remove fort in a attack
-	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How much attacking power does someone need to remove a fort. The units needed to delete this fort will be destroyed in the attack") end)
+	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Set to -1 for manned forts. Meaning instead of destroying attacking armies by default. Attacks on forts are cancelled unless the attacking army has twice the amount of armies compared to defenders\nSet to 0 to have the fort cancel a attack(of any army size) and delete itself\nAbove 0 - Forts will cancel attacks until this number value attacks it. The units needed to delete this fort will be destroyed in the attack") end)
 	UI.CreateLabel(row6).SetText('Troops needed to remove Fort')
 	Needfield = UI.CreateNumberInputField(row6)
-	.SetSliderMinValue(1)
+	.SetSliderMinValue(-1)
 	.SetSliderMaxValue(100)
 	.SetValue(needattack)
---\nSet to -1 for manned forts. Meaning instead of destroying attacking armies by default. Attacks on forts are cancelled unless the attacking army has twice the amount of armies attacking compared to defenders
+--\n
 
 	local row66 = UI.CreateHorizontalLayoutGroup(vert) -- How many forts per Tile
 	UI.CreateButton(row66).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many Forts per tile allowed\nSet to 0 to disable") end)

@@ -36,16 +36,18 @@ end
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
   Game2 = game
 
-  if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack then 
+  if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack and Mod.Settings.TConv ~= 0 then 
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
     local troopgain = true
     if attackerZom == true or defenderZom == true then
-      if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then
-        if Mod.Settings.Attack == 2 then
+      --Running through attacking rules.
+      if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then -- make sure its neutral
+        
+        if Mod.Settings.Attack == 2 then -- cannot attack any neutrals
           troopgain = false
         skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-        elseif Mod.Settings.Attack == 3 then
+        elseif Mod.Settings.Attack == 3 then -- cannot 
         troopgain = false
         elseif Mod.Settings.Attack > 3 then
         local armies = game.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.NumArmies 

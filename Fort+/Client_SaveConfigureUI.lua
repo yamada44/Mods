@@ -29,7 +29,7 @@ end
 
 --Needed troops
 local need = Needfield.GetValue()
-if need < 1 then alert("Mod set up failed\nYour Needed troops value Must be 1 or above")
+if need < -1 then alert("Mod set up failed\nYour Needed troops value Must be -1 or above")
 else 
    Mod.Settings.Need = need
 end 

@@ -92,7 +92,7 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Only this slot in game will have these affects applied to it") end)
 	UI.CreateLabel(row0).SetText('Which Slot is the Horde')
     Slotfield = UI.CreateNumberInputField(row0)
-		.SetSliderMinValue(1)
+		.SetSliderMinValue(-1)
 		.SetSliderMaxValue(40)
 		.SetValue(slot)
 

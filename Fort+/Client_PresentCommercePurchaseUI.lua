@@ -88,8 +88,8 @@ function TerritoryClicked(terrDetails)
 	SelectTerritoryBtn.SetInteractable(true)
 
 		
-			local amount = Buildnumber(terrDetails.Structures)
-			if amount > SettingData.Limit  then UI.Alert("Can only have " .. SettingData.Limit " Forts on a single territory") return end
+			local amount = Buildnumber(Game.LatestStanding.Territories[terrDetails.ID].Structures)
+			if amount >= SettingData.Limit  then UI.Alert("Can only have " .. SettingData.Limit .." Forts on a single territory") return end
 	if (terrDetails == nil) then
 		--The click request was cancelled.   Return to our default state.
 		TargetTerritoryInstructionLabel.SetText("");
@@ -112,7 +112,7 @@ function CompletePurchaseClicked()
 
 
 
-	local msg = 'Building a Fort on ' .. SelectedTerritory.Name
+	local msg = 'The building of a Fort has begun on ' .. SelectedTerritory.Name
 	local payload = OrderstartsWith .. ";;"..  SelectedTerritory.ID
 
 	

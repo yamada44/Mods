@@ -5,7 +5,7 @@ function Client_SaveConfigureUI(alert)
 
 --Slot
      local slot = Slotfield.GetValue()
-     if slot > 40 or slot < 1 then alert("Mod set up failed\nYour Slot value Must be between 1-40")
+     if slot > 40 or slot == 0 or slot < -1 then alert("Mod set up failed\nYour Slot value Must be between 1-40 or -1 to disable all features except building Auto placer\ncannot be 0")
      else 
         slot = slot - 1
         Mod.Settings.Slot = slot
@@ -21,7 +21,7 @@ end
 
 --build
 local build = Buildfield.GetValue()
-if build > 17 or build < 0 then alert("Mod set up failed\nYour Build value Must be between 0-18\nSet to 0 to disable Structures")
+if build > 18 or build < 0 then alert("Mod set up failed\nYour Build value Must be between 0-18\nSet to 0 to disable Structures")
 else 
 
    Mod.Settings.StructureType = Buildtype(build)
