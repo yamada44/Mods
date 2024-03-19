@@ -25,35 +25,40 @@ function Client_SaveConfigureUI(alert)
 
             Mod.Settings.Unitdata[i].TempCreated = InputFieldTable[i].TempCreated
 
+        --cost
         local cost = TableFormat(InputFieldTable[i].unitcost,num)
         if cost < 1 then alert("Mod set up failed\nCost to buy this Unit must be positive\nReset to default settings"); 
             Mod.Settings.Unitdata[i].unitcost = 1
         else
         Mod.Settings.Unitdata[i].unitcost = cost; end 
 
-
+            --power
         local power = TableFormat(InputFieldTable[i].unitpower ,num)
         if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings")
             Mod.Settings.Unitdata[i].unitpower = 1
         else Mod.Settings.Unitdata[i].unitpower = power; end
 
+        --max attack
         local maxatt = TableFormat(InputFieldTable[i].AttackMax ,num)
         if maxatt < 0 or maxatt < power then alert("Mod set up failed\nUnits cannot have a Maximum attack power below 0 or below Minimum attack Range\nReset to default settings"); 
             Mod.Settings.Unitdata[i].AttackMax = Mod.Settings.Unitdata[i].unitpower
         else Mod.Settings.Unitdata[i].AttackMax = maxatt; end
     
+        --Max units
         local maxunits = TableFormat(InputFieldTable[i].Maxunits ,num)
         if maxunits > 5 or maxunits < 1 then alert("Mod set up failed\nMax Units cannot be greater then 5\nReset to default settings"); 
             Mod.Settings.Unitdata[i].Maxunits = 1
         else
         Mod.Settings.Unitdata[i].Maxunits = maxunits; end
 
+        --image
         local image = TableFormat(InputFieldTable[i].image ,num)
         if image < 0 or image > Maxpictures then alert("Mod set up failed\nOnly images between 0 -".. Maxpictures..'\nReset to default settings'); 
             Mod.Settings.Unitdata[i].image = 1
         else
         Mod.Settings.Unitdata[i].image = image; end
 
+        --Name
         if (TableFormat(InputFieldTable[i].Name,tex) ~= '' and TableFormat(InputFieldTable[i].Name,tex) ~= nil)then
         local name = TableFormat(InputFieldTable[i].Name,tex)
         Mod.Settings.Unitdata[i].Name = name;
@@ -62,23 +67,27 @@ function Client_SaveConfigureUI(alert)
             UI.Alert("NO NAME GIVEN TO UNIT TYPE(S) that are enabled\nTo disable Unit Types set their Maxunit's to 0\nReset to default settings")
         end
 
+        --shared
         local shared = TableFormat(InputFieldTable[i].Shared,boo)
         Mod.Settings.Unitdata[i].Shared = shared
 
+        --Visible
         local visible = TableFormat(InputFieldTable[i].Visible,boo)
         Mod.Settings.Unitdata[i].Visible = visible
         
+        -- Max on server
         local maxserver = TableFormat(InputFieldTable[i].MaxServer ,num)
         if (maxserver > 50 or maxserver < 0 )then maxserver = 0 alert("Max amount over entire server input outside data range. min: 0, Max: 50")
         else Mod.Settings.Unitdata[i].MaxServer = maxserver end
 
- 
+        --Min life
         local minlife = TableFormat(InputFieldTable[i].Minlife ,num)
        if minlife < 0 or minlife > 99 then 
         alert('Minimum amount for life is 0\nReset to default settings')
         Mod.Settings.Unitdata[i].Minlife = 0
        else Mod.Settings.Unitdata[i].Minlife = minlife end
 
+       --Max life
        local maxlife = TableFormat(InputFieldTable[i].Maxlife ,num)
        if maxlife < minlife or maxlife > 100 then 
         alert('Minimum amount for Max life is equal to "Minimum Turns alive" setting\n Max amount is 100 \nReset to default settings')
@@ -162,7 +171,7 @@ if type(templateValue) == "table" then -- to check type and make sure proper tab
     if tabletype == 'number' then 
         returnvalue = templateValue.GetValue()
 
-    elseif tabletype == 'boolean' then 
+    elseif tabletype == 'bool' then 
         returnvalue = templateValue.GetIsChecked()
     elseif tabletype == 'text' then 
         returnvalue = templateValue.GetText()

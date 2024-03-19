@@ -12,7 +12,7 @@ function Server_StartGame (game,standing)
 
             struc[Mod.Settings.StructureType] = 1
             ts.Structures = struc
-            ts.NumArmies = WL.Armies.Create(2,nil)
+            ts.NumArmies = WL.Armies.Create(5,nil)
         end
     end
 

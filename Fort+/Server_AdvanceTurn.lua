@@ -23,37 +23,71 @@ print(terrID,order.Payload)
 	--Check if this is an attack against a territory with a fort.
 --Add attack details
 	if (order.proxyType == 'GameOrderAttackTransfer' and result.IsAttack) then
-		local terr = game.ServerGame.LatestTurnStanding.Territories[order.From] 
+		local terr = game.ServerGame.LatestTurnStanding.Territories[order.To] 
 		--if result.IsSuccessful == true then terr = game.ServerGame.LatestTurnStanding.Territories[order.To]
 		--else terr = game.ServerGame.LatestTurnStanding.Territories[order.From] end
 
-		local structures = terr.Structures
+		local structures = game.ServerGame.LatestTurnStanding.Territories[order.To].Structures
 		
-
+		print("access -1",structures)
 		--If no fort here, abort.
 		if (structures == nil) then return end;
 		if (structures[WL.StructureType.MercenaryCamp] == nil) then return end
 		if (structures[WL.StructureType.MercenaryCamp] <= 0) then return end
 		local totalbuilds = structures[WL.StructureType.MercenaryCamp] 
-		print("access",Mod.Settings.Need)
-		if Mod.Settings.Need > 0 then
-			print(terr.NumArmies.AttackPower)
-			if terr.NumArmies.AttackPower >= Mod.Settings.Need then
 
-				local removedbuilds = math.floor(terr.NumArmies.AttackPower / (Mod.Settings.Need * totalbuilds))
-				local removedtroops = removedbuilds * Mod.Settings.Need
-				local SUremoved = {}
-				
-				structures[WL.StructureType.MercenaryCamp] = removedbuilds
-				print(removedbuilds,removedtroops,"firsttest")
-				if removedtroops > terr.NumArmies.NumArmies then 
-					removedtroops = terr.NumArmies.NumArmies
-					SUremoved = SUvalue(terr.NumArmies.SpecialUnits, removedtroops - terr.NumArmies.NumArmies)
+--Forts have troops built into them
+		if Mod.Settings.Need > 0 then
+			print(result.ActualArmies.AttackPower)
+			if result.ActualArmies.AttackPower >= Mod.Settings.Need then
+				local removedbuilds = 0
+				local leftover = 0
+				if result.ActualArmies.AttackPower > (Mod.Settings.Need * totalbuilds)then
+					removedbuilds = totalbuilds
+					leftover = result.ActualArmies.AttackPower - (Mod.Settings.Need * totalbuilds)
+				else
+					removedbuilds = math.floor(result.ActualArmies.AttackPower / Mod.Settings.Need)
 				end
-				local mod = WL.TerritoryModification.Create(terr.TerritoryID)
-				mod.AddArmies = removedtroops
-				mod.RemoveSpecialUnitsOpt = SUremoved
-				addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, removedbuilds .." Forts Destroyed", nil, {mod}))
+				
+				local removedtroops = removedbuilds * Mod.Settings.Need
+				local defendtroops = game.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.NumArmies
+				local SUremoved = {}
+				local SUdefenders = {}
+
+				--Adding SU value to calculations
+				if result.ActualArmies.NumArmies < removedtroops then 
+					SUremoved = SUvalue(result.ActualArmies.SpecialUnits, removedtroops - result.ActualArmies.NumArmies)
+				end
+
+				structures[WL.StructureType.MercenaryCamp] = structures[WL.StructureType.MercenaryCamp] - removedbuilds
+				print(removedbuilds,removedtroops,"firsttest",result.ActualArmies.AttackPower / (Mod.Settings.Need * totalbuilds),Mod.Settings.Need)
+				result.ActualArmies = WL.Armies.Create(leftover,SUremoved)
+
+
+				local bigmod = {}
+				local mod = WL.TerritoryModification.Create(order.To) -- the defenders
+				--mod.AddArmies = 0
+				--mod.RemoveSpecialUnitsOpt = SUremoved
+				mod.SetStructuresOpt = structures
+				local mod2 = WL.TerritoryModification.Create(order.From) -- the attackers
+				mod2.AddArmies = removedtroops * -1
+				mod2.RemoveSpecialUnitsOpt = SUremoved
+				
+				table.insert(bigmod,mod)
+				table.insert(bigmod,mod2)
+				addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, removedbuilds .." Forts Destroyed", nil, bigmod))
+				--not enough to take the spot, but enough to remove some forts
+				if result.ActualArmies.AttackPower < (Mod.Settings.Need * totalbuilds) then
+
+
+					if (result.DefendingArmiesKilled.IsEmpty) then
+						--A successful attack on a territory where no defending armies were killed must mean it was a territory defended by 0 armies.  In this case, we can't stop the attack by simply setting DefendingArmiesKilled to 0, since attacks against 0 are always successful.  So instead, we simply skip the entire attack.
+						skipThisOrder(WL.ModOrderControl.Skip)
+					else
+						result.DefendingArmiesKilled = WL.Armies.Create(leftover * game.Settings.OffenseKillRate )
+					end
+
+				end
 			else
 				if (result.DefendingArmiesKilled.IsEmpty) then
 					--A successful attack on a territory where no defending armies were killed must mean it was a territory defended by 0 armies.  In this case, we can't stop the attack by simply setting DefendingArmiesKilled to 0, since attacks against 0 are always successful.  So instead, we simply skip the entire attack.
@@ -62,7 +96,7 @@ print(terrID,order.Payload)
 					result.DefendingArmiesKilled = WL.Armies.Create(0)
 				end
 			end 
-
+--Forts stop attacks
 		elseif Mod.Settings.Need == 0 then -- Base Fort mod logic
 			--Attack found against a fort!  Cancel the attack and remove the fort.
 			
@@ -78,7 +112,7 @@ print(terrID,order.Payload)
 			else
 				result.DefendingArmiesKilled = WL.Armies.Create(0)
 			end
-		
+--Forst double the amount of troops built into them
 		elseif  Mod.Settings.Need == -1 then
 
 
@@ -126,16 +160,19 @@ function BuildForts(game, addNewOrder)
 	Mod.PrivateGameData = priv;
 end
 function SUvalue(SU,powerneeded)
-	local SUID = {}
+	local SUdata = {}
 	local currentpower = 0
 	for i,v in pairs(SU)do
+
 		currentpower = currentpower + v.AttackPower 
-		table.insert(SUID,v.ID)
+
 		if currentpower >= powerneeded  then
-			break
-		end
+			local build = WL.CustomSpecialUnitBuilder.Create(v.ID)
+			table.insert(SUdata,build.Build())
+			end
+
 
 	end
 	
-	return SUID
+	return SUdata
 end
