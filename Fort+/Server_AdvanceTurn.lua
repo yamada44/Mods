@@ -23,9 +23,9 @@ print(terrID,order.Payload)
 	--Check if this is an attack against a territory with a fort.
 --Add attack details
 	if (order.proxyType == 'GameOrderAttackTransfer' and result.IsAttack) then
-		local terr
-		if result.IsSuccessful == true then terr = game.ServerGame.LatestTurnStanding.Territories[order.To]
-		else terr = game.ServerGame.LatestTurnStanding.Territories[order.From] end
+		local terr = game.ServerGame.LatestTurnStanding.Territories[order.From] 
+		--if result.IsSuccessful == true then terr = game.ServerGame.LatestTurnStanding.Territories[order.To]
+		--else terr = game.ServerGame.LatestTurnStanding.Territories[order.From] end
 
 		local structures = terr.Structures
 		
@@ -35,15 +35,17 @@ print(terrID,order.Payload)
 		if (structures[WL.StructureType.MercenaryCamp] == nil) then return end
 		if (structures[WL.StructureType.MercenaryCamp] <= 0) then return end
 		local totalbuilds = structures[WL.StructureType.MercenaryCamp] 
-
+		print("access",Mod.Settings.Need)
 		if Mod.Settings.Need > 0 then
-
+			print(terr.NumArmies.AttackPower)
 			if terr.NumArmies.AttackPower >= Mod.Settings.Need then
+
 				local removedbuilds = math.floor(terr.NumArmies.AttackPower / (Mod.Settings.Need * totalbuilds))
 				local removedtroops = removedbuilds * Mod.Settings.Need
 				local SUremoved = {}
+				
 				structures[WL.StructureType.MercenaryCamp] = removedbuilds
-
+				print(removedbuilds,removedtroops,"firsttest")
 				if removedtroops > terr.NumArmies.NumArmies then 
 					removedtroops = terr.NumArmies.NumArmies
 					SUremoved = SUvalue(terr.NumArmies.SpecialUnits, removedtroops - terr.NumArmies.NumArmies)

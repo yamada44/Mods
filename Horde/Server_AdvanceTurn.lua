@@ -234,14 +234,12 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 Mod.PublicGameData = publicdata]]
 end
 function Slotchecker(playerid)
-  print (playerid,"id")
   if playerid == 0 or playerid == nil then return false end
   local issame = false
   	--SettingData.Slot
 	--game.Settings.CustomScenario.SlotsAvailable
 	--Game.Us.Slot
 
-  print(Mod.Settings.Slot, Game2.Game.PlayingPlayers[playerid].Slot)
   if Mod.Settings.Slot == Game2.Game.PlayingPlayers[playerid].Slot then
     issame = true
   end
