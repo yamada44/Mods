@@ -157,7 +157,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     end
     --No deployment
     EliminateWasteLogic(game,addNewOrder) 
-    
+    if true then return end
     if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
         if Mod.Settings.TDep == 3 then 
