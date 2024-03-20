@@ -271,7 +271,7 @@ function EliminateWasteLogic(game,addNewOrder) -- Eliminate to wasteland
 
  for _,ts in pairs(Terr)do -- getting the Territories of each player
 
-  local mod = WL.TerritoryModification.Create(ts)
+  local mod = WL.TerritoryModification.Create(ts.ID)
  
    mod.SetOwnerOpt = 0
    mod.SetArmiesTo = 0
