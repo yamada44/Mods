@@ -6,8 +6,8 @@ function Client_PresentSettingsUI(rootParent)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row0).SetText('Only this Slot is effected by these settings: ').SetColor('#00B5FF')
-	UI.CreateLabel(row0).SetText(Mod.Settings.Slot + 1)
+	UI.CreateLabel(row0).SetText('Only these Slots are effected by these settings: ').SetColor('#00B5FF')
+	UI.CreateLabel(row0).SetText(Mod.Settings.Slotstore)
 
 	local row00 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row00).SetText('Percentaged of killed troops converted to this slot: ').SetColor('#00B5FF')
