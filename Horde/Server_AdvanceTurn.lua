@@ -132,7 +132,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       ::next::
 
   end
-  if Slotchecker(order.PlayerID) then    
+  if true then    
 
     print(order.proxyType, "orderproxy")
     --No certain cards
