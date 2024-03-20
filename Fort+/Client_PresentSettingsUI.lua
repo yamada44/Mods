@@ -31,7 +31,7 @@ function Client_PresentSettingsUI(rootParent)
 
 	local row33 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row33).SetText('Turns between power increase (value above): ').SetColor('#00B5FF')
-	UI.CreateLabel(row33).SetText(Mod.Settings.turn)
+	UI.CreateLabel(row33).SetText(Mod.Settings.Turn)
 
 	local row44 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row44).SetText('Does cost of forts also increase with power of forts: ').SetColor('#00B5FF')
