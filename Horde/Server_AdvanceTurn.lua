@@ -15,6 +15,9 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
    
   end]]
+  local Pub = Mod.PublicGameData 
+  if Pub.Fortdata == nil then Pub.Fortdata = {} end
+
   if Mod.Settings.CityGone > 0 then
     for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do 
       if Slotchecker(ts.OwnerPlayerID ) then  
@@ -40,6 +43,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
     local troopgain = true
+
+    local Fortattackcount = Mod.Settings.Fortcount
     if attackerZom == true or defenderZom == true then
       --Running through attacking rules.
       if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then -- make sure its neutral

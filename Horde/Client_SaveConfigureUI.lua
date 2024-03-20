@@ -86,6 +86,14 @@ end
    else 
       Mod.Settings.Attack = attack
    end 
+
+--Fort rules
+local fort = Fortfield.GetValue()
+if fort > 5 or fort < 0 then alert("Mod set up failed\nYour Fort attack value Must be between 0 and 5")
+else 
+   Mod.Settings.Fort = fort
+end 
+   
    
 --Airlift card
    Mod.Settings.PlayAir = Airfield.GetIsChecked()

@@ -86,6 +86,12 @@ function Client_PresentConfigureUI(rootParent)
 		attack = 1
 	end	
 
+	--This slot Fort attack Rules
+	local fort = Mod.Settings.Fort
+	if fort == nil then
+		fort = 0
+	end	
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- Slot
@@ -114,7 +120,7 @@ function Client_PresentConfigureUI(rootParent)
 
 	local row3 = UI.CreateHorizontalLayoutGroup(vert); -- Hive Cost
 	UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("The cost of each Structure type") end)
-	UI.CreateLabel(row3).SetText('Cost of each Hive')
+	UI.CreateLabel(row3).SetText('Cost of each Structure')
 	Costfield = UI.CreateNumberInputField(row3)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(1000)
@@ -122,7 +128,7 @@ function Client_PresentConfigureUI(rootParent)
 
 	local row4 = UI.CreateHorizontalLayoutGroup(vert) -- Max Hives
 	UI.CreateButton(row4).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many Structures of this type can you have\nSet to 0 to disable while still having the auto placer work") end)
-	UI.CreateLabel(row4).SetText('Max Hive amount')
+	UI.CreateLabel(row4).SetText('Max Structures allowed')
 	Maxfield = UI.CreateNumberInputField(row4)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(20)
@@ -130,7 +136,7 @@ function Client_PresentConfigureUI(rootParent)
 
 		local row5 = UI.CreateHorizontalLayoutGroup(vert) -- Autoplacer for Hives
 		UI.CreateButton(row5).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Go into custom scenrio, change the army value of a tile to this value. when the game starts it will have this territory") end)
-	UI.CreateLabel(row5).SetText('Auto place Hives')
+	UI.CreateLabel(row5).SetText('Auto place Structure')
 	Autofield = UI.CreateNumberInputField(row5)
 		.SetSliderMinValue(1)
 		.SetSliderMaxValue(1234)
@@ -145,8 +151,8 @@ function Client_PresentConfigureUI(rootParent)
 		.SetValue(cityremoved)
 
 	local row6 = UI.CreateHorizontalLayoutGroup(vert) -- Can Deploy troops
-	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - no limits on deployment\n2 - only on Structure Type, 3 == Cannot deploy at all") end)
-	UI.CreateLabel(row6).SetText('Can this slot Deploy Troops')
+	UI.CreateButton(row6).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - no limits on deployment\n2 - only on Structure Type\n3 - Cannot deploy at all") end)
+	UI.CreateLabel(row6).SetText('Deploy Rules')
 	Deployfield = UI.CreateNumberInputField(row6)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(3)
@@ -159,6 +165,14 @@ function Client_PresentConfigureUI(rootParent)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(1000)
 	.SetValue(attack)
+
+	local row07 = UI.CreateHorizontalLayoutGroup(vert) -- Fort Rules
+	UI.CreateButton(row07).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many attacks can a Fort (from fort tactics mod) take before being destroyed. commonly used for ais\nSet to 0 to disable") end)
+	UI.CreateLabel(row07).SetText('Fort attacks before destroyed')
+	Fortfield = UI.CreateNumberInputField(row07)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(5)
+	.SetValue(fort)
 
 	local row7 = UI.CreateHorizontalLayoutGroup(vert) -- can play airlift cards
 	UI.CreateButton(row7).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot play Airlift cards") end)
