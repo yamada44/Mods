@@ -8,7 +8,7 @@ function Client_PresentSettingsUI(rootParent)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row0).SetText('Only these Slots are effected by these settings: ').SetColor('#00B5FF')
 	local text = Mod.Settings.Slotstore
-	if text == "" or text == nil then text = "Auto placer mode"
+	if text == "" or text == nil then text = "Auto placer mode" end
 	UI.CreateLabel(row0).SetText(text)
 
 	local row00 = UI.CreateHorizontalLayoutGroup(vert) 
