@@ -127,6 +127,10 @@ print(terrID,order.Payload)
 end
 function Server_AdvanceTurn_End(game, addNewOrder)
 	BuildForts(game, addNewOrder)
+	local pub = Mod.PublicGameData
+	if pub.fortlocation == nil then pub.fortlocation = {} end
+	
+
 end
 
 function BuildForts(game, addNewOrder)
