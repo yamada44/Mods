@@ -132,7 +132,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       ::next::
 
   end
-  if true then    
+  if Slotchecker(order.PlayerID) then    
 
     print(order.proxyType, "orderproxy")
     --No certain cards
@@ -236,6 +236,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 Mod.PublicGameData = publicdata]]
 end
 function Slotchecker(playerid)
+  if true then return true end
   if playerid == 0 or playerid == nil then return false end
   local issame = false
 
