@@ -139,7 +139,7 @@ function BuildForts(game, addNewOrder)
 	local priv = Mod.PrivateGameData
 	if priv.PendingForts == nil then return end
 	print(priv)
-	local pending = priv.PendingForts[1]
+	local pending = priv.PendingForts
 	if (pending == nil) then return end
 	local numUnitsAlreadyHave = 0
 	local message = "Fort Build complete"
