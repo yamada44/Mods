@@ -35,7 +35,7 @@ end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
   Game2 = game
-
+if true then return end
   if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack and Mod.Settings.TConv ~= 0 then 
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
