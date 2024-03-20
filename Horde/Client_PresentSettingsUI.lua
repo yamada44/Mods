@@ -7,7 +7,9 @@ function Client_PresentSettingsUI(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row0).SetText('Only these Slots are effected by these settings: ').SetColor('#00B5FF')
-	UI.CreateLabel(row0).SetText(Mod.Settings.Slotstore)
+	local text = Mod.Settings.Slotstore
+	if text == "" or text == nil then text = "Auto placer mode"
+	UI.CreateLabel(row0).SetText(text)
 
 	local row00 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row00).SetText('Percentaged of killed troops converted to this slot: ').SetColor('#00B5FF')
