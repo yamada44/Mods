@@ -13,10 +13,10 @@ print(terrID,order.Payload)
 		pendingFort.TerritoryID = terrID
 
 
-		local priv = Mod.PrivateGameData
+		local priv = Mod.PublicGameData
 		if (priv.PendingForts == nil) then priv.PendingForts = {} end
 		table.insert(priv.PendingForts, pendingFort)
-		Mod.PrivateGameData = priv
+		Mod.PublicGameData = priv
 		
 	end
 
@@ -136,10 +136,10 @@ end
 function BuildForts(game, addNewOrder)
 	--Build any forts that we queued in up Server_AdvanceTurn_Order
 	
-	local priv = Mod.PrivateGameData
+	local priv = Mod.PublicGameData
 	if priv.PendingForts == nil then return end
-
-	local pending = priv.PendingForts
+for i,v in pairs (priv.PendingForts) do
+	local pending = v
 	if (pending == nil) then return end
 	local numUnitsAlreadyHave = 0
 	local message = "Fort Build complete"
@@ -163,10 +163,11 @@ function BuildForts(game, addNewOrder)
     mod.AddStructuresOpt = struc
 	
 	addNewOrder(WL.GameOrderEvent.Create(pending.PlayerID, message, nil, {mod}))
-	
+end
 
 	priv.PendingForts = nil
-	Mod.PrivateGameData = priv;
+	Mod.PublicGameData = priv
+	
 end
 function SUvalue(SU,powerneeded)
 	local SUdata = {remove = {},add = {},totalpower = 0}
