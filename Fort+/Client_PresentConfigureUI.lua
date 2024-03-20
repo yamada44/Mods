@@ -11,7 +11,7 @@ function Client_PresentConfigureUI(rootParent)
 	-- max hivies
 	local maxH = Mod.Settings.Maxhives
 	if maxH == nil then
-		maxH = 0
+		maxH = 1
 	end
 
 	--Cost increase 
@@ -23,7 +23,7 @@ function Client_PresentConfigureUI(rootParent)
 	--Troops needed to remove 
 	local needattack = Mod.Settings.Need
 	if needattack == nil then
-		needattack = 0
+		needattack = 10
 	end
 	--Forts per tile
 	local limit = Mod.Settings.Limit
@@ -33,7 +33,7 @@ function Client_PresentConfigureUI(rootParent)
 	--Scale
 	local scale = Mod.Settings.Scale
 	if scale == nil then
-		scale = 40
+		scale = 0
 	end
 	--Turn
 	local turn = Mod.Settings.Turn

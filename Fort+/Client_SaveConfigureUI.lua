@@ -13,7 +13,7 @@ end
 
 --Max
 local max = Maxfield.GetValue()
-if max > 25 or max < 1 then alert("Mod set up failed\nYour Max Hive value Must be between 1-25")
+if max > 25 or max < 1 then alert("Mod set up failed\nYour Max Fort value Must be between 1-25")
 else 
 
    Mod.Settings.Maxhives = max
