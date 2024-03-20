@@ -35,7 +35,7 @@ end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
   Game2 = game
-if true then return end
+
   if order.proxyType == "GameOrderAttackTransfer" and result.IsAttack and Mod.Settings.TConv ~= 0 then 
     local attackerZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID) 
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
@@ -156,16 +156,14 @@ if true then return end
       skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
     end
     --No deployment
-
-    --if true then return end
-    --[[if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
+    if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
         if Mod.Settings.TDep == 3 then 
           skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
         elseif Mod.Settings.TDep == 2 and (build == nil or build[Mod.Settings.StructureType] == 0)  then
           skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
         end
-    end]]--
+    end
 end
   
 
@@ -205,7 +203,7 @@ end
 end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
-  EliminateWasteLogic(game,addNewOrder) 
+ 
   
   --[[
     local publicdata = Mod.PublicGameData
@@ -236,7 +234,6 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 Mod.PublicGameData = publicdata]]
 end
 function Slotchecker(playerid)
-  if true then return true end
   if playerid == 0 or playerid == nil then return false end
   local issame = false
 
@@ -261,31 +258,4 @@ function SUdamageCal(order,SU,deathSU)
 
 
 return totaldamage
-end
-
-function EliminateWasteLogic(game,addNewOrder) -- Eliminate to wasteland 
-  --645468
-
-  local Terr = game.ServerGame.LatestTurnStanding.Territories
-
-
- for _,ts in pairs(Terr)do -- getting the Territories of each player
-
-  local mod = WL.TerritoryModification.Create(ts.ID)
- 
-   mod.SetOwnerOpt = 0
-   mod.SetArmiesTo = 0
-
-  addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", nil, {mod}))
-
-
-  
- end
-
-
-
-
-
-
-
 end
