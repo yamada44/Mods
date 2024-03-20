@@ -156,7 +156,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
     end
     --No deployment
-    EliminateWasteLogic(game,addNewOrder) 
+
     --if true then return end
     --[[if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
@@ -205,7 +205,7 @@ end
 end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
- 
+  EliminateWasteLogic(game,addNewOrder) 
   
   --[[
     local publicdata = Mod.PublicGameData
