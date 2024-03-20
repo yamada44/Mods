@@ -30,6 +30,21 @@ function Client_PresentConfigureUI(rootParent)
 	if limit == nil then
 		limit = 1
 	end
+	--Scale
+	local scale = Mod.Settings.Scale
+	if scale == nil then
+		scale = 40
+	end
+	--Turn
+	local turn = Mod.Settings.Turn
+	if turn == nil then
+		turn = 20
+	end
+	--market
+	local market = Mod.Settings.Market
+	if market == nil then
+		market = false
+	end
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 
@@ -64,7 +79,6 @@ function Client_PresentConfigureUI(rootParent)
 	.SetSliderMinValue(-1)
 	.SetSliderMaxValue(100)
 	.SetValue(needattack)
---\n
 
 	local row66 = UI.CreateHorizontalLayoutGroup(vert) -- How many forts per Tile
 	UI.CreateButton(row66).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many Forts per tile allowed\nSet to 0 to disable") end)
@@ -74,4 +88,26 @@ function Client_PresentConfigureUI(rootParent)
 	.SetSliderMaxValue(3)
 	.SetValue(limit)
 	
+	local row77 = UI.CreateHorizontalLayoutGroup(vert) -- Scale
+	UI.CreateButton(row77).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("increase power for Forts by this number every (Setting below) turns\nSet to 0 to disable\nOnly works when your troops needed to remove fort value is above 0") end)
+	UI.CreateLabel(row77).SetText('Power Scaling')
+	Scalefield = UI.CreateNumberInputField(row77)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(100)
+	.SetValue(scale)
+
+	local row99 = UI.CreateHorizontalLayoutGroup(vert) -- Turn
+	UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many Turns between each power increase for forts\nSet the value above to 0 to disable\nOnly works when your troops needed to remove fort value is above 0") end)
+	UI.CreateLabel(row99).SetText('Turns For power Scaling')
+	Turnfield = UI.CreateNumberInputField(row99)
+	.SetSliderMinValue(0)
+	.SetSliderMaxValue(100)
+	.SetValue(turn)
+
+	local row101 = UI.CreateHorizontalLayoutGroup(vert) -- Cost upkeep
+	UI.CreateButton(row101).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("If power scaling is turned on, do you want the cost to keep up with the power increase\nOnly works when your troops needed to remove fort value is above 0") end)
+	UI.CreateLabel(row101).SetText('Cost keeps up with turn Scaling')
+	Marketfield = UI.CreateCheckBox(row101).SetText("").SetIsChecked(market)
+
+
 end

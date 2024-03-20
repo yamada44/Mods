@@ -84,7 +84,7 @@ local iyear = Mod.Settings.IYear
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- adding the correct map
 	
 
-    local row1 = UI.CreateHorizontalLayoutGroup(vert); -- Years
+    local row1 = UI.CreateHorizontalLayoutGroup(vert) -- Years
 	UI.CreateLabel(row1).SetText('Starting Year')
     yearfield = UI.CreateNumberInputField(row1)
 		.SetSliderMinValue(1)

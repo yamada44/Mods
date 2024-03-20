@@ -4,9 +4,9 @@ function Client_PresentConfigureUI(rootParent)
 	--Troop converted to horde
 	local slot = Mod.Settings.Slot
 	if slot == nil then
-		slot = 1
+		slot = "1"
 	else 
-		slot = slot + 1
+		slot = Mod.Settings.Slotstore 
 	end
 
 	local troopscon = Mod.Settings.TConv
@@ -89,12 +89,12 @@ function Client_PresentConfigureUI(rootParent)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- Slot
-	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Only this slot in game will have these affects applied to it") end)
-	UI.CreateLabel(row0).SetText('Which Slot is the Horde')
-    Slotfield = UI.CreateNumberInputField(row0)
-		.SetSliderMinValue(-1)
-		.SetSliderMaxValue(40)
-		.SetValue(slot)
+	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Only these slot's in game will have these effects applied to it\n use '/' to define a new slot without spaces or numbers\nleave blank to affect no slots and just use auto placer") end)
+	UI.CreateLabel(row0).SetText('Which Slot`s is the Zombies/bandits/ect.')
+    Slotfield = UI.CreateTextInputField(vert)
+	.SetPlaceholderText("Slots").SetText(slot)
+	.SetFlexibleWidth(1)
+	.SetCharacterLimit(300)
 
     local row1 = UI.CreateHorizontalLayoutGroup(vert) -- troops converted
 	UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("After each kill what percentage of troops are transfered to your side. this works while defending and attacking\nSet to 0 to disable") end)

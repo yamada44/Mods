@@ -41,4 +41,21 @@ else
    Mod.Settings.Limit = limit
 end 
 
+--Limit
+local scale = Scalefield.GetValue()
+if scale < 0  then alert("Mod set up failed\nYour Turn scale value Must be 0 or higher")
+else 
+   Mod.Settings.Scale = scale
+end 
+
+--Turn
+local turn = Turnfield.GetValue()
+if turn < 1  or turn > 100 then alert("Mod set up failed\nYour Turn scale value Must be between 1 and 100\nSet Turn scale to 0 to disable")
+else 
+   Mod.Settings.Turn = turn
+end 
+
+--Market value
+   Mod.Settings.Market = Marketfield.GetIsChecked()
+
 end

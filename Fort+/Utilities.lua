@@ -128,3 +128,8 @@ function Buildnumber(Build)
 	
 	return ret
 end
+function Howmany20(value)
+local total
+	total = math.floor(value / Mod.Settings.Turn)
+	return total	
+end

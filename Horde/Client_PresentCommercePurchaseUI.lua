@@ -12,9 +12,13 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 
 print (SettingData.Slot, Game.Us.Slot )
-	if SettingData.Slot ~= Game.Us.Slot then 
-		UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Mod.Settings.Buildname)
-		return 	end
+	local isZom = false
+	for i = 1, #Mod.Settings.Slot do
+		if SettingData.Slot[i] == Game.Us.Slot then 
+			isZom = true
+		end end
+		if isZom == false then
+		UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Mod.Settings.Buildname) return end
 
 	if SettingData.StructureType == 0 then
 		UI.CreateLabel(rootParent).SetText("No building types for this Game")
@@ -90,15 +94,15 @@ function TerritoryClicked(terrDetails)
 
 	if (terrDetails == nil) then
 		--The click request was cancelled.   Return to our default state.
-		TargetTerritoryInstructionLabel.SetText("");
-		SelectedTerritory = nil;
-		BuyUnitBtn.SetInteractable(false);
+		TargetTerritoryInstructionLabel.SetText("")
+		SelectedTerritory = nil
+		BuyUnitBtn.SetInteractable(false)
 	else
 		--Territory was clicked, check it
 		if (Game.LatestStanding.Territories[terrDetails.ID].OwnerPlayerID ~= Game.Us.ID) then
-			TargetTerritoryInstructionLabel.SetText("You may only Build on a territory you own, please try again");
+			TargetTerritoryInstructionLabel.SetText("You may only Build on a territory you own, please try again")
 		else
-			TargetTerritoryInstructionLabel.SetText("Selected territory: " .. terrDetails.Name);
+			TargetTerritoryInstructionLabel.SetText("Selected territory: " .. terrDetails.Name)
 			SelectedTerritory = terrDetails
 			BuyUnitBtn.SetInteractable(true)
 		end

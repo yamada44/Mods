@@ -3,13 +3,26 @@ require('Utilities')
 
 function Client_SaveConfigureUI(alert)
 
+   local slotamount = split(Slotfield.GetText(), '/')
+
+   local slotnumbers = {}
+   for i,v in pairs (slotamount) do
+      if string.match(v, '%D+') then
+          alert("Mod set up failed\nCan only inlcude numbers for slot days") 
+         return
+      elseif string.len(v) > 2 or string.len(v) < 1 then
+          alert("Mod set up failed\nEach Slot must remain between 1-99 ") 
+          return
+      end
+      table.insert(slotnumbers,tonumber(v - 1))
+      
+  end
+
 --Slot
-     local slot = Slotfield.GetValue()
-     if slot > 40 or slot == 0 or slot < -1 then alert("Mod set up failed\nYour Slot value Must be between 1-40 or -1 to disable all features except building Auto placer\ncannot be 0")
-     else 
-        slot = slot - 1
-        Mod.Settings.Slot = slot
-     end 
+
+        Mod.Settings.Slot = slotnumbers
+        Mod.Settings.Slotstore = Slotfield.GetText()
+      
 
 --troop converstion
 local tcon = Convfield.GetValue()

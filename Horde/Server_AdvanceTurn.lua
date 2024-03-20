@@ -156,6 +156,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
       skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
     end
     --No deployment
+    EliminateWasteLogic(game,addNewOrder) 
+    
     if order.proxyType == "GameOrderDeploy" and Mod.Settings.TDep > 1 then 
         local build = game.ServerGame.LatestTurnStanding.Territories[order.DeployOn].Structures
         if Mod.Settings.TDep == 3 then 
@@ -236,15 +238,13 @@ end
 function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
   local issame = false
-  	--SettingData.Slot
-	--game.Settings.CustomScenario.SlotsAvailable
-	--Game.Us.Slot
 
-  if Mod.Settings.Slot == Game2.Game.PlayingPlayers[playerid].Slot then
-    issame = true
-  end
+	for i = 1, #Mod.Settings.Slot do
+		if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
+			issame = true
+		end end
 
-  return issame
+      return issame
 end
 
 function SUdamageCal(order,SU,deathSU)
@@ -260,4 +260,31 @@ function SUdamageCal(order,SU,deathSU)
 
 
 return totaldamage
+end
+
+function EliminateWasteLogic(game,addNewOrder) -- Eliminate to wasteland 
+  --645468
+
+  local Terr = game.ServerGame.LatestTurnStanding.Territories
+
+
+ for _,ts in pairs(Terr)do -- getting the Territories of each player
+
+  local mod = WL.TerritoryModification.Create(ts)
+ 
+   mod.SetOwnerOpt = 0
+   mod.SetArmiesTo = 0
+
+  addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", nil, {mod}))
+
+
+  
+ end
+
+
+
+
+
+
+
 end

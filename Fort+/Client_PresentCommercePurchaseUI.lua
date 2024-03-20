@@ -12,20 +12,39 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	Xincrease = 0
-	
+	Xincrease = Mod.Settings.Costincrease
+	local buildnumber = 0
+	local turnscale = 0
+	local combatinfo = "double that of standing army inside"
+
+	if Mod.Settings.Scale > 0 then 
+		turnscale = Howmany20(Game.Game.TurnNumber)
+	end
+	if Mod.Settings.Need == 0 then combatinfo = "0. will cancel attack before destroying Fort"
+	elseif Mod.Settings.Need > 0 then combatinfo = Mod.Settings.Need + (turnscale * Mod.Settings.Scale) end
 	if SettingData.Costincrease ~= 0 then
 		for _,ts in pairs(Game.LatestStanding.Territories) do --ts is value of territories table
 			if (ts.OwnerPlayerID == ID) then
 				
-				Xincrease = Xincrease + Buildnumber(ts.Structures)
+				buildnumber = buildnumber + Buildnumber(ts.Structures)
 			end
 		end
 	
 	end
-	if Xincrease == 0 then Xincrease = 1 end
+
+	--if buildnumber == 0 then buildnumber = 1 end
+	Xincrease = Xincrease * buildnumber
+	CostScale = 0
+	if Mod.Settings.Market == true then 
+		local percent = ((Mod.Settings.Need + (turnscale * Mod.Settings.Scale)) - Mod.Settings.Need) / Mod.Settings.Need
+		CostScale = percent
+		--if CostScale == 0 then CostScale = 1 end
+	end
+	print(CostScale,"scale")
+	PreFinalcost = (SettingData.HiveCost + Xincrease)
+	print(PreFinalcost,"pre",(PreFinalcost * CostScale),SettingData.HiveCost , Xincrease)
 	local buttonmessage = "Build a Fort"
-	local infomessage = "This Fort cost " .. (SettingData.HiveCost * Xincrease) .. "\nYou can only have ".. SettingData.Maxhives .. " at a time"
+	local infomessage = "This Fort cost " .. math.floor(PreFinalcost + (PreFinalcost * CostScale)) .. "\nYou can only have ".. SettingData.Maxhives .. " at a time\nFort Combat power is " .. combatinfo
 
 	UI.CreateLabel(row1).SetText(infomessage)
 	UI.CreateButton(row1).SetText(buttonmessage).SetOnClick(PurchaseClicked).SetInteractable(true).SetFlexibleWidth(1)
@@ -117,7 +136,7 @@ function CompletePurchaseClicked()
 
 	
 	local orders = Game.Orders
-	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = (SettingData.HiveCost * Xincrease) } ))
+	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = math.floor(PreFinalcost + (PreFinalcost * CostScale))  } ))
 	Game.Orders = orders;
 
 
