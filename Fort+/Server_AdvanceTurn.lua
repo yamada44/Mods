@@ -29,7 +29,6 @@ print(terrID,order.Payload)
 
 		local structures = game.ServerGame.LatestTurnStanding.Territories[order.To].Structures
 		
-		print("access -1",structures)
 		--If no fort here, abort.
 		if (structures == nil) then return end;
 		if (structures[WL.StructureType.MercenaryCamp] == nil) then return end
