@@ -4,10 +4,10 @@ function Client_PresentSettingsUI(rootParent)
 
 
 
-	local vert = UI.CreateVerticalLayoutGroup(rootParent);
+	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 		for i = 1, Mod.Settings.BeforeMax  do 
-			local vert = UI.CreateVerticalLayoutGroup(rootParent);
+			local vert = UI.CreateVerticalLayoutGroup(rootParent)
 			local image = Imagename(Mod.Settings.Unitdata[i].image)
 			local Shared = 'False'
 			local Vis = 'False'
@@ -23,12 +23,13 @@ function Client_PresentSettingsUI(rootParent)
 			local assass = 0
 			local auto = 0
 			local powermessage = 'Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower
+			local slot = "All"
 		
 		
 			if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 		
 
-		
+						if (Mod.Settings.Unitdata[i].Slotstore ~= nil)then slot = Mod.Settings.Unitdata[i].Slotstore end
 						if (Mod.Settings.Unitdata[i].Shared == true)then Shared = 'True' end
 						if (Mod.Settings.Unitdata[i].Visible == true)then Vis = 'True' end
 						if (Mod.Settings.Unitdata[i].Altmoves ~= nil and Mod.Settings.Unitdata[i].Altmoves == true)then even = 'True' end
@@ -51,26 +52,24 @@ function Client_PresentSettingsUI(rootParent)
 				UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
 				UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
 				UI.CreateLabel(vert).SetText(powermessage).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Defence power in armies: ' .. defend);
+				UI.CreateLabel(vert).SetText('Defence power in armies: ' .. defend)
 				UI.CreateLabel(vert).SetText('Max amount at once: ' .. Mod.Settings.Unitdata[i].Maxunits).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Life range: ' .. Mod.Settings.Unitdata[i].Minlife .. ' - '.. Mod.Settings.Unitdata[i].Maxlife)
 				UI.CreateLabel(vert).SetText('Unit tranfered upon death Amount: ' .. transfer).SetColor('#dbddf4')
 				UI.CreateLabel(vert).SetText('Max amount of units allowed to be spawned over entire game: ' .. MaxServer)
 				UI.CreateLabel(vert).SetText('Base Number of armies needed to kill to level up: ' .. level).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active)
-				UI.CreateLabel(vert).SetText('Combat order: ' .. combat).SetColor('#dbddf4') --
-				UI.CreateLabel(vert).SetText('Create on Structure type only: ' .. city) --
-				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis)
-				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown)
-				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass).SetColor('#dbddf4')
-				UI.CreateLabel(vert).SetText('Auto Place Number: ' .. auto)
-				UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Slots that can build this unit type: ' .. slot)
+				UI.CreateLabel(vert).SetText('Unit locked till turn: ' .. active).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Combat order: ' .. combat)
+				UI.CreateLabel(vert).SetText('Create on Structure type only: ' .. city).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Shared Max between players: ' .. Shared)
+				UI.CreateLabel(vert).SetText('Visible to all players: ' .. Vis).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Move on Even turns only: ' .. even)
+				UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
+				UI.CreateLabel(vert).SetText('Auto Place Number: ' .. auto).SetColor('#dbddf4')
+				UI.CreateLabel(vert).SetText('Image used: ' .. image)
 	
-
-
-
 
 				::next::
 	end
