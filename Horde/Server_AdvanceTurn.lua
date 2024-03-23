@@ -15,8 +15,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
    
   end]]
-  local Pub = Mod.PublicGameData 
-  if Pub.Fortdata == nil then Pub.Fortdata = {} end
+
 
   if Mod.Settings.CityGone > 0 then
     for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do 
@@ -44,8 +43,19 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     local defenderZom = Slotchecker(game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID) 
     local troopgain = true
 
-    local Fortattackcount = Mod.Settings.Fortcount
+  
+
     if attackerZom == true or defenderZom == true then
+
+      --Checking to see if Fort Tactics Fort is there and if the zombies are attacking it. if so, then increase attack amount by 1
+      local priv = Mod.PublicGameData
+      local structure = game.ServerGame.LatestTurnStanding.Territories[order.To].Structures
+      if (attackerZom == true and structure ~= nil and structure[WL.StructureType.MercenaryCamp] ~=  nil and structure[WL.StructureType.MercenaryCamp] > 0) then  
+        priv = FortLogic(priv,order.To,order.PlayerID)
+      end
+      Mod.PublicGameData = priv
+      
+
       --Running through attacking rules.
       if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then -- make sure its neutral
         
@@ -62,9 +72,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
           end
        end
       end
-    for i,v in pairs (result.DamageToSpecialUnits) do 
-      print(i,v, "print")
-    end
 
     --Attacking for zombies
       if troopgain then
@@ -263,4 +270,48 @@ function SUdamageCal(order,SU,deathSU)
 
 
 return totaldamage
+end
+
+function RemoveFort(game, addNewOrder)
+	--Build any forts that we queued in up Server_AdvanceTurn_Order
+	
+	local priv = Mod.PublicGameData
+	if priv.PendingForts == nil then return end
+for i = 1, (priv.PendingForts) do
+	local pending = priv.PendingForts[i]
+	if (pending == nil) then return end
+  if pending.Attackcount >= Mod.Settings.Fort then
+    local message = "Fort destroyed by repeated attacks"
+
+    -- We will now build a fort for each pending fort.  However, we need to take care to ensure that if there are two build orders for the same territory that we build both of them, so we first group by the territory ID so we get all build orders for the same territory together.
+    local mod = WL.TerritoryModification.Create(pending.TerritoryID)
+    local struc = {}
+    struc[WL.StructureType.MercenaryCamp] = -1
+    mod.AddStructuresOpt = struc
+    
+    addNewOrder(WL.GameOrderEvent.Create(pending.PlayerID, message, nil, {mod}))
+    table.remove(priv.PendingForts,i)
+    i = i - 1
+  end
+
+end
+--remove logic
+
+	Mod.PublicGameData = priv
+	
+end
+
+function FortLogic(priv,To,PlayerID)
+  if priv == nil then priv = {} end
+  if priv.pendingFort == nil then priv.PendingForts = {} end
+  if priv.PendingForts[To] ==  nil then  -- have attacked before
+    priv.PendingForts[To] = {}
+    priv.pendingFort[To].Attackcount = priv.pendingFort.Attackcount + 1  
+  else -- attack from zoms here
+    priv.pendingFort[To].PlayerID = PlayerID
+    priv.pendingFort[To].TerritoryID = To
+    priv.pendingFort[To].Attackcount = 1
+
+  end
+return priv
 end

@@ -167,7 +167,7 @@ function Client_PresentConfigureUI(rootParent)
 	.SetValue(attack)
 
 	local row07 = UI.CreateHorizontalLayoutGroup(vert) -- Fort Rules
-	UI.CreateButton(row07).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many attacks can a Fort (from fort tactics mod) take before being destroyed. commonly used for ais\nSet to 0 to disable") end)
+	UI.CreateButton(row07).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How many attacks can a Fort (from fort tactics mod) take before being destroyed. This setting makes these mods compatible and makes the AI smarter\nSet to 0 to disable") end)
 	UI.CreateLabel(row07).SetText('Fort attacks before destroyed')
 	Fortfield = UI.CreateNumberInputField(row07)
 	.SetSliderMinValue(0)

@@ -152,6 +152,27 @@ function Client_SaveConfigureUI(alert)
         tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
          noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 
+    --Slot Logic
+    local slottex = TableFormat(InputFieldTable[i].Slot.GetText(),tex)
+    local slotamount = split(slottex, '/')
+    local slotnumbers = {}
+    for i,v in pairs (slotamount) do
+      if string.match(v, '%D+') then
+       alert("Mod set up failed\nCan only inlcude numbers for slot days") 
+      return
+      elseif string.len(v) > 2 or string.len(v) < 1 then
+       alert("Mod set up failed\nEach Slot must remain between 1-99 ") 
+       return
+      end
+      table.insert(slotnumbers,tonumber(v - 1))
+      
+     end
+    
+    --Slot
+    
+    Mod.Settings.Unitdata[i].Slot = slotnumbers
+    Mod.Settings.Unitdata[i].Slotstore = slottex
+
     end
     Mod.Settings.Unitdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
    end

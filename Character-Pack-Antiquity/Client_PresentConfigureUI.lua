@@ -176,6 +176,13 @@ function Unittemplates(vert, i)
 		local onCity = uniteconfig[i].Oncity
 		if (onCity == nil or onCity == false or onCity == true) then onCity = 0 end
 
+		local slot = uniteconfig[i].Slot
+		if slot == nil then
+		slot = ""
+		else 
+		slot = uniteconfig[i].Slotstore 
+		end
+
 		--setting up the UI and all its fields
 
 
@@ -396,6 +403,16 @@ function Unittemplates(vert, i)
 		.SetFlexibleWidth(1)
 		.SetCharacterLimit(500)
 
+		 -- Slots
+		InputFieldTable[i].row24 = UI.CreateHorizontalLayoutGroup(vert) -- Slot
+		local row24 = InputFieldTable[i].row24
+		UI.CreateButton(row24).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("\nLeave blank to disable this feature\nOnly these slot's in game can build these Unit types\nuse '/' to define a new slot without spaces or Letters") end)
+		InputFieldTable[i].text26 = UI.CreateLabel(row24).SetText('Which Slot`s Can use this Unit type')
+		InputFieldTable[i].Slot = UI.CreateTextInputField(vert)
+		.SetPlaceholderText("Slots").SetText(slot)
+		.SetFlexibleWidth(1)
+		.SetCharacterLimit(300)
+
 
 
 		--spacer
@@ -433,8 +450,9 @@ InputFieldTable[i].HostRules = uniteconfig[i].HostRules
 InputFieldTable[i].Autovalue = uniteconfig[i].Autovalue
 InputFieldTable[i].City = uniteconfig[i].Oncity
 InputFieldTable[i].Combat = uniteconfig[i].CombatOrder
+InputFieldTable[i].Slot = uniteconfig[i].Slot
+InputFieldTable[i].Slotstore = uniteconfig[i].Slotstore
 
-	
 end
 
 function AutoPlacer(vertb,i)
@@ -474,6 +492,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].text24) 
 			UI.Destroy(InputFieldTable[D].text23)
 			UI.Destroy(InputFieldTable[D].text25)
+			UI.Destroy(InputFieldTable[D].text26)
 			UI.Destroy(InputFieldTable[D].unitcost)
 			UI.Destroy(InputFieldTable[D].unitpower)
 			UI.Destroy(InputFieldTable[D].Maxunits)
@@ -496,6 +515,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].Autovalue)
 			UI.Destroy(InputFieldTable[D].Combat)
 			UI.Destroy(InputFieldTable[D].City)
+			UI.Destroy(InputFieldTable[D].Slot)
 			UI.Destroy(InputFieldTable[D].row1)
 			UI.Destroy(InputFieldTable[D].row2)
 			UI.Destroy(InputFieldTable[D].row3)
@@ -519,6 +539,7 @@ print('before delete '.. D)
 			UI.Destroy(InputFieldTable[D].row22)
 			UI.Destroy(InputFieldTable[D].row21)
 			UI.Destroy(InputFieldTable[D].row23)
+			UI.Destroy(InputFieldTable[D].row24)
 
 
 		end
@@ -526,6 +547,7 @@ print('before delete '.. D)
 		UI.Destroy(InputFieldTable[D].Template)
 		InputFieldTable[D].TempCreated = false
 		uniteconfig[D] = {}
+		InputFieldTable[D].Slotstore = {}
 
 	end
 	access = 1

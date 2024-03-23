@@ -15,13 +15,11 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 	-- changing over packs data
 	OrderstartsWith = ModSign(0) -- the last letter represents the mod used
-
-
 	TransferfromConfig()
 
 
-	print (Game.Game.TurnNumber, "turn number")
-	for i = 1, Playerdata.Maxtypes  do 
+-- For loop start	
+	for i = 1, Playerdata.Maxtypes  do  
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
@@ -29,6 +27,20 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	local morgeRow = nil
 	local turnactive = true
 	local Ruleson = true
+--Slot management
+	local isZom = false
+	if Playerdata.Unitdata[i].Slot ~= nil then
+		for s = 1, #Playerdata.Unitdata[i].Slot do
+			if Playerdata.Unitdata[i].Slot[s] == Game.Us.Slot then 
+			isZom = true
+			break
+			end end
+		if isZom == false then
+		UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) return end
+	end
+
+
+
 	if modplayers[i] == nil then modplayers[i] = {} end
 	if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
 	if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
