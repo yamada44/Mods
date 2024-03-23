@@ -159,10 +159,10 @@ function Client_SaveConfigureUI(alert)
         local slotnumbers = {}
         for i,v in pairs (slotamount) do
             if string.match(v, '%D+') then
-                alert("Mod set up failed\nCan only inlcude numbers for slot days") 
+                alert("Mod set up failed\nCan only inlcude numbers for Slots") 
                 return
             elseif string.len(v) > 2 or string.len(v) < 1 then
-                alert("Mod set up failed\nEach Slot must remain between 1-99 ") 
+                alert("Mod set up failed\nEach Slot number must remain between 1-9\n1 = A\nB = 2 ect") 
                 return
             end
             table.insert(slotnumbers,tonumber(v - 1))
