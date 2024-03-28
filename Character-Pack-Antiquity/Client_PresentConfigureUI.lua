@@ -6,6 +6,8 @@ function Client_PresentConfigureUI(rootParent)
 NewrootParent = rootParent
 InputFieldTable = {}
 TempUI = {}
+Minunits = 1
+Maxunits = 8
 
 	if (not WL.IsVersionOrHigher or not WL.IsVersionOrHigher("5.21")) then
 		UI.Alert("You must update your app to the latest version to use this mod");
@@ -21,10 +23,10 @@ TempUI = {}
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second\nTip 3: You may have a old template. remove mod, save template and reinstall mod').SetColor('#F3FFAE');
 
-
+--Set up access point and max values
 	if Mod.Settings.access == nil then Mod.Settings.access = 1 end
 	 access = Mod.Settings.access
-	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 0 end
+	 if Mod.Settings.BeforeMax == nil then Mod.Settings.BeforeMax = 1 end
 	 BeforeMax = Mod.Settings.BeforeMax
 
 
@@ -33,17 +35,17 @@ TempUI = {}
 
 	
 
-	local vert2 = UI.CreateVerticalLayoutGroup(rootParent);
+	local vert2 = UI.CreateVerticalLayoutGroup(rootParent)
 
 
 -- setting up amount of special units to have
 	local row0 = UI.CreateHorizontalLayoutGroup(vert2);
-	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This determines the amount of unit types you can create at once\nMax of 6"); end);
+	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This determines the amount of unit types you can create at once\nMax of ".. Maxunits) end)
 	InputFieldTable.text0 = UI.CreateLabel(row0).SetText('How many Unit Types')
 	InputFieldTable.UnitTypeMax = UI.CreateNumberInputField(row0)
-		.SetSliderMinValue(1)
-		.SetSliderMaxValue(5)
-		.SetValue(BeforeMax);
+		.SetSliderMinValue(Minunits)
+		.SetSliderMaxValue(Maxunits)
+		.SetValue(BeforeMax)
 		UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 
@@ -66,8 +68,8 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 		Destroy()
 		
 	end
-	if UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
-	UI.Alert('Max unit types 6.\nMin unit types 1\n Reset to Default settings')
+	if UnitTypeMax < Minunits or UnitTypeMax > Maxunits then  -- make sure unit types are between Min and max values (values can be found at top of screen)
+	UI.Alert('Max unit types ' .. Maxunits .. ' .\nMin unit types '..Minunits..'\n Reset to Default settings')
 	UnitTypeMax = 1
 	end
 
@@ -323,7 +325,7 @@ function Unittemplates(vert, i)
 		--Assassinations
 		InputFieldTable[i].row19 = UI.CreateHorizontalLayoutGroup(vert);
 		local row19 = InputFieldTable[i].row19
-		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("To determine how hard it is for an Assassination to kill this unit with the I.S. Agency mod. Set to 0 to make impossible to kill"); end);
+		UI.CreateButton(row19).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("To determine how hard it is for an Assassination to kill this unit with the I.S. Agency mod. Set to 0 to make impossible to kill") end)
 		InputFieldTable[i].text21 = UI.CreateLabel(row19).SetText('Assassination/Sabotage level').SetColor('#dbddf4')
 		InputFieldTable[i].Assassination = UI.CreateNumberInputField(row19)
 		.SetSliderMinValue(0)
@@ -353,7 +355,7 @@ function Unittemplates(vert, i)
 		--Only on cities
 		InputFieldTable[i].row23 = UI.CreateHorizontalLayoutGroup(vert);
 		local row23 = InputFieldTable[i].row23
-		UI.CreateButton(row23).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("You can only deploy troops on this Structure type\n0 - Feature disabled\n1 - Cities\n2 - Army Camp\n3 - Mine\n4 - Smelter\n5 - Crafter\n6 - Market\n7 - Army Cache\n8 - Money Cache\n9 - Money Cache\n10 - Resource Cache\n11 - Mercenary Camp\n12 - Man and gun\n13 - Arena\n14 - Hospital\n15 - Dig Site\n16 - Artillery\n17 - Mortar\n18 - Book") end)
+		UI.CreateButton(row23).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("You can only Create this Unit type on this Structure\n0 - Feature disabled\n1 - Cities\n2 - Army Camp\n3 - Mine\n4 - Smelter\n5 - Crafter\n6 - Market\n7 - Army Cache\n8 - Money Cache\n9 - Money Cache\n10 - Resource Cache\n11 - Mercenary Camp\n12 - Man and gun\n13 - Arena\n14 - Hospital\n15 - Dig Site\n16 - Artillery\n17 - Mortar\n18 - Book") end)
 		InputFieldTable[i].text25 = UI.CreateLabel(row23).SetText('Only deploy on Structure')
 		InputFieldTable[i].City = UI.CreateNumberInputField(row23)
 		.SetSliderMinValue(0)

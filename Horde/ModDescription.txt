@@ -1,1 +1,1 @@
-This mod allows certain slots to control wheather or not they can place cities, destroy cities (by controling them), can deploy or not
+This mod allows game creators to place restrictions on a specific player, by custom scenario slot, that control whether or not they are allowed to deploy, place cities or destroy cities. 
