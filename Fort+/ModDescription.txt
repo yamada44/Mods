@@ -1,3 +1,3 @@
 This Mod allows players to build a Fort. There are several Attack options along with buy options. You can have the standard fort experience (attack a fort and it stops the attack and deletes itself)
 or you can choose two others. The other two options gives power to forts. This power adds hypothetical troops to any battle they partake in. These troops are not represented on the map at any time. The power of Forts can be checked at any time in the buy menu 
-With this difference in fort logic, if the attacking army outnumbers the power of a fort, your standing army will be attack. If they don't outnumber, they will take damage and the attack will fail while you take no damage
+With this difference in fort logic, if the attacking army outnumbers the power of a fort, your defending army will be attack. If they don't outnumber, they will take damage and the attack will fail while you take no damage
