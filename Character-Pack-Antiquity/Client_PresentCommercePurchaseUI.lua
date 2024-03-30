@@ -48,7 +48,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 			end
 
 		end
-		if unitamount == 0 then unitamount = 1 end
+		if unitamount == 0 then unitamount = 1 increasingCost[i] = 0 end
 
 
 		if modplayers[i] == nil then modplayers[i] = {} end
