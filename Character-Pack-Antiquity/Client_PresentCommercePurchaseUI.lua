@@ -11,6 +11,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Playerdata = {}
 	unit = {}
 	Chartracker = {}
+	increasingCost = {}
 	ID = Game.Us.ID
 
 	-- changing over packs data
@@ -28,7 +29,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		local turnactive = true
 		local Ruleson = true
 		unitamount = 0
-		increasingCost = math.ceil(Playerdata.Unitdata[i].unitcost * 0.4)
+		increasingCost[i] = math.ceil(Playerdata.Unitdata[i].unitcost * 0.4)
 	--Slot management
 		local isZom = false
 		if Playerdata.Unitdata[i].Slot ~= nil and #Playerdata.Unitdata[i].Slot > 0 then
@@ -61,7 +62,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 		end
 		
-		local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount) .. " gold"
+		local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
 		local hostmessage = "Host Rules/Lore for Unit"
 		local infomessage = dynamicInfo(i)
 			
@@ -270,7 +271,7 @@ print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 
 	
 	local orders = Game.Orders;
-	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost * unitamount) } ));
+	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost[Type] * unitamount) } ));
 	Game.Orders = orders;
 
 
@@ -283,7 +284,7 @@ function dynamicInfo(i)
 	local defend = Playerdata.Unitdata[i].unitpower / 2
 	local city = false
 
-	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount)
+	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount)
 
 	if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Playerdata.Unitdata[i].unitpower)then
 		message = message .. "\nAttack Range: " .. Playerdata.Unitdata[i].unitpower .. '-' .. Mod.Settings.Unitdata[i].AttackMax
