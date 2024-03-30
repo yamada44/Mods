@@ -20,65 +20,74 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 -- For loop start	
 	for i = 1, Playerdata.Maxtypes  do  
-	local vert = UI.CreateVerticalLayoutGroup(rootParent);
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	local row2 = UI.CreateHorizontalLayoutGroup(vert)
-	local row3 = UI.CreateHorizontalLayoutGroup(vert)
-	local morgeRow = nil
-	local turnactive = true
-	local Ruleson = true
---Slot management
-	local isZom = false
-	if Playerdata.Unitdata[i].Slot ~= nil then
-		for s = 1, #Playerdata.Unitdata[i].Slot do
-			if Playerdata.Unitdata[i].Slot[s] == Game.Us.Slot then 
-			isZom = true
-			break
-			end end
-		if isZom == false then
-		UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) return end
-	end
+		local vert = UI.CreateVerticalLayoutGroup(rootParent);
+		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		local row2 = UI.CreateHorizontalLayoutGroup(vert)
+		local row3 = UI.CreateHorizontalLayoutGroup(vert)
+		local morgeRow = nil
+		local turnactive = true
+		local Ruleson = true
+		unitamount = 0
+		increasingCost = Playerdata.Unitdata[i].unitcost * 0.4
+	--Slot management
+		local isZom = false
+		if Playerdata.Unitdata[i].Slot ~= nil then
+			for s = 1, #Playerdata.Unitdata[i].Slot do
+				if Playerdata.Unitdata[i].Slot[s] == Game.Us.Slot then 
+				isZom = true
+				break
+				end end
+			if isZom == false then
+			UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) return end
+		end
+		for _,order in pairs(Game.Orders) do
+			if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, OrderstartsWith)) then
+				unitamount = unitamount + 1
+				
+			end
+
+		end
+		if unitamount == 0 then unitamount = 1 end
 
 
+		if modplayers[i] == nil then modplayers[i] = {} end
+		if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
+		if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
+		if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
+			morgeRow = vert
+			Ruleson = false 
+			modplayers[i][ID].readrules = true
+		else morgeRow = row3 
 
-	if modplayers[i] == nil then modplayers[i] = {} end
-	if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
-	if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
-if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
-	morgeRow = vert
-	Ruleson = false 
-	modplayers[i][ID].readrules = true
-else morgeRow = row3 
-
-end
-	
-	local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost .. " gold"
-	local hostmessage = "Host Rules/Lore for Unit"
-	local infomessage = dynamicInfo(i)
+		end
 		
-	if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
-		buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
+		local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount) .. " gold"
+		local hostmessage = "Host Rules/Lore for Unit"
+		local infomessage = dynamicInfo(i)
+			
+		if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
+			buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
 
-	elseif publicdata[i] ~= nil then
-		if (publicdata[i][ Game.Us.ID] ~= nil)then
-		print('cool down started')
-	if (publicdata[i][ Game.Us.ID].cooldowntimer ~= nil and publicdata[i][ Game.Us.ID].cooldowntimer >= Game.Game.TurnNumber)then turnactive = false 
-		buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)' end
-	end end
-	
+		elseif publicdata[i] ~= nil then
+			if (publicdata[i][ Game.Us.ID] ~= nil)then
+			print('cool down started')
+		if (publicdata[i][ Game.Us.ID].cooldowntimer ~= nil and publicdata[i][ Game.Us.ID].cooldowntimer >= Game.Game.TurnNumber)then turnactive = false 
+			buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)' end
+		end end
+		
 
-	if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
+		if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
 
 
-	UI.CreateLabel(row1).SetText(infomessage);
-	UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
-	if (Ruleson == true )then
-		UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
-	Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
+		UI.CreateLabel(row1).SetText(infomessage);
+		UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
+		if (Ruleson == true )then
+			UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
+		Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
 
-	
+		
 
-	::next::
+		::next::
 	end
 	
 end
@@ -261,7 +270,7 @@ print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 
 	
 	local orders = Game.Orders;
-	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost } ));
+	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount) } ));
 	Game.Orders = orders;
 
 
@@ -274,7 +283,7 @@ function dynamicInfo(i)
 	local defend = Playerdata.Unitdata[i].unitpower / 2
 	local city = false
 
-	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost 
+	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount)
 
 	if (Mod.Settings.Unitdata[i].AttackMax ~= nil and Mod.Settings.Unitdata[i].AttackMax > Playerdata.Unitdata[i].unitpower)then
 		message = message .. "\nAttack Range: " .. Playerdata.Unitdata[i].unitpower .. '-' .. Mod.Settings.Unitdata[i].AttackMax
