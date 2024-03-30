@@ -31,7 +31,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		increasingCost = math.ceil(Playerdata.Unitdata[i].unitcost * 0.4)
 	--Slot management
 		local isZom = false
-		if Playerdata.Unitdata[i].Slot ~= nil or Playerdata.Unitdata[i].Slot ~= "" then
+		if Playerdata.Unitdata[i].Slot ~= nil and Playerdata.Unitdata[i].Slot ~= "" then
 			for s = 1, #Playerdata.Unitdata[i].Slot do
 				if Playerdata.Unitdata[i].Slot[s] == Game.Us.Slot then 
 				isZom = true
