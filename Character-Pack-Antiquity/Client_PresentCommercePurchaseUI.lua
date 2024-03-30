@@ -29,7 +29,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		local turnactive = true
 		local Ruleson = true
 		unitamount = 0
-		increasingCost[i] = math.ceil(Playerdata.Unitdata[i].unitcost * 0.4)
+		increasingCost[i] = math.ceil(Playerdata.Unitdata[i].unitcost * 0.5)
 	--Slot management
 		local isZom = false
 		if Playerdata.Unitdata[i].Slot ~= nil and #Playerdata.Unitdata[i].Slot > 0 then
