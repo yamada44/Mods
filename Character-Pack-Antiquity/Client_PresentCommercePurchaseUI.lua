@@ -270,7 +270,7 @@ print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 
 	
 	local orders = Game.Orders;
-	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[i].unitcost + (increasingCost * unitamount) } ));
+	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost * unitamount) } ));
 	Game.Orders = orders;
 
 
