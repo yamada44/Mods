@@ -145,7 +145,7 @@ function modSign(mode)
 	error("Invalid mode: " .. tostring(mode))
 end
 
-function fileFinder(image)
+function getImageFile(image)
 	if image == 0 then
 		image = math.random(1, 5)
 	end
@@ -160,30 +160,31 @@ function fileFinder(image)
 	return filestorage[image]
 end
 
-function buildType(type)
-	if type == 0 then
-		return 0
-	end
+function getBuildInfo(type, mode)
+    if type == 0 or type > 18 then return 0 end
 
-	local build = {
-		[1] = WL.StructureType.City,
-		[2] = WL.StructureType.ArmyCamp,
-		[3] = WL.StructureType.Mine,
-		[4] = WL.StructureType.Smelter,
-		[5] = WL.StructureType.Crafter,
-		[6] = WL.StructureType.Market,
-		[7] = WL.StructureType.ArmyCache,
-		[8] = WL.StructureType.MoneyCache,
-		[9] = WL.StructureType.ResourceCache,
-		[10] = WL.StructureType.MercenaryCamp, -- real fort
-		[11] = WL.StructureType.Power,
-		[12] = WL.StructureType.Draft,
-		[13] = WL.StructureType.Arena,
-		[14] = WL.StructureType.Hospital,
-		[15] = WL.StructureType.DigSite,
-		[16] = WL.StructureType.Attack,
-		[17] = WL.StructureType.Mortar,
-		[18] = WL.StructureType.Recipe,
-	}
-	return build[type]
+    local builds = {
+        [1] = {"Cities", WL.StructureType.City},
+        [2] = {"Army Camp", WL.StructureType.ArmyCamp},
+        [3] = {"Mine", WL.StructureType.Mine},
+        [4] = {"Smelter", WL.StructureType.Smelter},
+        [5] = {"Crafter", WL.StructureType.Crafter},
+        [6] = {"Market", WL.StructureType.Market},
+        [7] = {"Army Cache", WL.StructureType.ArmyCache},
+        [8] = {"Money Cache", WL.StructureType.MoneyCache},
+        [9] = {"Resource Cache", WL.StructureType.ResourceCache},
+        [10] = {"Mercenary Camp", WL.StructureType.MercenaryCamp}, -- real fort
+        [11] = {"Power", WL.StructureType.Power},
+        [12] = {"Man with Hand", WL.StructureType.Draft},
+        [13] = {"Arena", WL.StructureType.Arena},
+        [14] = {"Hospital", WL.StructureType.Hospital},
+        [15] = {"Dig Site", WL.StructureType.DigSite},
+        [16] = {"Artillery", WL.StructureType.Attack},
+        [17] = {"Mortar", WL.StructureType.Mortar},
+        [18] = {"Book", WL.StructureType.Recipe},
+    }
+
+	if mode == "name" then return builds[type][1] end
+	if mode == "type" then return builds[type][0] end
+	error("Invalid mode: " .. tostring(mode))
 end
