@@ -150,14 +150,14 @@ function getImageFile(image)
 		image = math.random(1, 5)
 	end
 
-	local fileStorage = {
+	local files = {
 		"pack 1.a.png",
 		"pack 1.b.png",
 		"pack 1.c.png",
 		"pack 1.d.png",
 		"pack 1.e.png",
 	}
-	return filestorage[image]
+	return files[image]
 end
 
 function getBuildInfo(type, mode)

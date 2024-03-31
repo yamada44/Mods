@@ -13,7 +13,7 @@ function Client_PresentConfigureUI(rootParent)
 	end
 
 	if Mod.Settings.Unitdata == nil then Mod.Settings.Unitdata = {} end --Init variables
-	uniteconfig =	Mod.Settings.Unitdata
+	uniteconfig = Mod.Settings.Unitdata
 
 	local vert0 = UI.CreateVerticalLayoutGroup(rootParent);
 	UI.CreateLabel(vert0).SetText('Tip 1: If UI messes up, uncheck mod box and recheck\nTip 2: note Loading Unit types might take a second\nTip 3: You may have a old template. remove mod, save template and reinstall mod').SetColor('#F3FFAE');
@@ -47,13 +47,13 @@ function Client_PresentConfigureUI(rootParent)
 end
 
 function UnitCreation()
-UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
+	UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	if access == 2 then -- Setting up UI again
 		UI.Alert('Regenerated UI Types')
 		Destroy()
-		
 	end
+
 	if UnitTypeMax < Minunits or UnitTypeMax > Maxunits then  -- make sure unit types are between Min and max values (values can be found at top of screen)
 	UI.Alert('Max unit types ' .. Maxunits .. ' .\nMin unit types '..Minunits..'\n Reset to Default settings')
 	UnitTypeMax = 1
@@ -87,7 +87,7 @@ UnitTypeMax = InputFieldTable.UnitTypeMax.GetValue()
 
 	access = 2
 	BeforeMax = UnitTypeMax
-InputFieldTable.BeforeMax = UnitTypeMax
+	InputFieldTable.BeforeMax = UnitTypeMax
 end
 
 function Unittemplates(vert, i)
