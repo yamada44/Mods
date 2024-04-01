@@ -3,7 +3,7 @@
 Run `bash make.sh`!
 
 File structure:
-- `src/`: final compilation destination for each mod
+- ~~`src/`: final compilation destination for each mod~~ NOTE: Due to Warzone limitations, compilation destination will be the original top-level directories
 - `CharacterPackTemplate/`: base code files that will be copied to each mod folder
 - Anything in `assets/[mod_name]/` will be copied to that folder
 - `tests/`: unit tests for CharacterPackTemplate code
