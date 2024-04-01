@@ -18,14 +18,9 @@ for MOD_NAME in $(jq -r 'keys[]' $CONFIG_FILE); do
     # Define the target mod directory
     MOD_TARGET_DIR="$TARGET_DIR/Character-Pack-$MOD_NAME"
 
-    # Check if the directory exists, create it if it doesn't
-    if [ ! -d "$MOD_TARGET_DIR" ]; then
-        echo "$MOD_TARGET_DIR does not exist, creating..."
-        mkdir -p "$MOD_TARGET_DIR"
-        cp -r $TEMPLATE_DIR/* "$MOD_TARGET_DIR/"
-    else
-        echo "$MOD_TARGET_DIR already exists."
-    fi
+    rm -rf "$MOD_TARGET_DIR"
+    mkdir -p "$MOD_TARGET_DIR"
+    cp -r $TEMPLATE_DIR/* "$MOD_TARGET_DIR/"
     
     # Copy the template into the mod directory
     cp -r "$TEMPLATE_DIR/"* "$MOD_TARGET_DIR/"
@@ -59,6 +54,6 @@ for MOD_NAME in $(jq -r 'keys[]' $CONFIG_FILE); do
         echo "Target file ${TARGET_FILE} not found."
     fi
 
-    echo "Setup done for $MOD_NAME".
+    echo "Setup done for $MOD_TARGET_DIR".
 done
 echo "Setup complete".

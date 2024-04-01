@@ -9,3 +9,8 @@ File structure:
 - `tests/`: unit tests for CharacterPackTemplate code
 - `config.json`: variables for each mod
 - `make.sh`: build script to create all mod folders
+
+Steps to add/change a mod:
+1. Add mod variables to `config.json`
+2. Add images, description, and any other assets in `assets/`
+3. Run `bash make.sh`!
