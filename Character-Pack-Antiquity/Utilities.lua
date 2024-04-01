@@ -1,98 +1,106 @@
-
 function NewIdentity()
-	local data = Mod.PublicGameData;
-	local ret = data.Identity or 1;
-	data.Identity = ret + 1;
-	Mod.PublicGameData = data;
-	return ret;
+	local data = Mod.PublicGameData
+	local ret = data.Identity or 1
+	data.Identity = ret + 1
+	Mod.PublicGameData = data
+	return ret
 end
+
 function Dump(obj)
 	if obj.proxyType ~= nil then
-		DumpProxy(obj);
-	elseif type(obj) == 'table' then
-		DumpTable(obj);
+		DumpProxy(obj)
+	elseif type(obj) == "table" then
+		DumpTable(obj)
 	else
-		print('Dump ' .. type(obj));
+		print("Dump " .. type(obj))
 	end
 end
-function DumpTable(tbl)
-    for k,v in pairs(tbl) do
-        print('k = ' .. tostring(k) .. ' (' .. type(k) .. ') ' .. ' v = ' .. tostring(v) .. ' (' .. type(v) .. ')');
-    end
-end
-function DumpProxy(obj)
 
-    print('type=' .. obj.proxyType .. ' readOnly=' .. tostring(obj.readonly) .. ' readableKeys=' .. table.concat(obj.readableKeys, ',') .. ' writableKeys=' .. table.concat(obj.writableKeys, ','));
+function DumpTable(tbl)
+	for k, v in pairs(tbl) do
+		print("k = " .. tostring(k) .. " (" .. type(k) .. ") " .. " v = " .. tostring(v) .. " (" .. type(v) .. ")")
+	end
+end
+
+function DumpProxy(obj)
+	print(
+		"type="
+			.. obj.proxyType
+			.. " readOnly="
+			.. tostring(obj.readonly)
+			.. " readableKeys="
+			.. table.concat(obj.readableKeys, ",")
+			.. " writableKeys="
+			.. table.concat(obj.writableKeys, ",")
+	)
 end
 
 function split(str, pat)
-   local t = {}  -- NOTE: use {n = 0} in Lua-5.0
-   local fpat = "(.-)" .. pat
-   local last_end = 1
-   local s, e, cap = str:find(fpat, 1)
-   while s do
-      if s ~= 1 or cap ~= "" then
-         table.insert(t,cap)
-      end
-      last_end = e+1
-      s, e, cap = str:find(fpat, last_end)
-   end
-   if last_end <= #str then
-      cap = str:sub(last_end)
-      table.insert(t, cap)
-   end
-   return t
+	local t = {} -- NOTE: use {n = 0} in Lua-5.0
+	local fpat = "(.-)" .. pat
+	local last_end = 1
+	local s, e, cap = str:find(fpat, 1)
+	while s do
+		if s ~= 1 or cap ~= "" then
+			table.insert(t, cap)
+		end
+		last_end = e + 1
+		s, e, cap = str:find(fpat, last_end)
+	end
+	if last_end <= #str then
+		cap = str:sub(last_end)
+		table.insert(t, cap)
+	end
+	return t
 end
-
 
 function map(array, func)
 	local new_array = {}
-	local i = 1;
-	for _,v in pairs(array) do
-		new_array[i] = func(v);
-		i = i + 1;
+	local i = 1
+	for _, v in pairs(array) do
+		new_array[i] = func(v)
+		i = i + 1
 	end
 	return new_array
 end
 
-
 function filter(array, func)
 	local new_array = {}
-	local i = 1;
-	for _,v in pairs(array) do
-		if (func(v)) then
-			new_array[i] = v;
-			i = i + 1;
+	local i = 1
+	for _, v in pairs(array) do
+		if func(v) then
+			new_array[i] = v
+			i = i + 1
 		end
 	end
 	return new_array
 end
 
 function removeWhere(array, func)
-	for k,v in pairs(array) do
-		if (func(v)) then
-			array[k] = nil;
+	for k, v in pairs(array) do
+		if func(v) then
+			array[k] = nil
 		end
 	end
 end
 
 function first(array, func)
-	for _,v in pairs(array) do
-		if (func == nil or func(v)) then
-			return v;
+	for _, v in pairs(array) do
+		if func == nil or func(v) then
+			return v
 		end
 	end
-	return nil;
+	return nil
 end
 
 function randomFromArray(array)
-	local len = #array;
-	local i = math.random(len);
-	return array[i];
+	local len = #array
+	local i = math.random(len)
+	return array[i]
 end
 
 function startsWith(str, sub)
-	return string.sub(str, 1, string.len(sub)) == sub;
+	return string.sub(str, 1, string.len(sub)) == sub
 end
 
 function shuffle(tbl)
@@ -103,99 +111,80 @@ function shuffle(tbl)
 end
 
 function groupBy(tbl, funcToGetKey)
-	local ret = {};
-	for k,v in pairs(tbl) do
-		local key = funcToGetKey(v);
-		local group = ret[key];
-		if (group == nil) then
-			group = {};
-			ret[key] = group;
+	local ret = {}
+	for k, v in pairs(tbl) do
+		local key = funcToGetKey(v)
+		local group = ret[key]
+		if group == nil then
+			group = {}
+			ret[key] = group
 		end
-		table.insert(group, v);
+		table.insert(group, v)
+	end
+	return ret
+end
+
+function isEven(int)
+	return int % 2 == 0
+end
+
+function modSign(mode)
+	if mode == 0 then
+		return "C&PA"
+	elseif mode == 1 then
+		return {
+			"Barbarian",
+			"Roman Legion",
+			"Horse",
+			"Man",
+			"Women",
+			"Random",
+		}
 	end
 
-	return ret;
-end
-function AbsoredDecider(attack, defence)
-	local higher
-	if attack > defence then higher = attack
-	else higher = defence end
-
-	print (higher,'higher')
-	return higher
+	error("Invalid mode: " .. tostring(mode))
 end
 
-function Nonill(value)
-	if value == nil then
-		return 0
-	
-else return value end
-end
-function Iswhole(int)
-	local compare = int / 2
-	if math.floor(compare) ~= compare then return false 
-else return true end
-
-end
-function Baseamount(value,dividor)
-return value / dividor
-	
-end
-
-function ModSign(returnvalue)
-	local value
-
-	if returnvalue == 0 then -- Mod call sign
-		value = 'C&PA'
-	elseif returnvalue == 1 then
-		value = {}
-		value[1] = 'Barbarian'
-		value[2] = 'Roman Legion'
-		value[3] = 'Horse'
-		value[4] = 'Man'
-		value[5] = 'Women'
-		value[6] = 'Random'
+function getImageFile(image)
+	if image == 0 then
+		image = math.random(1, 5)
 	end
 
-	return value
+	local files = {
+		"pack 1.a.png",
+		"pack 1.b.png",
+		"pack 1.c.png",
+		"pack 1.d.png",
+		"pack 1.e.png",
+	}
+	return files[image]
 end
 
-function Filefinder(image)
+function getBuildInfo(type, mode)
+    if type == 0 or type > 18 then return 0 end
 
-	if image == 0 then image = math.random(1,5) end
-	local filestorage = {}
-	
-		filestorage[1] = 'pack 1.a.png'
-		filestorage[2] = 'pack 1.b.png'
-		filestorage[3] = 'pack 1.c.png'
-		filestorage[4] = 'pack 1.d.png'
-		filestorage[5] = 'pack 1.e.png'
-	
-	return filestorage[image]
-end
+    local builds = {
+        [1] = {"Cities", WL.StructureType.City},
+        [2] = {"Army Camp", WL.StructureType.ArmyCamp},
+        [3] = {"Mine", WL.StructureType.Mine},
+        [4] = {"Smelter", WL.StructureType.Smelter},
+        [5] = {"Crafter", WL.StructureType.Crafter},
+        [6] = {"Market", WL.StructureType.Market},
+        [7] = {"Army Cache", WL.StructureType.ArmyCache},
+        [8] = {"Money Cache", WL.StructureType.MoneyCache},
+        [9] = {"Resource Cache", WL.StructureType.ResourceCache},
+        [10] = {"Mercenary Camp", WL.StructureType.MercenaryCamp}, -- real fort
+        [11] = {"Power", WL.StructureType.Power},
+        [12] = {"Man with Hand", WL.StructureType.Draft},
+        [13] = {"Arena", WL.StructureType.Arena},
+        [14] = {"Hospital", WL.StructureType.Hospital},
+        [15] = {"Dig Site", WL.StructureType.DigSite},
+        [16] = {"Artillery", WL.StructureType.Attack},
+        [17] = {"Mortar", WL.StructureType.Mortar},
+        [18] = {"Book", WL.StructureType.Recipe},
+    }
 
-function Buildtype(type)
-	local build = {}
-
-	build[1] = WL.StructureType.City
-	build[2] = WL.StructureType.ArmyCamp
-	build[3] = WL.StructureType.Mine
-	build[4] = WL.StructureType.Smelter
-	build[5] = WL.StructureType.Crafter
-	build[6] = WL.StructureType.Market
-	build[7] = WL.StructureType.ArmyCache
-	build[8] = WL.StructureType.MoneyCache
-	build[9] = WL.StructureType.ResourceCache
-	build[10] = WL.StructureType.MercenaryCamp -- real fort
-	build[11] = WL.StructureType.Power
-	build[12] = WL.StructureType.Draft
-	build[13] = WL.StructureType.Arena
-	build[14] = WL.StructureType.Hospital
-	build[15] = WL.StructureType.DigSite
-	build[16] = WL.StructureType.Attack
-	build[17] =	WL.StructureType.Mortar
-	build[18] = WL.StructureType.Recipe
-
-	if type == 0 then return 0 end
-	return build[type]
+	if mode == "name" then return builds[type][1] end
+	if mode == "type" then return builds[type][2] end
+	error("Invalid mode: " .. tostring(mode))
 end

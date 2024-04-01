@@ -27,19 +27,19 @@ function Server_StartGame (game,standing)
                 local defence = Mod.Settings.Unitdata[type].Defend
                 local altmove = 0
                 local combatorder = 123
-                local assass = Nonill(Mod.Settings.Unitdata[type].Assassination)
+                local assass = Mod.Settings.Unitdata[type].Assassination or 0
 
                 if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
                     altmove = 1
                 end 
-                local filename = Filefinder(image) -- sort through images to find the correct one
+                local filename = getImageFile(image) -- sort through images to find the correct one
                 if (maxlife ~= 0)then
                 Turnkilled = math.random(minlife,maxlife) + game.Game.TurnNumber 
                 end
                 if (levelamount > 0)then
                     typename = 'LV0 ' .. typename
                 end
-                if Nonill(Mod.Settings.Unitdata[type].CombatOrder) == 1 then
+                if (Mod.Settings.Unitdata[type].CombatOrder or 0) == 1 then
                     combatorder = combatorder * -1
                     end
 
@@ -61,7 +61,7 @@ function Server_StartGame (game,standing)
                 builder.CanBeAirliftedToTeammate = true
                 builder.TextOverHeadOpt = charactername
                 builder.IsVisibleToAllPlayers = visible;
-                builder.ModData = ModSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
+                builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
                 local unit = builder.Build()
 
                 local S = {}
