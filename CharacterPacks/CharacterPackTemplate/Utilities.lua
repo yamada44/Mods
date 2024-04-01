@@ -191,5 +191,5 @@ function getBuildInfo(type, mode)
 
 	if mode == "name" then return builds[type][1] end
 	if mode == "type" then return builds[type][2] end
-	error("Invalid mode: " .. tostring(mode))
+	-- error("Invalid mode: " .. tostring(mode))
 end
