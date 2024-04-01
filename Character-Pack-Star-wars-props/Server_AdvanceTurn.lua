@@ -426,7 +426,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 							local unitpower = tonumber(payloadSplit[5]) or 0
 							local currlevel = tonumber(payloadSplit[6])
 							local unitdefence = tonumber(payloadSplit[7]) or 0
-							local absoredDamage = math.max(unitpower, unitdefence)
+							local absoredDamage = (unitpower + unitdefence) / 2
 							local altmove = tonumber(payloadSplit[8]) or 0
 							print (altmove,'altmove')
 
@@ -452,9 +452,9 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 										levelamount = levelamount + (levelamount / currlevel)
 										builder.AttackPower = builder.AttackPower + (builder.AttackPower / currlevel)
-										builder.DefensePower = builder.DefensePower + (builder.DefensePower / currlevel);
-										builder.DamageToKill = absoredDamage + (absoredDamage / currlevel);
-										builder.DamageAbsorbedWhenAttacked = absoredDamage + (builder.DamageAbsorbedWhenAttacked / currlevel)
+										builder.DefensePower = builder.DefensePower + (builder.DefensePower / currlevel)
+										builder.DamageToKill = builder.DamageToKill + (absoredDamage / currlevel)
+										builder.DamageAbsorbedWhenAttacked = builder.DamageAbsorbedWhenAttacked + (absoredDamage / currlevel)
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
 									end --starting XP over if level was reached
 
