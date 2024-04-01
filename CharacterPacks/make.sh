@@ -20,12 +20,10 @@ for MOD_NAME in $(jq -r 'keys[]' $CONFIG_FILE); do
     # Define the target mod directory
     MOD_TARGET_DIR="$TARGET_DIR/Character-Pack-$MOD_NAME"
 
+    # Recreate mod directory and copy template
     rm -rf "$MOD_TARGET_DIR"
     mkdir -p "$MOD_TARGET_DIR"
     cp -r $TEMPLATE_DIR/* "$MOD_TARGET_DIR/"
-    
-    # Copy the template into the mod directory
-    cp -r "$TEMPLATE_DIR/"* "$MOD_TARGET_DIR/"
 
     # Step 2: Copy images and description for the mods
     if [ -d "$ASSETS_DIR/$MOD_NAME/" ]; then
