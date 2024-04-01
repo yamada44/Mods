@@ -1,5 +1,6 @@
 # Instructions
 
+Make sure you are in this directory (ex. `cd CharacterPacks`)
 Run `bash make.sh`!
 
 File structure:
