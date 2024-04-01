@@ -47,8 +47,6 @@ for MOD_NAME in $(jq -r 'keys[]' $CONFIG_FILE); do
             echo "$UNITS" | sed 's/,/, /g' | sed 's/^/            "/; s/$/",/'
             echo "        }"
             echo "    end"
-            echo ""
-            echo '    error("Invalid mode: " .. tostring(mode))'
             echo "end"
         } >> "$TARGET_FILE"
     else

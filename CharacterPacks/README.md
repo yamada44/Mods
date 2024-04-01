@@ -15,3 +15,7 @@ Steps to add/change a mod:
 1. Add mod variables to `config.json`
 2. Add images, description, and any other assets in `assets/`
 3. Run `bash make.sh`!
+
+# Emergency Edits (to be cleaned up later)
+
+Run `powershell.exe -File make.ps1` instead.
