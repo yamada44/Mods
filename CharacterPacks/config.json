@@ -1,0 +1,188 @@
+{
+  "Antiquity": {
+    "call_sign": "C&PA",
+    "units": [
+      "Barbarian",
+      "Roman Legion",
+      "Horse",
+      "Man",
+      "Women",
+      "Random"
+    ]
+  },
+  "Asian": {
+    "call_sign": "C&PD",
+    "units": [
+      "Emperor",
+      "Cavalry",
+      "Spear Man",
+      "Samurai",
+      "Daimyo",
+      "Random"
+    ]
+  },
+  "GreekGods": {
+    "call_sign": "C&PF",
+    "units": [
+      "Zeus",
+      "Herakles",
+      "Apollo",
+      "Ares",
+      "Hera",
+      "Random"
+    ]
+  },
+  "Heroes": {
+    "call_sign": "C&PC",
+    "units": [
+      "Zhang Fei",
+      "Guan Yu",
+      "Cao Cao",
+      "Sun Shangxiang",
+      "Lu Bu",
+      "Random"
+    ]
+  },
+  "Medieval": {
+    "call_sign": "C&PG",
+    "units": [
+      "Peasant",
+      "Knight Cavalry",
+      "Armored King",
+      "Holy Figure",
+      "Queen",
+      "Random"
+    ]
+  },
+  "MedievalProps": {
+    "call_sign": "C&PH",
+    "units": [
+      "Ring",
+      "Sword",
+      "Catapult",
+      "Chalice",
+      "Treasure Chest",
+      "Random"
+    ]
+  },
+  "Modern": {
+    "call_sign": "C&PI",
+    "units": [
+      "Modern Tank",
+      "Armored Car",
+      "Fighter",
+      "Modern Soldier",
+      "Jet",
+      "Random"
+    ]
+  },
+  "Monsters": {
+    "call_sign": "C&PJ",
+    "units": [
+      "Lich",
+      "Fairy",
+      "Zombie",
+      "Vampire",
+      "Basilisk",
+      "Random"
+    ]
+  },
+  "MuvLuv1": {
+    "call_sign": "C&PP",
+    "units": [
+      "Fort Class BETA",
+      "Tank Class BETA",
+      "Grappler Class BETA",
+      "Heavy Laser Class BETA",
+      "Destroyer Class BETA",
+      "Random"
+    ]
+  },
+  "MuvLuv2": {
+    "call_sign": "C&PO",
+    "units": [
+      "Japanese Type-94 Shiranui TSF",
+      "Russian Su-37UB TSF",
+      "American F-15C Eagle TSF",
+      "Warrior Class BETA",
+      "Soldier Class BETA",
+      "Random"
+    ]
+  },
+  "PeopleGangsters": {
+    "call_sign": "C&PK",
+    "units": [
+      "Modern Women",
+      "Detective",
+      "Gangster",
+      "Cop",
+      "Family",
+      "Random"
+    ]
+  },
+  "ShipProps": {
+    "call_sign": "C&PB",
+    "units": [
+      "Ship of the line",
+      "Destroyer",
+      "Caravel",
+      "Carrier",
+      "Galley",
+      "Random"
+    ]
+  },
+  "SOIF": {
+    "call_sign": "C&PL",
+    "units": [
+      "White Walker",
+      "Priest of R`hllor",
+      "Kings Guard",
+      "Night Watch",
+      "Stark",
+      "Random"
+    ]
+  },
+  "StarWars": {
+    "call_sign": "C&PM",
+    "units": ["Storm/Clone Trooper",
+      "Mercenary/Rebel",
+      "Droid",
+      "Sith",
+      "Jedi",
+      "Random"
+    ]
+  },
+  "StarWarsProps": {
+    "call_sign": "C&PN",
+    "units": [
+      "Death Star",
+      "Imperial Star Destroyer",
+      "Rebel/Mercenary ship",
+      "Venator Star Destroyer",
+      "Lucrehulk battleship",
+      "Random"
+    ]
+  },
+  "Victorian": {
+    "call_sign": "C&PO",
+    "units": [
+      "Winter Rifleman",
+      "Rifleman",
+      "Victorian Man",
+      "Calvary Rifleman",
+      "Cannon",
+      "Random"
+    ]
+  },
+  "WorldWars": {
+    "call_sign": "C&PE",
+    "units": [
+      "Soldier",
+      "Commander",
+      "Artillery",
+      "Machine Gun",
+      "Tank",
+      "Random"
+    ]
+  }
+}
