@@ -98,7 +98,7 @@
       "Random"
     ]
   },
-  "Muv-Luv-2": {
+  "Muv-luv-2": {
     "call_sign": "C&PO",
     "units": [
       "Japanese Type-94 Shiranui TSF",
@@ -120,7 +120,7 @@
       "Random"
     ]
   },
-  "Ship-props": {
+  "Ship-Props": {
     "call_sign": "C&PB",
     "units": [
       "Ship of the line",
