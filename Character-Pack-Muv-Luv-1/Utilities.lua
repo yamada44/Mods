@@ -128,27 +128,27 @@ function isNotEven(int)
 	return int % 2 ~= 0
 end
 
-function buildCustomUnit(territoryOwnerID, attributes)
-    local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
+-- function buildCustomUnit(territoryOwnerID, attributes)
+--     local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
 
-    builder.Name = attributes.name
-    builder.IncludeABeforeName = true
-    builder.ImageFilename = fileFinder(attributes.image)
-    builder.AttackPower = attributes.attackPower
-    builder.DefensePower = attributes.defensePower
-    builder.CombatOrder = attributes.combatOrder
-    builder.DamageToKill = attributes.damageToKill
-    builder.DamageAbsorbedWhenAttacked = attributes.damageToKill
-    builder.CanBeGiftedWithGiftCard = true
-    builder.CanBeTransferredToTeammate = false
-    builder.CanBeAirliftedToSelf = true
-    builder.CanBeAirliftedToTeammate = true
-    builder.TextOverHeadOpt = attributes.name
-    builder.IsVisibleToAllPlayers = attributes.isVisible
-    builder.ModData = attributes.modData
+--     builder.Name = attributes.name
+--     builder.IncludeABeforeName = true
+--     builder.ImageFilename = fileFinder(attributes.image)
+--     builder.AttackPower = attributes.attackPower
+--     builder.DefensePower = attributes.defensePower
+--     builder.CombatOrder = attributes.combatOrder
+--     builder.DamageToKill = attributes.damageToKill
+--     builder.DamageAbsorbedWhenAttacked = attributes.damageToKill
+--     builder.CanBeGiftedWithGiftCard = true
+--     builder.CanBeTransferredToTeammate = false
+--     builder.CanBeAirliftedToSelf = true
+--     builder.CanBeAirliftedToTeammate = true
+--     builder.TextOverHeadOpt = attributes.name
+--     builder.IsVisibleToAllPlayers = attributes.isVisible
+--     builder.ModData = attributes.modData
 
-    return builder
-end
+--     return builder
+-- end
 
 function getImageFile(image)
 	if image == 0 then
