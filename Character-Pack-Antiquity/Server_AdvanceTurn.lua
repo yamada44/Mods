@@ -550,7 +550,7 @@ function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
 				if startsWith(v.ModData, "C&P") then -- make sure the speical unit is only from I.S. mod
 					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 					local altmove = tonumber(payloadSplit[8]) or 0
-					if (altmove > 0 and Game2.Game.TurnNumber % 2 ~= 0) then
+					if (altmove > 0 and isNotEven(Game2.Game.TurnNumber)) then
 						local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
 						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
 						skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)

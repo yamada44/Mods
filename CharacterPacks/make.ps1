@@ -37,8 +37,6 @@ foreach ($ModName in $ModNames) {
             `"$Units`"
         }
     end
-
-    error('Invalid mode: ' .. tostring(mode))
 end
 "@
 

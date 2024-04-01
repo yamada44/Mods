@@ -124,25 +124,30 @@ function groupBy(tbl, funcToGetKey)
 	return ret
 end
 
-function isEven(int)
-	return int % 2 == 0
+function isNotEven(int)
+	return int % 2 ~= 0
 end
 
-function modSign(mode)
-	if mode == 0 then
-		return "C&PA"
-	elseif mode == 1 then
-		return {
-			"Barbarian",
-			"Roman Legion",
-			"Horse",
-			"Man",
-			"Women",
-			"Random",
-		}
-	end
+function buildCustomUnit(territoryOwnerID, attributes)
+    local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
 
-	error("Invalid mode: " .. tostring(mode))
+    builder.Name = attributes.name
+    builder.IncludeABeforeName = true
+    builder.ImageFilename = fileFinder(attributes.image)
+    builder.AttackPower = attributes.attackPower
+    builder.DefensePower = attributes.defensePower
+    builder.CombatOrder = attributes.combatOrder
+    builder.DamageToKill = attributes.damageToKill
+    builder.DamageAbsorbedWhenAttacked = attributes.damageToKill
+    builder.CanBeGiftedWithGiftCard = true
+    builder.CanBeTransferredToTeammate = false
+    builder.CanBeAirliftedToSelf = true
+    builder.CanBeAirliftedToTeammate = true
+    builder.TextOverHeadOpt = attributes.name
+    builder.IsVisibleToAllPlayers = attributes.isVisible
+    builder.ModData = attributes.modData
+
+    return builder
 end
 
 function getImageFile(image)
@@ -186,5 +191,15 @@ function getBuildInfo(type, mode)
 
 	if mode == "name" then return builds[type][1] end
 	if mode == "type" then return builds[type][2] end
-	error("Invalid mode: " .. tostring(mode))
+	-- error("Invalid mode: " .. tostring(mode))
+end
+
+function modSign(mode)
+    if mode == 0 then
+        return "C&PA"
+    elseif mode == 1 then
+        return {
+            "Barbarian","Roman Legion","Horse","Man","Women","Random"
+        }
+    end
 end

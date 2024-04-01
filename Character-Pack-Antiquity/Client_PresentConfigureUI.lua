@@ -1,4 +1,3 @@
-
 function Client_PresentConfigureUI(rootParent)
   	Maxpictures = 5
 	NewrootParent = rootParent
