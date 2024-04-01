@@ -1,0 +1,11 @@
+This mod allows players to Create and purchase there own custom units. There are 5 pictures to choose from. 
+1 – Japanese Type-94 Shiranui TSF
+2 - Russian Su-37UB TSF
+3 - American F-15C Eagel TSF
+4 - Warrior Class BETA
+5 - Soldier Class BETA
+
+This is the Mul-Luv Pack and has a Robat/ALien theme. Based on a anime. You can name each unit, give damage, how powerful they are, leveling system and alot more. With a bonuses, each feature can be turned on and off
+Each Character can be Named in game by players. when that unit dies, a Order is created so every player can see when your unit died. (with its name)
+
+This mod requires using commerce mode. To purchase the Units, visit the commerce build menu and pay its cost.
