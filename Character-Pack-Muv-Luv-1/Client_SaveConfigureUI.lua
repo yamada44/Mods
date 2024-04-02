@@ -146,7 +146,7 @@ function Client_SaveConfigureUI(alert)
 
             --Slot Logic
             if InputFieldTable[i].Slot ~= nil then
-                local slottex = TableFormat(InputFieldTable[i].Slot.GetText(),tex)
+                local slottex = TableFormat(InputFieldTable[i].Slot,tex)
                 local slotamount = split(slottex, '/')
                 local slotnumbers = {}
                 for i,v in pairs (slotamount) do
