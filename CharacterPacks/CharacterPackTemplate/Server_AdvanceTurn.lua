@@ -30,6 +30,69 @@ local function processAttackTransfer(game, order, result, skipThisOrder, addNewO
 	Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 end
 
+------------purchase functions----------------------------
+
+local function extractUnitPayloadData(payload)
+	local payloadSplit = split(string.sub(payload, 7), ';;')
+	return {
+		targetTerritoryID = tonumber(payloadSplit[1]),
+		type = tonumber(payloadSplit[2]),
+		unitPower = tonumber(payloadSplit[3]),
+		typeName = payloadSplit[4],
+		unitMax = tonumber(payloadSplit[5]),
+		image = tonumber(payloadSplit[6]),
+		shared = payloadSplit[7] == 'true',
+		visible = payloadSplit[8] == 'true',
+		characterName = payloadSplit[9]
+	}
+end
+
+local function prePurchaseChecks(game, order, unit)
+    -- Check if the territory is controlled by the player issuing the order
+    local targetTerritory = game.ServerGame.LatestTurnStanding.Territories[unit.targetTerritoryID]
+    if not targetTerritory or targetTerritory.OwnerPlayerID ~= order.PlayerID then
+        return false -- Territory not controlled by the player
+    end
+
+	-- Count units of each type
+	local numUnitsAlreadyHave = 0;
+	for _, territory in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+		if(unit.shared == true )then
+			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);
+		elseif(territory.OwnerPlayerID == order.PlayerID) then
+			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);				
+		end
+	end
+
+	local publicData = Mod.PublicGameData
+	if publicData[unit.type] == nil then publicData[unit.type] = {} end
+	if publicData[unit.type][ID] == nil then publicData[unit.type][ID] = {} end 
+	if publicData[unit.type][ID].CurrEver == nil then publicData[unit.type][ID].CurrEver = 0 end
+	if publicData[unit.type][ID].cooldowntimer == nil then publicData[unit.type][ID].cooldowntimer = 0 end
+	if publicData[unit.type].CurrEver == nil then publicData[unit.type].CurrEver = 0 end
+
+	-- Check for the maximum units limit for the player and overall in the game
+	if numUnitsAlreadyHave >= unit.unitMax then
+		return false, string.format('Skipping %s purchase. A player can only control %d units of this type, and you currently control %d.', unit.typeName, unit.unitMax, numUnitsAlreadyHave)
+	elseif not unit.shared and publicData[unit.type][order.PlayerID].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
+		return false, string.format('Skipping %s purchase. A player can only purchase %d units of this type in one game, this limit has been reached.', unit.typeName, unit.MaxUnitsEver)
+	elseif unit.shared and publicData[unit.type].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
+		return false, string.format('Skipping %s purchase. Only %d units of this type can be purchased in the game across all players, this limit has been reached.', unit.typeName, unit.MaxUnitsEver)
+	end
+    
+    return true
+end
+
+local function processPurchase(game, order, addNewOrder)
+    local unit = extractUnitPayloadData(order.Payload)
+    local validPurchase, invalidationMessage = prePurchaseChecks(game, order, unit)
+    if not validationPurchase then
+        addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, validationMessage, nil, {}))
+    end
+    
+    createAndAddUnit(game, order, addNewOrder, unit, Mod.PublicGameData)
+end
+
 
 -----------------final functions---------------------
 function Server_AdvanceTurn_Start(game, addNewOrder)					
@@ -58,20 +121,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     end
 end
 
-local function extractPayloadData(payload)
-	local payloadSplit = split(string.sub(payload, 7), ';;')
-	return {
-		targetTerritoryID = tonumber(payloadSplit[1]),
-		type = tonumber(payloadSplit[2]),
-		unitPower = tonumber(payloadSplit[3]),
-		typeName = payloadSplit[4],
-		unitMax = tonumber(payloadSplit[5]),
-		image = tonumber(payloadSplit[6]),
-		shared = payloadSplit[7] == 'true',
-		visible = payloadSplit[8] == 'true',
-		characterName = payloadSplit[9]
-	}
-end
 
 -- local function constructModData(unit, expiryTurn)
 --     return modSign(0) .. expiryTurn .. ';;' .. 
@@ -120,43 +169,6 @@ end
 --         end
 --     end
 --     return ret
--- end
-
--- local function prePurchaseChecks(game, order, unit)
---     -- Check if the territory is controlled by the player issuing the order
---     local targetTerritory = game.ServerGame.LatestTurnStanding.Territories[unit.targetTerritoryID]
---     if not targetTerritory or targetTerritory.OwnerPlayerID ~= order.PlayerID then
---         return false -- Territory not controlled by the player
---     end
-
--- 	-- Count units of each type
--- 	local numUnitsAlreadyHave = 0;
--- 	for _, territory in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
--- 		if(unit.shared == true )then
--- 			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);
--- 		elseif(territory.OwnerPlayerID == order.PlayerID) then
--- 			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);				
--- 		end
--- 	end
-
--- 	local publicData = Mod.PublicGameData
--- 	if publicData[type] == nil then publicData[type] = {} end
--- 	if publicData[type][ID] == nil then publicData[type][ID] = {} end 
--- 	if publicData[type][ID].CurrEver == nil then publicData[type][ID].CurrEver = 0 end
--- 	if publicData[type][ID].cooldowntimer == nil then publicData[type][ID].cooldowntimer = 0 end
--- 	if publicData[type].CurrEver == nil then publicData[type].CurrEver = 0 end
-
--- 	-- Check for the maximum units limit for the player and overall in the game
--- 	if numUnitsAlreadyHave >= unit.unitMax then
--- 		return false, string.format('Skipping %s purchase since max is %d and you have %d.', unit.typeName, unit.unitMax, numUnitsAlreadyHave)
--- 	elseif not unit.shared and publicData[unit.type][order.PlayerID].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
--- 		return false, string.format('Skipping %s purchase. You have reached the game\'s spawnable amount which is %d.', unit.typeName, unit.MaxUnitsEver)
--- 	elseif unit.shared and publicData[unit.type].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
--- 		return false, string.format('Skipping %s purchase since the Max amount for the server is %d. The game has reached its spawnable amount set by host.', unit.typeName, payloadData.MaxUnitsEver)
--- 	end
-
-    
---     return true
 -- end
 
 -- local function calculateExpiryTurn(minExpiry, maxEpiry, currentTurn)
