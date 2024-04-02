@@ -1,7 +1,7 @@
 # Instructions
 
 Make sure you are in this directory (ex. `cd CharacterPacks`)
-Run `bash make.sh`!
+Run `bash make.sh` (Linux) or ``powershell.exe -File make.ps1` (Windows)!
 
 File structure:
 - ~~`src/`: final compilation destination for each mod~~ NOTE: Due to Warzone limitations, compilation destination will be the original top-level directories
@@ -14,8 +14,4 @@ File structure:
 Steps to add/change a mod:
 1. Add mod variables to `config.json`
 2. Add images, description, and any other assets in `assets/`
-3. Run `bash make.sh`!
-
-# Emergency Edits (to be cleaned up later)
-
-Run `powershell.exe -File make.ps1` instead.
+3. Run `bash make.sh` (Linux) or `powershell.exe -File make.ps1` (Windows)

@@ -1,95 +1,252 @@
 require('Utilities')
 
-function Server_AdvanceTurn_Start(game, addNewOrder)
-								
-	Game1 = game
+-------------attack/transfer functions------------------
 
-	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
-	print('phase 1', "main function has been entered")
-		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
-
-
-				for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
-					print('phase 2', "does have speical unit")
-					if v.proxyType == "CustomSpecialUnit" then
-						if v.ModData ~= nil then -- 
-							if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
-								print('phase 3', "unit is from I.S. mods")
-								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-								local diebitch = tonumber(payloadSplit[1])
-
-								if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
-									print('phase 4', "killing unit via life")
-									local mod = WL.TerritoryModification.Create(ts.ID)
-									t = {}
-									table.insert(t, v.ID);
-									print(v.Name)
-									mod.RemoveSpecialUnitsOpt = t
-									local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
-		
-									addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
-		
-								end
-							end
-						end
-					end
-				end
-				
+local function checkValidMove(result)
+	for _, unit in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
+        if unit.proxyType == "CustomSpecialUnit" and unit.ModData and startsWith(unit.ModData, "C&P") then
+			local payloadSplit = split(string.sub(unit.ModData, 5), ';;'); 
+			local isSlowUnit = tonumber(payloadSplit[8]) or 0
+			if (isSlowUnit > 0) then
+				return false
+			end
 		end
-	--end
-	
+	end
+	return true
+end
+
+local function processAttackTransfer(game, order, result, skipThisOrder, addNewOrder)
+    if game.Game.TurnNumber % 2 ~= 0 then
+        local invalidMove = checkValidMove(result)
+        if invalidMove then
+            local skipMessage = 'Move order for this unit was skipped: unit can only move on even turns'
+            addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipMessage, {}, {}))
+            skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
+			return
+        end
+    end
+
+	LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
+	Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 end
 
 
+-----------------final functions---------------------
+function Server_AdvanceTurn_Start(game, addNewOrder)					
+	for _, territory in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+		for _, unit in pairs (territory.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+			if unit.proxyType == "CustomSpecialUnit" and unit.ModData and startsWith(unit.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
+				local payloadSplit = split(string.sub(unit.ModData, 5), ';;'); 
+				local unitExpiryTurn = tonumber(payloadSplit[1])
 
+				if unitExpiryTurn ~= 0 and unitExpiryTurn <= game.Game.TurnNumber then -- check if this unit has expired in life, if yes, then destroy it
+					local mod = WL.TerritoryModification.Create(territory.ID)
+					mod.RemoveSpecialUnitsOpt = {unit.ID}
+					local UnitdiedMessage = unit.TextOverHeadOpt .. ' the ' .. unit.Name .. ' has died of natural causes' 
+					addNewOrder(WL.GameOrderEvent.Create(unit.OwnerID, UnitdiedMessage, nil, {mod}));
+				end
+			end
+		end
+	end
+end
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
-		
+    if order.proxyType == "GameOrderAttackTransfer" then
+        processAttackTransfer(game, order, result, skipThisOrder, addNewOrder)
+    elseif order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, modSign(0)) then
+        processPurchase(game, order, addNewOrder)
+    end
+end
 
-		if order.proxyType == "GameOrderAttackTransfer"  and result.IsAttack then 
-			Game2 = game
+local function extractPayloadData(payload)
+	local payloadSplit = split(string.sub(payload, 7), ';;')
+	return {
+		targetTerritoryID = tonumber(payloadSplit[1]),
+		type = tonumber(payloadSplit[2]),
+		unitPower = tonumber(payloadSplit[3]),
+		typeName = payloadSplit[4],
+		unitMax = tonumber(payloadSplit[5]),
+		image = tonumber(payloadSplit[6]),
+		shared = payloadSplit[7] == 'true',
+		visible = payloadSplit[8] == 'true',
+		characterName = payloadSplit[9]
+	}
+end
 
-			local even = Evenmoves(game, order, result, skipThisOrder, addNewOrder)
+-- local function constructModData(unit, expiryTurn)
+--     return modSign(0) .. expiryTurn .. ';;' .. 
+-- 			unit.transfer .. ';;' .. 
+-- 			unit.levelAmount .. ';;' .. 
+-- 			unit.currentXP .. ';;' .. 
+-- 			unit.unitPower .. ';;' .. 
+-- 			unit.startingLevel .. ';;' .. 
+-- 			unit.defense .. ';;' .. 
+-- 			unit.altMove .. ';;' .. 
+-- 			unit.assass
+-- end
 
-			if even == true then
+-- local function updatePublicGameData(publicData, payloadData, playerID)
+--     local type = payloadData.type
+--     if publicData[type] == nil then publicData[type] = {} end
+--     if publicData[type][playerID] == nil then publicData[type][playerID] = {} end
+    
+--     -- Update the count of units ever created of this type by this player and globally
+--     publicData[type][playerID].CurrEver = (publicData[type][playerID].CurrEver or 0) + 1
+--     publicData[type].CurrEver = (publicData[type].CurrEver or 0) + 1
+    
+--     -- Apply cooldown, if applicable
+--     if payloadData.cooldown and payloadData.cooldown > 0 then
+--         publicData[type][playerID].cooldowntimer = game.Game.TurnNumber + payloadData.cooldown
+--     end
+-- end
+
+-- -- Count units of a specific type
+-- local function numUnitsIn(armies, typeName, type)
+--     local ret = 0
+--     for _, su in pairs(armies.SpecialUnits) do
+--         if su.proxyType == 'CustomSpecialUnit' then -- Only consider custom units
+--             local compare = su.Name
+
+--             -- Adjust for unit levels, if applicable
+--             if (Mod.Settings.Unitdata[type].Level or 0) > 0 then
+--                 local stringSkip = #su.Name - #typeName
+--                 compare = su.Name:sub(stringSkip + 1)
+--             end
+
+--             -- Count units matching the criteria
+--             if compare == typeName and startsWith(su.ModData, modSign(0)) then
+--                 ret = ret + 1
+--             end
+--         end
+--     end
+--     return ret
+-- end
+
+-- local function prePurchaseChecks(game, order, unit)
+--     -- Check if the territory is controlled by the player issuing the order
+--     local targetTerritory = game.ServerGame.LatestTurnStanding.Territories[unit.targetTerritoryID]
+--     if not targetTerritory or targetTerritory.OwnerPlayerID ~= order.PlayerID then
+--         return false -- Territory not controlled by the player
+--     end
+
+-- 	-- Count units of each type
+-- 	local numUnitsAlreadyHave = 0;
+-- 	for _, territory in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
+-- 		if(unit.shared == true )then
+-- 			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);
+-- 		elseif(territory.OwnerPlayerID == order.PlayerID) then
+-- 			numUnitsAlreadyHave = numUnitsAlreadyHave + numUnitsIn(territory.NumArmies, unit.typeName, unit.type);				
+-- 		end
+-- 	end
+
+-- 	local publicData = Mod.PublicGameData
+-- 	if publicData[type] == nil then publicData[type] = {} end
+-- 	if publicData[type][ID] == nil then publicData[type][ID] = {} end 
+-- 	if publicData[type][ID].CurrEver == nil then publicData[type][ID].CurrEver = 0 end
+-- 	if publicData[type][ID].cooldowntimer == nil then publicData[type][ID].cooldowntimer = 0 end
+-- 	if publicData[type].CurrEver == nil then publicData[type].CurrEver = 0 end
+
+-- 	-- Check for the maximum units limit for the player and overall in the game
+-- 	if numUnitsAlreadyHave >= unit.unitMax then
+-- 		return false, string.format('Skipping %s purchase since max is %d and you have %d.', unit.typeName, unit.unitMax, numUnitsAlreadyHave)
+-- 	elseif not unit.shared and publicData[unit.type][order.PlayerID].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
+-- 		return false, string.format('Skipping %s purchase. You have reached the game\'s spawnable amount which is %d.', unit.typeName, unit.MaxUnitsEver)
+-- 	elseif unit.shared and publicData[unit.type].CurrEver >= unit.MaxUnitsEver and unit.MaxUnitsEver ~= -1 then
+-- 		return false, string.format('Skipping %s purchase since the Max amount for the server is %d. The game has reached its spawnable amount set by host.', unit.typeName, payloadData.MaxUnitsEver)
+-- 	end
+
+    
+--     return true
+-- end
+
+-- local function calculateExpiryTurn(minExpiry, maxEpiry, currentTurn)
+--     if minExpiry == nil or maxEpiry == nil or minExpiry == 0 or maxEpiry == 0 then
+--         return 0 -- Indicates the unit does not have a life expectancy limit
+--     end
+--     return math.random(minLife, maxLife) + currentTurn
+-- end
+
+-- local function updateUnitValues(type, altmove, transfer, levelamount, defense)
+-- 	if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
+-- 		altmove = 1
+-- 	end 
+-- 	if (Mod.Settings.Unitdata[type].Transfer ~= nil)then
+-- 		transfer = Mod.Settings.Unitdata[type].Transfer
+-- 	end
+
+-- 	if (Mod.Settings.Unitdata[type].Level ~= nil)then
+-- 		levelamount = Mod.Settings.Unitdata[type].Level
+-- 	end
+-- 	if (Mod.Settings.Unitdata[type].Defend ~= nil)then
+-- 		defence = Mod.Settings.Unitdata[type].Defend
+-- 	end
+-- end
+
+-- local function ProcessCustomOrder(game, order, addNewOrder, unit, publicData)
+--     local validationResult, validationMessage = prePurchaseChecks(game, order, unit, publicData)
+--     if not validationResult then
+--         if validationMessage ~= "" then
+--             addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, validationMessage, nil, {}))
+--         end
+--         return
+--     end
+
+--     -- Assuming getImageFile and other utility functions are defined elsewhere
+--     local filename = getImageFile(unit.image)
+
+--     -- Calculate life expectancy and other properties for the new unit
+--     local expiryTurn = calculateExpiryTurn(unit.minLife, unit.maxLife, game.Game.TurnNumber)
+--     local addedWords = '\nLife ends on Turn: ' .. Turnkilled
+
+--     -- Building and adding the new unit
+--     local builder = WL.CustomSpecialUnitBuilder.Create(order.PlayerID)
+--     builder.Name = unit.typeName
+--     builder.IncludeABeforeName = true
+--     builder.ImageFilename = filename
+--     builder.AttackPower = unit.unitPower
+--     builder.DefensePower = unit.defense
+--     builder.CombatOrder = unit.combatOrder
+--     builder.DamageToKill = unit.absorbedDamage
+--     builder.DamageAbsorbedWhenAttacked = unit.absorbedDamage
+--     builder.CanBeGiftedWithGiftCard = true
+--     builder.CanBeTransferredToTeammate = false
+--     builder.CanBeAirliftedToSelf = true
+--     builder.CanBeAirliftedToTeammate = true
+--     builder.TextOverHeadOpt = unit.characterName
+--     builder.IsVisibleToAllPlayers = unit.visible
+--     builder.ModData = constructModData(unit, expiryTurn)
+
+--     local terrMod = WL.TerritoryModification.Create(unit.targetTerritoryID)
+--     terrMod.AddSpecialUnits = {builder.Build()}
+
+--     local purchaseMessage = 'Purchased a ' .. unit.typeName .. addedWords
+--     addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, purchaseMessage, nil, {terrMod}))
+
+--     -- Update public game data
+--     updatePublicGameData(publicData, unit, order.PlayerID)
+
+--     Mod.PublicGameData = publicData
+-- end
+
+function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
+	-- Process attack/transfer orders
+	if order.proxyType == "GameOrderAttackTransfer"  and result.IsAttack then 
+		Game2 = game
+		if (game.Game.TurnNumber % 2 ~= 0) then
+			local canMove = checkValidMove(game, order, result, skipThisOrder, addNewOrder)
+			if canMove then
 				LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
-
 				Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 			end
-
-
 		end
+	end
 
-
-
-      
-
-
-
-
-	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, modSign(0))) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
-		
-		print (order.Payload, 'payload')	
-		local publicdata = Mod.PublicGameData
-
-		local payloadSplit = split(string.sub(order.Payload, 7), ';;')
-
-
-		print (order.Payload)
-		local targetTerritoryID = tonumber(payloadSplit[1])
-		local type = tonumber(payloadSplit[2])
-		local unitpower = tonumber(payloadSplit[3])
-		local typename = payloadSplit[4]
-		local unitmax = tonumber(payloadSplit[5])
-		local image = tonumber(payloadSplit[6])
-		local shared = payloadSplit[7]
-		local visible = payloadSplit[8]
-		local charactername = payloadSplit[9]
-
-		if (visible == 'true') then visible = true -- turning these varibles back into bools after converting them into strings
-		else visible = false end
-		if (shared == 'true') then shared = true
-		else shared = false end
+	-- Process purchase order
+	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, modSign(0))) then
+        local unitData = extractPayloadData(order.Payload)
+        if not prePurchaseChecks(game, order, unitData) then return end
+		ProcessCustomOrder(game, order, addNewOrder, unitData)
+	end
 
 		local tempMaxunits = -1
 		if (Mod.Settings.Unitdata[type].MaxServer ~= true and Mod.Settings.Unitdata[type].MaxServer ~= false and Mod.Settings.Unitdata[type].MaxServer ~= 0)then tempMaxunits = Mod.Settings.Unitdata[type].MaxServer end 
@@ -110,77 +267,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local cooldown = Mod.Settings.Unitdata[type].Cooldown or 0
 		local assass = Mod.Settings.Unitdata[type].Assassination or 0
 
-		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
-			 altmove = 1
-		end 
-		if (Mod.Settings.Unitdata[type].Transfer ~= nil)then
-		 transfer = Mod.Settings.Unitdata[type].Transfer
-		end
-
-		if (Mod.Settings.Unitdata[type].Level ~= nil)then
-			levelamount = Mod.Settings.Unitdata[type].Level
-		end
-		if (Mod.Settings.Unitdata[type].Defend ~= nil)then
-			defence = Mod.Settings.Unitdata[type].Defend
-		end
-
-
-		--tracking the max amount between all players
-		if publicdata[type] == nil then publicdata[type] = {} end
-		if publicdata[type][ID] == nil then publicdata[type][ID] = {} end 
-		if publicdata[type][ID].CurrEver == nil then publicdata[type][ID].CurrEver = 0 end
-		if publicdata[type][ID].cooldowntimer == nil then publicdata[type][ID].cooldowntimer = 0 end
-		if publicdata[type].CurrEver == nil then publicdata[type].CurrEver = 0 end
-
-
-
-		local targetTerritoryStanding = game.ServerGame.LatestTurnStanding.Territories[targetTerritoryID];
-
-		if (targetTerritoryStanding.OwnerPlayerID ~= order.PlayerID) then
-			return; --can only buy This Unit onto a territory you control
-		end
-
-		
-		if (order.CostOpt == nil) then
-			return; --shouldn't ever happen, unless another mod interferes
-		end
-
-
 		--disabled because can no longer read from Mod.settings using type (without type works fine)
 		--local costFromOrder = order.CostOpt[WL.ResourceType.Gold]; --this is the cost from the order.  We can't trust this is accurate, as someone could hack their client and put whatever cost they want in there.  Therefore, we must calculate it ourselves, and only do the purchase if they match
-
 		--[[local realCost = unitcost
 		if (realCost > costFromOrder) then
 			return; --don't do the purchase if their cost didn't line up.  This would only really happen if they hacked their client or another mod interfered
 		end]]--
-
-		local numUnitsAlreadyHave = 0;
-		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- server side check to make sure Units are not above the Given amount
-			
-			if(shared == true )then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);
-							
-			elseif(ts.OwnerPlayerID == order.PlayerID) then
-				numUnitsAlreadyHave = numUnitsAlreadyHave + NumUnitsIn(ts.NumArmies, typename,type);				
-			end
-		end
 		
-print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
-		
-	--skipping logic if any settings are set to limit the amount of units on field at a given time
-		if (numUnitsAlreadyHave >= unitmax) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since max is ' .. unitmax .. ' and you have ' .. numUnitsAlreadyHave));
-			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
-		
-		elseif (shared == false and publicdata[type][ID].CurrEver >= MaxUnitsEver and MaxUnitsEver ~= -1) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase. you have reached the games spawnable amount which is ' .. MaxUnitsEver));
-			return; --this player already has the maximum number of Units possible of this type, so skip adding a new one.
-				
-		elseif (publicdata[type].CurrEver >= MaxUnitsEver and MaxUnitsEver ~= -1) then
-			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Skipping '.. typename ..' purchase since the Max amount for the server is ' .. MaxUnitsEver .. '. the Game has reached its spawnable amount set by host'));
-			return; --the server has already has the maximum number of Units possible of this type, so skip adding a new one.
-		end
-
 		local filename = getImageFile(image) -- sort through images to find the correct one
 
 		if (maxlife ~= 0)then
@@ -218,15 +311,10 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
 		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
-	
-		print (defence, 'defence power')
-		print (unitpower, 'attack power')
-		print(absoredDamage, 'absored')
 
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
 
-		
 		addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a '.. typename .. addedwords .. addedwords2, nil, {terrMod}));
 		
 		--create a layer of playerID (prob change everything from publicdata to playerdata with id)
@@ -240,61 +328,28 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 			publicdata[type][ID].cooldowntimer = game.Game.TurnNumber + cooldown
 		end
 		print('type',type,'id',ID,'cooldown',publicdata[type][ID].cooldowntimer)
-		 Mod.PublicGameData = publicdata
+		Mod.PublicGameData = publicdata
 	end
 end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
-
-	--[[for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
-		for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
-			if v.proxyType == "CustomSpecialUnit" then
-				if v.ModData ~= nil then -- 
-					if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
-						local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-						local mod = WL.TerritoryModification.Create(ts.ID)
-						
-						if v.OwnerID ~= ts.OwnerPlayerID then -- making sure every unit transfer properly
-							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
-
-							builder.OwnerID = ts.OwnerPlayerID
-							mod.AddSpecialUnits = {builder.Build()}
-							mod.RemoveSpecialUnitsOpt = {v.ID}
-							local UnitdiedMessage = "Chaning to proper Owner of SU"
-
-							addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
-
-						end
-					end
+	--[[for _, territories in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+		for i, unit in pairs (territories.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+			if unit.proxyType == "CustomSpecialUnit" and unit.ModData and startsWith(unit.ModData, modSign(0)) then
+				local payloadSplit = split(string.sub(unit.ModData, 5), ';;'); 
+				local mod = WL.TerritoryModification.Create(territories.ID)
+				
+				if v.OwnerID ~= territories.OwnerPlayerID then -- making sure every unit transfer properly
+					local builder = WL.CustomSpecialUnitBuilder.CreateCopy(unit)
+					builder.OwnerID = territories.OwnerPlayerID
+					mod.AddSpecialUnits = {builder.Build()}
+					mod.RemoveSpecialUnitsOpt = {unit.ID}
+					local UnitdiedMessage = "Chaning to proper Owner of SU"
+					addNewOrder(WL.GameOrderEvent.Create(unit.OwnerID, UnitdiedMessage, nil, {mod}));
 				end
 			end
 		end
-		
 	end]]--
-
-end
-
-function NumUnitsIn(armies, typename,type)
-
-	local ret = 0;
-	local compare = ""
-	for _,su in pairs(armies.SpecialUnits) do
-		if su.proxyType == 'CustomSpecialUnit' then -- make sure its a custom unit
-			if (Mod.Settings.Unitdata[type].Level or 0) > 0 then -- check to see if levels are turned on, and if so subtract extra text
-				local stringskip = #su.Name - #typename 
-
-				compare = string.sub(su.Name, stringskip+1)
-				print(compare)
-			else
-				compare = su.Name
-			end
-			if (compare == typename and startsWith(su.ModData, modSign(0))) then -- actually count unit
-				ret = ret + 1;
-				print(ret,"ret")
-			end
-		end
-	end
-	return ret;
 end
 
 function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
@@ -400,9 +455,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 		local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
 		local land =  Game2.ServerGame.LatestTurnStanding.Territories[order.To]
-		local wassuccessful = result.IsSuccessful
-		local NomoveList = nil
-		local buildertalble = {}
 		local NoMterrMod = WL.TerritoryModification.Create(order.From); -- adding it to territory logic
 		local NoMterrNomove = WL.TerritoryModification.Create(order.To); -- adding it to territory logic
 
@@ -473,7 +525,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 			end
 		end
 
-		if #defendingspecialUnits > 0 and wassuccessful == false then
+		if #defendingspecialUnits > 0 and result.IsSuccessful == false then
 			print('defending special units found')
 
 			for i, v in pairs(defendingspecialUnits) do -- checking to see if an attack had a special unit
@@ -483,7 +535,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 						if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mod
 							local dead = false
 
-							for i2, v2 in pairs( result.DefendingArmiesKilled.SpecialUnits) do -- checking to see if he died
+							for _, v2 in pairs( result.DefendingArmiesKilled.SpecialUnits) do -- checking to see if he died
 								if v.ID == v2.ID then
 									dead = true
 								end
@@ -542,23 +594,3 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 			end
 		end
 	end
-
-function Evenmoves(game, order, result, skipThisOrder, addNewOrder)
-	for i, v in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
-		if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
-			if v.ModData ~= nil then -- making sure it has data to read from
-				if startsWith(v.ModData, "C&P") then -- make sure the speical unit is only from I.S. mod
-					local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-					local altmove = tonumber(payloadSplit[8]) or 0
-					if (altmove > 0 and isNotEven(Game2.Game.TurnNumber)) then
-						local skipmessage = 'Moved order for this unit was skipped because its not an even turn'
-						addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, skipmessage , {}, {}))-- remove from territory
-						skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
-						return false
-					end
-				end
-			end
-		end
-	end
-	return true
-end
