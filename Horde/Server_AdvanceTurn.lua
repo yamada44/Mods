@@ -318,7 +318,8 @@ for i,v in pairs (priv.pendingFort) do
     mod.AddStructuresOpt = struc
     
     addNewOrder(WL.GameOrderEvent.Create(pending.PlayerID, message, nil, {mod}))
-    table.remove(priv.pendingFort,i)
+    priv.pendingFort[i].Attackcount = 0
+    Mod.PublicGameData = priv
     return
   end
 
