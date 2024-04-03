@@ -147,6 +147,7 @@ function Client_SaveConfigureUI(alert)
             --Slot Logic
             if InputFieldTable[i].Slot ~= nil then
                 print(InputFieldTable[i].Slot,"slot out nil")
+                print(Mod.Settings.Unitdata[i].Slotstore,"slot out nil")
                 local slottex = TableFormat(InputFieldTable[i].Slot or 0,tex)
                 local slotamount = split(slottex, '/')
                 local slotnumbers = {}
