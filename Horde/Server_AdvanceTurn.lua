@@ -305,7 +305,7 @@ function RemoveFort(game, addNewOrder)
 	
 	local priv = Mod.PublicGameData
 	if priv.pendingFort == nil then return end
-for i = 1, (#priv.pendingFort) do
+for i,v in pairs (priv.pendingFort) do
 	local pending = priv.pendingFort[i]
 	if (pending == nil) then return end
   if pending.Attackcount >= Mod.Settings.Fort then
