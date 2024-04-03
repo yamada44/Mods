@@ -216,7 +216,7 @@ end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
  
-  
+  RemoveFort(game,addNewOrder)
   --[[
     local publicdata = Mod.PublicGameData
     --local playergroup = {}
