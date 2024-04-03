@@ -252,7 +252,7 @@ Mod.PublicGameData = publicdata]]
   if Agg and Mod.Settings.Nocities == false and Mod.Settings.TDep == 3 then 
     local goldhave
     local MaxGold = 19
-    local added = 100
+    local added = 1000
     local standing = game.ServerGame.LatestTurnStanding
     for playerID, player in pairs(game.Game.PlayingPlayers) do
       if Slotchecker(playerID) then
@@ -260,12 +260,12 @@ Mod.PublicGameData = publicdata]]
            -- if playergroup[playerID] == nil then playergroup[playerID] = {} end
             local income = player.Income(0, standing, true, true) 
             goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
-           if income.Total <= MaxGold then
+           --if income.Total <= MaxGold then
             local incomeMod = WL.IncomeMod.Create(playerID, added, 'Zombie/Bandit Chaos Income')
             addNewOrder(WL.GameOrderEvent.Create(playerID, "better AI income" , nil, nil,nil,{incomeMod}));
             --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
             --
-           end
+           --end
         end
       end
     end
