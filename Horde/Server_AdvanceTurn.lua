@@ -54,6 +54,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         priv = FortLogic(priv,order.To,order.PlayerID)
       end
       Mod.PublicGameData = priv
+      RemoveFort(game,addNewOrder)
       
 
       --Running through attacking rules.
@@ -216,7 +217,7 @@ end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
  
-  RemoveFort(game,addNewOrder)
+
   --[[
     local publicdata = Mod.PublicGameData
     --local playergroup = {}
@@ -311,7 +312,6 @@ for i,v in pairs (priv.pendingFort) do
   if pending.Attackcount >= Mod.Settings.Fort then
     local message = "Fort destroyed by repeated attacks"
 
-    -- We will now build a fort for each pending fort.  However, we need to take care to ensure that if there are two build orders for the same territory that we build both of them, so we first group by the territory ID so we get all build orders for the same territory together.
     local mod = WL.TerritoryModification.Create(pending.TerritoryID)
     local struc = {}
     struc[WL.StructureType.MercenaryCamp] = -1
@@ -319,7 +319,7 @@ for i,v in pairs (priv.pendingFort) do
     
     addNewOrder(WL.GameOrderEvent.Create(pending.PlayerID, message, nil, {mod}))
     table.remove(priv.pendingFort,i)
-    i = i - 1
+    return
   end
 
 end
