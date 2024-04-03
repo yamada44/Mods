@@ -92,6 +92,12 @@ function Client_PresentConfigureUI(rootParent)
 		fort = 0
 	end	
 
+		--This slot Fort attack Rules
+		local agg = Mod.Settings.Agg
+		if agg == nil then
+			agg = false
+		end	
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- Slot
@@ -198,6 +204,11 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Can this slot build cities") end)
 	UI.CreateLabel(row10).SetText('Can this Slot build cities')
 	Nocities = UI.CreateCheckBox(row10).SetText("").SetIsChecked(city9)
+
+	local row11 = UI.CreateHorizontalLayoutGroup(vert) -- cannot build cities if true
+	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting makes the AI more Aggressive when on local deployment and its ability to use income is turned off\nThis is archived by giving the Zombie AI 1000 income. if the AI cannot deploy troops or build cities it will think it has troops, making him attack more often. This affect happens naturally when not in local deployment\nThis Setting can be used when not in local deployment for mixed results\nWill not work unless these slots cannot build cities or armies") end)
+	UI.CreateLabel(row11).SetText('Aggressive AI on Local deployment (Read ? button)')
+	Aggfield = UI.CreateCheckBox(row11).SetText("").SetIsChecked(agg)
 
 	
 end

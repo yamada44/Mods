@@ -112,5 +112,7 @@ end
 --No cities
    Mod.Settings.Nocities = Nocities.GetIsChecked() 
     
+   --Aggresive AI
+   Mod.Settings.Agg = Aggfield.GetIsChecked() 
 
 end

@@ -244,6 +244,34 @@ function Server_AdvanceTurn_End(game, addNewOrder)
         
 
 Mod.PublicGameData = publicdata]]
+    local Agg = Mod.Settings.Agg
+    if Agg == nil then Agg = false end
+
+  -- only for 1 or two turns
+
+  if Agg and Mod.Settings.Nocities == false and Mod.Settings.TDep == 3 then 
+    local goldhave
+    local MaxGold = 19
+    local added = 100
+    local standing = game.ServerGame.LatestTurnStanding
+    for playerID, player in pairs(game.Game.PlayingPlayers) do
+      if Slotchecker(playerID) then
+        if (player.IsAIOrHumanTurnedIntoAI) then 
+           -- if playergroup[playerID] == nil then playergroup[playerID] = {} end
+            local income = player.Income(0, standing, true, true) 
+            goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
+           if income.Total <= MaxGold then
+            local incomeMod = WL.IncomeMod.Create(playerID, added, 'Zombie/Bandit Chaos Income')
+            addNewOrder(WL.GameOrderEvent.Create(playerID, "better AI income" , nil, nil,nil,{incomeMod}));
+            --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
+            --
+           end
+        end
+      end
+    end
+  end
+
+
 end
 function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
@@ -251,7 +279,7 @@ function Slotchecker(playerid)
 
 	for i = 1, #Mod.Settings.Slot do
 		if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
-			issame = true
+			return true
 		end end
 
       return issame
