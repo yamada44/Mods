@@ -334,7 +334,7 @@ function FortLogic(priv,To,PlayerID)
   if priv.pendingFort == nil then priv.pendingFort = {} end
 
   if priv.pendingFort[To] ~=  nil then  -- have attacked before
-    priv.pendingFort[To].Attackcount = priv.pendingFort.Attackcount + 1  
+    priv.pendingFort[To].Attackcount = priv.pendingFort[To].Attackcount + 1  
   else -- new attack from zoms here
     priv.pendingFort[To] = {}
     priv.pendingFort[To].PlayerID = PlayerID
