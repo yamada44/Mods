@@ -304,9 +304,9 @@ function RemoveFort(game, addNewOrder)
 	--Build any forts that we queued in up Server_AdvanceTurn_Order
 	
 	local priv = Mod.PublicGameData
-	if priv.PendingForts == nil then return end
-for i = 1, (priv.PendingForts) do
-	local pending = priv.PendingForts[i]
+	if priv.pendingFort == nil then return end
+for i = 1, (priv.pendingFort) do
+	local pending = priv.pendingFort[i]
 	if (pending == nil) then return end
   if pending.Attackcount >= Mod.Settings.Fort then
     local message = "Fort destroyed by repeated attacks"
@@ -318,7 +318,7 @@ for i = 1, (priv.PendingForts) do
     mod.AddStructuresOpt = struc
     
     addNewOrder(WL.GameOrderEvent.Create(pending.PlayerID, message, nil, {mod}))
-    table.remove(priv.PendingForts,i)
+    table.remove(priv.pendingFort,i)
     i = i - 1
   end
 
@@ -331,8 +331,9 @@ end
 
 function FortLogic(priv,To,PlayerID)
   if priv == nil then priv = {} end
-  if priv.pendingFort == nil then priv.PendingForts = {} end
-  if priv.PendingForts[To] ~=  nil then  -- have attacked before
+  if priv.pendingFort == nil then priv.pendingFort = {} end
+
+  if priv.pendingFort[To] ~=  nil then  -- have attacked before
     priv.pendingFort[To].Attackcount = priv.pendingFort.Attackcount + 1  
   else -- new attack from zoms here
     priv.pendingFort[To] = {}
