@@ -8,7 +8,7 @@ function Client_SaveConfigureUI(alert)
     local boo = 'bool'
     local tex = 'text'
 
-	if UnitTypeMax == nil or UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
+	if UnitTypeMax == nil or UnitTypeMax < 1 or UnitTypeMax > Maxunits then  -- make sure unit types are between 1 and 6
         UI.Alert('you need to create some unit types by pressing the refresh Button')
         UnitTypeMax = 0
     end

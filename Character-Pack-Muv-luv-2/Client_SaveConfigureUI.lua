@@ -8,7 +8,7 @@ function Client_SaveConfigureUI(alert)
     local boo = 'bool'
     local tex = 'text'
 
-	if UnitTypeMax == nil or UnitTypeMax < 1 or UnitTypeMax > 6 then  -- make sure unit types are between 1 and 6
+	if UnitTypeMax == nil or UnitTypeMax < 1 or UnitTypeMax > Maxunits then  -- make sure unit types are between 1 and 6
         UI.Alert('you need to create some unit types by pressing the refresh Button')
         UnitTypeMax = 0
     end
@@ -28,7 +28,7 @@ function Client_SaveConfigureUI(alert)
             local power = TableFormat(InputFieldTable[i].unitpower, num)
             if power < 0 then alert("Mod set up failed\n Units cannot have a Minimum attack Range below 0\nReset to default settings")
                 Mod.Settings.Unitdata[i].unitpower = 1
-            else Mod.Settings.Unitdata[i].unitpower = power; end
+            else Mod.Settings.Unitdata[i].unitpower = power end
 
             --max attack
             local maxatt = TableFormat(InputFieldTable[i].AttackMax ,num)

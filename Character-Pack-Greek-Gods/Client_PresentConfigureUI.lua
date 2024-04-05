@@ -425,7 +425,7 @@ function TempAlreadyCreated(i)
 	InputFieldTable[i].Autovalue = uniteconfig[i].Autovalue
 	InputFieldTable[i].City = uniteconfig[i].Oncity
 	InputFieldTable[i].Combat = uniteconfig[i].CombatOrder
-	InputFieldTable[i].Slot = uniteconfig[i].Slotstore or ""
+	InputFieldTable[i].Slot = uniteconfig[i].Slotstore
 	--InputFieldTable[i].Slotstore = uniteconfig[i].Slotstore
 end
 
