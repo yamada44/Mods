@@ -44,6 +44,20 @@ function Client_PresentSettingsUI(rootParent)
 	elseif Mod.Settings.TDep == 3 then deploy = "Cannot deploy troops" end
 	UI.CreateLabel(row5).SetText(deploy) 
 
+	local row55 = UI.CreateHorizontalLayoutGroup(vert) 
+	UI.CreateLabel(row55).SetText('Attack Rules: ').SetColor('#00B5FF')
+	local attack = "No attack rules"
+	if Mod.Settings.Attack == 2 then attack = "Cannot attack neutral " .. name
+	elseif Mod.Settings.Attack == 3 then attack = "does not gain troops from attacks on neutral"
+elseif Mod.Settings.Attack > 3 then attack = "Does not attack neutrals with this number only, also does not attack neutrals with 0: " .. Mod.Settings.Attack end
+	UI.CreateLabel(row55).SetText(attack) 
+
+	local row100 = UI.CreateHorizontalLayoutGroup(vert) 
+	UI.CreateLabel(row100).SetText('Attacks needed by this slot to destroy Fort tactic forts: ').SetColor('#00B5FF')
+	local fort = Mod.Settings.Fort
+	if fort == 0 then fort = "No special rules for forts" end
+	UI.CreateLabel(row100).SetText(fort)
+
 	local row6 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row6).SetText('Can play Airlift cards: ').SetColor('#00B5FF')
 	UI.CreateLabel(row6).SetText(Mod.Settings.PlayAir) 
