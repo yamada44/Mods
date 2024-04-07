@@ -84,6 +84,15 @@ function removeWhere(array, func)
 	end
 end
 
+function any(array, check)
+    for _, v in pairs(array) do
+        if check(v) then
+            return true
+        end
+    end
+    return false
+end
+
 function first(array, func)
 	for _, v in pairs(array) do
 		if func == nil or func(v) then
@@ -122,10 +131,6 @@ function groupBy(tbl, funcToGetKey)
 		table.insert(group, v)
 	end
 	return ret
-end
-
-function isNotEven(int)
-	return int % 2 ~= 0
 end
 
 -- function buildCustomUnit(territoryOwnerID, attributes)
