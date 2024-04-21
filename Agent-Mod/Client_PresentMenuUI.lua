@@ -52,7 +52,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		-- Top Agent
 	else -- Use this menu if you dont have an agency
 		UI.CreateLabel(row1).SetText("you have no " .. BaseName ..". it cost " ..creationfee.. " gold to start one\nWould you like to create one"  );
-		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(12)
+		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(30)
 		UI.CreateButton(row1).SetText("Create ".. BaseName ).SetOnClick(function () Dialogwindow(1, close, nil) end);
 
 		local vert2 = UI.CreateVerticalLayoutGroup(vert).SetFlexibleWidth(1)
