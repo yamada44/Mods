@@ -1,3 +1,7 @@
+BEFORE_ARMIES_PRIORITY = 99
+AFTER_ARMIES_PRIORITY = -99
+LEVEL_TAG = "LV"
+
 function NewIdentity()
 	local data = Mod.PublicGameData
 	local ret = data.Identity or 1
@@ -133,27 +137,85 @@ function groupBy(tbl, funcToGetKey)
 	return ret
 end
 
--- function buildCustomUnit(territoryOwnerID, attributes)
---     local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
+local DEBUG_ENABLED = true
+function printDebug(message)
+	if DEBUG_ENABLED then print(message) end
+end
 
---     builder.Name = attributes.name
---     builder.IncludeABeforeName = true
---     builder.ImageFilename = fileFinder(attributes.image)
---     builder.AttackPower = attributes.attackPower
---     builder.DefensePower = attributes.defensePower
---     builder.CombatOrder = attributes.combatOrder
---     builder.DamageToKill = attributes.damageToKill
---     builder.DamageAbsorbedWhenAttacked = attributes.damageToKill
---     builder.CanBeGiftedWithGiftCard = true
---     builder.CanBeTransferredToTeammate = false
---     builder.CanBeAirliftedToSelf = true
---     builder.CanBeAirliftedToTeammate = true
---     builder.TextOverHeadOpt = attributes.name
---     builder.IsVisibleToAllPlayers = attributes.isVisible
---     builder.ModData = attributes.modData
+function isSpecialUnit(unit)
+    return unit.proxyType == "CustomSpecialUnit" and unit.ModData and startsWith(unit.ModData, modSign(0))
+end
 
---     return builder
--- end
+function getUnitData(unit)
+    assert(isSpecialUnit(unit), "Error: Attempted to get data from a non-special unit or unit is nil.")
+
+    local payload = split(unit.ModData, ';;')
+    return {
+		modSign = tonumber(payload[1]),
+        expiryTurn = tonumber(payload[2]) or 0,
+        transfer = tonumber(payload[3]) or 0,
+        xpThreshold = tonumber(payload[4]) or 0,
+        xp = tonumber(payload[5]) or 0,
+        power = tonumber(payload[6]) or 0,
+        level = tonumber(payload[7]) or 0,
+        defense = tonumber(payload[8]) or 0,
+        slow = tonumber(payload[9]) or 0,
+        assass = tonumber(payload[10]) or 0,
+    }
+end
+
+function constructUnitData(params)
+	local data = {
+		modSign(0),
+		tostring(params.expiryTurn),
+		tostring(params.transfer),
+        tostring(params.xpThreshold),
+        params.xp or "0", 				-- Initial XP is always 0
+        tostring(params.power),
+        params.lvl or "0", 				-- Starting level is always 0
+        tostring(params.defense),
+        tostring(params.slow or 0), 	-- Bool to int
+        tostring(params.assass or 0), 	-- Bool to int
+	}
+	return table.concat(data, ';;')
+end
+
+function updateUnitData(unit, updates)
+    local unitData = getUnitData(unit)
+    if not unitData then
+        error("Cannot update unit ModData: Invalid unit or missing data")
+    end
+
+    -- Merging updates into the original unit data
+    for key, value in pairs(updates) do
+        unitData[key] = value
+    end
+
+    return constructUnitData(unitData)
+end
+
+
+function buildCustomUnit(territoryOwnerID, attributes)
+    local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
+
+    builder.Name = attributes.name
+    builder.IncludeABeforeName = true
+    builder.ImageFilename = getImageFile(attributes.image)
+    builder.AttackPower = attributes.attackPower
+    builder.DefensePower = attributes.defensePower
+    builder.CombatOrder = attributes.combatOrder
+    builder.DamageToKill = attributes.damageToKill
+    builder.DamageAbsorbedWhenAttacked = attributes.damageToKill
+    builder.CanBeGiftedWithGiftCard = true
+    builder.CanBeTransferredToTeammate = false
+    builder.CanBeAirliftedToSelf = true
+    builder.CanBeAirliftedToTeammate = true
+    builder.TextOverHeadOpt = attributes.name
+    builder.IsVisibleToAllPlayers = attributes.isVisible
+    builder.ModData = attributes.modData
+
+    return builder
+end
 
 function getImageFile(image)
 	if image == 0 then
