@@ -1,6 +1,6 @@
 require('Utilities')
 
-local function isValidMove(result)
+function isValidMove(result)
 	for _, unit in pairs(result.ActualArmies.SpecialUnits) do -- checking to see if an attack had a special unit
         if isSpecialUnit(unit) then
 			local u = getUnitData(unit)
@@ -12,54 +12,52 @@ local function isValidMove(result)
 	return true
 end
 
--- local function updateUnit(game, unit, currentXP, currentLevel, levelUpMessage, territoryID, orderPlayerID, addNewOrder)
---     local modData = constructModDataFromUnit(unit, currentXP, currentLevel)  -- Assumes existence of this function
---     local builder = WL.CustomSpecialUnitBuilder.CreateCopy(unit)
---     builder.ModData = modData
+local function levelUpUnitName(builder, level)
+    local prefix = LEVEL_TAG .. level .. " "
+    if not builder.Name:find("^" .. LEVEL_TAG) then
+        builder.Name = prefix .. builder.Name
+    else
+        builder.Name = prefix .. builder.Name:match("^" .. LEVEL_TAG .. "%d+ (.+)$")
+    end
+end
 
---     local terrMod = WL.TerritoryModification.Create(territoryID)
---     terrMod.AddSpecialUnits = {builder.Build()}
---     terrMod.RemoveSpecialUnitsOpt = {unit.ID}
+local function createUnitOrder(builder, unit, territoryID, playerID, addNewOrder, message)
+    local modification = WL.TerritoryModification.Create(territoryID)
+    modification.AddSpecialUnits = {builder.Build()}
+    modification.RemoveSpecialUnitsOpt = {unit.ID}
 
---     addNewOrder(WL.GameOrderEvent.Create(orderPlayerID, levelUpMessage, nil, {terrMod}))
--- end
+    addNewOrder(WL.GameOrderEvent.Create(playerID, message, nil, {modification}))
+end
 
-local function applyLevelUp(builder, u)
+local function levelUpUnitStats(builder, u)
     local damageAbsorbed = (u.power + u.defense) / 2
 
-	u.xp = 0
-	u.level = u.level + 1
-	u.xpThreshold = u.xpThreshold + (u.xpThreshold / u.level)
-	printDebug(string.format("New Level: %d, New xpThreshold: %d", u.level, u.xpThreshold))
+    u.level = u.level + 1
+    u.xp = 0
+    u.xpThreshold = u.xpThreshold + (u.xpThreshold / u.level)
 
-	builder.AttackPower = builder.AttackPower + (builder.AttackPower / u.level)
-	builder.DefensePower = builder.DefensePower + (builder.DefensePower / u.level)
-	builder.DamageToKill = builder.DamageToKill + (damageAbsorbed / u.level)
-	builder.DamageAbsorbedWhenAttacked = builder.DamageAbsorbedWhenAttacked + (damageAbsorbed / u.level)
+    builder.AttackPower = builder.AttackPower + (builder.AttackPower / u.level)
+    builder.DefensePower = builder.DefensePower + (builder.DefensePower / u.level)
+    builder.DamageToKill = builder.DamageToKill + (damageAbsorbed / u.level)
+    builder.DamageAbsorbedWhenAttacked = builder.DamageAbsorbedWhenAttacked + (damageAbsorbed / u.level)
 
-	local prefixLength = LEVEL_TAG:len() + tostring(u.level-1) + 1 			   -- "LV# "
-	local safeStartIndex = math.min(prefixLength + 1, builder.Name:len() + 1)  -- Not exceed string length
-	local nameWithoutPrefix = builder.Name:sub(safeStartIndex)
-	builder.Name = LEVEL_TAG .. u.level .. ' ' .. nameWithoutPrefix -- TODO: REFACTOR
+    levelUpUnitName(builder, u.level)
+    return builder
 end
 
 local function levelUp(unit, territoryID, xpGained, playerID, addNewOrder)
-    printDebug(string.format("LEVELING UP - Unit ModData: %s", unit.ModData)) -- TOOD: REMOVE
 	local u = getUnitData(unit)
 
-    printDebug(string.format("Before adding XP -> currentXP: %d, xpThreshold: %d, xpGained: %d", u.xp, u.xpThreshold, xpGained))
+    printDebug(string.format("Unit gaining XP -> xp: %d, xpThreshold: %d, xpGained: %d", u.xp, u.xpThreshold, xpGained))
     u.xp = u.xp + xpGained
-    printDebug(string.format("After adding XP -> currentXP: %d, xpThreshold for lvlUp: %d", u.xp, u.xpThreshold))
-
 	local builder = WL.CustomSpecialUnitBuilder.CreateCopy(unit)
-	local lvlUpMessage = ""
+	local message = ""
 
     if u.xp >= u.xpThreshold then
-		applyLevelUp(builder, u)
-        lvlUpMessage = unit.TextOverHeadOpt .. ' the ' .. builder.Name .. ' has leveled up!'
+		levelUpUnitStats(builder, u)
+        message = unit.TextOverHeadOpt .. ' the ' .. builder.Name .. ' has leveled up!'
     else
-        printDebug("Gained XP, but not enough to level up.")
-        lvlUpMessage = unit.TextOverHeadOpt .. ' the ' .. builder.Name .. ' gained ' .. xpGained ..' XP: ' .. u.xp .. '/' .. u.xpThreshold .. ' to next level' 
+        message = unit.TextOverHeadOpt .. ' the ' .. builder.Name .. ' gained ' .. xpGained ..' XP: ' .. u.xp .. '/' .. u.xpThreshold .. ' to next level' 
     end
 
 	builder.ModData = constructUnitData({
@@ -74,14 +72,10 @@ local function levelUp(unit, territoryID, xpGained, playerID, addNewOrder)
 		assass = u.assass
 	})
 
-	local territoryModification = WL.TerritoryModification.Create(territoryID)
-	territoryModification.AddSpecialUnits = {builder.Build()}
-	territoryModification.RemoveSpecialUnitsOpt = {unit.ID}
-
-    addNewOrder(WL.GameOrderEvent.Create(playerID, lvlUpMessage, nil, {territoryModification}))
+    createUnitOrder(builder, unit, territoryID, playerID, addNewOrder, message)
 end
 
-local function handleLevelUps(game, order, result, addNewOrder)
+local function handleLevelUps(order, targetTerritory, result, addNewOrder)
     for _, unit in pairs(result.ActualArmies.SpecialUnits) do -- handle attacking troops
         if isSpecialUnit(unit) then
 			local u = getUnitData(unit)
@@ -96,7 +90,7 @@ local function handleLevelUps(game, order, result, addNewOrder)
 		end
 	end
 
-	local defendingSpecialUnits = game.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits or {}
+    local defendingSpecialUnits = targetTerritory.NumArmies.SpecialUnits or {}
 	if (#defendingSpecialUnits > 0 and not result.IsSuccessful) then -- handle defending troops
 		for _, unit in pairs(defendingSpecialUnits) do
 			if isSpecialUnit(unit) then
@@ -107,7 +101,7 @@ local function handleLevelUps(game, order, result, addNewOrder)
 					local xpGained = result.AttackingArmiesKilled.AttackPower or 0
 					local territoryID = order.From
 
-					levelUp(unit, territoryID, xpGained, game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID, addNewOrder)
+					levelUp(unit, territoryID, xpGained, targetTerritory.OwnerPlayerID, addNewOrder)
 				end
 			end
 		end
@@ -140,11 +134,11 @@ local function handleDeath(unit, result, land, attackFailed, addNewOrder, attack
         local builder = WL.CustomSpecialUnitBuilder.CreateCopy(unit)
         builder.OwnerID = targetPlayerID
         builder.ModData = updateUnitData(unit, {transfer=u.transfer})
-		local terrMod = WL.TerritoryModification.Create(land)
-        terrMod.AddSpecialUnits = {builder.Build()}
+		local modification = WL.TerritoryModification.Create(land)
+        modification.AddSpecialUnits = {builder.Build()}
 
         local message = createDeathMessage(unit, land, isNeutral, game.Game.Players[targetPlayerID].DisplayName(nil, false))
-        addNewOrder(WL.GameOrderEvent.Create(targetPlayerID, message, nil, {terrMod}))
+        addNewOrder(WL.GameOrderEvent.Create(targetPlayerID, message, nil, {modification}))
     else -- kill unit
 		printDebug("kill unit")
         local message = createDeathMessage(unit, land, isNeutral)
@@ -181,13 +175,13 @@ local function processAttackTransfer(game, order, result, skipThisOrder, addNewO
         end
     end
 
-	handleLevelUps(game, order, result, addNewOrder)
+	handleLevelUps(order, game.ServerGame.LatestTurnStanding.Territories[order.To], result, addNewOrder)
 	handleDeaths(game, order, result, addNewOrder)
 end
 
 ------------purchase functions----------------------------
 
-local function extractUnitPayloadData(payload)
+local function extractUnitMetaData(payload)
 	local payloadSplit = split(string.sub(payload, 7), ';;')
 	return {
 		targetTerritoryID = tonumber(payloadSplit[1]),
@@ -331,16 +325,15 @@ local function buildAndAddUnit(order, unit, game, addNewOrder)
             assass = Mod.Settings.Unitdata[unit.type].Assassination or 0,
         })
     }
-
     local builder = buildCustomUnit(order.PlayerID, attributes)
+    local modification = WL.TerritoryModification.Create(unit.targetTerritoryID)
 
-    local terrMod = WL.TerritoryModification.Create(unit.targetTerritoryID)
-    terrMod.AddSpecialUnits = {builder.Build()}
-    addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a ' .. unit.typeName .. additionalMessages, nil, {terrMod}))
+    modification.AddSpecialUnits = {builder.Build()}
+    addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Purchased a ' .. unit.typeName .. additionalMessages, nil, {modification}))
 end
 
 local function processPurchase(game, order, addNewOrder)
-    local unit = extractUnitPayloadData(order.Payload)
+    local unit = extractUnitMetaData(order.Payload)
 
 	local max = Mod.Settings.Unitdata[unit.type].MaxServer
 	local maxUnitsEver = (max ~= true and max ~= false and max ~= 0) and max or -1
@@ -362,10 +355,10 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 			if isSpecialUnit(unit) then
 				u = getUnitData(unit)
 				if u.expiryTurn ~= 0 and u.expiryTurn <= game.Game.TurnNumber then
-					local deathMessage = unit.TextOverHeadOpt .. ' the ' .. unit.Name .. ' has died of natural causes'
+					local message = unit.TextOverHeadOpt .. ' the ' .. unit.Name .. ' has died of natural causes'
 					local modification = WL.TerritoryModification.Create(territory.ID)
 					modification.RemoveSpecialUnitsOpt = {unit.ID}
-					addNewOrder(WL.GameOrderEvent.Create(unit.OwnerID, deathMessage, nil, {modification}));
+					addNewOrder(WL.GameOrderEvent.Create(unit.OwnerID, message, nil, {modification}));
 				end
 			end
 		end

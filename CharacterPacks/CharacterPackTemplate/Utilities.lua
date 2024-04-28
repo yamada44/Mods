@@ -137,9 +137,12 @@ function groupBy(tbl, funcToGetKey)
 	return ret
 end
 
-local DEBUG_ENABLED = true
+local DEBUG_ENABLED = 2
 function printDebug(message)
-	if DEBUG_ENABLED then print(message) end
+	if DEBUG_ENABLED > 0 then print(message) end
+end
+function printDebugVerbose(message)
+	if DEBUG_ENABLED == 2 then print(message) end
 end
 
 function isSpecialUnit(unit)
@@ -193,7 +196,6 @@ function updateUnitData(unit, updates)
 
     return constructUnitData(unitData)
 end
-
 
 function buildCustomUnit(territoryOwnerID, attributes)
     local builder = WL.CustomSpecialUnitBuilder.Create(territoryOwnerID)
@@ -258,5 +260,4 @@ function getBuildInfo(type, mode)
 
 	if mode == "name" then return builds[type][1] end
 	if mode == "type" then return builds[type][2] end
-	-- error("Invalid mode: " .. tostring(mode))
 end
