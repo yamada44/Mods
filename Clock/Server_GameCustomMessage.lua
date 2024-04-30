@@ -52,6 +52,7 @@ print(playerID)
 
 
   end
+
   for Bi = 1, #Pub[playerID].template.Display do   
     for i,v in pairs (Pub[playerID].template) do
       if Pub[playerID].template.Display[Bi].value == i then

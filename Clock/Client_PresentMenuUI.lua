@@ -63,9 +63,6 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
-for i,v in pairs(short[ID].template.Display)do
-	print(i,v.text,"messed up test")
-end
 
 	local tpyename = ViewableTable --accesses the field
 	if #tpyename <= 3 then setMaxSize(680-350, 400) else setMaxSize(720, 400) end
@@ -207,6 +204,9 @@ function Serverload(type,data1,close)
 	end
 	local viewdata = data1
 
+	for i,v in pairs(data1)do
+		print(i,v.text,"messed up test")
+	end
 	if type == 1 then
 		viewdata = {}
 		for i = 1, #data1 do
