@@ -63,7 +63,7 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
-for i,v in pairs(ViewableTable2)do
+for i,v in pairs(short[ID].template.Display.text)do
 	print(i,v,"messed up test")
 end
 
