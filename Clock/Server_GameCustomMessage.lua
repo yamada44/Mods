@@ -30,7 +30,7 @@ print(playerID)
 
   elseif type == 2 then --changing viewing order
 
-    for i = 1, Pub[playerID].template.Display do
+    for i = 1, #Pub[playerID].template.Display do
     
       Pub[playerID].template.Display[i].value = data1[i].value
       Pub[playerID].template.Display[i].text = data1[i].text
