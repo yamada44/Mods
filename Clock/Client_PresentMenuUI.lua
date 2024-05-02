@@ -230,7 +230,9 @@ function Serverload(type,data1,close)
 			if returnValue.Message ~= nil then 
 				UI.Alert(returnValue.Message)
 			end
-		
+			for i,v in pairs(short[ID].template.Display)do
+				print(i,v.text,"test Done")
+			end
 
 		end)	
 end
