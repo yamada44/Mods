@@ -34,7 +34,7 @@ print(playerID)
     
       Pub[playerID].template.Display[i].value = data1[i].value
       Pub[playerID].template.Display[i].text = data1[i].text
-      Pub[playerID].template.Display[i].order = i
+      Pub[playerID].template.Display[i].order = #Pub[playerID].template.Display - (i - 1)
 
     end
 
