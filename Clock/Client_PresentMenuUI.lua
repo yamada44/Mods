@@ -61,11 +61,12 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local year = short.Date.year
 	local Abb = short.After
 	if year < 0 then year = year * -1 Abb = short.Before end
+	local SortedAgency = SortTable(short[ID].template.Display, "order")
 	
-	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
-	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
-	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
-	for i,v in pairs(short[ID].template.Display)do
+	local ViewableTable = oldtableNewformat(SortedAgency,"value",false)
+	local ViewableTable2 = oldtableNewformat(SortedAgency,"text",false)
+	local ViewableTable3 = oldtableNewformat(SortedAgency,"",true)
+	for i,v in ipairs(short[ID].template.Display)do
 		print(i,v.text,"test 6")
 	end
 	local tpyename = ViewableTable --accesses the field
