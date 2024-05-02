@@ -205,7 +205,7 @@ function Serverload(type,data1,close)
 	local viewdata = data1
 
 	for i,v in pairs(data1)do
-		print(i,v.text,"messed up test")
+		print(i,v.text,"test 1")
 	end
 	if type == 1 then
 		viewdata = {}
