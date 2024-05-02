@@ -54,7 +54,9 @@ function Dialogwindow(window, close, data) -- middle function to open up new win
 	
 end
 function ShowLayout(vert2,rootParent,setMaxSize)
-
+	for i,v in pairs(short[ID].template.Display)do
+		print(i,v.text,"test 5")
+	end
 
 	local year = short.Date.year
 	local Abb = short.After
@@ -63,7 +65,9 @@ function ShowLayout(vert2,rootParent,setMaxSize)
 	local ViewableTable = oldtableNewformat(short[ID].template.Display,"value",false)
 	local ViewableTable2 = oldtableNewformat(short[ID].template.Display,"text",false)
 	local ViewableTable3 = oldtableNewformat(short[ID].template.Display,"",true)
-
+	for i,v in pairs(short[ID].template.Display)do
+		print(i,v.text,"test 6")
+	end
 	local tpyename = ViewableTable --accesses the field
 	if #tpyename <= 3 then setMaxSize(680-350, 400) else setMaxSize(720, 400) end
 	local Namegroups = {UI.CreateHorizontalLayoutGroup(vert2)}
