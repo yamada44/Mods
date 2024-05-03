@@ -304,12 +304,12 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 
 
 	 local SortedAgents = SortTable(Agentlist, "successfulmissions")
-	 local colorN = "#00D907"
+	 local colorN = "#FFFFFF"
 	 local colorT = "#FFF700"
 
 		for i = 1, #SortedAgents do 
 			local row000 = UI.CreateVerticalLayoutGroup(Rowtable[1])
-			UI.CreateLabel(row000).SetText("# ".. i.. " : " )
+			UI.CreateLabel(row000).SetText("# ".. i.. " : " ).SetColor(colorN)
 			local color = colorN
 			for i2 = 1, #tpyename do 
 			local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2+1])
@@ -325,7 +325,7 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 				UI.CreateLabel(row1).SetText(spacerCore).SetColor(color)
 
 			end
-		if colorN == "#BABABC" then colorN = "#00D907" else colorN = "#BABABC" end
+		if colorN == "#BABABC" then colorN = "#FFFFFF" else colorN = "#BABABC" end
 		end
 	end
 end
