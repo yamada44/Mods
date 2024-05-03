@@ -29,6 +29,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	UI.CreateEmpty(row2) 
 	UI.CreateButton(row4).SetText("Settings").SetOnClick(function () Dialogwindow(1,close,"") end).SetColor("#1274A4") -- Settings option
+	UI.CreateButton(row4).SetText("Help").SetColor('#0000FF').SetOnClick(function() UI.Alert('if your UI is messed up and your on the phone. turn your phone to the side') end)
 
 
 
