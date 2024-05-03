@@ -304,7 +304,7 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 
 
 	 local SortedAgents = SortTable(Agentlist, "successfulmissions")
-	 local colorN = "#DCDF7C"
+	 local colorN = "#00D907"
 	 local colorT = "#FFF700"
 
 		for i = 1, #SortedAgents do 
@@ -325,7 +325,7 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 				UI.CreateLabel(row1).SetText(spacerCore).SetColor(color)
 
 			end
-		if colorN == "#BABABC" then colorN = "#DCDF7C" else colorN = "#BABABC" end
+		if colorN == "#BABABC" then colorN = "#00D907" else colorN = "#BABABC" end
 		end
 	end
 end
