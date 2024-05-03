@@ -202,7 +202,7 @@ function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- pr
 
 end
 function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- present agency rank
-	setMaxSize(900, 320);
+	setMaxSize(950, 320);
 	if publicdata.Ranklist ~= nil then
 		AgencyTable = Values2TableAgency(publicdata.Ranklist) -- list of all agencies
 		local SortedAgency = SortTable(AgencyTable, "agencyrating")
