@@ -255,7 +255,7 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 			if SortedAgency[i].Agentlist ~= nil then 
 				print("no agents")
 				tempagents = #SortedAgency[i].Agentlist end
-			if i2 == 1 then spacerText = " " .. BaseName color = colorT  end
+		--	if i2 == 1 then spacerText = " " .. BaseName color = colorT  end
 			if i2 == 5 then spacerCore = tempagents end
 			
 				UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
