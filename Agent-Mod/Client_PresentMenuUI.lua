@@ -316,7 +316,7 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 
 			local spacerText = ""
 			local spacerCore = SortedAgents[i][tpyename[i2]]
-			if color == colorT  then color = colorN 
+			if color == colorT  then color = colorN end
 
 			print("test 3")
 			if i2 == 1 then spacerCore = "Agent " .. SortedAgents[i][tpyename[i2]] color = colorT end
