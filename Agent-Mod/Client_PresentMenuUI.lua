@@ -52,7 +52,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		-- Top Agent
 	else -- Use this menu if you dont have an agency
 		UI.CreateLabel(row1).SetText("you have no " .. BaseName ..". it cost " ..creationfee.. " gold to start one\nWould you like to create one"  );
-		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(25)
+		Agencynamefield = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of ".. BaseName .. "                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
 		UI.CreateButton(row1).SetText("Create ".. BaseName ).SetOnClick(function () Dialogwindow(1, close, nil) end);
 
 		local vert2 = UI.CreateVerticalLayoutGroup(vert).SetFlexibleWidth(1)
@@ -187,12 +187,15 @@ function AgencyOptions(rootParent, setMaxSize, setScrollable, game, close) -- pr
 	setMaxSize(450, 320);
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent);
-	local row1 = UI.CreateHorizontalLayoutGroup(vert);
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 
 	UI.CreateButton(row1).SetText("Agent List").SetOnClick(function () Dialogwindow(3) end);
 	UI.CreateButton(row1).SetText("Top World " .. BaseName).SetOnClick(function () Dialogwindow(4) end);
 	UI.CreateButton(row1).SetText("Top World Agents").SetOnClick(function () Dialogwindow(7) end);
 	UI.CreateButton(row1).SetText("Training").SetOnClick(function () Dialogwindow(5) end);
+
+	UI.CreateButton(row2).SetText("Help").SetColor('#1274A4').SetOnClick(function() UI.Alert('if your UI is ever messed up and your on the phone. turn your phone to the side') end)
 	
 	--UI.CreateButton(row1).SetText("Shop").SetOnClick(function () Dialogwindow(6) end);
 
@@ -301,23 +304,28 @@ function TopAgentLogic(rootParent, setMaxSize, setScrollable, game, close) -- To
 
 
 	 local SortedAgents = SortTable(Agentlist, "successfulmissions")
+	 local colorN = "#DCDF7C"
+	 local colorT = "#FFF700"
+
 		for i = 1, #SortedAgents do 
 			local row000 = UI.CreateVerticalLayoutGroup(Rowtable[1])
 			UI.CreateLabel(row000).SetText("# ".. i.. " : " )
+			local color = colorN
 			for i2 = 1, #tpyename do 
 			local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2+1])
 
 			local spacerText = ""
 			local spacerCore = SortedAgents[i][tpyename[i2]]
-			local color = "#BABABC"
+			if color == colorT  then color = colorN 
+
 			print("test 3")
-			if i2 == 1 then spacerCore = "Agent " .. SortedAgents[i][tpyename[i2]] color = "#FFF700" end
+			if i2 == 1 then spacerCore = "Agent " .. SortedAgents[i][tpyename[i2]] color = colorT end
 
 			
 				UI.CreateLabel(row1).SetText(spacerCore).SetColor(color)
 
 			end
-
+		if colorN == "#BABABC" then colorN = "#DCDF7C" else colorN = "#BABABC" end
 		end
 	end
 end
