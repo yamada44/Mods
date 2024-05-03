@@ -239,26 +239,29 @@ function AgencyLogic(rootParent, setMaxSize, setScrollable, game, close) -- pres
 		UI.CreateLabel(Rowtable[7]).SetText("Agency Owner").SetColor("#FF697A")
 
 
-
+		local colorN = "#FFFFFF"
+		local colorT = "#FFF700"
 		for i = 1, #SortedAgency do 
 			local row000 = UI.CreateVerticalLayoutGroup(Rowtable[1])
-			UI.CreateLabel(row000).SetText("# ".. i.. " : " )
+			local color = colorN
+			UI.CreateLabel(row000).SetText("# ".. i.. " : " ).SetColor(colorN)
 			for i2 = 1, #tpyename do 
 			local row1 = UI.CreateVerticalLayoutGroup(Rowtable[i2+1])
 			local tempagents = 0
 			local spacerText = ""
 			local spacerCore = SortedAgency[i][tpyename[i2]]
-			local color = "#BABABC"
 			print("test 3")
+			if color == colorT  then color = colorN end
 			if SortedAgency[i].Agentlist ~= nil then 
 				print("no agents")
 				tempagents = #SortedAgency[i].Agentlist end
-			if i2 == 1 then spacerText = " " .. BaseName color = "#FFF700" end
+			if i2 == 1 then spacerText = " " .. BaseName color = colorT  end
 			if i2 == 5 then spacerCore = tempagents end
 			
 				UI.CreateLabel(row1).SetText(spacerCore .. spacerText).SetColor(color)
 
 			end
+			if colorN == "#BABABC" then colorN = "#FFFFFF" else colorN = "#BABABC" end
 		end
 	else 
 		UI.CreateLabel(rootParent).SetText("No Agency has been formed from any player")
