@@ -1,3 +1,4 @@
+require('ColorUI/TextWriter')
 
 function NewIdentity()
 	local data = Mod.PublicGameData;
@@ -111,8 +112,87 @@ function groupBy(tbl, funcToGetKey)
 			group = {};
 			ret[key] = group;
 		end
-		table.insert(group, v);
+		table.insert(group, v)
 	end
 
 	return ret;
+end
+--returns place in table
+function Findmatch(findtable, match,what) -- input a table with a index and values, then input a value(match) to match on table values(what). returns value if true, returns 0 if not 
+    for i = 1, #findtable do
+
+        if findtable[i][what] == match then
+            print(match, i, "match")
+            return i
+
+        end 
+    end
+    return 0
+end
+
+function ModSign()
+	
+end
+
+function Modloader(loadnumber)
+    local list = {}
+	if loadnumber == -1 then return -1 end
+    if loadnumber > 0 then
+		list[1] = 'C&P'
+        list[2] = 'C&PA'
+        list[3] = 'C&PB'
+        list[4] = 'C&PC'
+        list[5] = 'C&PD'
+        list[6] = 'C&PE'
+        list[7] = 'C&PF'
+        list[8] = 'C&PG'
+        list[9] = 'C&PH'
+        list[10] = 'C&PI'
+        list[11] = 'C&PJ'
+        list[12] = 'C&PK'
+        list[13] = 'C&PL'
+        list[14] = 'C&PM'
+        list[15] = 'C&PN'
+        list[16] = 'C&PO'
+		list[17] = 'C&PP'
+		list[18] = 'C&PQ'
+
+        
+    return list[loadnumber]
+    elseif loadnumber == 0 then 
+        return 0
+    end 
+    
+end
+
+
+function Characterpackloader(loadnumber)
+    local list = {}
+
+    if loadnumber > 0 then
+		list[1] = 'All Character packs'
+        list[2] = 'Antiquity Pack'
+        list[3] = 'Ship Props Pack'
+        list[4] = 'Hero Pack'
+        list[5] = 'Asian Pack'
+        list[6] = 'World war Pack'
+        list[7] = 'Greek Gods Pack'
+        list[8] = 'Meieval Pack'
+        list[9] = 'Medevial Props Pack'
+        list[10] = 'Modern Pack'
+        list[11] = 'Monsters Pack'
+        list[12] = 'People/Ganger Pack'
+        list[13] = 'Game of thrones Pack'
+        list[14] = 'Star wars Pack'
+        list[15] = 'Star war Props Pack'
+        list[16] = 'Victorian Pack'
+		list[17] = 'Muv-Luv Pack'
+		list[18] = 'Muv-luv Beta/Human Pack'
+
+        
+    return list[loadnumber]
+    elseif loadnumber == 0 then 
+        return 0
+    end 
+    
 end

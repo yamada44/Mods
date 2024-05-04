@@ -31,9 +31,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
   --hour
     Time = ProcessTime("hour","hour",pub.Basehour,"day",Time,TP)
   --day
-
     Time = ProcessTimeCalender("day","day",pub.Daysinmonths ,"month",Time,TP)
-
   --Month
     Time = ProcessTime("month","month",pub.NumberofMonths,"year",Time,TP)
   --Year

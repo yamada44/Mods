@@ -26,59 +26,60 @@ function Client_SaveConfigureUI(alert)
             
 	  -- Autofind for ports (second autoFind)
             local autoP = TableFormat(InputFieldTable[i].C_AutoP ,num)
-            if autoP < 0 or auto == autoP then alert('Mod set up failed\nAutofinder Port value must be above 0 and cannot be the same value of Autofinder\nSet to 0 to disable')
+            if autoP < 3 then alert('Mod set up failed\nAutofinder Port value must be above 3\nSet to base autofind to disable')
                 Mod.Settings.Landdata[i].C_AutoP = 0
             else
             Mod.Settings.Landdata[i].C_AutoP = autoP end
 
-        --[[Port Logic
-            local portL = TableFormat(InputFieldTable[i].C_Portlogic ,num)
-            if (portL < 1 or portL > 2)then combat = 2 alert("Mod set up failed\nPort Logic value must be between 1-2")
-                Mod.Settings.Landdata[i].C_Portlogic = 1
-            else
-            Mod.Settings.Landdata[i].C_Portlogic = portL end
-]]--
 	  --Value land turned to
             local value = TableFormat(InputFieldTable[i].C_Value ,num)
-             if (value < 1 or value > 2)then combat = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
-                Mod.Settings.Landdata[i].C_Value = 1
+             if (value < -1 or value > 10000)then alert("Mod set up failed\nValue value(haha) must be between 0-10,000")
+                Mod.Settings.Landdata[i].C_Value = 0
             else
             Mod.Settings.Landdata[i].C_Value = value; end
 
 	  --Start turn
             local turnS = TableFormat(InputFieldTable[i].C_Turnstart ,num)
-             if (turnS < 1 or turnS > 2)then combat = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+             if (turnS < 0 or turnS > 150)then alert("Mod set up failed\n Start turn value must be between 1-150")
             else
             Mod.Settings.Landdata[i].C_Turnstart = turnS; end
 
 	  --End turn
             local turnE = TableFormat(InputFieldTable[i].C_Turnend ,num)
-             if (turnE < 1 or turnE > 2)then turnE = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+             if (turnE < 0 or turnE > 150 or turnE < turnS)then alert("Mod set up failed\n End turn value must be between 1-150")
             else
             Mod.Settings.Landdata[i].C_Turnend = turnE end
 
             --OwnerID
             local ownerID = TableFormat(InputFieldTable[i].C_TerrainTypeID ,num)
-             if (ownerID < 1 or ownerID > 2)then ownerID = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+             if (ownerID < -3 or ownerID > 99999999)then alert("Mod set up failed\n ownerID value must be between 0-99,999,999")
             else
             Mod.Settings.Landdata[i].C_TerrainTypeID = ownerID end
 
             --Mod Settings
             local modsetting = TableFormat(InputFieldTable[i].C_Modsetting ,num)
-             if (modsetting < 1 or modsetting > 2)then modsetting = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+             if (modsetting < -1 or modsetting > 18)then alert("Mod set up failed\n mod setting value must be between 0-18")
             else
             Mod.Settings.Landdata[i].C_Modsetting = modsetting end
 
             --Unit Type
             local unitT = TableFormat(InputFieldTable[i].C_Unittype ,num)
-             if (unitT < 1 or unitT > 2)then unitT = 2 alert("Mod set up failed\nCombat order value must be between 1-2")
+             if (unitT < 0 or unitT > 8)then  alert("Mod set up failed\nunit type value must be between 0-8")
                 Mod.Settings.Landdata[i].C_Unittype = 1
             else
             Mod.Settings.Landdata[i].C_Unittype = unitT end
 
-            --Inverse
-            local inverse = TableFormat(InputFieldTable[i].C_Inverse,boo)
-            Mod.Settings.Landdata[i].C_Inverse = inverse
+            --Base Settings
+            local inverse = TableFormat(InputFieldTable[i].C_Inverse ,num)
+             if (inverse < 1 or inverse > 4)then alert("Mod set up failed\nStandard settings value must be between 1-4")
+                Mod.Settings.Landdata[i].C_Inverse = 1
+            else
+            Mod.Settings.Landdata[i].C_Inverse = inverse end
+
+            --Buildings
+            local build = TableFormat(InputFieldTable[i].C_RemoveBuild,boo)
+            Mod.Settings.Landdata[i].C_RemoveBuild = build
+
             
             --Name
             if (TableFormat(InputFieldTable[i].C_Name,tex) ~= '' and TableFormat(InputFieldTable[i].C_Name,tex) ~= nil)then
@@ -90,14 +91,10 @@ function Client_SaveConfigureUI(alert)
             end
 
 
-            noUnitsOn = noUnitsOn + TerrainTypeMax -- to check if any units were turned on
-
-
         end
     Mod.Settings.Landdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
     end
 
-    if (noUnitsOn <= 0) then alert("Failed to add any Terrain types") end 
     Mod.Settings.access = 3
     Mod.Settings.BeforeMax = InputFieldTable.BeforeMax
 end
@@ -118,6 +115,5 @@ function TableFormat(templateValue,tabletype)
         returnvalue = templateValue
     end
 
-    print('any access',templateValue, returnvalue)
     return returnvalue
 end
