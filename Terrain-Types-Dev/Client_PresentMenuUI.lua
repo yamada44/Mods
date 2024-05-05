@@ -77,24 +77,7 @@ function TerritoryClicked(terrDetails)
 		
 	end
 end
-function Tile_Selected(close,data)
---[[	Pub.Terrain[Tid].values.name = v.C_Name
-	Pub.Terrain[Tid].values.turnstart = v.C_Turnstart
-	Pub.Terrain[Tid].values.turnend = v.C_Turnend
-	Pub.Terrain[Tid].values.armyValueChange = v.C_Value
-	Pub.Terrain[Tid].values.ModControl = v.C_Modsetting
-	Pub.Terrain[Tid].values.UnitControl = v.C_Unittype
-	Pub.Terrain[Tid].values.BaseSettings = v.C_Inverse
 
-	Pub.Terrain[Tid].values.Removebuild = v.C_RemoveBuild]]
-	local info = "Terrain Name: " .. data.name .. "\n"
-	if data.turnstart ~= nil then
-		info = info + "Terrain effect Starts: " 
-	end
-
-
-	
-end
 function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent) -- UI setup
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
@@ -113,8 +96,8 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 		else armyrules = "Army value changed to " .. armyrules end
 	local ownerrules = Data.OwnerID
 			if ownerrules == 0 then ownerrules = "Terrain Owner changed to neutral at turn end"
+			elseif ownerrules == nil then ownerrules = "Keep current owners from game start"
 			else 
-				print(ownerrules,"over")
 				ownerrules = "Terrain Owner changed to " .. game.Game.Players[ownerrules].DisplayName(nil, false)
 			end
 	local Modrules = Data.ModControl
