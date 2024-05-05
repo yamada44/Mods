@@ -141,6 +141,7 @@ function SUImmuneOrNot (land,modused,mod,Basesetting,neworder)
 
                 if Basesetting == 1 or Basesetting == 4 then -- Immune logic
                         t.Immune_logic = true
+                        t.SU = {}
                 end
             end 
         end
