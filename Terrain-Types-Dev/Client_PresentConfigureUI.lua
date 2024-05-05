@@ -198,7 +198,7 @@ function Unittemplates(vert, i)
 	  --Start turn
 	  InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row15 = InputFieldTable[i].row15
-	  UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain effect Begins\nSet turn start to 0 to disable the turn effect") end)
+	  UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain effect Begins\nSet turn start to -1 to disable the turn effect\nSet to 0 to start the game with the affect applied on game start") end)
 	  InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('Turn Start').SetColor('#dbddf4')
 	  InputFieldTable[i].C_Turnstart = UI.CreateNumberInputField(row15)
 	  .SetSliderMinValue(0)

@@ -40,7 +40,7 @@ function Client_SaveConfigureUI(alert)
 
 	  --Start turn
             local turnS = TableFormat(InputFieldTable[i].C_Turnstart ,num)
-             if (turnS < 0 or turnS > 150)then alert("Mod set up failed\n Start turn value must be between 1-150")
+             if (turnS < -1 or turnS > 150)then alert("Mod set up failed\n Start turn value must be between 1-150")
             else
             Mod.Settings.Landdata[i].C_Turnstart = turnS; end
 
