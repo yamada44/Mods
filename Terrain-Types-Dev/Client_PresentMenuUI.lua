@@ -114,6 +114,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	local ownerrules = Data.OwnerID
 			if ownerrules == 0 then ownerrules = "Terrain Owner changed to neutral at turn end"
 			else 
+				print(ownerrules,"over")
 				ownerrules = "Terrain Owner changed to " .. game.Game.Players[ownerrules].DisplayName(nil, false)
 			end
 	local Modrules = Data.ModControl
