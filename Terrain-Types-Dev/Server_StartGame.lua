@@ -62,7 +62,7 @@ function Server_StartGame (game,standing)
 end
 function ID_decider(Tid,v,ts,first)
 
-    if  v.C_TerrainTypeID == -3 then -- changes to first tile ID it comes across
+    if  v.C_TerrainTypeID == -1 then -- changes to first tile ID it comes across
 
         if first.First == false then
             Pub.Terrain[Tid].values.OwnerID = ts.OwnerPlayerID 
@@ -74,7 +74,7 @@ function ID_decider(Tid,v,ts,first)
 
     elseif v.C_TerrainTypeID == -2 then -- does not change
         Pub.Terrain[Tid].values.OwnerID = nil
-    elseif  v.C_TerrainTypeID == -1 then -- keep ownership of all current tiles
+    elseif  v.C_TerrainTypeID == -3 then -- keep ownership of all current tiles
         Pub.Terrain[Tid].values.OwnerID = ts.OwnerPlayerID 
     elseif  v.C_TerrainTypeID == 0 then -- changes it to 0
         Pub.Terrain[Tid].values.OwnerID = 0
