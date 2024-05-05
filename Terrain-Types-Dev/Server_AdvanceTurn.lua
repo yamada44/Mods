@@ -57,6 +57,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                     end
 
                     --army change
+                    print("test 1")
                     if v.values.armyValueChange ~= -1 and v.values.armyValueChange ~= game.ServerGame.LatestTurnStanding.Territories[i].NumArmies.NumArmies then
                         mod.SetArmiesTo = v.values.armyValueChange
                     end

@@ -217,7 +217,7 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
+		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type
 	
 		print (defence, 'defence power')
 		print (unitpower, 'attack power')
@@ -328,7 +328,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 							
 								transfer = transfer - 1
 								builder.OwnerID  = land.OwnerPlayerID
-								builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0)
+								builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
 
 								local terrMod = WL.TerritoryModification.Create(order.To)
 								terrMod.AddSpecialUnits = {builder.Build()}
@@ -377,7 +377,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 							transfer = transfer - 1
 							builder.OwnerID  = landfrom.OwnerPlayerID
-							builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0)
+							builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
 
 							local terrMod = WL.TerritoryModification.Create(order.From);
 							terrMod.AddSpecialUnits = {builder.Build()};
@@ -459,7 +459,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 									end --starting XP over if level was reached
 
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-									builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0)
+									builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
 									print (v.ModData)
 									terrMod.AddSpecialUnits = {builder.Build()};
 									terrMod.RemoveSpecialUnitsOpt = {v.ID}
@@ -525,7 +525,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 										end --starting XP over if level was reached
 
 										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-										builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0)
+										builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
 										print (v.ModData)
 										print (builder.ModData)
 										print (builder.AttackPower)

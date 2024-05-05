@@ -196,7 +196,7 @@ end
 
 function modSign(mode)
     if mode == 0 then
-        return "C&PO"
+        return "C&PQ"
     elseif mode == 1 then
         return {
             "Japanese Type-94 Shiranui TSF","Russian Su-37UB TSF","American F-15C Eagle TSF","Warrior Class BETA","Soldier Class BETA","Random"

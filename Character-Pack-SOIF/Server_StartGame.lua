@@ -100,12 +100,12 @@ function Server_StartGame (game,standing)
                 builder.CanBeAirliftedToTeammate = true
                 builder.TextOverHeadOpt = charactername
                 builder.IsVisibleToAllPlayers = visible;
-                builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass
+                builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type
                 local unit = builder.Build()
 
                 local S = {}
                 table.insert(S,unit)
-                ts.NumArmies = WL.Armies.Create(10,S);
+                ts.NumArmies = WL.Armies.Create(ts.NumArmies.NumArmies,S);
 
             end
     end
