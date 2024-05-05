@@ -96,7 +96,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 		else armyrules = "Army value changed to " .. armyrules end
 	local ownerrules = Data.OwnerID
 			if ownerrules == 0 then ownerrules = "Terrain Owner changed to neutral at turn end"
-			elseif ownerrules == nil then ownerrules = "Keep current owners from game start"
+			elseif ownerrules == nil then ownerrules = "No ownership change"
 			else 
 				ownerrules = "Terrain Owner changed to " .. game.Game.Players[ownerrules].DisplayName(nil, false)
 			end
