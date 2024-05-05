@@ -58,6 +58,8 @@ function Server_StartGame (game,standing)
 
         end
 
+        FirstTerrainPass(game,standing)
+
         Mod.PublicGameData = Pub
 end
 function ID_decider(Tid,v,ts,first)
@@ -84,4 +86,51 @@ function ID_decider(Tid,v,ts,first)
         Pub.Terrain[Tid].values.OwnerID = Idinput
     end
     return first
+end
+
+function FirstTerrainPass(game,standing)
+
+    local modtable = {}
+
+
+    for i,v in pairs(Pub.Terrain)do
+        local ts = standing.Territories[i]
+        local Army = ts.NumArmies.NumArmies -- Base army amount
+        local Owner = ts.OwnerPlayerID
+
+        if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == 0 then
+
+            local mod = WL.TerritoryModification.Create(i)
+            --specil unit immune/remove
+            local SUdata = {}
+            SUdata = SUImmuneOrNot(ts,v.values.ModControl,mod,v.values.BaseSettings)
+            if SUdata.Immune_logic == false then
+
+
+                --ownership change
+                if v.values.OwnerID ~= nil and v.values.OwnerID ~= ts.OwnerPlayerID  then
+                    ts.OwnerPlayerID = v.values.OwnerID
+                end
+
+                --army change
+                print("test 1")
+                if v.values.armyValueChange ~= -1 and v.values.armyValueChange ~= ts.NumArmies.NumArmies then
+                    ts.NumArmies = WL.Armies.Create(v.values.armyValueChange,nil)
+                end
+
+                --remove buildings
+                if v.values.Removebuild == true then
+                    local Cities = {}
+                    Cities[WL.StructureType.City] = 0
+                    Cities[WL.StructureType.MercenaryCamp] = 0
+                    Cities[WL.StructureType.ArmyCamp] = 0
+
+                    ts.Structures = Cities
+                end
+            end
+        end
+
+    end
+
+
 end

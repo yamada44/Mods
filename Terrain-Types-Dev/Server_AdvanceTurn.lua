@@ -119,34 +119,3 @@ local t = {}
 return correctunit
 end
 
-function SUImmuneOrNot (land,modused,mod,Basesetting,neworder)
-    local t = {correctunit = false,SU = {},Immune_logic = false} 
-    
-        if (#land.NumArmies.SpecialUnits > 0 ) then -- looking for SU to determine logic
-            for i,v in pairs (land.NumArmies.SpecialUnits)do 
-                if v.proxyType == "CustomSpecialUnit" or modused == 0  then
-                    table.insert(t.SU, v.ID)
-                    if v.ModData ~= nil or modused == 0 then
-                        if startsWith(v.ModData, modused)then
-                            t.correctunit = true
-                            
-                        
-                        elseif modused == 0 then 
-                        t.correctunit = true
-                        end
-                    end
-                end
-            end
-            if t.correctunit == true then
-
-                if Basesetting == 1 or Basesetting == 4 then -- Immune logic
-                        t.Immune_logic = true
-                        print("empty table")
-                        t.SU = {}
-                end
-            end 
-        end
-    
-    
-    return t
-    end
