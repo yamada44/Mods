@@ -42,7 +42,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
         for i,v in pairs(Pub.Terrain)do
 
-            if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == 0 or v.values.turnstart == -1 then
+            if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == -1 then
 
                 local mod = WL.TerritoryModification.Create(i)
                 --specil unit immune/remove

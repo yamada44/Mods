@@ -163,12 +163,12 @@ function Unittemplates(vert, i)
 	  .SetSliderMinValue(3)
 	  .SetSliderMaxValue(1000)
 	  .SetValue(auto);
-	  UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any territroy that has this number on game creation will be added to this terrain logic"); end);
+	  UI.CreateButton(row1).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Any territroy that has this army number on game creation will be added to this terrain type"); end);
 
 	  -- Autofind for ports (second autoFind)
 	  InputFieldTable[i].row2 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row2 = InputFieldTable[i].row2
-	  UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("To make compatible with other auto placer/Autofind functions in other mods\nA second autofind number\nSet to the same to disable") end);
+	  UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("A second Autofind number To make compatible with other auto placer/Autofind functions in other mods or other terrain types\nSet to the same number as autofind to disable") end);
 	  InputFieldTable[i].text3 = UI.CreateLabel(row2).SetText('Port AutoFind ').SetColor('#dbddf4')
 	  InputFieldTable[i].C_AutoP = UI.CreateNumberInputField(row2)
 	  .SetSliderMinValue(0)
@@ -189,7 +189,7 @@ function Unittemplates(vert, i)
 	  InputFieldTable[i].row20 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row20 = InputFieldTable[i].row20
 	  UI.CreateButton(row20).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What army value should the territory have when the terrain effect is applied\nSet to -1 to not change army value at all") end)
-	  InputFieldTable[i].text22 = UI.CreateLabel(row20).SetText('Army Value')
+	  InputFieldTable[i].text22 = UI.CreateLabel(row20).SetText('Army Value function')
 	  InputFieldTable[i].C_Value = UI.CreateNumberInputField(row20)
 	  .SetSliderMinValue(-1)
 	  .SetSliderMaxValue(500)
@@ -198,17 +198,17 @@ function Unittemplates(vert, i)
 	  --Start turn
 	  InputFieldTable[i].row15 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row15 = InputFieldTable[i].row15
-	  UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain effect Begins\nSet turn start to -1 to disable the turn effect\nSet to 0 to start the game with the affect applied on game start") end)
+	  UI.CreateButton(row15).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain type function Begin\nSet turn start to -1 to disable the turn effect\nSet to 0 to start the game with the affect applied on game start") end)
 	  InputFieldTable[i].text17 = UI.CreateLabel(row15).SetText('Turn Start').SetColor('#dbddf4')
 	  InputFieldTable[i].C_Turnstart = UI.CreateNumberInputField(row15)
-	  .SetSliderMinValue(0)
+	  .SetSliderMinValue(-1)
 	  .SetSliderMaxValue(100)
 	  .SetValue(turnS)
 
 	  --End turn
 	  InputFieldTable[i].row3 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row3 = InputFieldTable[i].row3
-	  UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain effect End\nSet turn start to 0 to disable the turn effect") end)
+	  UI.CreateButton(row3).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What turn does this terrain type function end\nSet turn start to 0 to disable the turn effect") end)
 	  InputFieldTable[i].text4 = UI.CreateLabel(row3).SetText('Turn End')
 	  InputFieldTable[i].C_Turnend = UI.CreateNumberInputField(row3)
 	  .SetSliderMinValue(0)
@@ -218,8 +218,8 @@ function Unittemplates(vert, i)
   -- ownerID
   InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert)
   local row10 = InputFieldTable[i].row10
-  UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When the terrain effect applies, whos ownership does it turn to.\nset to 0 for neutral\nset to -1 for first territroy found use that ID, for AI use this logic, AI1 is 1, AI2 is 2 ect.\nSet to -2 to not change ID at all\nSet to -3 for all current owners of each tile to be remembered\nManual playerID is accepted as well, changes to neutral if error is found"); end)
-  InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Default ownership').SetColor('#dbddf4')
+  UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When the terrain type function applies, whos ownership does it turn to.\nset to 0 for neutral\nset to -1 for first territroy found use that ID for the remainder of that terrain type\nSet to -2 to not change ID at all\nSet to -3 for all current owners of each tile to be remembered\nManual playerID is accepted as well, for AI use this logic, AI1 is 1, AI2 is 2 ect. changes to neutral if error is found"); end)
+  InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Default ownership function').SetColor('#dbddf4')
   InputFieldTable[i].C_TerrainTypeID = UI.CreateNumberInputField(row10)
   .SetSliderMinValue(-3)
   .SetSliderMaxValue(9999)
@@ -228,10 +228,10 @@ function Unittemplates(vert, i)
   -- Mod Settings
   InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert)
   local row11 = InputFieldTable[i].row11
-  UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are immune \n-1 - No Special unit immune/removed\n0 - All mods\n1 - only Character packs\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
-  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('What Mods are immune')
+  UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are defined \n0 - All mods defined\n1 - only Character packs mods defined\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
+  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('What Mod is defined')
   InputFieldTable[i].C_Modsetting = UI.CreateNumberInputField(row11)
-  .SetSliderMinValue(-1)
+  .SetSliderMinValue(0)
   .SetSliderMaxValue(18)
   .SetValue(modsetting)
 
@@ -240,7 +240,7 @@ function Unittemplates(vert, i)
 	InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert)
 	local row22 = InputFieldTable[i].row22
 	UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie ") end)
-	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('What Character pack unit type is immune')
+	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('What Character pack unit type special unit is defined')
 	InputFieldTable[i].C_Unittype = UI.CreateNumberInputField(row22)
 	.SetSliderMinValue(0)
 	.SetSliderMaxValue(8)
@@ -248,7 +248,7 @@ function Unittemplates(vert, i)
 
 	-- Inverse
 	local row100 = UI.CreateHorizontalLayoutGroup(vert) -- Inverse Special unit logic
-	UI.CreateButton(row100).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - Apply function on all tiles with AutoFind/Port AutoFind unless Special units(defined in settings) are detected\n2 - Apply all functions in Autofind/Portfind and remove special units(defined in settings)\n3 - Apply all functions on every tile not found in any other terrain type and Remove special units (defined in settings)\n4 - Apply all functions on every tile not found in any other terrain type, except tiles with Specil units(defined in settings)\n") end)
+	UI.CreateButton(row100).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - Apply terrain type function(s) on all tiles with AutoFind/Port AutoFind unless Special units(defined in settings) are detected, then skip that tile\n2 - Apply all function(s) in Autofind/Portfind and remove special units(defined in settings)\n3 - Apply all functions on every tile not found in any other terrain type and Remove special units (defined in settings)\n4 - Apply all functions on every tile not found in any other terrain type, except tiles with Specil units(defined in settings) and skip that tile\n") end)
 	UI.CreateLabel(row100).SetText('Standard Setting')
 	InputFieldTable[i].C_Inverse = UI.CreateNumberInputField(row100)
 	.SetSliderMinValue(1)
@@ -256,7 +256,7 @@ function Unittemplates(vert, i)
 	.SetValue(invert)
 
 	local row99 = UI.CreateHorizontalLayoutGroup(vert) -- can play Diplo cards
-	UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("remove cities and Mercenary camp\nThis setting works with all Standard settings") end)
+	UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("remove cities, Armycamps and Mercenary camp\nThis setting works with all Standard settings") end)
 	UI.CreateLabel(row99).SetText('Remove buildings')
 	InputFieldTable[i].C_RemoveBuild = UI.CreateCheckBox(row99).SetText("").SetIsChecked(build)
 
