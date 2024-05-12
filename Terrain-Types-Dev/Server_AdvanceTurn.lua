@@ -2,7 +2,7 @@ require('Utilities')
 
 
 function Server_AdvanceTurn_End(game, addNewOrder)
-
+    Pub = Mod.PublicGameData
 
    -- print (Mod.Settings.maplist[1], Mod.Settings.maplist)
 
@@ -37,7 +37,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
 
     else -- New format
-        Pub = Mod.PublicGameData
+
         local modtable = {}
 
         for i,v in pairs(Pub.Terrain)do
