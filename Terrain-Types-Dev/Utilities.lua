@@ -205,6 +205,7 @@ function SUImmuneOrNot (land,modused,mod,Basesetting,neworder)
                 if v.proxyType == "CustomSpecialUnit" or modused == 0  then
                     print(modused,"mod use")
                     if v.ModData ~= nil or modused == 0 then
+                        print(modused,"Entry 00")
                         if startsWith(v.ModData, modused)then
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
