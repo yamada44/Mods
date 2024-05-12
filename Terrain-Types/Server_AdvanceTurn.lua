@@ -2,38 +2,21 @@ require('Utilities')
 
 
 function Server_AdvanceTurn_End(game, addNewOrder)
+    Pub = Mod.PublicGameData
 
-    local publicdata = Mod.PublicGameData
-
-
-    if (publicdata.solidlist == nil)then publicdata.solidlist = {} end
-    local Ww2maplist = {}
-    local Ww2maplist = Mod.Settings.maplist
-    local moddata = Mod.Settings.Modlist
-    NeutralValue = Mod.Settings.Neutral
    -- print (Mod.Settings.maplist[1], Mod.Settings.maplist)
 
+--game.Game.TurnNumber 
 
+    if Pub.Terrain == nil then -- Old format (discontinued)
 
-    if game.Game.TurnNumber == 1 then
-        for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do -- first grab of territories
-            for _,list in pairs(Ww2maplist) do -- looping through map name list
+        local publicdata = Mod.PublicGameData
+        if (publicdata.solidlist == nil)then publicdata.solidlist = {} end
+        local Ww2maplist = {}
+        local Ww2maplist = Mod.Settings.maplist
+        local moddata = Mod.Settings.Modlist
+        NeutralValue = Mod.Settings.Neutral
 
-                if startsWith(game.Map.Territories[ts.ID].Name, list)then -- making sure the territory has a name from map name list
-                    if (#ts.NumArmies.SpecialUnits == 0 )then -- mkaing sure it has special units
-                        table.insert(publicdata.solidlist, ts.ID); 
-                       local mod = WL.TerritoryModification.Create(ts.ID)
-                        mod.SetOwnerOpt  = 0
-                        mod.SetArmiesTo = NeutralValue
-                        local UnitdiedMessage = ''
-                        addNewOrder(WL.GameOrderEvent.Create(0, 'Terrain type found. Changing', {}, {mod}));
-                    end
-                end
-            end
-            
-        end
-
-    else
         for _,ts in pairs(publicdata.solidlist) do
                 local land = game.ServerGame.LatestTurnStanding.Territories[ts]
                 if land.OwnerPlayerID ~= 0 then
@@ -47,14 +30,63 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                     end 
                 end
         end
+        Mod.PublicGameData = publicdata
+
+
+
+
+
+    else -- New format
+
+        local modtable = {}
+
+        for i,v in pairs(Pub.Terrain)do
+
+            if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == -1 then
+
+                local mod = WL.TerritoryModification.Create(i)
+                --specil unit immune/remove
+                local SUdata = {}
+                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.values.ModControl,mod,v.values.BaseSettings,v.values.UnitControl)
+                if SUdata.Immune_logic == false then
+                    mod.RemoveSpecialUnitsOpt = SUdata.SU
+
+                    --ownership change
+                    if v.values.OwnerID ~= nil and v.values.OwnerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
+                        mod.SetOwnerOpt = v.values.OwnerID
+                    end
+
+                    --army change
+                    print("test 1")
+                    if v.values.armyValueChange ~= -1 and v.values.armyValueChange ~= game.ServerGame.LatestTurnStanding.Territories[i].NumArmies.NumArmies then
+                        mod.SetArmiesTo = v.values.armyValueChange
+                    end
+
+                    --remove buildings
+                    if v.values.Removebuild == true then
+                        local Cities = {}
+                        Cities[WL.StructureType.City] = 0
+                        Cities[WL.StructureType.MercenaryCamp] = 0
+                        Cities[WL.StructureType.ArmyCamp] = 0
+
+                        mod.SetStructuresOpt = Cities
+                    end
+                    table.insert(modtable,mod)
+                end
+            end
+    
+        end
+        addNewOrder(WL.GameOrderEvent.Create(0, "Terrain types applied", {}, modtable))
+            Mod.PublicGameData = Pub
     end
+    
 
 
 
-Mod.PublicGameData = publicdata
+
 end
 
-
+--Old Special unit finder
 function WhatmodAllowed (land,modused,neworder)
 local correctunit = false
 local t = {}
@@ -86,3 +118,4 @@ local t = {}
 
 return correctunit
 end
+

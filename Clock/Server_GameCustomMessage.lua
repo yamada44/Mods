@@ -8,12 +8,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 print(playerID)
   local type = payload.entrytype
   local data1 = payload.data1
-	for i,v in pairs(data1)do
-		print(i,v.text,"test 2")
-	end
-  for i,v in pairs(Pub[playerID].template.Display)do
-		print(i,v.text,"test 3")
-	end
+
   if type == 1 then --changing what is viewed
 
 

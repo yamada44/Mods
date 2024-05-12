@@ -239,7 +239,7 @@ function Unittemplates(vert, i)
 	--Unit type
 	InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert)
 	local row22 = InputFieldTable[i].row22
-	UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie ") end)
+	UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie or disable this feature ") end)
 	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('What Character pack unit type special unit is defined')
 	InputFieldTable[i].C_Unittype = UI.CreateNumberInputField(row22)
 	.SetSliderMinValue(0)
