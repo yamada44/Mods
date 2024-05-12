@@ -96,6 +96,7 @@ function Client_SaveConfigureUI(alert)
                 local Specialunitgroup = split(Preformat, '/')
                 local Specialunitdetails = {}
                 for i = 1, #Specialunitgroup do
+                    Specialunitdetails[i] = {}
                     Specialunitdetails[i].rawdata = split(Specialunitgroup[i], '-')
                 end
 
