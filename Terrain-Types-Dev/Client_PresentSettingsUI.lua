@@ -18,7 +18,8 @@ function Stats(data, vert)
 	local Data = data
 
 	local Name = "<#DEF265>Terrain Name: </><#FF7AF3>" .. Data.C_Name .. "</>\n"
-
+	UI.CreateLabel(row1).SetText("-------------").SetColor('#4EC4FF')
+	UI.CreateLabel(row1).SetText("terrain Info type").SetColor('#4EC4FF')
 	AddStringToUI(vert,Name,nil) -- Included first cause no terrain type might be found
 
 	AddStringToUI(vert,"<#DEF265>AutoFind number: </><#FF7AF3>" .. Data.C_Autofind .. "</>\n",nil)
