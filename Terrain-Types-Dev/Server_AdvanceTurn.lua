@@ -8,7 +8,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
 --game.Game.TurnNumber 
 
-    if Mod.Settings.Landdata == nil then -- Old format (discontinued)
+    if Pub.Terrain == nil then -- Old format (discontinued)
 
         local publicdata = Mod.PublicGameData
         if (publicdata.solidlist == nil)then publicdata.solidlist = {} end
