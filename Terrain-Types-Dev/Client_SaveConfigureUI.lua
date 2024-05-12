@@ -33,14 +33,14 @@ function Client_SaveConfigureUI(alert)
 
 	  --Value land turned to
             local value = TableFormat(InputFieldTable[i].C_Value ,num)
-             if (value < -1 or value > 10000)then alert("Mod set up failed\nValue value(haha) must be between 0-10,000")
+             if (value < -1 or value > 10000)then alert("Mod set up failed\nValue value(haha) must be between -1 - 10,000")
                 Mod.Settings.Landdata[i].C_Value = 0
             else
             Mod.Settings.Landdata[i].C_Value = value; end
 
 	  --Start turn
             local turnS = TableFormat(InputFieldTable[i].C_Turnstart ,num)
-             if (turnS < -1 or turnS > 150)then alert("Mod set up failed\n Start turn value must be between 1-150")
+             if (turnS < -1 or turnS > 150)then alert("Mod set up failed\n Start turn value must be between -1 - 150")
             else
             Mod.Settings.Landdata[i].C_Turnstart = turnS; end
 
@@ -52,13 +52,13 @@ function Client_SaveConfigureUI(alert)
 
             --OwnerID
             local ownerID = TableFormat(InputFieldTable[i].C_TerrainTypeID ,num)
-             if (ownerID < -3 or ownerID > 99999999)then alert("Mod set up failed\n ownerID value must be between 0-99,999,999")
+             if (ownerID < -3 or ownerID > 99999999)then alert("Mod set up failed\n ownerID value must be between -3 - 99,999,999")
             else
             Mod.Settings.Landdata[i].C_TerrainTypeID = ownerID end
 
             --Mod Settings
             local modsetting = TableFormat(InputFieldTable[i].C_Modsetting ,num)
-             if (modsetting < -1 or modsetting > 18)then alert("Mod set up failed\n mod setting value must be between 0-18")
+             if (modsetting < 0 or modsetting > 18)then alert("Mod set up failed\n mod setting value must be between 0-18")
             else
             Mod.Settings.Landdata[i].C_Modsetting = modsetting end
 
