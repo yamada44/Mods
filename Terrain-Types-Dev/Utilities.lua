@@ -203,15 +203,16 @@ function SUImmuneOrNot (land,modused,mod,Basesetting,neworder)
         if (#land.NumArmies.SpecialUnits > 0 ) then -- looking for SU to determine logic
             for i,v in pairs (land.NumArmies.SpecialUnits)do 
                 if v.proxyType == "CustomSpecialUnit" or modused == 0  then
-
+                    print(modused,"mod use")
                     if v.ModData ~= nil or modused == 0 then
                         if startsWith(v.ModData, modused)then
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
-                        
+                            print(modused,"Entry")
                         elseif modused == 0 then 
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
+                            print(modused,"Entry2")
                         end
                     end
                 end
