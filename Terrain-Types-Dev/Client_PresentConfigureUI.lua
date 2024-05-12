@@ -1,13 +1,11 @@
 
 function Client_PresentConfigureUI(rootParent)
 
-	Maxpictures = 5
-
 NewrootParent = rootParent
 InputFieldTable = {}
 TempUI = {}
 Minterrain = 1
-Maxterrain = 8
+Maxterrain = 20
 
   if (not WL.IsVersionOrHigher or not WL.IsVersionOrHigher("5.21")) then
 	  UI.Alert("You must update your app to the latest version to use this mod");
@@ -146,10 +144,6 @@ function Unittemplates(vert, i)
 	  local build = landconfig[i].C_RemoveBuild
 	  if (build == nil ) then build = true end 
 
-	  --local portL = landconfig[i].C_Portlogic
-	  --if (portL == nil ) then portL = 0 end 
-	  --setting up the UI and all its fields
-
 
 
 
@@ -175,16 +169,6 @@ function Unittemplates(vert, i)
 	  .SetSliderMaxValue(1000)
 	  .SetValue(autoport)
 
-	--Port logic
-	--[[InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert)
-	local row22 = InputFieldTable[i].row22
-	UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - Same logic as base Autofind\n2 - Does not change ownership\n3 - Does not remove armies\n4 - Does not change ownership or remove armies") end)
-	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('Logic for Port AutoFind')
-	InputFieldTable[i].C_Portlogic = UI.CreateNumberInputField(row22)
-	.SetSliderMinValue(1)
-	.SetSliderMaxValue(4)
-	.SetValue(portL)
-]]--
 	  --Value land turned to
 	  InputFieldTable[i].row20 = UI.CreateHorizontalLayoutGroup(vert)
 	  local row20 = InputFieldTable[i].row20
@@ -225,37 +209,29 @@ function Unittemplates(vert, i)
   .SetSliderMaxValue(9999)
   .SetValue(id)
 
-
-	--Unit type
-	InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert)
-	local row22 = InputFieldTable[i].row22
-	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('What Character pack unit type special unit is defined')
-	InputFieldTable[i].C_Unittype = UI.CreateNumberInputField(row22)
-	.SetSliderMinValue(0)
-	.SetSliderMaxValue(8)
-	.SetValue(type)
-
 	-- Inverse
 	local row100 = UI.CreateHorizontalLayoutGroup(vert) -- Inverse Special unit logic
-	UI.CreateButton(row100).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - Apply terrain type function(s) on all tiles with AutoFind/Port AutoFind unless Special units(defined in settings) are detected, then skip that tile\n2 - Apply all function(s) in Autofind/Portfind and remove special units(defined in settings)\n3 - Apply all functions on every tile not found in any other terrain type and Remove special units (defined in settings)\n4 - Apply all functions on every tile not found in any other terrain type, except tiles with Specil units(defined in settings) and skip that tile\n") end)
-	UI.CreateLabel(row100).SetText('Standard Setting')
+	InputFieldTable[i].btn9 = UI.CreateButton(row100).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("1 - Apply terrain type function(s) on all tiles with AutoFind/Port AutoFind unless Special units(defined in settings) are detected, then skip that tile\n2 - Apply all function(s) in Autofind/Portfind and remove special units(defined in settings)\n3 - Apply all functions on every tile not found in any other terrain type and Remove special units (defined in settings)\n4 - Apply all functions on every tile not found in any other terrain type, except tiles with Specil units(defined in settings) and skip that tile\n") end)
+	InputFieldTable[i].text107 = UI.CreateLabel(row100).SetText('Standard Setting')
 	InputFieldTable[i].C_Inverse = UI.CreateNumberInputField(row100)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(4)
 	.SetValue(invert)
 
-	local row99 = UI.CreateHorizontalLayoutGroup(vert) -- can play Diplo cards
-	UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("remove cities, Armycamps and Mercenary camp\nThis setting works with all Standard settings") end)
-	UI.CreateLabel(row99).SetText('Remove buildings')
+	-- Buildings
+	local row99 = UI.CreateHorizontalLayoutGroup(vert) 
+	InputFieldTable[i].btn10 = UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("remove cities, Armycamps and Mercenary camp\nThis setting works with all Standard settings") end)
+	InputFieldTable[i].text22 = UI.CreateLabel(row99).SetText('Remove buildings')
 	InputFieldTable[i].C_RemoveBuild = UI.CreateCheckBox(row99).SetText("").SetIsChecked(build)
 
   -- Mod Defined
   InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert)
   local row11 = InputFieldTable[i].row11
+  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Mod defined')
   UI.CreateButton(row11).SetText("Proper format").SetColor('#0000FF').SetOnClick(function() UI.Alert("Format for special units defined\n{mod info number}{-}{unit type number}{/}{repeat for next defined special unit}\nExample\n13-7/ ") end) 
   UI.CreateButton(row11).SetText("Mod info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are defined \n0 - All mods defined\n1 - only Character packs mods defined\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
   UI.CreateButton(row11).SetText("Unit info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie or disable this feature ") end) 
-  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Mod defined')
+
   InputFieldTable[i].C_Defined = UI.CreateTextInputField(vert)
   .SetPlaceholderText("Special units Defined").SetText(define)
   .SetFlexibleWidth(1)
@@ -297,7 +273,8 @@ function Destroy()
 
 	if InputFieldTable[D].Template.GetIsChecked() == true then -- if true, that means UI was not generated and can skip
 		for i,v in pairs(InputFieldTable[D])do 
-			UI.Destroy(InputFieldTable[D][i])
+			if type(InputFieldTable[D][i]) == "table" then
+			UI.Destroy(InputFieldTable[D][i]) end
 		end
 	else 
 		UI.Destroy(InputFieldTable[D].text180)

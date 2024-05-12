@@ -47,7 +47,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                 local mod = WL.TerritoryModification.Create(i)
                 --specil unit immune/remove
                 local SUdata = {}
-                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.values.ModControl,mod,v.values.BaseSettings,v.values.UnitControl)
+                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.values.ModFormat,v.values.BaseSettings)
                 if SUdata.Immune_logic == false then
                     mod.RemoveSpecialUnitsOpt = SUdata.SU
 

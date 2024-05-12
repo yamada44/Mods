@@ -30,8 +30,7 @@ function Server_StartGame (game,standing)
                     Pub.Terrain[Tid].values.turnstart = v.C_Turnstart
                     Pub.Terrain[Tid].values.turnend = v.C_Turnend
                     Pub.Terrain[Tid].values.armyValueChange = v.C_Value
-                    Pub.Terrain[Tid].values.ModControl = Modloader(v.C_Modsetting)
-                    Pub.Terrain[Tid].values.UnitControl = v.C_Unittype
+                    Pub.Terrain[Tid].values.ModFormat = ModDataSetup(v.C_Definegroup)
                     Pub.Terrain[Tid].values.BaseSettings = v.C_Inverse
 
                     Pub.Terrain[Tid].values.Removebuild = v.C_RemoveBuild
@@ -45,8 +44,7 @@ function Server_StartGame (game,standing)
                     Pub.Terrain[Tid].values.turnstart = v.C_Turnstart
                     Pub.Terrain[Tid].values.turnend = v.C_Turnend
                     Pub.Terrain[Tid].values.armyValueChange = v.C_Value
-                    Pub.Terrain[Tid].values.ModControl = v.C_Modsetting
-                    Pub.Terrain[Tid].values.UnitControl = v.C_Unittype
+                    Pub.Terrain[Tid].values.ModFormat = ModDataSetup(v.C_Definegroup)
                     Pub.Terrain[Tid].values.BaseSettings = v.C_Inverse
 
                     Pub.Terrain[Tid].values.Removebuild = v.C_RemoveBuild
@@ -103,7 +101,7 @@ function FirstTerrainPass(game,standing)
             local mod = WL.TerritoryModification.Create(i)
             --specil unit immune/remove
             local SUdata = {}
-            SUdata = SUImmuneOrNot(ts,v.values.ModControl,mod,v.values.BaseSettings)
+            SUdata = SUImmuneOrNot(ts,v.values.ModFormat,v.values.BaseSettings)
             if SUdata.Immune_logic == false then
 
 
@@ -133,4 +131,24 @@ function FirstTerrainPass(game,standing)
     end
 
 
+end
+
+function ModDataSetup(rawdata)
+    local FormatedData = {}
+
+    for index,value in pairs(rawdata)do
+        FormatedData[index] = {}
+        for i,v in pairs(value)do
+            if i == 1 then
+                FormatedData[index].mod = v
+                print(i,v,"index")
+            else
+                print(i,v,"index")  
+                FormatedData[index].type = v
+         
+            end
+
+        end
+    end    
+    return FormatedData
 end

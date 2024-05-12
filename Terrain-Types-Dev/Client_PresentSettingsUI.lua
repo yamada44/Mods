@@ -5,7 +5,7 @@ function Client_PresentSettingsUI(rootParent)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	Pub = Mod.PublicGameData
 
-	if Pub.Terrain == nil then
+	if Mod.Settings.Landdata == nil then
 		Oldformat(rootParent)
 	else
 	
@@ -30,7 +30,7 @@ function Stats(data, vert)
 
 	AddStringToUI(vert,"<#DEF265>AutoFind number: </><#FF7AF3>" .. Data.C_Autofind .. "</>\n",nil)
 	AddStringToUI(vert,"<#DEF265>AutoFind port number: </><#FF7AF3>" .. Data.C_AutoP .. "</>\n",nil)
-
+	
 -- Settings Display
 	local armyrules = Data.C_Value
 		if armyrules == -1 then armyrules = "Keep current army Value" 
@@ -41,14 +41,15 @@ function Stats(data, vert)
 			else
 				ownerrules = "Manual player ID input"
 			end
-	local Modrules = Data.C_Modsetting
-			if Modrules == -1 then Modrules = "No Mods defined"
-			elseif Modrules == 0 then Modrules = "All mods defined"
-			elseif Modrules == 1 then Modrules = "Only Character pack mods defined"
-			else Modrules = " Only " .. Characterpackloader(Modrules) .. " Characters Defined" end
-	local unittype = Data.C_Unittype
-			if unittype == 0 then unittype = "Entire Character pack Defined"
-			else unittype = "The " .. unittype .. "th character unit type defined. (view settings for unit type)" end
+	local ModData = Data.C_Definegroup
+	local Modrules = ""
+	for i, v in pairs(ModData) do
+		local typedata = v[2]
+		if typedata == 0 then typedata = "Entire pack" end
+			if v[1] == 0 then Modrules = Modrules .. "\nAll Special units defined"
+			elseif v[1] == 1 then Modrules = Modrules .. "\nOnly Character pack mods defined || Unit type: " .. typedata 
+			else Modrules = Modrules .. "\n" .. Characterpackloader(v[1]) .. " Characters Defined || Unit type: " .. typedata end
+	end
 	local Basesettings = Data.C_Inverse
 
 			if Basesettings == 1 then Basesettings = "Apply function on terrain unless Special units (defined in settings) are detected"
@@ -63,8 +64,7 @@ function Stats(data, vert)
 			else build = "no structures removed" end
 			AddStringToUI(vert,"<#DEF265>Army Rules: </>" .. armyrules,nil)
 			AddStringToUI(vert,"<#DEF265>Terrain ID: </>" .. ownerrules,nil)
-			AddStringToUI(vert,"<#DEF265>Mod Special units: </>".. Modrules,nil)
-			AddStringToUI(vert,"<#DEF265>Unit Type: </>" .. unittype,nil)
+			AddStringToUI(vert,"<#DEF265>Special units defined: </>".. Modrules,nil)
 			AddStringToUI(vert,"<#DEF265>Base Rules: </>" .. Basesettings,nil)
 			AddStringToUI(vert,"<#DEF265>Structure Rules: </>" .. build,nil)
 			AddStringToUI(vert,"<#DEF265>Duration: </>" .. turn,nil)

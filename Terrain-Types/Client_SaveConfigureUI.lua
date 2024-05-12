@@ -56,19 +56,6 @@ function Client_SaveConfigureUI(alert)
             else
             Mod.Settings.Landdata[i].C_TerrainTypeID = ownerID end
 
-            --Mod Settings
-            local modsetting = TableFormat(InputFieldTable[i].C_Modsetting ,num)
-             if (modsetting < 0 or modsetting > 18)then alert("Mod set up failed\n mod setting value must be between 0-18")
-            else
-            Mod.Settings.Landdata[i].C_Modsetting = modsetting end
-
-            --Unit Type
-            local unitT = TableFormat(InputFieldTable[i].C_Unittype ,num)
-             if (unitT < 0 or unitT > 8)then  alert("Mod set up failed\nunit type value must be between 0-8")
-                Mod.Settings.Landdata[i].C_Unittype = 1
-            else
-            Mod.Settings.Landdata[i].C_Unittype = unitT end
-
             --Base Settings
             local inverse = TableFormat(InputFieldTable[i].C_Inverse ,num)
              if (inverse < 1 or inverse > 4)then alert("Mod set up failed\nStandard settings value must be between 1-4")
@@ -89,8 +76,48 @@ function Client_SaveConfigureUI(alert)
             Mod.Settings.Landdata[i].C_Name = " (( NO NAME GIVEN ))" 
                 UI.Alert("NO NAME GIVEN TO terrain TYPE(S) that are enabled\nReset to default settings")
             end
+            
+------------Add on
+            if (TableFormat(InputFieldTable[i].C_Defined,tex) ~= '' and TableFormat(InputFieldTable[i].C_Defined,tex) ~= nil)then
+                local Preformat = TableFormat(InputFieldTable[i].C_Defined,tex)
+                local Specialunitgroup = split(Preformat, '/')
+                local Specialunitdetails = {}
+                for i = 1, #Specialunitgroup do
+                    Specialunitdetails[i] = split(Specialunitgroup[i], '-')
 
+                end
 
+                local SUgroup = {} -- {Mod - unit type} (format)
+                for index, value in ipairs(Specialunitdetails) do
+                    table.insert(SUgroup,{})
+                    SUgroup[index] = {}
+                    if #value ~= 2 then alert("Mod set up failed\nMod define format must have 1 or 2 digits") return end
+                    for i,v in pairs (value) do
+                        if string.match(v, '%D+') then
+                            alert("Mod set up failed\nCan only inlcude numbers for Mod defined") 
+                            return
+                        elseif string.len(v) > 2 or string.len(v) < 1 then
+                            alert("Mod set up failed\nMod define format must have digit 1 or 2 digits") 
+                            return
+                        elseif tonumber(v) > 18 or tonumber(v) < 0 then
+                            alert("Mod set up failed\nMod define format values must be from 0-18")
+                            return
+                        end
+                        if i == 2 and tonumber(v) > 8 then alert("Mod set up failed\nMod define(unit info) value must be from 0-8") return end
+
+                        table.insert(SUgroup[index],tonumber(v))
+                    end 
+                end
+         --Slot
+         
+                 Mod.Settings.Landdata[i].C_Definegroup = SUgroup
+                 Mod.Settings.Landdata[i].C_DefinedStored = Preformat
+            else 
+                local nilgroup = {}
+                nilgroup[1] = {0,0}
+                Mod.Settings.Landdata[i].C_Definegroup = nilgroup
+                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"
+            end
         end
     Mod.Settings.Landdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
     end

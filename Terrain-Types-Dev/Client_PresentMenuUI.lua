@@ -100,28 +100,28 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 			else 
 				ownerrules = "Terrain Owner changed to " .. game.Game.Players[ownerrules].DisplayName(nil, false)
 			end
-	local Modrules = Data.ModControl
-			if Modrules == -1 then Modrules = "No Mods defined"
-			elseif Modrules == 0 then Modrules = "All mods defined"
-			elseif Modrules == 1 then Modrules = "Only Character pack mods defined"
-			else Modrules = " Only " .. Characterpackloader(Modrules) .. " Characters Defined" end
-	local unittype = Data.UnitControl
-			if unittype == 0 then unittype = "Entire Character pack Defined"
-			else unittype = "The " .. unittype .. "th character unit type defined. (view settings for unit type)" end
+	local ModData = Data.ModFormat
+	local Modrules = ""
+	for i, v in pairs(ModData) do
+		local typedata = v.type
+		if typedata == 0 then typedata = "Entire pack" end
+			if v.mod == 0 then Modrules = Modrules .. "\nAll Special units defined"
+			elseif v.mod == 1 then Modrules = Modrules .. "\nOnly Character pack mods defined || Unit type: " .. typedata 
+			else Modrules = Modrules .. "\n" .. Characterpackloader(v.mod) .. " Characters Defined || Unit type: " .. typedata end
+	end
 	local Basesettings = Data.BaseSettings
 
-			if Basesettings == 1 then Basesettings = "Apply function on terrain unless Special units (defined in settings) are detected"
-			elseif Basesettings == 2 then Basesettings = "Apply function on on terrain and remove special units (defined in settings)"
-			elseif Basesettings == 3 then Basesettings = "Apply function on terrain and Remove special units (defined in settings)"
-			elseif Basesettings == 4 then Basesettings =  "Apply function on terrain except tiles with Specil units (defined in settings)" end
+			if Basesettings == 1 then Basesettings = "Apply effects on terrain type unless Special units (defined in settings) are detected"
+			elseif Basesettings == 2 then Basesettings = "Apply effects on on terrain and remove special units (defined in settings)"
+			elseif Basesettings == 3 then Basesettings = "Apply effects on terrain and Remove special units (defined in settings)"
+			elseif Basesettings == 4 then Basesettings =  "Apply effects on terrain except tiles with Specil units (defined in settings)" end
 	local turn = Data.turnstart
 			if turn == 0 then turn = "Always active"
 			else turn = "The Terrain last between the turns " .. Data.turnstart .. " - " .. Data.turnend - 1 end
 
 			AddStringToUI(vert,"<#DEF265>Army Rules: </>" .. armyrules,nil)
 			AddStringToUI(vert,"<#DEF265>Terrain ID: </>" .. ownerrules,nil)
-			AddStringToUI(vert,"<#DEF265>Mod Special units: </>".. Modrules,nil)
-			AddStringToUI(vert,"<#DEF265>Unit Type: </>" .. unittype,nil)
+			AddStringToUI(vert,"<#DEF265>Special units defined: </>".. Modrules,nil)
 			AddStringToUI(vert,"<#DEF265>Base Rules: </>" .. Basesettings,nil)
 			AddStringToUI(vert,"<#DEF265>Duration: </>" .. turn,nil)
 	end

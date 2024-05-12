@@ -130,10 +130,6 @@ function Findmatch(findtable, match,what) -- input a table with a index and valu
     return 0
 end
 
-function ModSign()
-	
-end
-
 function Modloader(loadnumber)
     local list = {}
 	if loadnumber == -1 then return -1 end
@@ -177,8 +173,8 @@ function Characterpackloader(loadnumber)
         list[5] = 'Asian Pack'
         list[6] = 'World war Pack'
         list[7] = 'Greek Gods Pack'
-        list[8] = 'Meieval Pack'
-        list[9] = 'Medevial Props Pack'
+        list[8] = 'medieval Pack'
+        list[9] = 'medieval Props Pack'
         list[10] = 'Modern Pack'
         list[11] = 'Monsters Pack'
         list[12] = 'People/Ganger Pack'
@@ -197,23 +193,23 @@ function Characterpackloader(loadnumber)
     
 end
 
-function SUImmuneOrNot (land,modused,mod,Basesetting,neworder,type)
+function SUImmuneOrNot (land,Moddata,Basesetting,neworder)
     local t = {correctunit = false,SU = {},Immune_logic = false} 
-    
+    for index, value in pairs (Moddata)do
+
         if (#land.NumArmies.SpecialUnits > 0 ) then -- looking for SU to determine logic
             for i,v in pairs (land.NumArmies.SpecialUnits)do 
-                if v.proxyType == "CustomSpecialUnit" or modused == 0  then
-                    if v.ModData ~= nil or modused == 0 then
-
-                        if startsWith(v.ModData, Modloader(modused))then
+                if v.proxyType == "CustomSpecialUnit" or Modloader(value.mod) == 0  then
+                    if v.ModData ~= nil or Modloader(value.mod) == 0 then
+                        if startsWith(v.ModData or "", Modloader(value.mod))then
                             local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-                            local unittype = tonumber(payloadSplit[9])
-                            if unittype == type or type == 0 then
+                            local unittype = tonumber(payloadSplit[10])
+                            if unittype == value.type or value.type == 0 then
                                 t.correctunit = true
                                 table.insert(t.SU, v.ID)   
                             end
 
-                        elseif modused == 0 then 
+                        elseif Modloader(value.mod) == 0 then 
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
 
@@ -231,6 +227,6 @@ function SUImmuneOrNot (land,modused,mod,Basesetting,neworder,type)
             end 
         end
     
-    
+    end
     return t
     end
