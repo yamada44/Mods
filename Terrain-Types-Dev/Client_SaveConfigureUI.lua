@@ -89,8 +89,36 @@ function Client_SaveConfigureUI(alert)
             Mod.Settings.Landdata[i].C_Name = " (( NO NAME GIVEN ))" 
                 UI.Alert("NO NAME GIVEN TO terrain TYPE(S) that are enabled\nReset to default settings")
             end
+            
+------------Add on
+            if (TableFormat(InputFieldTable[i].C_Defined,tex) ~= '' and TableFormat(InputFieldTable[i].C_Defined,tex) ~= nil)then
+                local Preformat = TableFormat(InputFieldTable[i].C_Defined,tex)
+                local Specialunitgroup = split(Preformat, '/')
+                local Specialunitdetails = {}
+                for i = 1, #Specialunitgroup do
+                    Specialunitdetails[i].rawdata = split(Specialunitgroup[i], '-')
+                end
 
-
+                local SUgroup = {}
+                for index, value in ipairs(Specialunitdetails) do
+                    table.insert(SUgroup,{})
+                    for i,v in pairs (value) do
+                        if string.match(v, '%D+') then
+                            alert("Mod set up failed\nCan only inlcude numbers for Mod defined") 
+                            return
+                        elseif string.len(v) > 2 or string.len(v) < 1 then
+                            alert("Mod set up failed\nMod define format must remain between 0-99 ") 
+                            return
+                        end
+                        table.insert(SUgroup[index][i],tonumber(v))
+                    
+                    end 
+                end
+         --Slot
+         
+                 Mod.Settings.Landdata[i].C_Definegroup = SUgroup
+                 Mod.Settings.Landdata[i].C_DefinedStored = InputFieldTable[i].C_Defined
+            end
         end
     Mod.Settings.Landdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
     end

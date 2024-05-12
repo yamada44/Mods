@@ -137,8 +137,8 @@ function Unittemplates(vert, i)
 	  local invert = landconfig[i].C_Inverse
 	  if (invert == nil ) then invert = 1 end 
 
-	  local modsetting = landconfig[i].C_Modsetting
-	  if (modsetting == nil ) then modsetting = 0 end 
+	  local define = landconfig[i].C_DefinedStored
+	  if (define == nil ) then define = "" end 
 
 	  local type = landconfig[i].C_Unittype
 	  if (type == nil ) then type = 0 end 
@@ -225,21 +225,10 @@ function Unittemplates(vert, i)
   .SetSliderMaxValue(9999)
   .SetValue(id)
 
-  -- Mod Settings
-  InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert)
-  local row11 = InputFieldTable[i].row11
-  UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are defined \n0 - All mods defined\n1 - only Character packs mods defined\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
-  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('What Mod is defined')
-  InputFieldTable[i].C_Modsetting = UI.CreateNumberInputField(row11)
-  .SetSliderMinValue(0)
-  .SetSliderMaxValue(18)
-  .SetValue(modsetting)
-
 
 	--Unit type
 	InputFieldTable[i].row22 = UI.CreateHorizontalLayoutGroup(vert)
 	local row22 = InputFieldTable[i].row22
-	UI.CreateButton(row22).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie or disable this feature ") end)
 	InputFieldTable[i].text24 = UI.CreateLabel(row22).SetText('What Character pack unit type special unit is defined')
 	InputFieldTable[i].C_Unittype = UI.CreateNumberInputField(row22)
 	.SetSliderMinValue(0)
@@ -259,6 +248,18 @@ function Unittemplates(vert, i)
 	UI.CreateButton(row99).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("remove cities, Armycamps and Mercenary camp\nThis setting works with all Standard settings") end)
 	UI.CreateLabel(row99).SetText('Remove buildings')
 	InputFieldTable[i].C_RemoveBuild = UI.CreateCheckBox(row99).SetText("").SetIsChecked(build)
+
+  -- Mod Defined
+  InputFieldTable[i].row11 = UI.CreateHorizontalLayoutGroup(vert)
+  local row11 = InputFieldTable[i].row11
+  UI.CreateButton(row11).SetText("Proper format").SetColor('#0000FF').SetOnClick(function() UI.Alert("Format for special units defined\n{mod info number}{-}{unit type number}{/}{repeat for next defined special unit}\nExample\n13-7/ ") end) 
+  UI.CreateButton(row11).SetText("Mod info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are defined \n0 - All mods defined\n1 - only Character packs mods defined\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
+  UI.CreateButton(row11).SetText("Unit info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template in character pack does this work with\nOnly works if the setting directly above is between 2 and 18\nSet to 0 for the entire character pack to applie or disable this feature ") end) 
+  InputFieldTable[i].text13 = UI.CreateLabel(row11).SetText('Mod defined')
+  InputFieldTable[i].C_Defined = UI.CreateTextInputField(vert)
+  .SetPlaceholderText("Special units Defined").SetText(define)
+  .SetFlexibleWidth(1)
+  .SetCharacterLimit(300)
 
 	--name of Terrain type
 	InputFieldTable[i].row5 = UI.CreateHorizontalLayoutGroup(vert)
