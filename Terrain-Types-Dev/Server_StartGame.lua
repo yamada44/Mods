@@ -90,7 +90,7 @@ function FirstTerrainPass(game,standing)
 
     local modtable = {}
 
-
+print(Pub.Terrain)
     for i,v in pairs(Pub.Terrain)do
         local ts = standing.Territories[i]
         local Army = ts.NumArmies.NumArmies -- Base army amount
