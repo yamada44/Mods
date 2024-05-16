@@ -124,7 +124,7 @@ function Unittemplates(vert, i)
 	  if (name == nil ) then name = '' end 
 
 	  local turnS = landconfig[i].C_Turnstart -- what turn do these affects apply
-	  if (turnS == nil ) then turnS = 0 end 
+	  if (turnS == nil ) then turnS = -1 end 
 
 	  local turnE = landconfig[i].C_Turnend -- what turn do these affects stop
 	  if (turnE == nil ) then turnE = 0 end 

@@ -96,7 +96,7 @@ function FirstTerrainPass(game,standing)
         local Army = ts.NumArmies.NumArmies -- Base army amount
         local Owner = ts.OwnerPlayerID
 
-        if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == -1 then
+        if v.values.turnstart ~= nil or v.values.turnstart == -1 or v.values.turnstart == 0 then
 
             local mod = WL.TerritoryModification.Create(i)
             --specil unit immune/remove
