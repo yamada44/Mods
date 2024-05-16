@@ -55,7 +55,7 @@ function Server_StartGame (game,standing)
                 Pub.Terrain[Tid].values.name = "No Terrain Type" end
 
         end
-
+print("fdsfhjasklfhaklhdjk")
         FirstTerrainPass(game,standing)
 
         Mod.PublicGameData = Pub
