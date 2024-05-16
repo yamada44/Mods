@@ -95,7 +95,7 @@ function FirstTerrainPass(game,standing)
         local ts = standing.Territories[i]
         local Army = ts.NumArmies.NumArmies -- Base army amount
         local Owner = ts.OwnerPlayerID
-
+print(v.values.turnstart, "why")
         if v.values.turnstart ~= nil and (v.values.turnstart == -1 or v.values.turnstart == 0) then
 
             local mod = WL.TerritoryModification.Create(i)
