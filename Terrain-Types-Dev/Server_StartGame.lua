@@ -55,7 +55,7 @@ function Server_StartGame (game,standing)
                 Pub.Terrain[Tid].values.name = "No Terrain Type" end
 
         end
-print("fdsfhjasklfhaklhdjk")
+
         FirstTerrainPass(game,standing)
 
         Mod.PublicGameData = Pub
@@ -90,12 +90,12 @@ function FirstTerrainPass(game,standing)
 
     local modtable = {}
 
-print(Pub.Terrain)
+
     for i,v in pairs(Pub.Terrain)do
         local ts = standing.Territories[i]
         local Army = ts.NumArmies.NumArmies -- Base army amount
         local Owner = ts.OwnerPlayerID
-print(v.values.turnstart, "why", v.values.name)
+
         if v.values.turnstart ~= nil and (v.values.turnstart == -1 or v.values.turnstart == 0) then
 
             local mod = WL.TerritoryModification.Create(i)
