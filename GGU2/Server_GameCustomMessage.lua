@@ -1,4 +1,4 @@
-require('Utilities2');
+require('Utilities')
 require('WLUtilities')
 
 --known bugs
@@ -9,12 +9,8 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 	local publicdate = Mod.PublicGameData
 
 	-- check for payment plan data
-	if (publicdate.PayP == nil )then publicdate.PayP = {} end
-	if (publicdate.PayP.Plan == nil)then publicdate.PayP.Plan = {} end
-	if (publicdate.PayP.History == nil)then publicdate.PayP.History = {} end
+	publicdate = DataCheck(publicdate)
 
-	if publicdate.PayP.Sameturn == nil then publicdate.PayP.Sameturn = game.Game.TurnNumber end
-	if publicdate.PayP.accessed == nil then publicdate.PayP.accessed = true end
 	print("payload0",payloadO.planid)
 	local i = 1
 	if payloadO.setup == 1 then -- continued setups
@@ -56,7 +52,10 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 	elseif payloadO.setup == 5 then
 		Removepayment(payloadO.planid,publicdate)
 		setReturnTable({ Message = "Payment Plan removed" })
-		
+	elseif payloadO.setup == 6 then -- add member to account
+	elseif payloadO.setup == 7 then -- add owner to account
+	elseif payloadO.setup == 8 then -- remove member/owner from account
+	elseif payloadO.setup == 9 then -- Withdraw funds
 	end
 
 
@@ -117,7 +116,7 @@ end
 
 function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 
-
+	--Base payment variables
 	local id = payload.TargetPlayerID
 	local setgold = payload.setgold
 	local setturn = payload.setturn
@@ -126,15 +125,11 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 	local newPlan = payload.setup
 	local planid = payload.planid
 	
-	
-	--sending gold variables
+	--Base gold variables
 	local actualGoldSent = 0                 --- how much gold is actually sent
-	local goldSending = payload.Gold;
-	local goldtax = payload.multiplier
+	local goldSending = payload.Gold; -- How much gold you sent before tax was applied
+	local goldtax = payload.multiplier 
 	local percent = payload.percent
-	
-
-
 	
 	--tables for public data dhecks
 	if (publicdate.taxidtable == nil)then  publicdate.taxidtable = {}end
@@ -145,61 +140,55 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 	if (publicdate.orderamount == nil)then publicdate.orderamount = 0 end
 	if (publicdate.orderaccess == nil)then publicdate.orderaccess = true end
 	
-	
-	--if (publicdate.PayP.ID)
-	
-	if (publicdate.orderaccess == false)then -- if new turn, reset taxidtable
-		publicdate.taxidtable = {}
-		publicdate.taxidtable[ourid] = {count = 0, gap = 0}
-		
-		publicdate.orderaccess = true
-	end 
-	
-	
-	
-	
+	-- variables for Gap Gold (current gold already sent to calculate the gap before we hit a new Tax bracket )
 	local gap2 = 0
 	local storeC =  publicdate.taxidtable[ourid].count
 	local storegap = publicdate.taxidtable[ourid].gap
-	local goldHave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold);
+	local goldHave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
 	
+	-- if new turn, reset taxidtable
+	if (publicdate.orderaccess == false)then
+		publicdate.taxidtable = {}
+		publicdate.taxidtable[ourid] = {count = 0, gap = 0}
+		publicdate.orderaccess = true
+	end 
 	
+	-- Cannot gift yourself logic
+	if (ourid == payload.TargetPlayerID) then
+		setReturnTable({ Message = "You can't gift yourself" });
+		return
+	end
 	
-	
-		if (ourid == payload.TargetPlayerID) then
-			setReturnTable({ Message = "You can't gift yourself" });
+	-- Adding continued/Set turns logic
+	if newPlan > 0 then 
+		local standing = game.ServerGame.LatestTurnStanding
+		local player = game.Game.PlayingPlayers[ourid]
+		local income = player.Income(0, standing, false, false) 
+		print(#publicdate.PayP.Plan,"plans")
+		local tempgold = 0 
+		if newPlan == 2 then tempgold = setgold end
+		if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,tempgold,ourid) then 
+			print("did not pay payment")
+			if contu == 2 then
+				publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
+				setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled"})
+		return end
+
+		if newPlan == 2 then --creating new payment plan
+
+			goldSending = Newpayment(payload,publicdate,playerID)
+				
+		elseif newPlan == 3 then -- removing payment plan
+			Removepayment(planid,publicdate)
+
+
+		end
+	end
+
+	if (goldHave < goldSending) then  -- don't have enough money
+		setReturnTable({ Message = "You have less then " .. goldSending .. " gold. your current gold reserve is: " .. goldHave .. '\n\n' .. 'Refresh Page for best results' })
 			return
-		end
-		
-		if newPlan > 0 then -- Adding continued/Set turns logic
-			local standing = game.ServerGame.LatestTurnStanding
-			local player = game.Game.PlayingPlayers[ourid]
-			local income = player.Income(0, standing, false, false) 
-			print(#publicdate.PayP.Plan,"plans")
-			local tempgold = 0 
-			if newPlan == 2 then tempgold = setgold end
-			if #publicdate.PayP.Plan > 0 and income.Total *0.75 < Banked(publicdate,tempgold,ourid) then 
-				print("did not pay payment")
-				if contu == 2 then
-					publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
-					setReturnTable({ Message = "Your combined payments exceed 75% of your income\nPayment plan cancelled"})
-			return end
-
-			if newPlan == 2 then --creating new payment plan
-	
-				goldSending = Newpayment(payload,publicdate,playerID)
-					
-			elseif newPlan == 3 then -- removing payment plan
-				Removepayment(planid,publicdate)
-
-
-			end
-		end
-	
-		if (goldHave < goldSending) then  -- don't have enough money
-			setReturnTable({ Message = "You have less then " .. goldSending .. " gold. your current gold reserve is: " .. goldHave .. '\n\n' .. 'Refresh Page for best results' })
-				return
-		end
+	end
 	
 		-- checking to see if a gold tax was set during game creation
 		if (goldtax == nil)then goldtax = 0 end;
@@ -315,4 +304,40 @@ function Addhistory(targetplayerid,publicdate, actualgold,playerid,reveal)
 		short.turn = Game.Game.TurnNumber
 	end
 	
+end
+
+function DataCheck(publicdate,ID,payload)
+	if (publicdate.PayP == nil )then publicdate.PayP = {} end
+	if (publicdate.PayP.Plan == nil)then publicdate.PayP.Plan = {} end
+	if (publicdate.PayP.History == nil)then publicdate.PayP.History = {} end
+
+	if publicdate.PayP.Sameturn == nil then publicdate.PayP.Sameturn = Game.Game.TurnNumber end
+	if publicdate.PayP.accessed == nil then publicdate.PayP.accessed = true end
+
+	--entities
+	if publicdate.Entity == nil then publicdate.Entity = {} end
+		if publicdate.Entity[ID] == nil then publicdate.Entity[ID] = {}
+			local short = publicdate.Entity[ID]
+			if Game.Game.PlayingPlayers[ID] ~= nil then
+				short.Name = Game.Game.Players[ID].DisplayName(nil, false)
+				short.ID = ID
+				short.Status = "P"
+
+				
+			else
+				short.Name = ""
+				short.ID = math.random()
+				short.Status = "A"
+				short.Gold = 0
+				short.members = {}
+				short.owners = {}
+
+			end
+		end
+		if publicdate.Entity[ID].Status == "P" then
+			publicdate.Entity[ID].Gold = Game.ServerGame.LatestTurnStanding.NumResources(ID, WL.ResourceType.Gold)
+		end
+	 
+
+	return publicdate
 end

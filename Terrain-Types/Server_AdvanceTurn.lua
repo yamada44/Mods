@@ -42,28 +42,28 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
         for i,v in pairs(Pub.Terrain)do
 
-            if (v.values.turnstart ~= nil and game.Game.TurnNumber >= v.values.turnstart and game.Game.TurnNumber < v.values.turnend) or v.values.turnstart == -1 then
+            if (v.turnstart ~= nil and game.Game.TurnNumber >= v.turnstart and game.Game.TurnNumber < v.turnend) or v.turnstart == -1 then
 
                 local mod = WL.TerritoryModification.Create(i)
                 --specil unit immune/remove
                 local SUdata = {}
-                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.values.ModFormat,v.values.BaseSettings)
+                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.ModFormat,v.BaseSettings)
                 if SUdata.Immune_logic == false then
                     mod.RemoveSpecialUnitsOpt = SUdata.SU
 
                     --ownership change
-                    if v.values.OwnerID ~= nil and v.values.OwnerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
-                        mod.SetOwnerOpt = v.values.OwnerID
+                    if v.OwnerID ~= nil and v.OwnerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
+                        mod.SetOwnerOpt = v.OwnerID
                     end
 
                     --army change
                     print("test 1")
-                    if v.values.armyValueChange ~= -1 and v.values.armyValueChange ~= game.ServerGame.LatestTurnStanding.Territories[i].NumArmies.NumArmies then
-                        mod.SetArmiesTo = v.values.armyValueChange
+                    if v.armyValueChange ~= -1 and v.armyValueChange ~= game.ServerGame.LatestTurnStanding.Territories[i].NumArmies.NumArmies then
+                        mod.SetArmiesTo = v.armyValueChange
                     end
 
                     --remove buildings
-                    if v.values.Removebuild == true then
+                    if v.Removebuild == true then
                         local Cities = {}
                         Cities[WL.StructureType.City] = 0
                         Cities[WL.StructureType.MercenaryCamp] = 0

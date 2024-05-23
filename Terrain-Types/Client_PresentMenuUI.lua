@@ -73,7 +73,7 @@ function TerritoryClicked(terrDetails)
 			TargetTerritoryInstructionLabel.SetText("Selected territory: " .. terrDetails.Name)
 			SelectedTerritory = terrDetails
 			BuyUnitBtn.SetInteractable(true)
-			Data = Pub.Terrain[terrDetails.ID].values
+			Data = Pub.Terrain[terrDetails.ID]
 		
 	end
 end

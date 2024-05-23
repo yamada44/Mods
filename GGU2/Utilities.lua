@@ -101,3 +101,42 @@ function SortTable(tableinput,field)
 
 	return newtable
 end
+function Entitygroup(Players,game)
+	local Entity = {}
+	local Index = 1
+print("what")
+	for i,v in pairs(Players)do
+		Entity[Index] = {}
+		print(game.Game.Players[i].DisplayName(nil, false))
+		Entity[Index].Name = game.Game.Players[i].DisplayName(nil, false)
+		Entity[Index].ID = i
+		Entity[Index].Status = "P"
+		Entity[Index].Gold = v.Income(0, game.LatestStanding, false, false) 
+
+		Index = Index + 1
+	end
+
+	return Entity
+end
+function Findmatch(findtable, match,what)
+    for i = 1, #findtable do
+
+        if findtable[i][what] == match then
+            print(match, i, "match")
+            return i
+
+        end 
+    end
+    return nil
+end
+function FindmatchID(findtable, match)
+    for i = 1, #findtable do
+
+        if findtable[i] == match then
+            print(match, i, "match")
+            return i
+
+        end 
+    end
+    return nil
+end
