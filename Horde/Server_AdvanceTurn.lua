@@ -332,7 +332,7 @@ end
 function damagetoSU(result)
   local totaldamage = 0
   local damage = 0
-  print(result,"result")
+  print(result,#result,"result")
   for i,v in pairs(result)do
     print(v,"add damage")
     totaldamage = totaldamage + v
