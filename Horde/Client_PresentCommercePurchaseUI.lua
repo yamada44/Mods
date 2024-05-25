@@ -10,7 +10,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	-- changing over packs data
 	OrderstartsWith = "Zom" -- the last letter represents the mod used
 
-
+	print(game.Settings.Name, "map name")
 print (SettingData.Slot, Game.Us.Slot )
 	local isZom = false
 	for i = 1, #Mod.Settings.Slot do
