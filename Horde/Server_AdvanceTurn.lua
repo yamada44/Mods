@@ -17,6 +17,29 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
   end]]
 
 
+  local publicdata = Mod.PublicGameData
+  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2" then
+
+  --local playergroup = {}
+  local goldhave
+  local MaxGold = 50
+  local added = 75
+  local standing = game.ServerGame.LatestTurnStanding
+  for playerID, player in pairs(game.Game.PlayingPlayers) do
+      if (not player.IsAIOrHumanTurnedIntoAI) then 
+         -- if playergroup[playerID] == nil then playergroup[playerID] = {} end
+          local income = player.Income(0, standing, true, true) 
+          goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
+         if income.Total <= MaxGold then
+          local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for being weak')
+          addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}));
+          --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
+          --
+         end
+      end
+  end
+end
+
   if Mod.Settings.CityGone > 0 then
     for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do 
       if Slotchecker(ts.OwnerPlayerID ) then  
