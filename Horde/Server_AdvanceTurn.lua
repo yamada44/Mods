@@ -402,6 +402,7 @@ end
 
 function Quicklogic(powerNow,addedZombies,Health)
   local table = {}
+  print(powerNow,Health)
   if (powerNow - Health ) <= 0 then -- to many opponants, just use the remainder of power
 
     table.addedZombies = addedZombies + powerNow
