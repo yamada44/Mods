@@ -32,7 +32,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
           goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
          if income.Total <= MaxGold then
           local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for being weak')
-          addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}));
+          addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}))
           --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
           --
          end
