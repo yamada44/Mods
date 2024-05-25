@@ -99,8 +99,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
     --Attacking for zombies
       if troopgain then
-        if attackerZom == true then
-        --  local SUdamage = SUdamageCal(order,result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
+        if attackerZom then
+          local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
+          local SUAdddamage = damagetoSU(result.DamageToSpecialUnits)
+          print("Different damage cal",SUAdddamage,SUremovedamage)
           local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.From]
           local zomland = 0
@@ -131,7 +133,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
           addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "killed forces absorbed into ranks", {}, modtable))
 
   -- Defending for zombies
-        elseif defenderZom == true then
+        elseif defenderZom then
           local newzombies = result.AttackingArmiesKilled.AttackPower * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.To]
           local zomland = 0
@@ -309,20 +311,37 @@ function Slotchecker(playerid)
       return issame
 end
 
-function SUdamageCal(order,SU,deathSU)
+function SUdamageCal(SU,deathSU)
   local totaldamage
-  local notdeadyetSU = {}
+  local damage = 0
 
   for i,v in pairs(SU)do
 
     for i2, v2 in pairs(deathSU) do -- checking to see if he died
-      if SU.ID == deathSU then end
-    end
+      if v.ID == v2.ID then end
+        damage = v2.DamageAbsorbedWhenAttacked
+      end
+
+      totaldamage = totaldamage + damage
   end
 
 
 return totaldamage
 end
+
+function damagetoSU(result)
+  local totaldamage
+  local damage = 0
+
+  for i,v in pairs(result)do
+  
+    totaldamage = totaldamage + v
+  end
+
+
+return totaldamage
+end
+
 
 function RemoveFort(game, addNewOrder)
 	--Build any forts that we queued in up Server_AdvanceTurn_Order
