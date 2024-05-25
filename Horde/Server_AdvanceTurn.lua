@@ -312,7 +312,7 @@ function Slotchecker(playerid)
 end
 
 function SUdamageCal(SU,deathSU)
-  local totaldamage
+  local totaldamage = 0
   local damage = 0
 
   for i,v in pairs(SU)do
@@ -330,7 +330,7 @@ return totaldamage
 end
 
 function damagetoSU(result)
-  local totaldamage
+  local totaldamage = 0
   local damage = 0
 
   for i,v in pairs(result)do
