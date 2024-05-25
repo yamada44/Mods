@@ -82,7 +82,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
       --Running through attacking rules.
       if game.ServerGame.LatestTurnStanding.Territories[order.To].OwnerPlayerID == 0 then -- make sure its neutral
-        
         if Mod.Settings.Attack == 2 then -- cannot attack any neutrals
           troopgain = false
         skipThisOrder(WL.ModOrderControl.SkipAndSupressSkippedMessage)
@@ -97,12 +96,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
        end
       end
 
-    --Attacking for zombies
+      --Attacking for zombies
       if troopgain then
         if attackerZom then
-          local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
-          local SUAdddamage = damagetoSU(result.DamageToSpecialUnits)
-          print("Different damage cal",SUAdddamage,SUremovedamage)
+          local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
+          --local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
+          local SUZombies = Zombiestoadd(defendingspecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.AttackingArmiesKilled.SpecialUnits )
+          print(SUZombies,"su zoms man")
           local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.From]
           local zomland = 0
@@ -311,37 +311,49 @@ function Slotchecker(playerid)
       return issame
 end
 
-function SUdamageCal(SU,deathSU)
-  local totaldamage = 0
+function IsDead(ID,deathSU)
+  local Alive = true
   local damage = 0
-
-  for i,v in pairs(SU)do
 
     for i2, v2 in pairs(deathSU) do -- checking to see if he died
-      if v.ID == v2.ID then end
-        damage = v2.DamageAbsorbedWhenAttacked
+      if ID == v2.ID then 
+       Alive = false
+       return Alive
+        
       end
-      print(damage,"remove damage")
-      totaldamage = totaldamage + damage
-  end
+    end
 
-
-return totaldamage
+return Alive
 end
 
-function damagetoSU(result)
-  local totaldamage = 0
-  local damage = 0
-  print(result,#result,"result")
-  for i,v in pairs(result)do
-    print(v,"add damage")
-    totaldamage = totaldamage + v
+function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
+  local addedZombies = 0
+  local powerNow = Killingpower
+
+--dealing damage to SU who go before armies, then armeis, then SU that go after armies
+--calculate any damage done to SU that didn't die and return that number
+  for i = 1, 2 do
+    for _,v in pairs(SU)do
+      local isdead = IsDead(v.ID,DeathSU)
+        if i == 1 and v.CombatOrder < 0 then -- for SU before armies
+          local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
+          addedZombies = table.addedZombies
+          powerNow = table.powerNow
+        elseif i == 2 and v.CombatOrder >= 0 then -- for SU after armeis
+          local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
+          addedZombies = table.addedZombies
+          powerNow = table.powerNow
+        end
+        if powerNow <= 0 then return addedZombies end
+      end
+      if i == 1 then
+        local table = Quicklogic(powerNow,addedZombies,Armies)
+        addedZombies = table.addedZombies
+        powerNow = table.powerNow
+      end
   end
-
-
-return totaldamage
+  return addedZombies
 end
-
 
 function RemoveFort(game, addNewOrder)
 	--Build any forts that we queued in up Server_AdvanceTurn_Order
@@ -386,4 +398,17 @@ function FortLogic(priv,To,PlayerID)
 
   end
 return priv
+end
+
+function Quicklogic(powerNow,addedZombies,Health)
+  local table = {}
+  if (powerNow - Health ) <= 0 then -- to many opponants, just use the remainder of power
+
+    table.addedZombies = addedZombies + powerNow
+    table.powerNow = 0
+  else 
+    table.addedZombies = addedZombies + Health -- alot of power left, use all of opponants Health
+    table.powerNow = powerNow - Health
+  end
+  return table
 end
