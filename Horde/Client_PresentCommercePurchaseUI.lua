@@ -11,6 +11,9 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	OrderstartsWith = "Zom" -- the last letter represents the mod used
 
 	print(game.Settings.Name, "map name")
+	if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2" then
+		print("game found")
+	end
 print (SettingData.Slot, Game.Us.Slot )
 	local isZom = false
 	for i = 1, #Mod.Settings.Slot do
