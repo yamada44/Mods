@@ -321,7 +321,7 @@ function SUdamageCal(SU,deathSU)
       if v.ID == v2.ID then end
         damage = v2.DamageAbsorbedWhenAttacked
       end
-
+      print(damage,"remove damage")
       totaldamage = totaldamage + damage
   end
 
@@ -334,7 +334,7 @@ function damagetoSU(result)
   local damage = 0
 
   for i,v in pairs(result)do
-  
+    print(v,"add damage")
     totaldamage = totaldamage + v
   end
 
