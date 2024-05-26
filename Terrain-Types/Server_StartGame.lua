@@ -79,7 +79,7 @@ function ID_decider(Tid,v,ts,first)
     elseif  v.C_TerrainTypeID > 0 then -- Manual ID input (changes to neutral if ID was not found)
 
         local PlayerID = Findmatch(Game.Game.PlayingPlayers,v.C_TerrainTypeID - 1,"Slot")
-        print(PlayerID,"playerID")
+        print(PlayerID,"playerID",Game.Game.PlayingPlayers[PlayerID].ID)
         Pub.Terrain[Tid].OwnerID = Game.Game.PlayingPlayers[PlayerID].ID
     end
     return first
