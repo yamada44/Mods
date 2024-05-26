@@ -96,17 +96,17 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
        end
       end
 
-      --Attacking for zombies
+--Attacking for zombies
       if troopgain then
         if attackerZom then
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
           --local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
           local SUZombies = Zombiestoadd(defendingUnitStack.SpecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.AttackingArmiesKilled.SpecialUnits,defendingUnitStack.NumArmies )
-          print(SUZombies,"su zoms man")
-          local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
+          local newzombies = (result.DefendingArmiesKilled.DefensePower + math.ceil(SUZombies)) * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.From]
           local zomland = 0
-          for i,v in pairs (land.ConnectedTo) do 
+
+          for i,v in pairs (land.ConnectedTo) do -- check to make sure zombies own it
             if game.ServerGame.LatestTurnStanding.Territories[game.Map.Territories[i].ID].OwnerPlayerID == game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID then
             zomland = zomland + 1
             end
@@ -134,7 +134,10 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
   -- Defending for zombies
         elseif defenderZom then
-          local newzombies = result.AttackingArmiesKilled.AttackPower * (Mod.Settings.TConv / 100)
+
+          local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
+          local SUZombies = Zombiestoadd(result.ActualArmies.SpecialUnits,defendingUnitStack.DefensePower  * game.Settings.DefenseKillRate  , result.DefendingArmiesKilled .SpecialUnits,result.ActualArmies.NumArmies )
+          local newzombies = (result.AttackingArmiesKilled.AttackPower + SUZombies) * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.To]
           local zomland = 0
           for i,v in pairs (land.ConnectedTo) do 
