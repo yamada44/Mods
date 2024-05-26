@@ -137,6 +137,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
           local SUZombies = Zombiestoadd(result.ActualArmies.SpecialUnits,defendingUnitStack.DefensePower  * game.Settings.DefenseKillRate  , result.DefendingArmiesKilled .SpecialUnits,result.ActualArmies.NumArmies )
+          print(SUZombies,"su zoms")
           local newzombies = (result.AttackingArmiesKilled.AttackPower + SUZombies) * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.To]
           local zomland = 0
@@ -175,7 +176,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
   end
   if Slotchecker(order.PlayerID) then    
 
-    print(order.proxyType, "orderproxy")
     --No certain cards
     if(string.find(order.proxyType, "GameOrderPlayCard") ~= nil)then
     
