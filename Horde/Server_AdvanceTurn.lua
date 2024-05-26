@@ -340,10 +340,12 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
       print(v.Name ,"unit name",i,#SU)
       local isdead = IsDead(v.ID,DeathSU)
         if i == 1 and v.CombatOrder < 0 then -- for SU before armies
+          print("wuick 1")
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
           addedZombies = table.addedZombies
           powerNow = table.powerNow
         elseif i == 2 and v.CombatOrder >= 0 then -- for SU after armeis
+          print("wuick 2")
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
           addedZombies = table.addedZombies
           powerNow = table.powerNow
@@ -353,6 +355,7 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
           return addedZombies end
     end
     if i == 1 then
+      print("wuick 3")
       local table = Quicklogic(powerNow,addedZombies,Armies)
       powerNow = table.powerNow
     end
