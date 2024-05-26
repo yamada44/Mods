@@ -54,8 +54,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
                     --ownership change
                     print(v2.ownerID, game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID, "ID's" )
-                    if v2.ownerID ~= nil and v2.ownerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
-                        mod.SetOwnerOpt = v2.ownerID
+                    if v2.OwnerID ~= nil and v2.OwnerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
+                        mod.SetOwnerOpt = v2.OwnerID
                     end
 
                     --army change
