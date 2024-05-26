@@ -88,7 +88,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 
 	AddStringToUI(vert,Name,nil) -- Included first cause no terrain type might be found
 
-	if Data.turnstart ~= nil then -- making sure a terrain type exist
+	if Data ~= nil then -- making sure a terrain type exist
 
 -- Settings Display
 	local armyrules = Data.armyValueChange
