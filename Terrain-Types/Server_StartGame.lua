@@ -90,7 +90,8 @@ function FirstTerrainPass(game,standing)
     local modtable = {}
 
 
-    for i,v in pairs(Pub.Terrain)do
+    for i,v2 in pairs(Pub.Terrain)do
+        local v = Pub.Type[v2.Type]
         local ts = standing.Territories[i]
         local Army = ts.NumArmies.NumArmies -- Base army amount
         local Owner = ts.OwnerPlayerID
@@ -105,8 +106,8 @@ function FirstTerrainPass(game,standing)
 
 
                 --ownership change
-                if v.OwnerID ~= nil and v.OwnerID ~= ts.OwnerPlayerID  then
-                    ts.OwnerPlayerID = v.OwnerID
+                if v2.OwnerID ~= nil and v2.OwnerID ~= ts.OwnerPlayerID  then
+                    ts.OwnerPlayerID = v2.OwnerID
                 end
 
                 --army change
