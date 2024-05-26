@@ -4,7 +4,7 @@ function Server_StartGame (game,standing)
 
     Pub = Mod.PublicGameData
     Pub.Terrain = {}
-    Pub.Types = {}
+    Pub.Type = {}
     Game = game
     local LandTable =  Mod.Settings.Landdata
     local firstTile = {}
