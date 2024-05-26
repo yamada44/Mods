@@ -119,9 +119,9 @@ function groupBy(tbl, funcToGetKey)
 end
 --returns place in table
 function Findmatch(findtable, match,what) -- input a table with a index and values, then input a value(match) to match on table values(what). returns value if true, returns 0 if not 
-    for i = 1, #findtable do
-
-        if findtable[i][what] == match then
+    for i,v in pairs (findtable) do
+        
+        if v[what] == match then
             print(match, i, "match")
             return i
 
