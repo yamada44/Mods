@@ -119,7 +119,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 			elseif Basesettings == 3 then Basesettings = "Apply effects on terrain and Remove special units (defined in settings)"
 			elseif Basesettings == 4 then Basesettings =  "Apply effects on terrain except tiles with Specil units (defined in settings)" end
 	local turn = Data.turnstart
-			if turn == 0 then turn = "Always active"
+			if turn == -1 then turn = "Always active"
 			else turn = "The Terrain last between the turns " .. Data.turnstart .. " - " .. Data.turnend - 1 end
 
 			AddStringToUI(vert,"<#DEF265>Army Rules: </>" .. armyrules,nil)
