@@ -178,8 +178,8 @@ function getBuildInfo(type, mode)
         [7] = {"Army Cache", WL.StructureType.ArmyCache},
         [8] = {"Money Cache", WL.StructureType.MoneyCache},
         [9] = {"Resource Cache", WL.StructureType.ResourceCache},
-        [10] = {"Mercenary Camp", WL.StructureType.MercenaryCamp}, -- real fort
-        [11] = {"Power", WL.StructureType.Power},
+		[10] = {"Power", WL.StructureType.Power},
+        [11] = {"Mercenary Camp", WL.StructureType.MercenaryCamp}, -- real fort
         [12] = {"Man with Hand", WL.StructureType.Draft},
         [13] = {"Arena", WL.StructureType.Arena},
         [14] = {"Hospital", WL.StructureType.Hospital},

@@ -105,7 +105,7 @@ function Server_StartGame (game,standing)
 
                 local S = {}
                 table.insert(S,unit)
-                ts.NumArmies = WL.Armies.Create(ts.NumArmies.NumArmies,S);
+                ts.NumArmies = WL.Armies.Create(ts.NumArmies.NumArmies,S)
 
             end
     end
