@@ -101,7 +101,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         if attackerZom then
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
           --local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
-          local SUZombies = Zombiestoadd(defendingUnitStack.SpecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.AttackingArmiesKilled.SpecialUnits,defendingUnitStack.NumArmies )
+          local SUZombies = Zombiestoadd(defendingUnitStack.SpecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.DefendingArmiesKilled.SpecialUnits,defendingUnitStack.NumArmies )
           local newzombies = (result.DefendingArmiesKilled.DefensePower + math.ceil(SUZombies)) * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.From]
           local zomland = 0
@@ -136,8 +136,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         elseif defenderZom then
 
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
-          local SUZombies = Zombiestoadd(result.ActualArmies.SpecialUnits,defendingUnitStack.DefensePower  * game.Settings.DefenseKillRate  , result.DefendingArmiesKilled .SpecialUnits,result.ActualArmies.NumArmies )
-          print(SUZombies,"su zoms")
+          local SUZombies = Zombiestoadd(result.ActualArmies.SpecialUnits,defendingUnitStack.DefensePower  * game.Settings.DefenseKillRate  , result.AttackingArmiesKilled.SpecialUnits,result.ActualArmies.NumArmies )
+          print(SUZombies,"su zoms") 
           local newzombies = (result.AttackingArmiesKilled.AttackPower + SUZombies) * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.To]
           local zomland = 0
@@ -318,9 +318,8 @@ end
 
 function IsDead(ID,deathSU)
   local Alive = true
-  local damage = 0
 
-    for i2, v2 in pairs(deathSU) do -- checking to see if he died
+    for _, v2 in pairs(deathSU) do -- checking to see if he died
       if ID == v2.ID then 
        Alive = false
        return Alive
@@ -340,14 +339,17 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
   for i = 1, 2 do
     for _,v in pairs(SU)do
       print(v.Name ,"unit name",i,#SU)
-      local isdead = IsDead(v.ID,DeathSU)
+      local islive = IsDead(v.ID,DeathSU)
         if i == 1 and v.CombatOrder < 0 then -- for SU before armies
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
-          addedZombies = table.addedZombies
+          if islive then
+            addedZombies = table.addedZombies end
           powerNow = table.powerNow
+
         elseif i == 2 and v.CombatOrder >= 0 then -- for SU after armeis
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
-          addedZombies = table.addedZombies
+          if islive then
+          addedZombies = table.addedZombies end
           powerNow = table.powerNow
         end
         if powerNow <= 0 then
