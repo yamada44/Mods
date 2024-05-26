@@ -4,6 +4,7 @@ function Server_StartGame (game,standing)
 
     Pub = Mod.PublicGameData
     Pub.Terrain = {}
+    Pub.Types = {}
     Game = game
     local LandTable =  Mod.Settings.Landdata
     local firstTile = {}
@@ -13,7 +14,18 @@ function Server_StartGame (game,standing)
         firstTile[i] = {}
         firstTile[i].First = false
         firstTile[i].TileID = 0
+
+        Pub.Type[i].name = v.C_Name
+        Pub.Type[i].turnstart = v.C_Turnstart
+        Pub.Type[i].turnend = v.C_Turnend
+        Pub.Type[i].armyValueChange = v.C_Value
+        Pub.Type[i].ModFormat = ModDataSetup(v.C_Definegroup)
+        Pub.Type[i].BaseSettings = v.C_Inverse
+
+        Pub.Type[i].Removebuild = v.C_RemoveBuild
     end
+
+
         for Tid,ts in pairs(standing.Territories) do
             Pub.Terrain[Tid] = {}
             local found = false
@@ -25,28 +37,15 @@ function Server_StartGame (game,standing)
                         firstTile[i] = ID_decider(Tid,v,ts,firstTile[i])
                     end
 
-                    Pub.Terrain[Tid].name = v.C_Name
-                    Pub.Terrain[Tid].turnstart = v.C_Turnstart
-                    Pub.Terrain[Tid].turnend = v.C_Turnend
-                    Pub.Terrain[Tid].armyValueChange = v.C_Value
-                    Pub.Terrain[Tid].ModFormat = ModDataSetup(v.C_Definegroup)
-                    Pub.Terrain[Tid].BaseSettings = v.C_Inverse
+                    Pub.Terrain[Tid].Type = i
 
-                    Pub.Terrain[Tid].Removebuild = v.C_RemoveBuild
                     found = true
                 elseif found == false and (v.C_Inverse == 4 or v.C_Inverse == 3) and (ts.NumArmies.NumArmies ~= v.C_Autofind and ts.NumArmies.NumArmies ~= v.C_AutoP) then -- for every other tile not included in a template and that setting has been turned on with the setting C_Inverse = 4
                     if Pub.Terrain[Tid].name == nil then -- deciding how ownership value works
                         firstTile[i] = ID_decider(Tid,v,ts,firstTile[i])
                     end
 
-                    Pub.Terrain[Tid].name = v.C_Name
-                    Pub.Terrain[Tid].turnstart = v.C_Turnstart
-                    Pub.Terrain[Tid].turnend = v.C_Turnend
-                    Pub.Terrain[Tid].armyValueChange = v.C_Value
-                    Pub.Terrain[Tid].ModFormat = ModDataSetup(v.C_Definegroup)
-                    Pub.Terrain[Tid].BaseSettings = v.C_Inverse
-
-                    Pub.Terrain[Tid].Removebuild = v.C_RemoveBuild
+                    Pub.Terrain[Tid].Type = i
                 end
 
             end
@@ -79,8 +78,8 @@ function ID_decider(Tid,v,ts,first)
         Pub.Terrain[Tid].OwnerID = 0
     elseif  v.C_TerrainTypeID > 0 then -- Manual ID input (changes to neutral if ID was not found)
 
-        local Idinput = Findmatch(Game.Game.PlayingPlayers,v.C_TerrainTypeID,"ID")
-        Pub.Terrain[Tid].OwnerID = Idinput
+        local PlayerID = Findmatch(Game.Game.PlayingPlayers,v.C_TerrainTypeID - 1,"Slot")
+        Pub.Terrain[Tid].OwnerID = Game.Game.PlayingPlayers[PlayerID].ID
     end
     return first
 end

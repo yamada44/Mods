@@ -73,8 +73,8 @@ function TerritoryClicked(terrDetails)
 			TargetTerritoryInstructionLabel.SetText("Selected territory: " .. terrDetails.Name)
 			SelectedTerritory = terrDetails
 			BuyUnitBtn.SetInteractable(true)
-			Data = Pub.Terrain[terrDetails.ID]
-		
+			local type = Pub.Terrain[terrDetails.ID].Type
+			Data = Pub.Types[type]
 	end
 end
 

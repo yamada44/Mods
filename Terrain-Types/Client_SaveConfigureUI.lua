@@ -52,7 +52,7 @@ function Client_SaveConfigureUI(alert)
 
             --OwnerID
             local ownerID = TableFormat(InputFieldTable[i].C_TerrainTypeID ,num)
-             if (ownerID < -3 or ownerID > 99999999)then alert("Mod set up failed\n ownerID value must be between -3 - 99,999,999")
+             if (ownerID < -3 or ownerID > 500)then alert("Mod set up failed\n ownerID value must be between -3 - 500")
             else
             Mod.Settings.Landdata[i].C_TerrainTypeID = ownerID end
 

@@ -129,7 +129,18 @@ function Findmatch(findtable, match,what) -- input a table with a index and valu
     end
     return 0
 end
+function Slotchecker(playerid,game)
+    if playerid == 0 or playerid == nil then return false end
+    local issame = false
 
+    for i = 1, #Mod.Settings.Slot do
+        if Mod.Settings.Slot[i] == game.Game.PlayingPlayers[playerid].Slot then 
+            return true
+        end 
+    end
+
+    return issame
+end
 function Modloader(loadnumber)
     local list = {}
 	if loadnumber == -1 then return -1 end
@@ -160,7 +171,6 @@ function Modloader(loadnumber)
     end 
     
 end
-
 
 function Characterpackloader(loadnumber)
     local list = {}
@@ -230,3 +240,5 @@ function SUImmuneOrNot (land,Moddata,Basesetting,neworder)
     end
     return t
     end
+
+ 

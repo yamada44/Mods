@@ -202,11 +202,11 @@ function Unittemplates(vert, i)
   -- ownerID
   InputFieldTable[i].row10 = UI.CreateHorizontalLayoutGroup(vert)
   local row10 = InputFieldTable[i].row10
-  UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When the terrain type function applies, whos ownership does it turn to.\nset to 0 for neutral\nset to -1 for first territroy found use that ID for the remainder of that terrain type\nSet to -2 to not change ID at all\nSet to -3 for all current owners of each tile to be remembered\nManual playerID is accepted as well, for AI use this logic, AI1 is 1, AI2 is 2 ect. changes to neutral if error is found"); end)
+  UI.CreateButton(row10).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("When the terrain type function applies, whos ownership does it turn to.\nset to 0 for neutral\nset to -1 Use first territroy found when looping through the map use that ID for the remainder of that terrain type(or just random between all ID's of that terrain type if you dont wanna think about it)\nSet to -2 to not change ID at all\nSet to -3 for all current owners of each tile to be remembered\nSlot Number - Set the terrain to the slot you want, and whatever player/AI gets that slot, it will use that players for its ownership") end)
   InputFieldTable[i].text12 = UI.CreateLabel(row10).SetText('Default ownership function').SetColor('#dbddf4')
   InputFieldTable[i].C_TerrainTypeID = UI.CreateNumberInputField(row10)
   .SetSliderMinValue(-3)
-  .SetSliderMaxValue(9999)
+  .SetSliderMaxValue(40)
   .SetValue(id)
 
 	-- Inverse

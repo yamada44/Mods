@@ -40,8 +40,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
         local modtable = {}
 
-        for i,v in pairs(Pub.Terrain)do
-
+        for i,v2 in pairs(Pub.Terrain)do
+            local v = Pub.Types[v2.Type]
             if (v.turnstart ~= nil and game.Game.TurnNumber >= v.turnstart and game.Game.TurnNumber < v.turnend) or v.turnstart == -1 then
 
                 local mod = WL.TerritoryModification.Create(i)
@@ -52,8 +52,8 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                     mod.RemoveSpecialUnitsOpt = SUdata.SU
 
                     --ownership change
-                    if v.OwnerID ~= nil and v.OwnerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
-                        mod.SetOwnerOpt = v.OwnerID
+                    if v2.ownerID ~= nil and v2.ownerID ~= game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID  then
+                        mod.SetOwnerOpt = v2.ownerID
                     end
 
                     --army change
