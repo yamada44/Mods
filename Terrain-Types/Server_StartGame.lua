@@ -14,7 +14,7 @@ function Server_StartGame (game,standing)
         firstTile[i] = {}
         firstTile[i].First = false
         firstTile[i].TileID = 0
-
+        Pub.Type[i] = {}
         Pub.Type[i].name = v.C_Name
         Pub.Type[i].turnstart = v.C_Turnstart
         Pub.Type[i].turnend = v.C_Turnend
