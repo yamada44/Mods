@@ -81,10 +81,13 @@ end
 function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent) -- UI setup
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local Name = ""
 	setMaxSize(500, 400);
 
+
 	UI.CreateLabel(row1).SetText("Tile Info").SetColor('#4EC4FF')
-	local Name = "<#DEF265>Terrain Name: </><#FF7AF3>" .. Data.name .. "</>\n"
+	if Data == nil then Name = "No Terrain Type"
+	else Name = "<#DEF265>Terrain Name: </><#FF7AF3>" .. Data.name .. "</>\n" end
 
 	AddStringToUI(vert,Name,nil) -- Included first cause no terrain type might be found
 
