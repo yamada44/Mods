@@ -206,7 +206,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         end
     end
 end
-  
+  if(order.proxyType == "GameOrderPlayCardBlockade" or order.proxyType == "GameOrderPlayCardAbandon")then
+    if Game2.ServerGame.LatestTurnStanding.Territories[order.TargetTerritoryID].NumArmies == 0 then  skipThisOrder(WL.ModOrderControl.Skip) end
+  end
 
 
   if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, "Zom")) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
@@ -340,22 +342,18 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
       print(v.Name ,"unit name",i,#SU)
       local isdead = IsDead(v.ID,DeathSU)
         if i == 1 and v.CombatOrder < 0 then -- for SU before armies
-          print("wuick 1")
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
           addedZombies = table.addedZombies
           powerNow = table.powerNow
         elseif i == 2 and v.CombatOrder >= 0 then -- for SU after armeis
-          print("wuick 2")
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
           addedZombies = table.addedZombies
           powerNow = table.powerNow
         end
         if powerNow <= 0 then
-          print (addedZombies, "added zombies")
           return addedZombies end
     end
     if i == 1 then
-      print("wuick 3")
       local table = Quicklogic(powerNow,addedZombies,Armies)
       powerNow = table.powerNow
     end
