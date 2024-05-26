@@ -269,7 +269,7 @@ function dynamicInfo(i)
 	elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity ~= false and Mod.Settings.Unitdata[i].Oncity > 0 then city = true end
 	if city then
 		local name = getBuildInfo(1, "name")
-	
+		print ("Structure type", Mod.Settings.Unitdata[i].Oncity)
 		if type(Mod.Settings.Unitdata[i].Oncity) == "number" then name = getBuildInfo(Mod.Settings.Unitdata[i].Oncity, "name") end
 		message = message .. "\nBuild on ".. name .." Only"
 	end
