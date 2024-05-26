@@ -93,8 +93,7 @@ function FirstTerrainPass(game,standing)
     for i,v2 in pairs(Pub.Terrain)do
         local v = Pub.Type[v2.Type]
         local ts = standing.Territories[i]
-        local Army = ts.NumArmies.NumArmies -- Base army amount
-        local Owner = ts.OwnerPlayerID
+
         print(v,"vv",Pub.Type,v2.Type,v2.OwnerID)
         if v ~= nil and (v.turnstart == -1 or v.turnstart == 0) then
 
