@@ -74,7 +74,7 @@ function TerritoryClicked(terrDetails)
 			SelectedTerritory = terrDetails
 			BuyUnitBtn.SetInteractable(true)
 			local type = Pub.Terrain[terrDetails.ID].Type
-			Data = Pub.Types[type]
+			Data = Pub.Type[type]
 	end
 end
 

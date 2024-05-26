@@ -41,7 +41,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
         local modtable = {}
 
         for i,v2 in pairs(Pub.Terrain)do
-            local v = Pub.Types[v2.Type]
+            local v = Pub.Type[v2.Type]
             if (v.turnstart ~= nil and game.Game.TurnNumber >= v.turnstart and game.Game.TurnNumber < v.turnend) or v.turnstart == -1 then
 
                 local mod = WL.TerritoryModification.Create(i)
