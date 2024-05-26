@@ -101,7 +101,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
         if attackerZom then
           local defendingspecialUnits = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies.SpecialUnits
           --local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
-          local SUZombies = Zombiestoadd(defendingspecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.AttackingArmiesKilled.SpecialUnits )
+          local SUZombies = Zombiestoadd(defendingspecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.AttackingArmiesKilled.SpecialUnits,result.ActualArmies.NumArmies )
           print(SUZombies,"su zoms man")
           local newzombies = result.DefendingArmiesKilled.DefensePower * (Mod.Settings.TConv / 100)
           local land = game.Map.Territories[order.From]
