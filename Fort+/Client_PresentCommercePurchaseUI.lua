@@ -10,18 +10,21 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	-- changing over packs data
 	OrderstartsWith = "FortX" -- the last letter represents the mod used
 
-	local vert = UI.CreateVerticalLayoutGroup(rootParent);
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local vert = UI.CreateHorizontalLayoutGroup(rootParent)
+	local Vertrow1 = UI.CreateVerticalLayoutGroup(vert)
+	local Vertrow2 = UI.CreateVerticalLayoutGroup(vert)
+	local row1 = UI.CreateVerticalLayoutGroup(Vertrow1)
+	local row2 = UI.CreateVerticalLayoutGroup(Vertrow2)
 	Xincrease = Mod.Settings.Costincrease
 	local buildnumber = 0
 	local turnscale = 0
-	local combatinfo = "double that of standing army inside"
+	Combatinfo = "double that of standing army inside"
 
 	if Mod.Settings.Scale > 0 then 
 		turnscale = Howmany20(Game.Game.TurnNumber)
 	end
-	if Mod.Settings.Need == 0 then combatinfo = "0. will cancel attack before destroying Fort"
-	elseif Mod.Settings.Need > 0 then combatinfo = Mod.Settings.Need + (turnscale * Mod.Settings.Scale) end
+	if Mod.Settings.Need == 0 then Combatinfo = "0. will cancel attack before destroying Fort"
+	elseif Mod.Settings.Need > 0 then Combatinfo = Mod.Settings.Need + (turnscale * Mod.Settings.Scale) end
 	if SettingData.Costincrease ~= 0 then
 		for _,ts in pairs(Game.LatestStanding.Territories) do --ts is value of territories table
 			if (ts.OwnerPlayerID == ID) then
@@ -40,15 +43,29 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		CostScale = percent
 		--if CostScale == 0 then CostScale = 1 end
 	end
-	print(CostScale,"scale")
+
 	PreFinalcost = (SettingData.HiveCost + Xincrease)
-	print(PreFinalcost,"pre",(PreFinalcost * CostScale),SettingData.HiveCost , Xincrease)
+	FortPower = math.floor(PreFinalcost + (PreFinalcost * CostScale))
 	local buttonmessage = "Build a Fort"
-	local infomessage = "This Fort cost " .. math.floor(PreFinalcost + (PreFinalcost * CostScale)) .. "\nYou can only have ".. SettingData.Maxhives .. " at a time\nFort Combat power is " .. combatinfo
+	local powermessage = "Find Fort\nPower"
+	local infomessage = "This Fort cost " .. FortPower .. "\nYou can only have ".. SettingData.Maxhives .. " at a time\nFort Combat power is " .. Combatinfo
 
 	UI.CreateLabel(row1).SetText(infomessage)
-	UI.CreateButton(row1).SetText(buttonmessage).SetOnClick(PurchaseClicked).SetInteractable(true).SetFlexibleWidth(1)
+	UI.CreateButton(row2).SetText(buttonmessage).SetOnClick(PurchaseClicked).SetInteractable(true).SetFlexibleWidth(1)
+	UI.CreateButton(row2).SetText(powermessage).SetOnClick(function () Window(3,close,1)end).SetInteractable(true).SetFlexibleWidth(1)
 	
+end
+function Window(window, close, data)
+	WindowData = 0
+	if window == 1 then
+		Game.CreateDialog(CompletePurchaseClicked)
+		close()
+	elseif window == 2 then
+		Game.CreateDialog(PresentBuyUnitDialog)
+		WindowData = data
+		close()
+
+	end
 end
 
 
@@ -78,9 +95,8 @@ function PurchaseClicked(type)
 		UI.Alert("You already have the Max amount of Forts")
 		return
 	end
+	Window(2,Close1,0)
 
-	Game.CreateDialog(PresentBuyUnitDialog); 
-	Close1();
 end
 
 
@@ -92,7 +108,7 @@ function PresentBuyUnitDialog(rootParent, setMaxSize, setScrollable, game, close
 	SelectTerritoryBtn = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
 	TargetTerritoryInstructionLabel = UI.CreateLabel(vert).SetText("");
 
-	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Purchase").SetOnClick(CompletePurchaseClicked);
+	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Action").SetOnClick(function () Window(3,close,0)end)
 
 	SelectTerritoryClicked(); --just start us immediately in selection mode, no reason to require them to click the button
 end
@@ -125,6 +141,48 @@ function TerritoryClicked(terrDetails)
 		end
 	end
 end
+-- Second window for viewing fort power
+function PresentPowerDialog(rootParent, setMaxSize, setScrollable, game, close)
+	Close2 = close;
+
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1); --set flexible width so things don't jump around while we change InstructionLabel
+
+	SelectTerritoryBtnpower = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
+	TargetTerritoryInstructionpower = UI.CreateLabel(vert).SetText("");
+
+
+	SelectTerritoryPower(); --just start us immediately in selection mode, no reason to require them to click the button
+end
+
+function SelectTerritoryPower() -- Needs type
+	UI.InterceptNextTerritoryClick(TerritoryPower);
+	TargetTerritoryInstructionpower.SetText("Please click on the territory you wish to view your Forts power")
+	SelectTerritoryBtnpower.SetInteractable(false);
+end
+
+function TerritoryPower(terrDetails)
+	SelectTerritoryBtnpower.SetInteractable(true)
+	local amount = Buildnumber(Game.LatestStanding.Territories[terrDetails.ID].Structures)
+	if amount <= 0  then UI.Alert("No Fort Found ") return end
+
+	local Poweramount = Combatinfo
+	if  Mod.Settings.Need == -1 then
+		Poweramount = Game.LatestStanding.Territories.NumArmies.DefensePower * 2
+	end
+	if (terrDetails == nil) then
+		--The click request was cancelled.   Return to our default state.
+		TargetTerritoryInstructionpower.SetText("");
+		SelectTerritoryBtnpower = nil;
+		BuyUnitBtn.SetInteractable(false);
+	else
+		--Territory was clicked, check it
+
+			TargetTerritoryInstructionpower.SetText("Fort Power is: " .. Poweramount)
+			SelectTerritoryBtnpower = terrDetails
+		
+	end
+end
+
 
 function CompletePurchaseClicked()
 
