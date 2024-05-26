@@ -348,13 +348,14 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
           addedZombies = table.addedZombies
           powerNow = table.powerNow
         end
-        if powerNow <= 0 then return addedZombies end
+        if powerNow <= 0 then
+          print (addedZombies, "added zombies")
+          return addedZombies end
       end
-      if i == 1 then
-        local table = Quicklogic(powerNow,addedZombies,Armies)
-        addedZombies = table.addedZombies
-        powerNow = table.powerNow
-      end
+    if i == 1 then
+      local table = Quicklogic(powerNow,addedZombies,Armies)
+      powerNow = table.powerNow
+    end
   end
   return addedZombies
 end
