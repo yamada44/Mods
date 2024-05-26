@@ -207,7 +207,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     end
 end
   if(order.proxyType == "GameOrderPlayCardBlockade" or order.proxyType == "GameOrderPlayCardAbandon")then
-    if Game2.ServerGame.LatestTurnStanding.Territories[order.TargetTerritoryID].NumArmies == 0 then  skipThisOrder(WL.ModOrderControl.Skip) end
+    if Game2.ServerGame.LatestTurnStanding.Territories[order.TargetTerritoryID].NumArmies.NumArmies == 0 then  skipThisOrder(WL.ModOrderControl.Skip) end
   end
 
 
