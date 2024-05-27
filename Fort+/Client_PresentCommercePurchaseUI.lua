@@ -48,23 +48,24 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	FortPower = math.floor(PreFinalcost + (PreFinalcost * CostScale))
 	local buttonmessage = "Build a Fort"
 	local powermessage = "Find Fort\nPower"
-	local infomessage = "This Fort cost " .. FortPower .. "\nYou can only have ".. SettingData.Maxhives .. " at a time\nFort Combat power is " .. Combatinfo
+	local infomessage = "- This Fort cost " .. FortPower .. "\n- You can only have ".. SettingData.Maxhives .. " at a time\n- Fort Combat power is " .. Combatinfo
 
-	UI.CreateLabel(row1).SetText(infomessage)
+	UI.CreateLabel(row1).SetText(infomessage).SetColor("#00B5FF")
 	UI.CreateButton(row2).SetText(buttonmessage).SetOnClick(PurchaseClicked).SetInteractable(true).SetFlexibleWidth(1)
-	UI.CreateButton(row2).SetText(powermessage).SetOnClick(function () Window(3,close,1)end).SetInteractable(true).SetFlexibleWidth(1)
+	UI.CreateButton(row2).SetText(powermessage).SetOnClick(function () Window(3,close,1)end).SetInteractable(true).SetFlexibleWidth(1).SetColor("#FFE5B4")
 	
 end
 function Window(window, close, data)
 	WindowData = 0
-	if window == 1 then
-		Game.CreateDialog(CompletePurchaseClicked)
-		close()
-	elseif window == 2 then
-		Game.CreateDialog(PresentBuyUnitDialog)
-		WindowData = data
-		close()
 
+	if window == 2 then
+		Game.CreateDialog(PresentBuyUnitDialog)
+
+		close()
+	elseif window == 3 then
+		Game.CreateDialog(PresentPowerDialog)
+
+		close()
 	end
 end
 
@@ -108,7 +109,7 @@ function PresentBuyUnitDialog(rootParent, setMaxSize, setScrollable, game, close
 	SelectTerritoryBtn = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
 	TargetTerritoryInstructionLabel = UI.CreateLabel(vert).SetText("");
 
-	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Action").SetOnClick(function () Window(3,close,0)end)
+	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Action").SetOnClick(CompletePurchaseClicked)
 
 	SelectTerritoryClicked(); --just start us immediately in selection mode, no reason to require them to click the button
 end
@@ -147,11 +148,11 @@ function PresentPowerDialog(rootParent, setMaxSize, setScrollable, game, close)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1); --set flexible width so things don't jump around while we change InstructionLabel
 
-	SelectTerritoryBtnpower = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
-	TargetTerritoryInstructionpower = UI.CreateLabel(vert).SetText("");
+	SelectTerritoryBtnpower = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryPower)
+	TargetTerritoryInstructionpower = UI.CreateLabel(vert).SetText("")
+	UI.CreateLabel(vert).SetText("What is Power").SetColor("#FF00ED") 
+	UI.CreateLabel(vert).SetText("Power is how strong a Fort is in terms of Armies. your games Defensive combat modifiers are applied like any other combat\nWorks almost like a Special unit except it can't move and it always defends")
 
-
-	SelectTerritoryPower(); --just start us immediately in selection mode, no reason to require them to click the button
 end
 
 function SelectTerritoryPower() -- Needs type
@@ -177,7 +178,7 @@ function TerritoryPower(terrDetails)
 	else
 		--Territory was clicked, check it
 
-			TargetTerritoryInstructionpower.SetText("Fort Power is: " .. Poweramount)
+			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount)
 			SelectTerritoryBtnpower = terrDetails
 		
 	end
