@@ -87,7 +87,7 @@ local percent = payload.percent
 	short.aftertax = setgold
 	short.targetplayer = id
 	short.cont = contu -- what kind of plan needed for the action
-	short.Turntill = setturn 
+	short.Turntill = setturn - 1
 	short.reveal = payload.reveal
 	short.hidden = payload.hidden
 	short.percent = percent
@@ -160,10 +160,13 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 	end
 	
 	-- Adding continued/Set turns logic
-	if newPlan > 0 then 
+	if newPlan > 0 then -- Adding continued/Set turns logic
 		local standing = game.ServerGame.LatestTurnStanding
 		local player = game.Game.PlayingPlayers[ourid]
-		local income = player.Income(0, standing, false, false) 
+		local income = {Total = 0}
+		if player ~= nil then
+			income = nil
+			income = player.Income(0, standing, false, false) end
 		print(#publicdate.PayP.Plan,"plans")
 		local tempgold = 0 
 		if newPlan == 2 then tempgold = setgold end
@@ -269,26 +272,26 @@ function Paymentprocess(game,playerID,payload,setReturnTable,publicdate)
 	
 	
 	--packaging everything up and sending it over to Server_AdvanceTurn_Order
-		publicdate.orderamount = publicdate.orderamount + 1 
-		if (publicdate.orderAlt[publicdate.orderamount] == nil)then publicdate.orderAlt[publicdate.orderamount] = {}end
-	
-		publicdate.orderAlt[publicdate.orderamount].realgold = actualGoldSent
-		publicdate.orderAlt[publicdate.orderamount].targetPlayer = id
-		publicdate.orderAlt[publicdate.orderamount].us = payload.ourID
-		publicdate.orderAlt[publicdate.orderamount].reveal = payload.reveal
-	
-		publicdate.HiddenOrders = payload.hidden
-	
-		local targetPlayer = game.Game.Players[payload.TargetPlayerID];
-		local targetPlayerHasGold = game.ServerGame.LatestTurnStanding.NumResources(targetPlayer.ID, WL.ResourceType.Gold)
-		
-		Addhistory(id,publicdate,actualGoldSent,playerID,payload.reveal)
-		Mod.PublicGameData = publicdate -- end of packaging
+	publicdate.orderamount = publicdate.orderamount + 1 
+	if (publicdate.orderAlt[publicdate.orderamount] == nil)then publicdate.orderAlt[publicdate.orderamount] = {}end
 
-		--Subtract goldSending from ourselves, add goldSending to target
-		game.ServerGame.SetPlayerResource(ourid, WL.ResourceType.Gold, goldHave - goldSending)
-		game.ServerGame.SetPlayerResource(targetPlayer.ID, WL.ResourceType.Gold, targetPlayerHasGold + actualGoldSent)
-		setReturnTable({ Message = "Sent " .. targetPlayer.DisplayName(nil, false) .. ': ' .. actualGoldSent .. ' gold.\nYou now have: ' .. (goldHave - goldSending) .. '.', realGold = actualGoldSent  })
+	publicdate.orderAlt[publicdate.orderamount].realgold = actualGoldSent
+	publicdate.orderAlt[publicdate.orderamount].targetPlayer = id
+	publicdate.orderAlt[publicdate.orderamount].us = payload.ourID
+	publicdate.orderAlt[publicdate.orderamount].reveal = payload.reveal
+
+	publicdate.HiddenOrders = payload.hidden
+
+	local targetPlayer = game.Game.Players[payload.TargetPlayerID];
+	local targetPlayerHasGold = game.ServerGame.LatestTurnStanding.NumResources(targetPlayer.ID, WL.ResourceType.Gold)
+	
+	Addhistory(id,publicdate,actualGoldSent,playerID,payload.reveal)
+	Mod.PublicGameData = publicdate -- end of packaging
+
+	--Subtract goldSending from ourselves, add goldSending to target
+	game.ServerGame.SetPlayerResource(ourid, WL.ResourceType.Gold, goldHave - goldSending)
+	game.ServerGame.SetPlayerResource(targetPlayer.ID, WL.ResourceType.Gold, targetPlayerHasGold + actualGoldSent)
+	setReturnTable({ Message = "Sent " .. targetPlayer.DisplayName(nil, false) .. ': ' .. actualGoldSent .. ' gold.\nYou now have: ' .. (goldHave - goldSending) .. '.', realGold = actualGoldSent  })
 
 end
 

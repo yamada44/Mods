@@ -5,7 +5,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, 'FortX')) then  --look for the order that we inserted in Client_PresentMenuUI
 		--Extract territory ID from the payload
 		local terrID = tonumber(string.sub(order.Payload, 8))
-print(terrID,order.Payload)
 		--Build the fort. We could add it with addNewOrder right here, but that would result in forts being built mid-turn, but we want them built at the end of the turn.  So instead add them to a list here, and we'll call addNewOrder for each in Server_AdvanceTurn_End
 		local pendingFort = {}
 		pendingFort.PlayerID = order.PlayerID
@@ -37,7 +36,6 @@ print(terrID,order.Payload)
 
 --Forts have troops built into them
 		if Mod.Settings.Need > 0 or Mod.Settings.Need == -1 then
-			print(result.ActualArmies.AttackPower)
 
 			--Forst double the amount of troops built into them
 			local turnscale = 0
@@ -46,7 +44,6 @@ print(terrID,order.Payload)
 			end
 			local defendland = game.ServerGame.LatestTurnStanding.Territories[order.To]
 			local NeededPower = Mod.Settings.Need + (turnscale * Mod.Settings.Scale)
-			print(NeededPower,"need")
 			if Mod.Settings.Need == -1 then NeededPower = defendland.NumArmies.DefensePower end
 			
 			--Regular calculations
@@ -78,7 +75,6 @@ print(terrID,order.Payload)
 				end
 
 				structures[WL.StructureType.MercenaryCamp] = structures[WL.StructureType.MercenaryCamp] - removedbuilds
-				print(removedbuilds,removedtroops,"firsttest",leftover,SUremoved.totalpower)
 				result.ActualArmies = WL.Armies.Create(leftover,SUremoved.add)
 
 

@@ -133,14 +133,14 @@ function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 
-	-- creating rows
+ -- creating rows
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 
 	UI.CreateLabel(row1).SetText("Gift gold to this player: ") -- selecting player
-	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select player...").SetOnClick(TargetEntitiesClicked)
+	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select player...").SetOnClick(TargetPlayerClicked)
 
 	UI.CreateLabel(row2).SetText('Amount of gold to give away: ') -- selecting gold amount
     GoldInput = UI.CreateNumberInputField(row2)
@@ -148,8 +148,8 @@ function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
 		.SetSliderMaxValue(GoldHave)
 		.SetValue(1)
 
-	-- enacting the gift gold logic	
-	Giftbtn = UI.CreateButton(vert).SetText("Gift").SetOnClick(function () SubmitClicked(close,0,0,0)end).SetInteractable(playerpicked).SetColor('#0021FF')
+-- enacting the gift gold logic	
+	Giftbtn = UI.CreateButton(vert).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(playerpicked).SetColor('#0021FF')
 
 	--Tax logic
 
@@ -175,7 +175,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 
 	UI.CreateLabel(row1).SetText("Gift gold to this player: ") -- selecting player
-	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select player...").SetOnClick(TargetEntitiesClicked)
+	TargetPlayerBtn = UI.CreateButton(row1).SetText("Select player...").SetOnClick(TargetPlayerClicked)
 
 	UI.CreateLabel(row2).SetText("The amount of gold to send per turn")
     GoldSetbtn = UI.CreateNumberInputField(row2)
@@ -191,7 +191,7 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 
 		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).SetOnValueChanged(Numberson)
 		Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true).SetInteractable(false)
-		AdvanceBtn = UI.CreateButton(row4).SetText("Gift").SetOnClick(function () SubmitClicked(close,0,0,0)end).SetInteractable(false).SetColor('#0021FF')
+		AdvanceBtn = UI.CreateButton(row4).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(false).SetColor('#0021FF')
 
 		UI.CreateLabel(vert).SetText("You cannot cancel this payment early if the 'Locked' button is selected").SetColor('#E5FF00')
 
@@ -221,7 +221,7 @@ function Plans(rootParent, setMaxSize, setScrollable, game, close)
 			elseif sortedPlans[i].cont == 1 then -- only continues
 				local mind = true
 				if sortedPlans[i].ID ~= Game.Us.ID then mind = false end
-				UI.CreateButton(rowT).SetText("Cancel Plan").SetColor('#1274A4').SetOnClick(function () SubmitClicked(close,i,0,0)end).SetInteractable(mind)
+				UI.CreateButton(rowT).SetText("Cancel Plan").SetColor('#1274A4').SetOnClick(function () SubmitClicked(close,i)end).SetInteractable(mind)
 			end
 		end
 	else 
@@ -288,7 +288,7 @@ function OptionBfunc(vert)
 
 
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	TargetPlayerBtn = UI.CreateButton(row1).SetText("from player...").SetOnClick(TargetEntitiesClicked)
+	TargetPlayerBtn = UI.CreateButton(row1).SetText("from player...").SetOnClick(TargetPlayerClicked)
 	Searchbtn = UI.CreateButton(row1).SetText("search").SetOnClick(function()Byplayer(vert)end).SetInteractable(false)
 	table.insert(Destroygroup,TargetPlayerBtn)
 	table.insert(Destroygroup,row1)
@@ -390,7 +390,7 @@ close()
 		UI.Alert(returnValue.Message)
 
 		if (returnValue.realGold ~= nil)then
-		local msg = '(Local info) \n' .. returnValue.realGold  .. ' Gold sent from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Entities[TargetPlayerID].Name
+		local msg = '(Local info) \n' .. returnValue.realGold  .. ' Gold sent from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
 		local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID
 		
 

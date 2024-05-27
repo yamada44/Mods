@@ -60,7 +60,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		publicgamedata.orderaccess = false
 		publicgamedata.orderAlt = {}
 		publicgamedata.orderamount = 0
-		publicgamedata.PayP.accessed = false
+		if publicgamedata.PayP ~= nil then
+		publicgamedata.PayP.accessed = false end
 
 		Mod.PublicGameData = publicgamedata
 	end
