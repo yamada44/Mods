@@ -101,7 +101,7 @@ function Client_PresentConfigureUI(rootParent)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row0 = UI.CreateHorizontalLayoutGroup(vert); -- Slot
-	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Only these slot's in game will have these effects applied to it\n use '/' to define a new slot without spaces or numbers\nleave blank to affect no slots and just use auto placer") end)
+	UI.CreateButton(row0).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Only these slot's in game will have these effects applied to it\n use '/' to define a new slot without spaces or numbers\n Set to 0 to apply to all slots\nleave blank to affect no slots and just use auto placer") end)
 	UI.CreateLabel(row0).SetText('Which Slot`s is the Zombies/bandits/ect.')
     Slotfield = UI.CreateTextInputField(vert)
 	.SetPlaceholderText("Slots").SetText(slot)
@@ -205,7 +205,7 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateLabel(row10).SetText('Can this Slot build cities')
 	Nocities = UI.CreateCheckBox(row10).SetText("").SetIsChecked(city9)
 
-	local row11 = UI.CreateHorizontalLayoutGroup(vert) -- cannot build cities if true
+	local row11 = UI.CreateHorizontalLayoutGroup(vert) -- Aggressive AI
 	UI.CreateButton(row11).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("This setting makes the AI more Aggressive when on local deployment and its ability to use income is turned off\nThis is archived by giving the Zombie AI 1000 income. if the AI cannot deploy troops or build cities it will think it has troops, making him attack more often. This affect happens naturally when not in local deployment\nThis Setting can be used when not in local deployment for mixed results\nWill not work unless these slots cannot build cities or armies") end)
 	UI.CreateLabel(row11).SetText('Aggressive AI on Local deployment (Read ? button)')
 	Aggfield = UI.CreateCheckBox(row11).SetText("").SetIsChecked(agg)

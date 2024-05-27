@@ -112,6 +112,8 @@ print("what")
 		Entity[Index].ID = i
 		Entity[Index].Status = "P"
 		Entity[Index].Gold = v.Income(0, game.LatestStanding, false, false) 
+		Entity[Index].lowEstimate = 0
+		Entity[Index].highEstimate = 0
 
 		Index = Index + 1
 	end

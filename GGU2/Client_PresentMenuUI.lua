@@ -69,9 +69,11 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	--Create the entity then preform a single payment
 	setMaxSize(450, 320)
 	local player = game.Game.PlayingPlayers[game.Us.ID]
-	local income = player.Income(0, game.LatestStanding, false, false) 
+	Accountincome = player.Income(0, game.LatestStanding, false, false) 
 	Memberlist = {}
 	Ownerlist = {}
+	Ownerhold = ""
+	Memberhold = ""
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
@@ -93,7 +95,7 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	UI.CreateLabel(row2).SetText('Inial Deposit ')
 	Deposit = UI.CreateNumberInputField(row2)
 	.SetSliderMinValue(1)
-	.SetSliderMaxValue(income.Total)
+	.SetSliderMaxValue(Accountincome.Total)
 	.SetValue(1)
 
 	--Add Owners
@@ -118,7 +120,7 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 		membernames = UI.CreateLabel(row8).SetText(membernames.GetText() .. " \n" .. game.Game.Players[v].DisplayName(nil, false) )
 		end ]]--
 
-		Subbtn = UI.CreateButton(vert).SetText("Create Account").SetOnClick(function () SubmitClicked(close,0,Ownerlist,Memberlist)end).SetInteractable(true).SetColor('#0021FF')
+		Subbtn = UI.CreateButton(vert).SetText("Create Account").SetOnClick(function () SubmitClicked(close,0,1,Memberlist)end).SetInteractable(true).SetColor('#0021FF')
 
 end
 -- UI for The current accounts your currently in
@@ -344,6 +346,7 @@ close()
 	local setturns = 0
 	local setgold = 0
 	local setup = 0
+	local addedturns = 0
 	local con = false
 	local rev = false
 	if Reveal ~= nil then rev = Reveal.GetIsChecked() end
@@ -361,10 +364,14 @@ close()
 		setgold = GoldSetbtn.GetValue()
 		setup = 2
 	end
+	if data == 1 then -- Do Account logic
+		if Deposit.GetValue() > Accountincome.Total then Ui.Alert("You cannot Deposit more money than you have") end
+
+	end
 	if plan > 0 then setup = 5 end 
 
 	
-	local payload = {};
+	local payload = {}
 	payload.TargetPlayerID = TargetPlayerID
 	payload.Gold = gold;
 	payload.multiplier = tempGoldtax
@@ -381,6 +388,7 @@ close()
 	payload.owners = Ownerlist
 	payload.members = Memberlist
 	payload.Accountname = ""
+	payload.Turnstart = Game.Game.TurnNumber + addedturns
 
 	----------------------- new shit
 
@@ -418,9 +426,20 @@ end
 --promptlist functionally for player only 
 function TargetPlayerClicked(acton)
 	Action = acton
-	local playergroup = filter(Entities, function (p) return (p.ID ~= Game.Us.ID) or (p.ID >= 1) end)
-	local players = playergroup
-	local options = map(players, PlayerButton)
+	local playergroup = Entities
+	playergroup = filter(playergroup, function (p) return (p.ID ~= Game.Us.ID) end) -- Remove self
+	playergroup = filter(playergroup, function (p) return (p.Status ~= "A") end) -- Remove all non player Entities
+
+	-- filtering out ownerlist from Entity pool
+	for i,v in pairs(Ownerlist) do 
+		playergroup = filter(playergroup, function (p) return (p.ID ~= v) end)
+	end	
+	-- filtering out memberlist from Entity pool
+	for i,v in pairs(Memberlist) do
+		playergroup = filter(playergroup, function (p) return (p.ID ~= v) end)
+	end
+
+	local options = map(playergroup, PlayerButton)
 	UI.PromptFromList("Select the player you would like to add to you'd like to send money to", options)
 end
 function PlayerButton(entity)
@@ -428,19 +447,26 @@ function PlayerButton(entity)
 	local ret = {};
 	ret["text"] = name;
 	ret["selected"] = function() 
-		TargetPlayerBtn.SetText(name)
 		TargetPlayerID = entity.ID
-		if Giftbtn ~= nil then
-			Giftbtn.SetInteractable(true) end
-		if Searchbtn ~= nil then Searchbtn.SetInteractable(true) end
-		if AdvanceBtn ~= nil then AdvanceBtn.SetInteractable(true) end
+		if TargetPlayerBtn ~= nil then -- Non account logic
+			TargetPlayerBtn.SetText(name)
+
+			if Giftbtn ~= nil then
+				Giftbtn.SetInteractable(true) end
+			if Searchbtn ~= nil then Searchbtn.SetInteractable(true) end
+			if AdvanceBtn ~= nil then AdvanceBtn.SetInteractable(true) end 
+		end
 		--Create Account logic
-		if Action == 0 then table.insert(Ownerlist,TargetPlayerID)
-			Ownernames.SetText(Ownernames.GetText() .. " \n" ..Game.Game.Players[TargetPlayerID].DisplayName(nil, false))
-			TargetOwnerBtn.SetText(name)
-		elseif Action == 1 then table.insert(Memberlist,TargetPlayerID) 
-			membernames.SetText(membernames.GetText() .. " \n" ..Game.Game.Players[TargetPlayerID].DisplayName(nil, false))
-			TargetMemberBtn.SetText(name) end
+		if Action == 0 then -- owner
+			table.insert(Ownerlist,TargetPlayerID) 
+			Ownerhold = Ownerhold .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false) .. "\n"
+			Ownernames.SetText(Ownerhold)
+			TargetOwnerBtn.SetText("Total Owners " .. #Ownerlist)
+		elseif Action == 1 then -- members
+			table.insert(Memberlist,TargetPlayerID)
+			Memberhold = Memberhold .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false) .. "\n"
+			membernames.SetText(Memberhold)
+			TargetMemberBtn.SetText("Total Members " .. #Memberlist) end
 
 	end
 	return ret

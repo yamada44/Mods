@@ -309,7 +309,7 @@ function Slotchecker(playerid)
   local issame = false
 
 	for i = 1, #Mod.Settings.Slot do
-		if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
+		if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot or Mod.Settings.Slot[i] == -1 then 
 			return true
 		end end
 
