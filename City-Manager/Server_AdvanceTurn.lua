@@ -36,8 +36,8 @@ if cityGroups == nil then cityGroups = {} end
                     local UnitdiedMessage = ''
                     addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID , 'Illegal city placed. Removing\nOnly 1 city stack per bonus\nplace your city in '.. game.Map.Territories[cityGroups[bonus.ID].citylocation].Name , {}, {mod}))
                 elseif cityGroups[bonus.ID].Hascity == false and Cities[WL.StructureType.City] ~= nil and Cities[WL.StructureType.City] > 0 then
-                    local Control = WholeControl (bonus,t.OwnerPlayerID)
-                    
+                    local Control = WholeControl(bonus,t.OwnerPlayerID)
+                    print(t.OwnerPlayerID,"owner")
                     --Checking to see if the player controls the whole bonus if their placing their first city
                     if Control then
                         cityGroups[bonus.ID].Hascity = true
@@ -84,7 +84,7 @@ end
 function WholeControl(bonus,ID)
 
     for _, t in pairs(bonus.Territories) do
-
+        print(t.OwnerPlayerID ,"inside func", ID)
         if t.OwnerPlayerID ~= ID then
             if t.OwnerPlayerID ~= 0 then
                 return false
