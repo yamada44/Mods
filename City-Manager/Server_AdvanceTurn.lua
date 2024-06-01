@@ -3,6 +3,7 @@ require('Utilities')
 
 function Server_AdvanceTurn_End(game, addNewOrder)
     local publicdata = Mod.PublicGameData
+    Game = game
 local cityGroups = publicdata.cityGroups
 
 if cityGroups == nil then cityGroups = {} end
@@ -26,9 +27,6 @@ if cityGroups == nil then cityGroups = {} end
                 local Cities = terr.Structures
                 if (Cities == nil) then Cities = {}; end;
 
-                if(terr.Structures ~= nil)then
-                print (terr.Structures[WL.StructureType.City])
-                end
                 
                 if cityGroups[bonus.ID].Hascity == true and cityGroups[bonus.ID].citylocation ~= t and Cities[WL.StructureType.City] ~= nil and Cities[WL.StructureType.City] > 0 then
                     Cities[WL.StructureType.City] = 0
@@ -38,8 +36,23 @@ if cityGroups == nil then cityGroups = {} end
                     local UnitdiedMessage = ''
                     addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID , 'Illegal city placed. Removing\nOnly 1 city stack per bonus\nplace your city in '.. game.Map.Territories[cityGroups[bonus.ID].citylocation].Name , {}, {mod}))
                 elseif cityGroups[bonus.ID].Hascity == false and Cities[WL.StructureType.City] ~= nil and Cities[WL.StructureType.City] > 0 then
-                    cityGroups[bonus.ID].Hascity = true
-                    cityGroups[bonus.ID].citylocation = t
+                    local Control = WholeControl (bonus,t.OwnerPlayerID)
+                    
+                    --Checking to see if the player controls the whole bonus if their placing their first city
+                    if Control then
+                        cityGroups[bonus.ID].Hascity = true
+                        cityGroups[bonus.ID].citylocation = t
+                    else 
+                        Cities[WL.StructureType.City] = 0
+
+                        local mod = WL.TerritoryModification.Create(t)
+                        mod.SetStructuresOpt = Cities
+                        local UnitdiedMessage = ''
+                        addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID , 'Illegal city placed. Removing\nYou must control the entire bonus(except neutrals around 1000 armies) to place the first city in a bonus' , {}, {mod}))
+                   
+                    end
+
+
 
                 end
 
@@ -68,3 +81,18 @@ local holdskipvalue = 0
 return dontskip
 end
 
+function WholeControl(bonus,ID)
+
+    for _, t in pairs(bonus.Territories) do
+
+        if t.OwnerPlayerID ~= ID then
+            if t.OwnerPlayerID ~= 0 then
+                return false
+            elseif t.NumArmies.NumArmies < 900 and t.NumArmies.NumArmies > 1000 then
+                return false
+            end
+ 
+        end
+    end
+    return true
+end

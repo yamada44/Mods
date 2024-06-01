@@ -37,7 +37,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	if(Temppercent == nil)then Temppercent = 0 end
 	playerpicked = false
 	GoldHave = game.LatestStanding.NumResources(game.Us.ID, WL.ResourceType.Gold)
-	Entities = Entitygroup(game.Game.PlayingPlayers,game)
+	Entities = EntitiesClient(game.Game.PlayingPlayers,game)
 	
 
 -- updated features here
@@ -88,12 +88,12 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 
 
 	-- Name of account
-	UI.CreateLabel(vert).SetText("Name your account ")
+	AccountName = UI.CreateLabel(vert).SetText("Name your account ")
 	Acountname = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of account               ").SetFlexibleWidth(1).SetCharacterLimit(25)
 	
 	--Inial Deposit
 	UI.CreateLabel(row2).SetText('Inial Deposit ')
-	Deposit = UI.CreateNumberInputField(row2)
+	GoldInput = UI.CreateNumberInputField(row2)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(Accountincome.Total)
 	.SetValue(1)
@@ -349,6 +349,9 @@ close()
 	local addedturns = 0
 	local con = false
 	local rev = false
+	local owner = {}
+	local member = {}
+	local Aname = ""
 	if Reveal ~= nil then rev = Reveal.GetIsChecked() end
 	if Cont ~= nil then con = Cont.GetIsChecked() end
 	if (gold <= 0 and GoldInput ~= nil) then
@@ -364,9 +367,19 @@ close()
 		setgold = GoldSetbtn.GetValue()
 		setup = 2
 	end
-	if data == 1 then -- Do Account logic
-		if Deposit.GetValue() > Accountincome.Total then Ui.Alert("You cannot Deposit more money than you have") end
-
+	if data == 1 then -- create account logic
+		if GoldInput.GetValue() > Accountincome.Total then Ui.Alert("You cannot Deposit more money than you have in your account")  return end
+		if string.len(AccountName.GetText()) <= 0 then UI.Alert("Must give your account a name") 
+			return
+		end
+		setup = 10
+		tempGoldtax = 0
+		rev = true
+		Temppercent = 0
+		addedturns = 1
+		member = Memberlist
+		owner = Ownerlist
+		Aname = AccountName.GetText()
 	end
 	if plan > 0 then setup = 5 end 
 
@@ -385,9 +398,9 @@ close()
 	payload.Cont = con
 	payload.setup = setup
 	payload.planid = plan
-	payload.owners = Ownerlist
-	payload.members = Memberlist
-	payload.Accountname = ""
+	payload.owners = owner
+	payload.members = member
+	payload.Accountname = Aname
 	payload.Turnstart = Game.Game.TurnNumber + addedturns
 
 	----------------------- new shit
@@ -398,7 +411,12 @@ close()
 		UI.Alert(returnValue.Message)
 
 		if (returnValue.realGold ~= nil)then
-		local msg = '(Local info) \n' .. returnValue.realGold  .. ' Gold sent from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Game.Game.Players[TargetPlayerID].DisplayName(nil, false);
+		local msg = "" 
+		if setup == 10 then
+			msg =  "you created a new account called " .. Aname .. " with a deposite of " .. gold .. " gold"
+		else
+			msg = '(Local info) \n' .. returnValue.realGold  .. ' Gold sent from ' .. Game.Us.DisplayName(nil,false) .. ' to ' .. Entities[TargetPlayerID].name
+		end
 		local payload = 'GiftGold2' .. gold .. ',' .. returnValue.realGold  .. ',' .. TargetPlayerID
 		
 

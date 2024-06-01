@@ -101,21 +101,18 @@ function SortTable(tableinput,field)
 
 	return newtable
 end
-function Entitygroup(Players,game)
+function EntitiesClient(Players,game)
 	local Entity = {}
-	local Index = 1
 print("what")
 	for i,v in pairs(Players)do
-		Entity[Index] = {}
-		print(game.Game.Players[i].DisplayName(nil, false))
-		Entity[Index].Name = game.Game.Players[i].DisplayName(nil, false)
-		Entity[Index].ID = i
-		Entity[Index].Status = "P"
-		Entity[Index].Gold = v.Income(0, game.LatestStanding, false, false) 
-		Entity[Index].lowEstimate = 0
-		Entity[Index].highEstimate = 0
+		Entity[i] = {}
+		Entity[i].Name = game.Game.Players[i].DisplayName(nil, false)
+		Entity[i].ID = i
+		Entity[i].Status = "P"
+		Entity[i].Gold = v.Income(0, game.LatestStanding, false, false) 
+		Entity[i].lowEstimate = 0
+		Entity[i].highEstimate = 0
 
-		Index = Index + 1
 	end
 
 	return Entity
