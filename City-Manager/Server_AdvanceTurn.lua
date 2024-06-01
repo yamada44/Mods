@@ -84,11 +84,13 @@ end
 function WholeControl(bonus,ID)
 
     for _, t in pairs(bonus.Territories) do
-        print(t.OwnerPlayerID ,"inside func", ID)
-        if t.OwnerPlayerID ~= ID then
-            if t.OwnerPlayerID ~= 0 then
+        local terr = Game.ServerGame.LatestTurnStanding.Territories[t]
+
+
+        if terr.OwnerPlayerID ~= ID then
+            if terr.OwnerPlayerID ~= 0 then
                 return false
-            elseif t.NumArmies.NumArmies < 900 and t.NumArmies.NumArmies > 1000 then
+            elseif terr.NumArmies.NumArmies < 900 and terr.NumArmies.NumArmies > 1000 then
                 return false
             end
  
