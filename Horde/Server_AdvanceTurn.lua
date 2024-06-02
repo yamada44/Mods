@@ -18,7 +18,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
 
   local publicdata = Mod.PublicGameData
-  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2" then
+  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2---" then
 
   --local playergroup = {}
   local goldhave
