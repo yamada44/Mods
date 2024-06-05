@@ -79,7 +79,6 @@ function ID_decider(Tid,v,ts,first)
     elseif  v.C_TerrainTypeID > 0 then -- Manual ID input (changes to neutral if ID was not found)
 
         local PlayerID = Findmatch(Game.Game.PlayingPlayers,v.C_TerrainTypeID - 1,"Slot")
-        print(PlayerID,"playerID",Game.Game.PlayingPlayers[PlayerID].ID)
         Pub.Terrain[Tid].OwnerID = Game.Game.PlayingPlayers[PlayerID].ID
     end
     return first
@@ -94,7 +93,6 @@ function FirstTerrainPass(game,standing)
         local v = Pub.Type[v2.Type]
         local ts = standing.Territories[i]
 
-        print(v,"vv",Pub.Type,v2.Type,v2.OwnerID)
         if v ~= nil and (v.turnstart == -1 or v.turnstart == 0) then
 
             local mod = WL.TerritoryModification.Create(i)
@@ -110,7 +108,6 @@ function FirstTerrainPass(game,standing)
                 end
 
                 --army change
-                print("test 1")
                 if v.armyValueChange ~= -1 and v.armyValueChange ~= ts.NumArmies.NumArmies then
                     ts.NumArmies = WL.Armies.Create(v.armyValueChange,nil)
                 end
@@ -140,9 +137,7 @@ function ModDataSetup(rawdata)
         for i,v in pairs(value)do
             if i == 1 then
                 FormatedData[index].mod = v
-                print(i,v,"index")
             else
-                print(i,v,"index")  
                 FormatedData[index].type = v
          
             end

@@ -13,9 +13,10 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 
 	setMaxSize(300, 250);
-	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
-		UI.CreateLabel(vert).SetText("You cannot Vote since you're not in the game")
-		return;
+
+	if Pub.Terrain[1].Type == nil then
+		UI.CreateLabel(vert).SetText("You cannot use this menu with the old format. This game launched using terrain types 1")
+		return
 	end
 
 print(#AddStringToUI(row1,"<#4EC4FF>Get Tile Info</>",nil).List)
