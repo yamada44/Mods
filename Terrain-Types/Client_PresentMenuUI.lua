@@ -14,7 +14,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	setMaxSize(300, 250);
 
-	if Pub.Terrain[#Pub.Terrain].Type == nil then
+	if Pub.Terrain == nil then
 		UI.CreateLabel(vert).SetText("You cannot use this menu with the old format. This game launched using terrain types 1")
 		return
 	end
