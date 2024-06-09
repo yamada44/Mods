@@ -31,7 +31,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
             local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to assassinate agent " .. publicdata[killagentPlayerID].Agency.Agentlist[KillagentID].codename .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
             addNewOrder(WL.GameOrderEvent.Create(killagentPlayerID, message));
             publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
-           
             table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
         elseif battleresults == 1 then -- nothing happened
@@ -130,9 +129,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
                 end
                 local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Eliminate " .. TempNameOverHead .. builder.Name .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
                 addNewOrder(WL.GameOrderEvent.Create(ts.OwnerPlayerID, message))
-               
-                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
     
             elseif battleresults == 1 then -- nothing happens
                 local TempNameOverHead = "a "
@@ -234,14 +232,13 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
                 local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Sabotage " .. name .. "'s' cities" .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
                 addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message));
-               
-                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
     
             elseif battleresults == 1 then -- nothing happens
 
                 local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " failed trying to Sabotage " .. name .. " cities's\nAgent got away" 
-                addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message)); 
+                addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message))
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
            
             elseif battleresults == 2 then -- mission complete
@@ -327,9 +324,8 @@ print(totalpower,"total")
 
             local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Sabotage " .. name .. "'s influence(cards)" .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
             addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message));
-        
-            table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
             publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+            table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
         elseif battleresults == 1 then -- nothing happens
 
@@ -421,9 +417,8 @@ print(totalpower,"total")
     
                 local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Sabotage " .. name .. "'s Internal influence(cards)" .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
                 addNewOrder(WL.GameOrderEvent.Create(TargetplayerID, message));
-            
-                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
                 publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+                table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
     
             elseif battleresults == 1 then -- nothing happens
     
@@ -503,9 +498,8 @@ print(totalpower,"total")
 
         local message = "Agent " .. publicdata[ID].Agency.Agentlist[AgentIndex].codename .. " died trying to Sabotage " .. name .. "'s army logistics" .. "\nAttempt From: ".. publicdata[ID].Agency.agencyname .. " Agency"
         addNewOrder(WL.GameOrderEvent.Create(terr.OwnerPlayerID, message));
-       
-        table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
         publicdata[ID].Agency.Agentlist[AgentIndex].missions = publicdata[ID].Agency.Agentlist[AgentIndex].missions + 1
+        table.remove(publicdata[ID].Agency.Agentlist,AgentIndex)
 
     elseif battleresults == 1 then -- nothing happens
 
