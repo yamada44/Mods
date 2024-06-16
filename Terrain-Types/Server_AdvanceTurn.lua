@@ -48,7 +48,16 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                 local mod = WL.TerritoryModification.Create(i)
                 --specil unit immune/remove
                 local SUdata = {}
-                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.ModFormat,v.BaseSettings)
+
+                --Hot fix logic
+                local hotfix = v.BaseSettings
+                if game.Settings.Name == "Immersive System - World At War - .10.1.5" then
+
+                if v.name == "Land" then
+                    hotfix = 4
+                end
+                end
+                SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.ModFormat,hotfix)
                 if SUdata.Immune_logic == false then
                     mod.RemoveSpecialUnitsOpt = SUdata.SU
 
