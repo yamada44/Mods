@@ -22,7 +22,7 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
   --local playergroup = {}
   local goldhave
-  local MaxGold = 19
+  local MaxGold = 21
   local added = 85
   local standing = game.ServerGame.LatestTurnStanding
   for playerID, player in pairs(game.Game.PlayingPlayers) do
