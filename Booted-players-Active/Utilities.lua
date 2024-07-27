@@ -123,7 +123,7 @@ function Nonill(value)
 else return value end
 end
 function ActionTypeNames(index)
-	local type = {"Swapped","Swap & Wasteland", "Eliminate as is","Eliminate to Wasteland","Absorb", "Armies Erased" }
+	local type = {"Swapped","Swap & Wasteland", "Eliminate as is","Eliminate to Wasteland","Absorb", "Armies Erased","Income" }
 	if index == 0 then
 		return type 
 	end

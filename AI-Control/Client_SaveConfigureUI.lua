@@ -20,6 +20,8 @@ Mod.Settings.P_diplo = PP_diplo.GetIsChecked()
 Mod.Settings.P_emergency = PP_emger.GetIsChecked() 
 --pure Reinforcement
 Mod.Settings.P_rein = PP_rein.GetIsChecked() 
+--human bomb
+Mod.Settings.P_bomb = PP_bomb.GetIsChecked() 
 
 -- Human AI
 --Attack
@@ -37,4 +39,6 @@ Mod.Settings.H_diplo = HH_diplo.GetIsChecked()
 Mod.Settings.H_emergency = HH_emger.GetIsChecked() 
 --pure Reinforcement
 Mod.Settings.H_rein = HH_rein.GetIsChecked() 
+--human bomb
+Mod.Settings.H_bomb = HH_bomb.GetIsChecked() 
 end

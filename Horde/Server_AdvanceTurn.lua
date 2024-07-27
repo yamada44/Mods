@@ -18,12 +18,12 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 
 
   local publicdata = Mod.PublicGameData
-  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2---" then
+  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2" then
 
   --local playergroup = {}
   local goldhave
-  local MaxGold = 50
-  local added = 75
+  local MaxGold = 19
+  local added = 85
   local standing = game.ServerGame.LatestTurnStanding
   for playerID, player in pairs(game.Game.PlayingPlayers) do
       if (not player.IsAIOrHumanTurnedIntoAI) then 

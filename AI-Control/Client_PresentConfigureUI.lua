@@ -37,7 +37,11 @@ function Client_PresentConfigureUI(rootParent)
 		if p_rein == nil then
 			p_rein = true
 		end
-
+	--Bomb
+	local p_bomb = Mod.Settings.P_bomb
+	if p_bomb == nil then
+		p_bomb = true
+	end
 
 
 -- Human AI --------------------------------------------
@@ -75,6 +79,11 @@ function Client_PresentConfigureUI(rootParent)
 	local h_rein = Mod.Settings.H_rein
 	if h_rein == nil then
 		h_rein = true
+	end
+	--Bomb
+	local h_bomb = Mod.Settings.H_bomb
+	if h_bomb == nil then
+		h_bomb = true
 	end
 
 
@@ -118,6 +127,10 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateLabel(row7).SetText('Can Pure AI play Reinforcement cards')
 	PP_rein = UI.CreateCheckBox(row7).SetText("").SetIsChecked(p_rein)
 
+	local row8 = UI.CreateHorizontalLayoutGroup(vert) -- Pure bomb
+	UI.CreateLabel(row8).SetText('Can Pure AI play Bomb cards')
+	PP_bomb = UI.CreateCheckBox(row8).SetText("").SetIsChecked(p_bomb)
+
 -------------- Human AI
 
 
@@ -152,5 +165,9 @@ function Client_PresentConfigureUI(rootParent)
 	local rowH7 = UI.CreateHorizontalLayoutGroup(vert) -- Human Reinforcement
 	UI.CreateLabel(rowH7).SetText('Can Human AI play Reinforcement cards')
 	HH_rein = UI.CreateCheckBox(rowH7).SetText("").SetIsChecked(h_rein)
+
+	local rowH8 = UI.CreateHorizontalLayoutGroup(vert) -- Human bomb
+	UI.CreateLabel(rowH8).SetText('Can Human AI play Bomb cards')
+	HH_bomb = UI.CreateCheckBox(rowH8).SetText("").SetIsChecked(h_bomb)
 
 end

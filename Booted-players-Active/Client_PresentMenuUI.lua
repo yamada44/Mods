@@ -108,11 +108,16 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	SwapPlayerBtn = UI.CreateButton(row3).SetText("Select New player...").SetOnClick(function ()PromptListSetup(2) end)
 
 	--TurnedBtn = UI.CreateCheckBox(row33).SetIsChecked(false).SetText("Land Affected percent") endt
-    UI.CreateLabel(row33).SetText('Percent of Land affected');
+    Textland1 = UI.CreateLabel(row33).SetText('Percent of Land affected')
     TurnedBtn = UI.CreateNumberInputField(row33)
         .SetSliderMinValue(5)
         .SetSliderMaxValue(100)
         .SetValue(100)
+	Textland2 = UI.CreateLabel(row33).SetText('Income Cut off')
+    TurnedBtn2 = UI.CreateNumberInputField(row33)
+        .SetSliderMinValue(1)
+        .SetSliderMaxValue(500)
+        .SetValue(100).SetInteractable(false)
 
 	UI.CreateButton(row4).SetText("Commit").SetOnClick(function ()Serverload(1,ActPlayerBtn.GetText(),OrigPlayerID,SwapPlayerID, close) end)
 
@@ -209,6 +214,12 @@ function ActionButton(action)
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's has all of his armies/special units removed"
+		elseif name == ActionTypeNames(7) then
+			SwapPlayerBtn.SetInteractable(false)
+			OrigPlayerBtn.SetInteractable(false)
+			Textland1.SetText("Bonus Income")
+			Textland2.SetText("Income Cut off").SetInteractable(true)
+			HelperMessage = "All players get X amount of income based on how much income they have. Good use for balance"
 		end
 	end
 	return ret;
