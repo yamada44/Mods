@@ -42,6 +42,12 @@ local i = 1
             Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
         elseif publicdata.Action[i].Actiontype == ActionTypeNames(6) then
             ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(7)  then
+            GoldBumpLogic(game, addNewOrder,publicdata.Action[i].incomebump,publicdata.Action[i].Cutoff)
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(8)  then
+            Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+        elseif publicdata.Action[i].Actiontype == ActionTypeNames(9)  then
+            Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
         end
         table.remove(publicdata.Action,i)
         i = i-1
@@ -277,7 +283,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
     end
 
 end
-function Absorblogic(game,addNewOrder,OrigID,NewID)
+function Absorblogic(game,addNewOrder,OrigID,NewID) -- Absorb logic
     --645468
     local boot = {} 
     local Switch = {} 
@@ -445,3 +451,118 @@ function ArmiesGone(game,addNewOrder,OrigID) --- Remove Armies
 
 
 end
+function GoldBumpLogic(game,addNewOrder,goldbonus, cutoff) -- Gold cutoff
+
+    local MaxGold = cutoff
+    local added = goldbonus
+    local standing = game.ServerGame.LatestTurnStanding
+    for playerID, player in pairs(game.Game.PlayingPlayers) do
+        if (not player.IsAIOrHumanTurnedIntoAI) then 
+
+            local income = player.Income(0, standing, true, true) 
+           if income.Total <= MaxGold then
+            local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for balancing')
+            addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}))
+
+            --
+           end
+        end
+    end
+
+end
+
+function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID) -- Absorb than armies erased
+    local boot = {} 
+    local Switch = {} 
+     boot.ID = OrigID 
+    Switch.ID = NewID 
+    boot.Commander = 0 
+    Switch.Commander = 0 
+    boot.bootedTerr = {} 
+    Switch.SwitchTerr = {} 
+
+
+    local ArmyStackBoot
+    local ArmystackSwitch
+    local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+    table.insert(InActionAlready,NewID)
+
+   for _,ts in pairs(Terr)do -- getting the Territories of each player
+    if ts.OwnerPlayerID == boot.ID then -- boot
+
+        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+            if v.proxyType == "Commander" then
+                boot.Commander = ts.ID
+                ArmyStackBoot = ts.NumArmies
+                SUDelete(ts,addNewOrder)
+            end
+        end
+        table.insert(boot.bootedTerr,ts.ID)
+
+    elseif ts.OwnerPlayerID == Switch.ID then -- switch
+        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+            if v.proxyType == "Commander" then
+                Switch.Commander = ts.ID
+                ArmystackSwitch = ts.NumArmies
+            end
+        end
+        table.insert(Switch.SwitchTerr,ts.ID)
+    end
+   end
+
+--- Percent logic
+   local amountTurned = Turnlogic(#boot.bootedTerr)
+
+---------------------------------
+-- Core logic
+   for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
+    local mod = WL.TerritoryModification.Create(ts)
+    mod.SetOwnerOpt  = Switch.ID
+    mod.SetArmiesTo = 0
+    addNewOrder(WL.GameOrderEvent.Create(0, "Absorbing_ArmiesGone", nil, {mod}))
+    SUDelete(Terr[ts],addNewOrder)
+   end
+
+end
+
+function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID) --- Eliminating as is
+    --645468
+    local boot = {} 
+     boot.ID = OrigID 
+    boot.Commander = 0 
+    boot.bootedTerr = {} 
+
+    local ArmyStackBoot
+    local ArmystackSwitch
+    local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+
+   for _,ts in pairs(Terr)do -- getting the Territories of each player
+    if ts.OwnerPlayerID == boot.ID then -- boot
+        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+            if v.proxyType == "Commander" then
+                boot.Commander = ts.ID
+                ArmyStackBoot = ts.NumArmies
+            end
+        end
+        table.insert(boot.bootedTerr,ts.ID)
+    end
+   end
+
+   local amountTurned = Turnlogic(#boot.bootedTerr)
+
+   for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
+    local mod = WL.TerritoryModification.Create(ts)
+    mod.SetOwnerOpt = 0
+    mod.SetArmiesTo = 0
+    addNewOrder(WL.GameOrderEvent.Create(0, "Eliminating", nil, {mod}))
+    SUDelete(Terr[ts],addNewOrder)
+   end
+
+
+end
+-- Eliminate armies erased
+

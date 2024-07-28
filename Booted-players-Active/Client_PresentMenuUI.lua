@@ -42,6 +42,8 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			end
 		end
 
+			local GoldorLand = Nonill(publicdata.Action[i].turned) .. "% of land affected"
+			local row1 = UI.CreateHorizontalLayoutGroup(vert)
 			local row2 = UI.CreateHorizontalLayoutGroup(vert)
 			local row3 = UI.CreateHorizontalLayoutGroup(vert)
 			local Tempvote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
@@ -52,20 +54,26 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			if propername ~= 0 then
 				propername = Game.Game.Players[publicdata.Action[i].playerWhoCreated].DisplayName(nil, false)
 			end
-			if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
+			UI.CreateLabel(row1).SetText("--- " .. IDletter[i])
+			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
+				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. "+ income Next turn").SetColor('#FF87FF')
+				GoldorLand = ""
+			else
+				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
+				UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
+				
+			end
+				UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
+				UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 
-
-			UI.CreateLabel(row2).SetText("--- " .. IDletter[i] .. "\n" .. Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
-			UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
-			UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
-
-			UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n"..Nonill(publicdata.Action[i].turned) .. "% of land affected").SetColor('#00FF05')
-			UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
-			UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
+				UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n".. GoldorLand).SetColor('#00FF05')
+				UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
+				UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
+			
 			UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF697A')
 	end
 end
-	print("")
+
 	Serverload(0, 0,0, 0,nil)
 	local NoActionCreated = true
 	print(publicdata.CreatedActionID,"test 00")
@@ -95,6 +103,7 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row33 = UI.CreateHorizontalLayoutGroup(vert)
+	local row34 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 	HelperMessage = "select a Action, then click on this again, it will have a help tip"
 
@@ -113,11 +122,13 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
         .SetSliderMinValue(5)
         .SetSliderMaxValue(100)
         .SetValue(100)
-	Textland2 = UI.CreateLabel(row33).SetText('Income Cut off')
-    TurnedBtn2 = UI.CreateNumberInputField(row33)
+	Textland2 = UI.CreateLabel(row34).SetText('Income Cut off')
+    TurnedBtn2 = UI.CreateNumberInputField(row34)
         .SetSliderMinValue(1)
         .SetSliderMaxValue(500)
         .SetValue(100).SetInteractable(false)
+
+		
 
 	UI.CreateButton(row4).SetText("Commit").SetOnClick(function ()Serverload(1,ActPlayerBtn.GetText(),OrigPlayerID,SwapPlayerID, close) end)
 
@@ -218,8 +229,17 @@ function ActionButton(action)
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(false)
 			Textland1.SetText("Bonus Income")
-			Textland2.SetText("Income Cut off").SetInteractable(true)
+			Textland2.SetText("Income Cut off")
+			TurnedBtn2.SetInteractable(true)
 			HelperMessage = "All players get X amount of income based on how much income they have. Good use for balance"
+		elseif name == ActionTypeNames(8) then
+			SwapPlayerBtn.SetInteractable(true)
+			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land. Lastly the Armies and special units of Original players lands are removed"
+		elseif name == ActionTypeNames(9) then
+			SwapPlayerBtn.SetInteractable(false)
+			OrigPlayerBtn.SetInteractable(true)
+			HelperMessage = "Original player's land is turned neutral and the Armies and special units of Original players lands are removed"
 		end
 	end
 	return ret;
@@ -248,10 +268,14 @@ function Serverload(type, text,data1, data2,close)
 		payload.data1 = Nonill(data1)
 		payload.data2 = Nonill(data2)
 		payload.data3 = 100
+
 		if TurnedBtn ~= nil then
-		local data3 = TurnedBtn.GetValue()
-		if data3 > 100 or data3 < 5 then data3 = 100 end
+		local data3 = Nonill(TurnedBtn.GetValue())
+		if TurnedBtn2.GetInteractable() == false then
+		if data3 > 100 or data3 < 5 then data3 = 100 end end
+
 		payload.data3 = data3
+		payload.data4 = Nonill(TurnedBtn2.GetValue())
 		end
 
 		Game.SendGameCustomMessage("new " .. "playerControl" .. "...", payload, function(returnValue)
