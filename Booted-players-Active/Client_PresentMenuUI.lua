@@ -60,6 +60,8 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 				GoldorLand = ""
 			else
 				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
+				print(publicdata.Action[i].OrigPlayerID, "test")
+
 				UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
 				
 			end
