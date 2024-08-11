@@ -55,12 +55,15 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 				propername = Game.Game.Players[publicdata.Action[i].playerWhoCreated].DisplayName(nil, false)
 			end
 			UI.CreateLabel(row1).SetText("--- " .. IDletter[i])
+			if 	publicdata.Action[i].OrigPlayerID == 0 or publicdata.Action[i].NewPlayerID == 0 then 
+				Serverload(3,"N/A",i,voteid,close)
+			end
+
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
 				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. "+ income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
 			else
 				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
-				print(publicdata.Action[i].OrigPlayerID, "test",publicdata.Action[i].Actiontype)
 
 				UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
 				
