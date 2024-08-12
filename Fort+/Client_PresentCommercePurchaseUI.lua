@@ -171,6 +171,7 @@ function TerritoryPower(terrDetails)
 	if  Mod.Settings.Need == -1 then
 		Poweramount = Game.LatestStanding.Territories[terrDetails.ID].NumArmies.DefensePower
 	end
+	print (Poweramount,"power")
 	if (terrDetails == nil) then
 		--The click request was cancelled.   Return to our default state.
 		TargetTerritoryInstructionpower.SetText("");
