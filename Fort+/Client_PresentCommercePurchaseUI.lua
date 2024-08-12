@@ -174,13 +174,11 @@ function TerritoryPower(terrDetails)
 	if (terrDetails == nil) then
 		--The click request was cancelled.   Return to our default state.
 		TargetTerritoryInstructionpower.SetText("");
-		SelectTerritoryBtnpower = nil;
 		BuyUnitBtn.SetInteractable(false);
 	else
 		--Territory was clicked, check it
 
-			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount)
-			SelectTerritoryBtnpower = terrDetails
+			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount)	
 		
 	end
 end
