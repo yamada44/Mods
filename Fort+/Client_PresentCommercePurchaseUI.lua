@@ -18,7 +18,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	Xincrease = Mod.Settings.Costincrease
 	local buildnumber = 0
 	local turnscale = 0
-	Combatinfo = "double that of standing army inside"
+	Combatinfo = "Equal to that of standing army"
 
 	if Mod.Settings.Scale > 0 then 
 		turnscale = Howmany20(Game.Game.TurnNumber)
@@ -151,7 +151,7 @@ function PresentPowerDialog(rootParent, setMaxSize, setScrollable, game, close)
 	SelectTerritoryBtnpower = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryPower)
 	TargetTerritoryInstructionpower = UI.CreateLabel(vert).SetText("")
 	UI.CreateLabel(vert).SetText("What is Power").SetColor("#FF00ED") 
-	UI.CreateLabel(vert).SetText("Power is how strong a Fort is in terms of Armies. your games Defensive combat modifiers are applied like any other combat\nWorks almost like a Special unit except it can't move and it always defends")
+	UI.CreateLabel(vert).SetText("Power is how strong a Fort is in terms of Armies killed. Example: a fort with 10 power and 10 attacker\n10 power will kill 10 attacker and destroy the fort. 9 attackers will kill 9 attackers and the next attack will need 10 or more to destroy\n11 attackers will kill 10, destroy the fort and 1 army will attack afterwards ")
 
 end
 
@@ -170,6 +170,9 @@ function TerritoryPower(terrDetails)
 	print (Poweramount,"power")
 	if  Mod.Settings.Need == -1 then
 		Poweramount = Game.LatestStanding.Territories[terrDetails.ID].NumArmies.DefensePower
+		if Poweramount < 0 then 
+			Poweramount = "you do not have clearance"
+		end
 	end
 	print (Poweramount,"power")
 	if (terrDetails == nil) then
