@@ -167,7 +167,7 @@ function TerritoryPower(terrDetails)
 	if amount <= 0  then UI.Alert("No Fort Found ") return end
 
 	local Poweramount = Combatinfo
-
+	print (Poweramount,"power")
 	if  Mod.Settings.Need == -1 then
 		Poweramount = Game.LatestStanding.Territories[terrDetails.ID].NumArmies.DefensePower
 	end
