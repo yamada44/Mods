@@ -11,7 +11,7 @@ function Client_PresentSettingsUI(rootParent)
 	UI.CreateLabel(row000).SetText("Pure AI").SetColor('#0000FF')
 
 	local row9 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row9).SetText('Pure AI can attack: ' .. Mod.Settings.P_attack).SetColor('#00B5FF')
+	UI.CreateLabel(row9).SetText('Pure AI can attack: ' .. tostring(Mod.Settings.P_attack)).SetColor('#00B5FF')
 
 	local row2 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row2).SetText('Pure AI can attack: ' .. Mod.Settings.P_deploy).SetColor('#00B5FF')
