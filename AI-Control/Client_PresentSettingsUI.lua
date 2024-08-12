@@ -31,8 +31,9 @@ function Client_PresentSettingsUI(rootParent)
 	local row7 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row7).SetText('Pure AI can attack: ' .. tostring(Mod.Settings.P_rein)).SetColor('#00B5FF')
 
+if Mod.Settings.P_bomb ~= nil then
 	local row8 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row8).SetText('Pure AI can attack: ' .. tostring(Mod.Settings.P_bomb .. '\n\n')).SetColor('#00B5FF')
+	UI.CreateLabel(row8).SetText('Pure AI can attack: ' .. tostring(Mod.Settings.P_bomb .. '\n\n')).SetColor('#00B5FF') end
 --Human
 local row00 = UI.CreateHorizontalLayoutGroup(vert) -- Human Text
 UI.CreateLabel(row00).SetText("Human AI").SetColor('#0000FF')
@@ -58,6 +59,7 @@ UI.CreateLabel(row00).SetText("Human AI").SetColor('#0000FF')
 	local rowH7 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(rowH7).SetText('Human AI can attack: ' .. tostring(Mod.Settings.H_rein)).SetColor('#00B5FF')
 
+	if Mod.Settings.H_bomb ~= nil then
 	local rowH8 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(rowH8).SetText('Human AI can attack: ' .. tostring(Mod.Settings.H_bomb .. '\n\n')).SetColor('#00B5FF')
+	UI.CreateLabel(rowH8).SetText('Human AI can attack: ' .. tostring(Mod.Settings.H_bomb .. '\n\n')).SetColor('#00B5FF') end
 end
