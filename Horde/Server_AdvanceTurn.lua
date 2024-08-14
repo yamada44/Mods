@@ -307,7 +307,7 @@ end
 function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
   local issame = false
-print(playerid,"test")
+print(playerid,"test9090")
 	for i = 1, #Mod.Settings.Slot do
 		if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot or Mod.Settings.Slot[i] == -1 then 
 			return true
