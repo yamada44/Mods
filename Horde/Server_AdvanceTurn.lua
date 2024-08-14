@@ -305,7 +305,7 @@ Mod.PublicGameData = publicdata]]
 
 end
 function Slotchecker(playerid)
-  if playerid == 0 or playerid == nil then return false end
+  if playerid <= 0 or playerid == nil then return false end
   local issame = false
 print(playerid,"test9090")
 print(playerid,"test9090")
