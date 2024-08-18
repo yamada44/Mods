@@ -305,17 +305,13 @@ Mod.PublicGameData = publicdata]]
 
 end
 function Slotchecker(playerid)
-  if playerid <= 0 or playerid == nil then return false end
+  if playerid == 0 or playerid == nil then return false end
   local issame = false
-print(playerid,"test9090")
-print(playerid,"test9090")
 
 	for i = 1, #Mod.Settings.Slot do
-    if Mod.Settings.Slot[i] == -1 then 
+    if Mod.Settings.Slot[i] == -1 or Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
       return true
 		end
-    if Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then
-			return true end
  end
 
       return issame
