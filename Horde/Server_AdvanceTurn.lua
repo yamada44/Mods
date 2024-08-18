@@ -307,7 +307,9 @@ end
 function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
   local issame = false
-  UI.Alert("jlklk")
+
+  if type(playerid) == "number" then print("sds") end
+  if type(playerid) == "text" then print("sds") end
 
   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end 
 	for i = 1, #Mod.Settings.Slot do
