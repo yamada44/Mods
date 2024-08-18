@@ -308,8 +308,8 @@ function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
   local issame = false
 
-  if type(playerid) == "number" then print("sds") end
-  if type(playerid) == "text" then print("sds") end
+  if type(playerid) == "number" then   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end  end
+  if type(playerid) == "text" then   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end  end
 
   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end 
 	for i = 1, #Mod.Settings.Slot do
