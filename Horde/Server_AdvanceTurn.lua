@@ -307,11 +307,14 @@ end
 function Slotchecker(playerid)
   if playerid == 0 or playerid == nil then return false end
   local issame = false
+  local IDpresent = false
+  
 
-  if type(playerid) == "number" then   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end  end
-  if type(playerid) == "text" then   if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end  end
+  for ID,player in pairs (Game2.Game.PlayingPlayers) do
+    if playerid == ID then IDpresent = true end
+  end
+  if IDpresent == false then return false end
 
-  if Game2.Game.PlayingPlayers[playerid].ID == 0 then print("fjdskljf") end 
 	for i = 1, #Mod.Settings.Slot do
     if Mod.Settings.Slot[i] == -1 or Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
       return true
