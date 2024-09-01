@@ -8,7 +8,7 @@ function Client_PresentSettingsUI(rootParent)
 
 
 	local row000 = UI.CreateHorizontalLayoutGroup(vert) -- Human Text
-	UI.CreateLabel(row000).SetText("Pure AI").SetColor('#0000FF')
+	UI.CreateLabel(row000).SetText("Pure AI")
 
 	local row9 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(row9).SetText('Pure AI can attack: ' .. tostring(Mod.Settings.P_attack))
@@ -36,7 +36,7 @@ if Mod.Settings.P_bomb ~= nil then
 	UI.CreateLabel(row8).SetText('Pure AI can play bomb card: ' .. tostring(Mod.Settings.P_bomb .. '\n\n')) end
 --Human
 local row00 = UI.CreateHorizontalLayoutGroup(vert) -- Human Text
-UI.CreateLabel(row00).SetText("Human AI").SetColor('#0000FF')
+UI.CreateLabel(row00).SetText("Human AI")
 
 	local rowH9 = UI.CreateHorizontalLayoutGroup(vert) 
 	UI.CreateLabel(rowH9).SetText('Human AI can attack: ' .. tostring(Mod.Settings.H_attack))
