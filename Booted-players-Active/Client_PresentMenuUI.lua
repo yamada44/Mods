@@ -218,10 +218,12 @@ function ActionButton(action)
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player is simply turned neutral, his land is left untouched"
+			SwapPlayerID = -1
 		elseif name == ActionTypeNames(4) then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's land is factory wiped. cities, armies, special units, commanders. Everything is removed and replaced with wastelands"
+			SwapPlayerID = -1
 		elseif name == ActionTypeNames(5) then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
@@ -230,6 +232,7 @@ function ActionButton(action)
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's has all of his armies/special units removed"
+			SwapPlayerID = -1
 		elseif name == ActionTypeNames(7) then
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(false)
@@ -237,6 +240,8 @@ function ActionButton(action)
 			Textland2.SetText("Income Cut off")
 			TurnedBtn2.SetInteractable(true)
 			HelperMessage = "All players get X amount of income based on how much income they have. Good use for balance"
+			OrigPlayerID = -1
+			SwapPlayerID = -1
 		elseif name == ActionTypeNames(8) then
 			SwapPlayerBtn.SetInteractable(true)
 			OrigPlayerBtn.SetInteractable(true)
@@ -245,6 +250,7 @@ function ActionButton(action)
 			SwapPlayerBtn.SetInteractable(false)
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's land is turned neutral and the Armies and special units of Original players lands are removed"
+			OrigPlayerID = -1
 		end
 	end
 	return ret;
