@@ -316,7 +316,7 @@ function Slotchecker(playerid)
   if IDpresent == false then return false end
 
 	for i = 1, #Mod.Settings.Slot do
-    if Mod.Settings.Slot[i] == 0 or Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
+    if Mod.Settings.Slot[i] == -1 or Mod.Settings.Slot[i] == Game2.Game.PlayingPlayers[playerid].Slot then 
       return true
 		end
  end

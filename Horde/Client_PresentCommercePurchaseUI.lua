@@ -17,7 +17,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 print (SettingData.Slot, Game.Us.Slot )
 	local isZom = false
 	for i = 1, #Mod.Settings.Slot do
-		if SettingData.Slot[i] == Game.Us.Slot or SettingData.Slot[i] == 0 then 
+		if SettingData.Slot[i] == Game.Us.Slot or SettingData.Slot[i] == -1 then 
 			isZom = true
 		end end
 		if isZom == false then
