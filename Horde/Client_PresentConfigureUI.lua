@@ -69,7 +69,7 @@ function Client_PresentConfigureUI(rootParent)
 	end	
 
 	-- cities are removed if owned by this slot
-	local cityremoved = Mod.Settings.CityG
+	local cityremoved = Mod.Settings.CityGone
 	if cityremoved == nil then
 		cityremoved = 1
 	end
