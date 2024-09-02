@@ -11,7 +11,7 @@ function Client_SaveConfigureUI(alert)
           alert("Mod set up failed\nCan only inlcude numbers for slot days") 
          return
       elseif string.len(v) > 2 or string.len(v) < 1 then
-          alert("Mod set up failed\nEach Slot must remain between 1-99 ") 
+          alert("Mod set up failed\nEach Slot must remain between 0-99 ") 
           return
       end
       table.insert(slotnumbers,tonumber(v - 1))
