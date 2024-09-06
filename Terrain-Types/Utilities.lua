@@ -203,7 +203,7 @@ function Characterpackloader(loadnumber)
     
 end
 
-function SUImmuneOrNot (land,Moddata,Basesetting,neworder)
+function SUImmuneOrNot (land,Moddata,Basesetting)
     local t = {correctunit = false,SU = {},Immune_logic = false} 
     for index, value in pairs (Moddata)do
 

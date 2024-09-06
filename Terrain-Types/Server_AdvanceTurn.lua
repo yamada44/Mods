@@ -51,10 +51,10 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
                 --Hot fix logic
                 local hotfix = v.BaseSettings
-                if game.Settings.Name == "Immersive System - World At War - .10.1.5" then
+                if game.Settings.Name == "Immersive System - World After: 1946 - .13.0.0 #1" then
 
-                if v.name == "Land" then
-                    hotfix = 4
+                if v.name == "Ocean" then
+                    Pub.Type[v2.Type].ModFormat[1].mod = 3
                 end
                 end
                 SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.ModFormat,hotfix)
