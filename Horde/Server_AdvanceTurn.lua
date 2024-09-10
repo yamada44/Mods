@@ -71,13 +71,15 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
     if attackerZom == true or defenderZom == true then
 
       --Checking to see if Fort Tactics Fort is there and if the zombies are attacking it. if so, then increase attack amount by 1
-      local priv = Mod.PublicGameData
-      local structure = game.ServerGame.LatestTurnStanding.Territories[order.To].Structures
-      if (attackerZom == true and structure ~= nil and structure[WL.StructureType.MercenaryCamp] ~=  nil and structure[WL.StructureType.MercenaryCamp] > 0) then  
-        priv = FortLogic(priv,order.To,order.PlayerID)
+      if Mod.Settings.Fort > 0 then
+        local priv = Mod.PublicGameData
+        local structure = game.ServerGame.LatestTurnStanding.Territories[order.To].Structures
+        if (attackerZom == true and structure ~= nil and structure[WL.StructureType.MercenaryCamp] ~=  nil and structure[WL.StructureType.MercenaryCamp] > 0) then  
+          priv = FortLogic(priv,order.To,order.PlayerID)
+        end
+        Mod.PublicGameData = priv
+        RemoveFort(game,addNewOrder)
       end
-      Mod.PublicGameData = priv
-      RemoveFort(game,addNewOrder)
       
 
       --Running through attacking rules.
