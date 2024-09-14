@@ -425,13 +425,13 @@ function DisplayHostVotes(rootParent,ActivePlayers,NeedPercent,close,ID,game)
 
 				UI.CreateLabel(row1).SetText("Host Vote: " .. i)
 		
-					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.ChangeAction[i].NewHostID].DisplayName(nil, false) .. " is to be voted on to become the new Host ").SetColor('#FF87FF')
+					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.ChangeAction[i].NewHostID].DisplayName(nil, false) .. " is to be voted on to become the new Host ").SetColor('#bfc69c')
 					
 				
 					UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(7,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
 					UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(6,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 	
-					UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n").SetColor('#00FF05')
+					UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n").SetColor('#7cfff5')
 					UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayertobe) end)
 					UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.ChangeAction[i].TurnCreated+2) - game.Game.TurnNumber).SetColor('#00F4FF')
 				
