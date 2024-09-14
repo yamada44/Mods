@@ -67,25 +67,27 @@ local i = 1
 
 
 -- clearing Action creation ID's
-if publicdata.Turn ~= nil then
+if publicdata.Turn ~= nil  then
     publicdata.CreatedActionID = {}
     publicdata.CreatedHostchangeID = {}
     publicdata.Turn = game.Game.TurnNumber
 
-    --Host Vote Calculations
-  for i = 1, #publicdata.ChangeAction do 
-    local percentVote = (#publicdata.ChangeAction[i].VotedPlayers / ActivePlayers) * 100
-    if percentVote >= NeedPercent then
-        publicdata.HostID = publicdata.ChangeAction[i].NewHostID
-        table.remove(publicdata.ChangeAction,i)
-        break
-    end
-  end
-    i = 1
-    while i <= #publicdata.ChangeAction do -- Action logic
+    --Host Vote Calculations 
+    if publicdata.ChangeAction ~= nil then
+        for i = 1, #publicdata.ChangeAction do 
+            local percentVote = (#publicdata.ChangeAction[i].VotedPlayers / ActivePlayers) * 100
+            if percentVote >= NeedPercent then
+                publicdata.HostID = publicdata.ChangeAction[i].NewHostID
+                table.remove(publicdata.ChangeAction,i)
+                break
+            end
+        end
+            i = 1
+            while i <= #publicdata.ChangeAction do -- Action logic
 
-        if (publicdata.ChangeAction[i].TurnCreated + 2) - game.Game.TurnNumber <= 0 then table.remove(publicdata.ChangeAction,i) i = i - 1  end -- remove Host change after 2 turns
-        i = i + 1
+                if (publicdata.ChangeAction[i].TurnCreated + 2) - game.Game.TurnNumber <= 0 then table.remove(publicdata.ChangeAction,i) i = i - 1  end -- remove Host change after 2 turns
+                i = i + 1
+            end
     end
   end  
   
