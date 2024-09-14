@@ -26,8 +26,11 @@ local i = 1
     if (publicdata.Action[i].TurnCreated + 3) - game.Game.TurnNumber <= 0 then table.remove(publicdata.Action,i) access = false end -- remove action after 3 turns
 
     if access == true then -- to retrict scope of percentvote
+    
         local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
-        if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
+        local alwaysaccess = false -- Host control logic
+         if publicdata.HostID > 0 then alwaysaccess = true end
+        if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID or alwaysaccess ) then
             TurnPercent = publicdata.Action[i].turned
 
 
@@ -61,7 +64,15 @@ local i = 1
     end
   end
 
---Host Vote Calculations
+
+
+-- clearing Action creation ID's
+if publicdata.Turn ~= nil then
+    publicdata.CreatedActionID = {}
+    publicdata.CreatedHostchangeID = {}
+    publicdata.Turn = game.Game.TurnNumber
+
+    --Host Vote Calculations
   for i = 1, #publicdata.ChangeAction do 
     local percentVote = (#publicdata.ChangeAction[i].VotedPlayers / ActivePlayers) * 100
     if percentVote >= NeedPercent then
@@ -70,12 +81,6 @@ local i = 1
         break
     end
   end
-
--- clearing Action creation ID's
-if publicdata.Turn ~= nil then
-    publicdata.CreatedActionID = {}
-    publicdata.CreatedHostchangeID = {}
-    publicdata.Turn = game.Game.TurnNumber
     i = 1
     while i <= #publicdata.ChangeAction do -- Action logic
 

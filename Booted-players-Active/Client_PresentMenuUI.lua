@@ -50,13 +50,14 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		UI.CreateLabel(row1).SetText( "Active Host: " .. hostname).SetColor('#0eb8c2')
 
 		if publicdata.HostID == ID then -- Give Host Controls
-			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give host controls	
 		end
+		UI.CreateButton(rowBegin).SetText("Change Host").SetOnClick(function () Window(3,close,vert) end).SetInteractable(NoHostActionCreated) -- Change Host option
 	else
-		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give controls to everyone
 	end
-	UI.CreateButton(rowBegin).SetText("Change Host").SetOnClick(function () Window(3,close,vert) end).SetInteractable(NoHostActionCreated)
-	History = UI.CreateButton(rowBegin).SetText("Action History").SetOnClick(function () Window(2,close) end)
+
+	History = UI.CreateButton(rowBegin).SetText("Action History").SetOnClick(function () Window(2,close) end) -- view history of powers
 
 
 
