@@ -2,43 +2,9 @@ require('Utilities')
 
 function Server_AdvanceTurn_Start(game, addNewOrder)
   Game2 = game
---[[
-  if order.proxyType == "GameOrderAttackTransfer" then 
-    --for _,terr in pairs (game.Map.Territories)do
-      terr = game.Map.Territories[1]
-      print(terr.ConnectedTo)
-      for i,v in pairs (terr.ConnectedTo)do
-        print(game.Map.Territories[game.Map.Territories[i].ID].Name)
-      --PlayerID
-      end
-   -- end
-
-   
-  end]]
-
 
   local publicdata = Mod.PublicGameData
-  if game.Settings.Name == "Immersive system - The last of us Game  .9.0.2--" then
 
-  --local playergroup = {}
-  local goldhave
-  local MaxGold = 21
-  local added = 85
-  local standing = game.ServerGame.LatestTurnStanding
-  for playerID, player in pairs(game.Game.PlayingPlayers) do
-      if (not player.IsAIOrHumanTurnedIntoAI) then 
-         -- if playergroup[playerID] == nil then playergroup[playerID] = {} end
-          local income = player.Income(0, standing, true, true) 
-          goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
-         if income.Total <= MaxGold then
-          local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for being weak')
-          addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}))
-          --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
-          --
-         end
-      end
-  end
-end
 
   if Mod.Settings.CityGone > 0 then
     for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do 
@@ -69,7 +35,11 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
   
 
     if attackerZom == true or defenderZom == true then
+      local ConvertTemp = Mod.Settings.TConv
+      if game.Settings.Name == "Immersive System - World After: 1946 - .13.0.0 #1" then
 
+        ConvertTemp = 0
+        end
       --Checking to see if Fort Tactics Fort is there and if the zombies are attacking it. if so, then increase attack amount by 1
       if Mod.Settings.Fort > 0 then
         local priv = Mod.PublicGameData
@@ -104,7 +74,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
           --local SUremovedamage = SUdamageCal(result.ActualArmies.SpecialUnits,result.AttackingArmiesKilled.SpecialUnits)
           local SUZombies = Zombiestoadd(defendingUnitStack.SpecialUnits,result.ActualArmies.AttackPower * game.Settings.OffenseKillRate , result.DefendingArmiesKilled.SpecialUnits,defendingUnitStack.NumArmies )
-          local newzombies = (result.DefendingArmiesKilled.DefensePower + math.ceil(SUZombies)) * (Mod.Settings.TConv / 100)
+          local newzombies = (result.DefendingArmiesKilled.DefensePower + math.ceil(SUZombies)) * (ConvertTemp / 100)
           local land = game.Map.Territories[order.From]
           local zomland = 0
 
@@ -140,7 +110,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
           local defendingUnitStack = Game2.ServerGame.LatestTurnStanding.Territories[order.To].NumArmies
           local SUZombies = Zombiestoadd(result.ActualArmies.SpecialUnits,defendingUnitStack.DefensePower  * game.Settings.DefenseKillRate  , result.AttackingArmiesKilled.SpecialUnits,result.ActualArmies.NumArmies )
           print(SUZombies,"su zoms") 
-          local newzombies = (result.AttackingArmiesKilled.AttackPower + SUZombies) * (Mod.Settings.TConv / 100)
+          local newzombies = (result.AttackingArmiesKilled.AttackPower + SUZombies) * (ConvertTemp / 100)
           local land = game.Map.Territories[order.To]
           local zomland = 0
           for i,v in pairs (land.ConnectedTo) do 
@@ -249,34 +219,38 @@ end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
  
+  if game.Settings.Name == "Immersive System - World After: 1946 - .13.0.0 #1" then -- temporay hot fix
+    
+    for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
+      for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
+        if v.proxyType == "CustomSpecialUnit" then
+          if v.ModData ~= nil then -- 
+            if startsWith(v.ModData, "C&PE") then -- make sure the speical unit is only from I.S. mods
+              local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
+              local unittype = tonumber(payloadSplit[10])
+              if unittype == 3 then 
+                local mod = WL.TerritoryModification.Create(ts.ID)
+                
+                  local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 
-  --[[
-    local publicdata = Mod.PublicGameData
-    --local playergroup = {}
-    local goldhave
-    local MaxGold = 19
-    local added = 100
-    local standing = game.ServerGame.LatestTurnStanding
-    for playerID, player in pairs(game.Game.PlayingPlayers) do
-        if (not player.IsAIOrHumanTurnedIntoAI) then 
-           -- if playergroup[playerID] == nil then playergroup[playerID] = {} end
-            local income = player.Income(0, standing, true, true) 
-            goldhave = game.ServerGame.LatestTurnStanding.NumResources(playerID, WL.ResourceType.Gold)
-           if income.Total <= MaxGold then
-            local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for being weak')
-            addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}));
-            --game.ServerGame.SetPlayerResource(playerID, WL.ResourceType.Gold, goldhave + 100)
-            --
-           end
+                  builder.OwnerID = ts.OwnerPlayerID
+                  builder.IsVisibleToAllPlayers = true
+                  mod.AddSpecialUnits = {builder.Build()}
+                  mod.RemoveSpecialUnitsOpt = {v.ID}
+
+                  local UnitdiedMessage = "Chaning to proper Visibility"
+
+                  addNewOrder(WL.GameOrderEvent.Create(v.OwnerID, UnitdiedMessage, nil, {mod}));
+              end
+            end
+          end
         end
-    end
+      end
+  	end
+
+  end
 
 
-
-  --game.Settings.CustomScenario.SlotsAvailable
-        
-
-Mod.PublicGameData = publicdata]]
     local Agg = Mod.Settings.Agg
     if Agg == nil then Agg = false end
 
