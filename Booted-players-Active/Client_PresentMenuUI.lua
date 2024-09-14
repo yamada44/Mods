@@ -7,6 +7,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	Close = close;
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local rowBegin = UI.CreateHorizontalLayoutGroup(vert)
 	local ActivePlayers = 0
 	local NeedPercent = Mod.Settings.Percentthreshold
 	local IDletter = {"A","B","C","D","E"}
@@ -23,6 +24,40 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
             ActivePlayers = ActivePlayers + 1
         end
     end
+
+	Serverload(0, 0,0, 0,nil)
+
+	local NoActionCreated = true -- making sure this client cannot create multiple normal actions
+	if publicdata.CreatedActionID ~= nil then
+	for i = 1, #publicdata.CreatedActionID do
+		if ID == publicdata.CreatedActionID[i] then NoActionCreated = false end
+	end end
+
+	local NoHostActionCreated = true 	--making sure this client cannot create multiple host actions
+	if publicdata.CreatedHostchangeID ~= nil then
+	for i = 1, #publicdata.CreatedHostchangeID do
+
+		if ID == publicdata.CreatedHostchangeID[i] then NoHostActionCreated = false end
+	end end
+	UI.CreateLabel(row1).SetText("Begin player management")
+
+	
+
+	-- add check if it has already been clicked
+	if Mod.Settings.Host == true or Mod.Settings.Host == nil then
+		local hostname = "N/A"
+		if publicdata.HostID ~= nil and publicdata.HostID ~= 0 then hostname = Game.Game.Players[publicdata.HostID].DisplayName(nil, false) end
+		UI.CreateLabel(row1).SetText( "Active Host: " .. hostname).SetColor('#0eb8c2')
+
+		if publicdata.HostID == ID then -- Give Host Controls
+			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+		end
+	else
+		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+	end
+	UI.CreateButton(rowBegin).SetText("Change Host").SetOnClick(function () Window(3,close,vert) end).SetInteractable(NoHostActionCreated)
+	History = UI.CreateButton(rowBegin).SetText("Action History").SetOnClick(function () Window(2,close) end)
+
 
 
 --for loop of current groups
@@ -60,7 +95,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			end
 
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
-				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. "+ income Next turn").SetColor('#FF87FF')
+				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
 			else
 				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
@@ -79,17 +114,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 	end
 end
 
-	Serverload(0, 0,0, 0,nil)
-	local NoActionCreated = true
-	print(publicdata.CreatedActionID,"test 00")
-	if publicdata.CreatedActionID ~= nil then
-	for i = 1, #publicdata.CreatedActionID do
-		print(publicdata.CreatedActionID[i],"test")
-		if ID == publicdata.CreatedActionID[i] then NoActionCreated = false end
-	end end
-	UI.CreateLabel(row1).SetText("Begin player management")
-	-- add check if it has already been clicked
-	MainBtn = UI.CreateButton(vert).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+DisplayHostVotes(rootParent,ActivePlayers,NeedPercent,close,ID,game)
 
 
 end
@@ -98,6 +123,12 @@ function Window(window, close, data)
 	if window == 1 then
 		Game.CreateDialog(DisplaySwapAction)
 		close()
+	elseif window == 2 then
+		Game.CreateDialog(DisplayHistory)
+		close()
+	elseif window == 3 then
+		Game.CreateDialog(Changehost)
+		close()	
 	end
 end
 function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
@@ -166,6 +197,10 @@ function PromptListSetup(data,votedplayers)
 		funcvar = ViewButton
 		Senttable = votedplayers
 		message = "View who has voted so far"
+	elseif data == 5 then
+		funcvar = PlayerButton
+		Senttable = Aliveplayers
+		message = "Select New Host"
 	end
 print(Senttable)
 
@@ -305,7 +340,102 @@ function Votedplayers(newtable)
 	for i,v in pairs (newtable) do
 	
 	table.insert(group,Game.Game.Players[v].DisplayName(nil, false))
-	print(Game.Game.Players[v].DisplayName(nil, false))
 	end
 return group
+end
+
+function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(400, 400)
+
+		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+		local row00 = UI.CreateHorizontalLayoutGroup(vert)
+	
+
+		for i = 1, #publicdata.History do 
+	
+				local GoldorLand = "\n" .. Nonill(publicdata.History[i].Datapoint3) .. "% of land affected\n"
+				local row1 = UI.CreateHorizontalLayoutGroup(vert)
+				local row2 = UI.CreateHorizontalLayoutGroup(vert)
+				local row3 = UI.CreateHorizontalLayoutGroup(vert)
+
+				local percentVote = publicdata.History[i].votedby
+				local tempname = publicdata.History[i].New
+				local propername = Nonill(publicdata.History[i].createdBy)
+				if propername ~= 0 then
+					propername = Game.Game.Players[publicdata.History[i].createdBy].DisplayName(nil, false)
+				end
+				UI.CreateLabel(row1).SetText("Event: " .. publicdata.History[i].ActionID)
+	
+				if publicdata.History[i].type == ActionTypeNames(7) then 
+					UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
+					GoldorLand = ""
+				else
+					if publicdata.History[i].New ~= "Neutral" then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
+	
+					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\ngoldon turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
+					
+				end
+	
+				
+				UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF697A')
+		end
+	
+end
+
+function Changehost(rootParent, setMaxSize, setScrollable, game, close) -- Changing Current Host
+	setMaxSize(400, 400)
+
+		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+		local row00 = UI.CreateHorizontalLayoutGroup(vert)
+		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+
+		UI.CreateLabel(row00).SetText("Pick New Host: ").SetColor('#4EC4FF')
+		OrigPlayerBtn = UI.CreateButton(row00).SetText("Select player...").SetOnClick(function ()PromptListSetup(5) end)
+
+		UI.CreateButton(row1).SetText("Commit").SetOnClick(function ()Serverload(5,0,OrigPlayerID,0, close) end)
+
+end
+
+function DisplayHostVotes(rootParent,ActivePlayers,NeedPercent,close,ID,game)
+	
+	if publicdata.ChangeAction ~= nil and #publicdata.ChangeAction > 0 then
+		local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+		local row00 = UI.CreateHorizontalLayoutGroup(vert)
+	
+
+		UI.CreateLabel(row00).SetText("________________\nVote on New Host to be processed").SetColor('#4EC4FF')
+		for i = 1, #publicdata.ChangeAction do 
+			local HaventVoted = true
+			local voteid = 1
+			for i2 = 1, #publicdata.ChangeAction[i].VotedPlayers do
+				if publicdata.ChangeAction[i].VotedPlayers[i2] == ID then 
+					HaventVoted = false
+					voteid = i2
+				end
+			end
+	
+				local row1 = UI.CreateHorizontalLayoutGroup(vert)
+				local row2 = UI.CreateHorizontalLayoutGroup(vert)
+				local row3 = UI.CreateHorizontalLayoutGroup(vert)
+				local Tempvote = (#publicdata.ChangeAction[i].VotedPlayers / ActivePlayers) * 100
+				local percentVote = math.floor(Tempvote * 100) / 100 
+				local votedplayertobe = Votedplayers(publicdata.ChangeAction[i].VotedPlayers)
+				local propername = Game.Game.Players[publicdata.ChangeAction[i].Createdby].DisplayName(nil, false)
+
+				UI.CreateLabel(row1).SetText("Host Vote: " .. i)
+		
+					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.ChangeAction[i].NewHostID].DisplayName(nil, false) .. " is to be voted on to become the new Host ").SetColor('#FF87FF')
+					
+				
+					UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(7,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
+					UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(6,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
+	
+					UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n").SetColor('#00FF05')
+					UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayertobe) end)
+					UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.ChangeAction[i].TurnCreated+2) - game.Game.TurnNumber).SetColor('#00F4FF')
+				
+				UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF697A')
+		end
+	end
+	
 end

@@ -15,4 +15,5 @@ function Client_SaveConfigureUI(alert)
         Mod.Settings.Percentthreshold = percent 
     end
 
+    Mod.Settings.Host = HostInput.GetIsChecked()
 end

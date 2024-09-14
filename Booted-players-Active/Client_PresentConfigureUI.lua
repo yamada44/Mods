@@ -10,6 +10,11 @@ function Client_PresentConfigureUI(rootParent)
 		percent = 66
 	end
 
+	local host = Mod.Settings.Host
+	if host == nil then
+		host = true
+	end
+
     local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	
 
@@ -28,4 +33,10 @@ function Client_PresentConfigureUI(rootParent)
         .SetSliderMinValue(50)
         .SetSliderMaxValue(100)
         .SetValue(percent)
+
+	local row8 = UI.CreateHorizontalLayoutGroup(vert) -- present 
+	UI.CreateButton(row8).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("True: the server Votes on Host and Host decides Actions\nFalse: Server votes on Actions"); end);
+	UI.CreateLabel(row8).SetText('Host Controls Vote')
+	HostInput = UI.CreateCheckBox(row8).SetText("").SetIsChecked(host)
+
 end

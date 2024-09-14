@@ -18,44 +18,72 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
     end
 end
 
---"Swapped","Swap & Wasteland", "Eliminate as is","Eliminate to Wasteland","Absorb"
 local array = {}
 
 local i = 1
   while i <= #publicdata.Action do -- Action logic
-    print(i,"i ===")
+    local access = true
+    if (publicdata.Action[i].TurnCreated + 3) - game.Game.TurnNumber <= 0 then table.remove(publicdata.Action,i) access = false end -- remove action after 3 turns
 
-    local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
-    if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
-        TurnPercent = publicdata.Action[i].turned
+    if access == true then -- to retrict scope of percentvote
+        local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
+        if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
+            TurnPercent = publicdata.Action[i].turned
 
 
-        if publicdata.Action[i].Actiontype == ActionTypeNames(1) then
-        SwitchingLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) 
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(2) then
-            SwapThenWasteland(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(3) then
-            EliminateasisLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(4) then
-            EliminateWasteLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(5) then
-            Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(6) then
-            ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(7)  then
-            GoldBumpLogic(game, addNewOrder,publicdata.Action[i].incomebump,publicdata.Action[i].Cutoff)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(8)  then
-            Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
-        elseif publicdata.Action[i].Actiontype == ActionTypeNames(9)  then
-            Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
-        end
-        table.remove(publicdata.Action,i)
-        i = i-1
+            if publicdata.Action[i].Actiontype == ActionTypeNames(1) then
+            SwitchingLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) 
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(2) then
+                SwapThenWasteland(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(3) then
+                EliminateasisLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(4) then
+                EliminateWasteLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(5) then
+                Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(6) then
+                ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(7)  then
+                GoldBumpLogic(game, addNewOrder,publicdata.Action[i].incomebump,publicdata.Action[i].Cutoff)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(8)  then
+                Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(9)  then
+                Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+            end
+            Addhistory(publicdata.Action[i],percentVote,game)
+            table.remove(publicdata.Action,i)
 
+            i = i-1
+
+        end  
+
+        i = i + 1
     end
-
-    i = i + 1
   end
+
+--Host Vote Calculations
+  for i = 1, #publicdata.ChangeAction do 
+    local percentVote = (#publicdata.ChangeAction[i].VotedPlayers / ActivePlayers) * 100
+    if percentVote >= NeedPercent then
+        publicdata.HostID = publicdata.ChangeAction[i].NewHostID
+        table.remove(publicdata.ChangeAction,i)
+        break
+    end
+  end
+
+-- clearing Action creation ID's
+if publicdata.Turn ~= nil then
+    publicdata.CreatedActionID = {}
+    publicdata.CreatedHostchangeID = {}
+    publicdata.Turn = game.Game.TurnNumber
+    i = 1
+    while i <= #publicdata.ChangeAction do -- Action logic
+
+        if (publicdata.ChangeAction[i].TurnCreated + 2) - game.Game.TurnNumber <= 0 then table.remove(publicdata.ChangeAction,i) i = i - 1  end -- remove Host change after 2 turns
+        i = i + 1
+    end
+  end  
+  
 
 Mod.PublicGameData = publicdata
 
@@ -566,3 +594,18 @@ function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID) --- Eliminating as i
 end
 -- Eliminate armies erased
 
+function Addhistory(Action,VotedBy,game)
+    table.insert(publicdata.History,{})
+
+    local hiss = publicdata.History[#publicdata.History]
+    hiss.type = Action.Actiontype
+    hiss.original = Action.OrigPlayerID
+    hiss.New = Action.NewPlayerID
+    hiss.createdBy = Action.playerWhoCreated
+    hiss.Datapoint3 = Action.turned
+    hiss.votedby = VotedBy
+    hiss.ActionID = #publicdata.History
+    hiss.Turn = game.Game.TurnNumber
+    hiss.incomebump = Action.incomebump
+    hiss.cutoff = Action.Cutoff
+end

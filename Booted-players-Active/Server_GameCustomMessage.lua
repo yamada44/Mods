@@ -13,12 +13,11 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
   local typetext = Nonill(payload.text)
   if publicdata.CreatedActionID == nil then publicdata.CreatedActionID = {} end
+  if publicdata.CreatedHostchangeID == nil then publicdata.CreatedHostchangeID = {} end
   if publicdata.Turn ==  nil then publicdata.Turn = game.Game.TurnNumber end
+  if publicdata.History == nil then publicdata.History = {} end
+  if publicdata.HostID == nil then publicdata.HostID = 0 end
     
-    if publicdata.Turn ~= game.Game.TurnNumber then
-    publicdata.CreatedActionID = {}
-    publicdata.Turn = game.Game.TurnNumber
-  end  
 
 
 
@@ -58,16 +57,45 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 
   elseif type == 2 then -- Adding Vote
     table.insert(publicdata.Action[data1].VotingIDs,playerID)
+
   elseif type == 3 then -- removing
     table.remove(publicdata.Action[data1].VotingIDs,data2)
     if #publicdata.Action[data1].VotingIDs == 0 then
       table.remove(publicdata.Action,data1) -- remove the action if no one votes for it
     end
+
+
   elseif type == 4 then -- removing Action
     table.remove(publicdata.Action,data1)
-
-  end
   
+  elseif type == 5 then -- creating Host change
+    
+  
+    if publicdata.ChangeAction == nil then publicdata.ChangeAction = {} end
+    if #publicdata.ChangeAction >= 3 then     
+
+      setReturnTable({ Message = "Cannot have more then 3 Host Votes at a time\nHost votes fall off after 2 turns"})
+      return end
+      table.insert(publicdata.CreatedHostchangeID,playerID) 
+
+    if publicdata.ChangeAction[#publicdata.ChangeAction+1] == nil then publicdata.ChangeAction[#publicdata.ChangeAction+1] = {}
+      local short = publicdata.ChangeAction[#publicdata.ChangeAction]
+      short.NewHostID = data1
+      short.VotedPlayers = {}
+      short.VotedPlayers[#short.VotedPlayers+1] = playerID
+      short.TurnCreated = game.Game.TurnNumber
+      short.Createdby = playerID
+
+    end
+  elseif type == 6 then -- Adding Vote for host
+    table.insert(publicdata.ChangeAction[data1].VotedPlayers,playerID)
+
+  elseif type == 7 then -- removing for host
+    table.remove(publicdata.ChangeAction[data1].VotingIDs,playerID)
+    if #publicdata.ChangeAction[data1].VotingIDs == 0 then
+      table.remove(publicdata.ChangeAction,data1) -- remove the action if no one votes for it
+    end
+  end
 
     Mod.PublicGameData = publicdata
 end
