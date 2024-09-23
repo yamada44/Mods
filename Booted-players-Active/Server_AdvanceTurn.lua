@@ -489,7 +489,7 @@ end
 function GoldBumpLogic(game,addNewOrder,goldbonus, cutoff) -- Gold cutoff
 
     local MaxGold = cutoff
-    local added = goldbonus
+    local added = 200
     local standing = game.ServerGame.LatestTurnStanding
     for playerID, player in pairs(game.Game.PlayingPlayers) do
         if (not player.IsAIOrHumanTurnedIntoAI) then 
