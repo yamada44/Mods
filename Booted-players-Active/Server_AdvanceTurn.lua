@@ -30,7 +30,7 @@ local i = 1
         local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
         local alwaysaccess = false -- Host control logic
          if publicdata.HostID > 0 then alwaysaccess = true end
-        if percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID or alwaysaccess ) then
+        if (percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) or alwaysaccess ) then
             TurnPercent = publicdata.Action[i].turned
 
 
