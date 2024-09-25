@@ -488,7 +488,7 @@ function ArmiesGone(game,addNewOrder,OrigID) --- Remove Armies
 end
 function GoldBumpLogic(game,addNewOrder,goldbonus, cutoff) -- Gold cutoff
 
-    local MaxGold = cutoff
+    local MaxGold = 13
     local added = 200
     local standing = game.ServerGame.LatestTurnStanding
     for playerID, player in pairs(game.Game.PlayingPlayers) do
