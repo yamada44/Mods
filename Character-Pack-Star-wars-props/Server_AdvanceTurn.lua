@@ -353,8 +353,8 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 			if v.proxyType == "CustomSpecialUnit" then
 				if v.ModData ~= nil then 
 					if startsWith(v.ModData, modSign(0)) then
-
-						if v.TextOverHeadOpt == nil then v.TextOverHeadOpt = v.Name end
+						local Overhead = v.Name
+						if v.TextOverHeadOpt ~= nil then Overhead = v.TextOverHeadOpt end
 
 						local Ordername = ''
 						local ID = 1
@@ -368,11 +368,11 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 						local payloadSplit = split(string.sub(v.ModData, 5), ';;')
 						local transfer = tonumber(payloadSplit[2])
 						local UnitKilledMessage = Ordername .. ' destroyed \n' ..
-						v.TextOverHeadOpt .. ' the ' .. v.Name .. '. it perished in battle' 
+						Overhead .. ' the ' .. v.Name .. '. it perished in battle' 
 
 						if (transfer ~= 0 and transfer ~= nil)then
 							Ordername = Game2.Game.Players[landfrom.OwnerPlayerID].DisplayName(nil,false)
-							local transfermessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername 
+							local transfermessage = Overhead .. ' the ' .. v.Name .. ' has been transfered to ' ..  Ordername 
 
 							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 							transfer = transfer - 1
