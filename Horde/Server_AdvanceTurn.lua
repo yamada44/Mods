@@ -233,7 +233,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
                 
                   local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 
-                  builder.OwnerID = ts.OwnerPlayerID
+--                builder.OwnerID = ts.OwnerPlayerID
                   builder.IsVisibleToAllPlayers = true
                   mod.AddSpecialUnits = {builder.Build()}
                   mod.RemoveSpecialUnitsOpt = {v.ID}
