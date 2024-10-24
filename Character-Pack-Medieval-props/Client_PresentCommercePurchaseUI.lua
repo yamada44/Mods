@@ -30,17 +30,17 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 		unitamount = 0
 		increasingCost[i] = math.ceil(Playerdata.Unitdata[i].unitcost * 0.5)
 		--Slot management
-		local isZom = false
+		local isSlot = false
 
 		if Playerdata.Unitdata[i].Slot ~= nil and #Playerdata.Unitdata[i].Slot > 0 then
 			for s = 1, #Playerdata.Unitdata[i].Slot do
 				if Playerdata.Unitdata[i].Slot[s] == Game.Us.Slot then 
-					isZom = true
+					isSlot = true
 					break
 				end
 			end
-			if isZom == false then
-				UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) return
+			if isSlot == false then
+				UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) 
 			end
 		end
 
