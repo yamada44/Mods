@@ -13,13 +13,10 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 
 	print("payload0",payloadO.planid)
 	local i = 1
-	if payloadO.setup == 1 then -- continued setups
-		if payloadO.setup == 1 or payloadO.setup == 3 then 
-			publicdate.PayP.accessed = true
-			publicdate.PayP.Sameturn = game.Game.TurnNumber
-			
-		end
+	publicdate.PayP.accessed = true
+	publicdate.PayP.Sameturn = game.Game.TurnNumber
 
+	if payloadO.setup == 1 then -- continued setups
 	
 		while i <=  #publicdate.PayP.Plan do
 			local v = publicdate.PayP.Plan[i]
