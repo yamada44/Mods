@@ -169,7 +169,7 @@ function SUvalue(SU,powerneeded)
 	local SUdata = {remove = {},add = {},totalpower = 0}
 	local currentpower = 0
 	for i,v in pairs(SU)do
-		if v.proxyType == "CustomSpecialUnit" then
+		if v.proxyType == "CustomSpecialUnit" and v.proxyType ~= "Commander" then
 			currentpower = currentpower + v.AttackPower 
 
 			if currentpower > powerneeded  and (i ~= 1 or (powerneeded <= 0)) then
