@@ -20,8 +20,10 @@ elseif type == 0 then -- upkeep access loop
             local upkeep = tonumber(payloadSplit[11]) or 0
             if upkeep > 0 then -- check to see if it has upkeep functions
               if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0
+              print(totalupkeep[ts.OwnerPlayerID])
               totalupkeep[ts.OwnerPlayerID] = totalupkeep[ts.OwnerPlayerID] + upkeep
-              end
+              print(totalupkeep[ts.OwnerPlayerID])  
+            end
             
             end
           end
