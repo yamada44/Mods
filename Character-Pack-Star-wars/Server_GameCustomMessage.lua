@@ -23,13 +23,13 @@ elseif type == 0 then -- upkeep access loop
             local upkeep = tonumber(payloadSplit[11]) or 0
             print("Unit found 3", upkeep, ts.ID)
             if upkeep > 0 then -- check to see if it has upkeep functions
-              if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0
+              if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0 end
               print(totalupkeep[ts.OwnerPlayerID], ts.ID)
               totalupkeep[ts.OwnerPlayerID] = totalupkeep[ts.OwnerPlayerID] + upkeep
               print(totalupkeep[ts.OwnerPlayerID], ts.ID)  
             end
             
-            end
+            
           end
         end
       end
