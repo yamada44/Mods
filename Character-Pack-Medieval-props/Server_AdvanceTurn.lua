@@ -276,6 +276,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 	local publicdata = Mod.PublicGameData
 	publicdata.Access = true
 	Mod.PublicGameData = publicdata
+	print("access ", publicdata.Access)
 
 end
 
