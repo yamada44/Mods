@@ -167,6 +167,9 @@ function Unittemplates(vert, i)
 	slot = uniteconfig[i].Slotstore 
 	end
 
+	local upkeep = uniteconfig[i].upkeep
+	if upkeep == nil then upkeep = 0 end
+
 	--setting up the UI and all its fields
 
 	-- how much Gold will this army cost
@@ -340,6 +343,16 @@ function Unittemplates(vert, i)
 		.SetSliderMaxValue(18)
 		.SetValue(onCity)
 
+	--Upkeep for special unit
+	InputFieldTable[i].row25 = UI.CreateHorizontalLayoutGroup(vert);
+	local row25 = InputFieldTable[i].row25
+	UI.CreateButton(row25).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("How much gold it cost to keep this unit alive. Upkeep increases at same rate of attack power when leveling up\n if upkeep from all units is more than you have, your simply have 0 income at turn start\nSet to 0 to disable this feature entirely"); end);
+	InputFieldTable[i].text27 = UI.CreateLabel(row25).SetText('UpKeep Cost')
+	InputFieldTable[i].Upkeep = UI.CreateNumberInputField(row25)
+		.SetSliderMinValue(0)
+		.SetSliderMaxValue(50)
+		.SetValue(upkeep)
+
 	--Max amount shared between players
 	InputFieldTable[i].row6 = UI.CreateHorizontalLayoutGroup(vert);
 	local row6 = InputFieldTable[i].row6
@@ -426,6 +439,7 @@ function TempAlreadyCreated(i)
 	InputFieldTable[i].City = uniteconfig[i].Oncity
 	InputFieldTable[i].Combat = uniteconfig[i].CombatOrder
 	InputFieldTable[i].Slot = uniteconfig[i].Slotstore
+	InputFieldTable[i].Upkeep = uniteconfig[i].Upkeep 
 	--InputFieldTable[i].Slotstore = uniteconfig[i].Slotstore
 end
 
@@ -464,6 +478,7 @@ function Destroy()
 			UI.Destroy(InputFieldTable[D].text23)
 			UI.Destroy(InputFieldTable[D].text25)
 			UI.Destroy(InputFieldTable[D].text26)
+			UI.Destroy(InputFieldTable[D].text27)
 			UI.Destroy(InputFieldTable[D].unitcost)
 			UI.Destroy(InputFieldTable[D].unitpower)
 			UI.Destroy(InputFieldTable[D].Maxunits)
@@ -487,6 +502,7 @@ function Destroy()
 			UI.Destroy(InputFieldTable[D].Combat)
 			UI.Destroy(InputFieldTable[D].City)
 			UI.Destroy(InputFieldTable[D].Slot)
+			UI.Destroy(InputFieldTable[D].Upkeep)
 			UI.Destroy(InputFieldTable[D].row1)
 			UI.Destroy(InputFieldTable[D].row2)
 			UI.Destroy(InputFieldTable[D].row3)
@@ -511,6 +527,7 @@ function Destroy()
 			UI.Destroy(InputFieldTable[D].row21)
 			UI.Destroy(InputFieldTable[D].row23)
 			UI.Destroy(InputFieldTable[D].row24)
+			UI.Destroy(InputFieldTable[D].row25)
 		end
 		UI.Destroy(InputFieldTable[D].text180)
 		UI.Destroy(InputFieldTable[D].Template)

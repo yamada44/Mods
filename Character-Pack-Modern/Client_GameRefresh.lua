@@ -5,4 +5,12 @@ function Client_GameRefresh(game)
 		UI.Alert("You must update your app to the latest version to use the Tanks mod");
         Alerted = true;
 	end
+
+	if publicdata.Access == true then
+		local payload = {}
+		payload.type = 0
+
+		Game.SendGameCustomMessage("GiftGoldUltra2" .. "...", payload, function(returnValue) 
+		end)
+	end
 end

@@ -109,6 +109,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local combatorder = 123
 		local cooldown = Mod.Settings.Unitdata[type].Cooldown or 0
 		local assass = Mod.Settings.Unitdata[type].Assassination or 0
+		local upkeep = Mod.Settings.Unitdata[type].upkeep or 0
 
 		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
 			 altmove = 1
@@ -217,7 +218,7 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.CanBeAirliftedToTeammate = true;
 		builder.TextOverHeadOpt = charactername
 		builder.IsVisibleToAllPlayers = visible;
-		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type
+		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type .. ';;' .. upkeep
 	
 		print (defence, 'defence power')
 		print (unitpower, 'attack power')
@@ -271,6 +272,10 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 		end
 		
 	end]]--
+
+	local publicdata = Mod.PublicGameData
+	publicdata.Access = true
+	Mod.PublicGameData = publicdata
 
 end
 
@@ -328,7 +333,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 							
 								transfer = transfer - 1
 								builder.OwnerID  = land.OwnerPlayerID
-								builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
+								builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0).. ';;' .. (payloadSplit[11] or 0)
 
 								local terrMod = WL.TerritoryModification.Create(order.To)
 								terrMod.AddSpecialUnits = {builder.Build()}
@@ -377,7 +382,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 							local builder = WL.CustomSpecialUnitBuilder.CreateCopy(v)
 							transfer = transfer - 1
 							builder.OwnerID  = landfrom.OwnerPlayerID
-							builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
+							builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'.. transfer .. ';;' .. payloadSplit[3].. ';;' .. payloadSplit[4].. ';;' .. payloadSplit[5].. ';;' .. payloadSplit[6].. ';;'.. (payloadSplit[7] or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0).. ';;' .. (payloadSplit[11] or 0)
 
 							local terrMod = WL.TerritoryModification.Create(order.From);
 							terrMod.AddSpecialUnits = {builder.Build()};
@@ -428,6 +433,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 							local unitdefence = tonumber(payloadSplit[7]) or 0
 							local absoredDamage = (unitpower + unitdefence) / 2
 							local altmove = tonumber(payloadSplit[8]) or 0
+							local upkeep = tonumber(payloadSplit[11]) or 0
 							print (altmove,'altmove')
 
 							if (result.DefendingArmiesKilled.DefensePower > 0)then -- making sure the attack actually had people who died
@@ -455,11 +461,13 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 										builder.DefensePower = builder.DefensePower + (builder.DefensePower / currlevel)
 										builder.DamageToKill = builder.DamageToKill + (absoredDamage / currlevel)
 										builder.DamageAbsorbedWhenAttacked = builder.DamageAbsorbedWhenAttacked + (absoredDamage / currlevel)
+										upkeep = upkeep + (upkeep / currlevel)
 										levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
+
 									end --starting XP over if level was reached
 
 									builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-									builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
+									builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0).. ';;' .. (upkeep or 0)
 									print (v.ModData)
 									terrMod.AddSpecialUnits = {builder.Build()};
 									terrMod.RemoveSpecialUnitsOpt = {v.ID}
@@ -521,11 +529,12 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 											builder.DefensePower = builder.DefensePower + (builder.DefensePower / currlevel);
 											builder.DamageToKill = absoredDamage + (absoredDamage / currlevel);
 											builder.DamageAbsorbedWhenAttacked = absoredDamage + (builder.DamageAbsorbedWhenAttacked / currlevel)
+											upkeep = upkeep + (upkeep / currlevel)
 											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
 										end --starting XP over if level was reached
 
 										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
-										builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0)
+										builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0).. ';;' .. (payloadSplit[11] or 0)
 										print (v.ModData)
 										print (builder.ModData)
 										print (builder.AttackPower)

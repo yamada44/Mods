@@ -245,6 +245,7 @@ function dynamicInfo(i)
 	local message = 'Name: ' ..Playerdata.Unitdata[i].Name -- Attack message
 	local defend = Playerdata.Unitdata[i].unitpower / 2
 	local city = false
+	local upkeep = Playerdata.Unitdata[i].upkeep
 
 	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount)
 
@@ -272,6 +273,9 @@ function dynamicInfo(i)
 		print ("Structure type", Mod.Settings.Unitdata[i].Oncity)
 		if type(Mod.Settings.Unitdata[i].Oncity) == "number" then name = getBuildInfo(Mod.Settings.Unitdata[i].Oncity, "name") end
 		message = message .. "\nBuild on ".. name .." Only"
+	end
+	if upkeep ~= nil and upkeep ~= 0 then
+		message = message .. "\nUpkeep Cost: " .. upkeep .. " gold"
 	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '

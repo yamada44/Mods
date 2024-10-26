@@ -141,6 +141,11 @@ function Client_SaveConfigureUI(alert)
             else Mod.Settings.Unitdata[i].Oncity = cities end
             print ("bob",Mod.Settings.Unitdata[i].Oncity,cities,"City value")
 
+            --Upkeep
+            local upkeep = TableFormat((InputFieldTable[i].Upkeep or 0) ,num)
+            if (upkeep < 0)then upkeep = 2 alert("Mod set up failed\nUpkeep value must be above 0")
+            else Mod.Settings.Unitdata[i].Upkeep = upkeep end
+
             tomanyunits = tomanyunits + maxunits -- check if they exceeded the max units i wanna allow
             noUnitsOn = noUnitsOn + maxunits -- to check if any units were turned on
 
