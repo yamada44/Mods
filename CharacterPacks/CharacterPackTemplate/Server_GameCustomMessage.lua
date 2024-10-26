@@ -16,7 +16,9 @@ elseif type == 0 then -- upkeep access loop
       if v.proxyType == "CustomSpecialUnit" then
         print("Unit found", ts.ID)
         if v.ModData ~= nil then -- 
+          print("Unit found 2", ts.ID)
           if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
+            print("Unit found 3", ts.ID)
             local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
             local upkeep = tonumber(payloadSplit[11]) or 0
             if upkeep > 0 then -- check to see if it has upkeep functions
