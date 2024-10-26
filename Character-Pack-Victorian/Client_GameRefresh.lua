@@ -5,6 +5,7 @@ function Client_GameRefresh(game)
 		UI.Alert("You must update your app to the latest version to use the Tanks mod");
         Alerted = true;
 	end
+	publicdata = Mod.PublicGameData
 
 	if publicdata.Access ~= nil and publicdata.Access == true then
 		local payload = {}
