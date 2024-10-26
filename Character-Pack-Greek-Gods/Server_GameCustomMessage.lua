@@ -17,10 +17,10 @@ elseif type == 0 then -- upkeep access loop
         if v.ModData ~= nil then -- 
           if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
             local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
-
-            if payloadSplit[11] > 0 then -- check to see if it has upkeep functions
+            local upkeep = payloadSplit[11] or 0
+            if upkeep > 0 then -- check to see if it has upkeep functions
               if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0
-              totalupkeep[ts.OwnerPlayerID] = totalupkeep[ts.OwnerPlayerID] + payloadSplit[11]
+              totalupkeep[ts.OwnerPlayerID] = totalupkeep[ts.OwnerPlayerID] + upkeep
               end
             
             end

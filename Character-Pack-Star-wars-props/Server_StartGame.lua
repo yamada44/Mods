@@ -67,6 +67,7 @@ function Server_StartGame (game,standing)
                 local altmove = 0
                 local combatorder = 123
                 local assass = Mod.Settings.Unitdata[type].Assassination or 0
+                local upkeep = Mod.Settings.Unitdata[type].upkeep or 0
 
                 if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
                     altmove = 1
@@ -100,7 +101,7 @@ function Server_StartGame (game,standing)
                 builder.CanBeAirliftedToTeammate = true
                 builder.TextOverHeadOpt = charactername
                 builder.IsVisibleToAllPlayers = visible;
-                builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type
+                builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type .. ';;' .. upkeep
                 local unit = builder.Build()
 
                 local S = {}
