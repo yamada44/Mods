@@ -36,7 +36,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 --Forts have troops built into them
 		if Mod.Settings.Need > 0 or Mod.Settings.Need == -1 then
-
+			print("WWWWW")
 			--Forst double the amount of troops built into them
 			local turnscale = 0
 			if Mod.Settings.Scale > 0 then 
@@ -59,7 +59,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				--troop combat values
 				local removedtroops = removedbuilds * NeededPower -- duel use of power needed and troops to remove (was not a good ideal)
 				local SUremoved = {}
-
+				print("Woud 1")
 				--Adding SU value to calculations
 				SUremoved = SUvalue(result.ActualArmies.SpecialUnits, removedtroops - result.ActualArmies.NumArmies)
 				if result.ActualArmies.NumArmies < removedtroops then 
@@ -98,7 +98,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 					--A successful attack on a territory where no defending armies were killed must mean it was a territory defended by 0 armies.  In this case, we can't stop the attack by simply setting DefendingArmiesKilled to 0, since attacks against 0 are always successful.  So instead, we simply skip the entire attack.
 					skipThisOrder(WL.ModOrderControl.Skip)
 				else
+
+					result.AttackingArmiesKilled = WL.Armies.Create(result.ActualArmies.NumArmies,result.ActualArmies.SpecialUnits)
 					result.DefendingArmiesKilled = WL.Armies.Create(0)
+					
+					addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, "Failed attack on Fort, army not powerful enough", nil, {}))
+
 				end
 			end 
 --Forts stop attacks
@@ -168,22 +173,21 @@ end
 function SUvalue(SU,powerneeded)
 	local SUdata = {remove = {},add = {},totalpower = 0}
 	local currentpower = 0
+	
 	for i,v in pairs(SU)do
 		if v.proxyType == "CustomSpecialUnit" and v.proxyType ~= "Commander" then
-			print("tryyyyyyyyyyyyyyyy")
+
 			currentpower = currentpower + v.AttackPower 
 
 			if currentpower > powerneeded  and (i ~= 1 or (powerneeded <= 0)) then
 
 				table.insert(SUdata.add,v)
 			else
-				print("special unit")
 				table.insert(SUdata.remove,v.ID)
 				SUdata.totalpower = SUdata.totalpower + v.AttackPower 
 			end
 		end
 
 	end
-	
 	return SUdata
 end
