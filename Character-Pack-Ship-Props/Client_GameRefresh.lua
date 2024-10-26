@@ -6,7 +6,7 @@ function Client_GameRefresh(game)
         Alerted = true;
 	end
 
-	if publicdata.Access == true then
+	if publicdata.Access ~= nil and publicdata.Access == true then
 		local payload = {}
 		payload.type = 0
 
