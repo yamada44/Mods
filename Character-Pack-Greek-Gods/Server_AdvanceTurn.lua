@@ -109,7 +109,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		local combatorder = 123
 		local cooldown = Mod.Settings.Unitdata[type].Cooldown or 0
 		local assass = Mod.Settings.Unitdata[type].Assassination or 0
-		local upkeep = Mod.Settings.Unitdata[type].upkeep or 0
+		local upkeep = Mod.Settings.Unitdata[type].Upkeep or 0
 
 		if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
 			 altmove = 1
