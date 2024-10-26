@@ -11,7 +11,7 @@ function Client_GameRefresh(game)
 		local payload = {}
 		payload.type = 0
 
-		Game.SendGameCustomMessage("GiftGoldUltra2" .. "...", payload, function(returnValue) 
+		game.SendGameCustomMessage("GiftGoldUltra2" .. "...", payload, function(returnValue) 
 		end)
 	end
 end
