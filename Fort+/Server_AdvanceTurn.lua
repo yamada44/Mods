@@ -170,12 +170,14 @@ function SUvalue(SU,powerneeded)
 	local currentpower = 0
 	for i,v in pairs(SU)do
 		if v.proxyType == "CustomSpecialUnit" and v.proxyType ~= "Commander" then
+			print("tryyyyyyyyyyyyyyyy")
 			currentpower = currentpower + v.AttackPower 
 
 			if currentpower > powerneeded  and (i ~= 1 or (powerneeded <= 0)) then
 
 				table.insert(SUdata.add,v)
 			else
+				print("special unit")
 				table.insert(SUdata.remove,v.ID)
 				SUdata.totalpower = SUdata.totalpower + v.AttackPower 
 			end
