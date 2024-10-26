@@ -21,6 +21,7 @@ elseif type == 0 then -- upkeep access loop
             print("Unit found 3", ts.ID)
             local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
             local upkeep = tonumber(payloadSplit[11]) or 0
+            print("Unit found 3", upkeep, ts.ID)
             if upkeep > 0 then -- check to see if it has upkeep functions
               if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0
               print(totalupkeep[ts.OwnerPlayerID], ts.ID)
