@@ -36,7 +36,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 --Forts have troops built into them
 		if Mod.Settings.Need > 0 or Mod.Settings.Need == -1 then
-			print("WWWWW")
 			--Forst double the amount of troops built into them
 			local turnscale = 0
 			if Mod.Settings.Scale > 0 then 
@@ -59,7 +58,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				--troop combat values
 				local removedtroops = removedbuilds * NeededPower -- duel use of power needed and troops to remove (was not a good ideal)
 				local SUremoved = {}
-				print("Woud 1")
 				--Adding SU value to calculations
 				SUremoved = SUvalue(result.ActualArmies.SpecialUnits, removedtroops - result.ActualArmies.NumArmies)
 				if result.ActualArmies.NumArmies < removedtroops then 

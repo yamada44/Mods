@@ -3,6 +3,7 @@ require('Utilities')
 
 
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
+
   publicdata = Mod.PublicGameData
 
   local type = Nonill(payload.entrytype)
@@ -10,6 +11,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   local data2 = payload.data2
   local data3 = payload.data3
   local data4 = payload.data4
+  local data5 = payload.data5
 
   local typetext = Nonill(payload.text)
   if publicdata.CreatedActionID == nil then publicdata.CreatedActionID = {} end
@@ -18,8 +20,6 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   if publicdata.History == nil then publicdata.History = {} end
   if publicdata.HostID == nil then publicdata.HostID = 0 end
     
-
-
 
   if type == 1 then -- Creating a new option from scrath  
     
@@ -34,7 +34,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     
 
       if typetext == ActionTypeNames(3) or typetext == ActionTypeNames(4) or typetext == ActionTypeNames(6) or typetext == ActionTypeNames(9) then data2 = "Neutral" end 
-    print(data2,"data2")
+
     if publicdata.Action[#publicdata.Action + 1] == nil then publicdata.Action[#publicdata.Action + 1] = {} end
       local short = publicdata.Action[#publicdata.Action]
 
@@ -52,7 +52,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     short.Todelete = false
     short.turned = data3
     short.playerWhoCreated = playerID
-    
+    short.Bonus = data5
 
 
   elseif type == 2 then -- Adding Vote

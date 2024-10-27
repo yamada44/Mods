@@ -5,25 +5,20 @@ function Server_AdvanceTurn_Start(game, addNewOrder)
 	Game1 = game
 
 	--if (Mod.Settings.corefeature ~= nil or Mod.Settings.corefeature == false) then
-	print('phase 1', "main function has been entered")
 		for _,ts in pairs(game.ServerGame.LatestTurnStanding.Territories) do
 
 
 				for i,v in pairs (ts.NumArmies.SpecialUnits)do -- search all Territories and see if it has a speical unit
-					print('phase 2', "does have speical unit")
 					if v.proxyType == "CustomSpecialUnit" then
 						if v.ModData ~= nil then -- 
 							if startsWith(v.ModData, modSign(0)) then -- make sure the speical unit is only from I.S. mods
-								print('phase 3', "unit is from I.S. mods")
 								local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
 								local diebitch = tonumber(payloadSplit[1])
 
 								if diebitch <= Game1.Game.TurnNumber and diebitch ~= 0 then -- check if this unit has expired in life, if yes, then destroy it
-									print('phase 4', "killing unit via life")
 									local mod = WL.TerritoryModification.Create(ts.ID)
 									t = {}
 									table.insert(t, v.ID);
-									print(v.Name)
 									mod.RemoveSpecialUnitsOpt = t
 									local UnitdiedMessage = v.TextOverHeadOpt .. ' the ' .. v.Name .. ' has died of natural causes' 
 		
@@ -69,7 +64,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, modSign(0))) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		
-		print (order.Payload, 'payload')	
 		local publicdata = Mod.PublicGameData
 
 		local payloadSplit = split(string.sub(order.Payload, 7), ';;')
@@ -166,7 +160,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			end
 		end
 		
-print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		
 	--skipping logic if any settings are set to limit the amount of units on field at a given time
 		if (numUnitsAlreadyHave >= unitmax) then
@@ -220,9 +213,6 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		builder.IsVisibleToAllPlayers = visible;
 		builder.ModData = modSign(0) .. Turnkilled .. ';;' .. transfer .. ';;' .. levelamount .. ';;' .. currentxp .. ';;' .. unitpower .. ';;' .. startinglevel .. ';;'.. defence .. ';;'.. altmove .. ';;'.. assass .. ';;' .. type .. ';;' .. upkeep
 	
-		print (defence, 'defence power')
-		print (unitpower, 'attack power')
-		print(absoredDamage, 'absored')
 
 		local terrMod = WL.TerritoryModification.Create(targetTerritoryID);
 		terrMod.AddSpecialUnits = {builder.Build()};
@@ -240,7 +230,6 @@ print(numUnitsAlreadyHave,unitmax,"unitmax testing" )
 		if (cooldown ~= 0)then 
 			publicdata[type][ID].cooldowntimer = game.Game.TurnNumber + cooldown
 		end
-		print('type',type,'id',ID,'cooldown',publicdata[type][ID].cooldowntimer)
 		 Mod.PublicGameData = publicdata
 	end
 end
@@ -276,7 +265,6 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 	local publicdata = Mod.PublicGameData
 	publicdata.Access = true
 	Mod.PublicGameData = publicdata
-	print("access ", publicdata.Access)
 
 end
 
@@ -425,7 +413,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 							end
 						end
 						if dead == false then
-							print (v.ModData)
 							local payloadSplit = split(string.sub(v.ModData, 5), ';;')
 							local levelamount = tonumber(payloadSplit[3])
 							local XP = tonumber(payloadSplit[4])
@@ -435,7 +422,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 							local absoredDamage = (unitpower + unitdefence) / 2
 							local altmove = tonumber(payloadSplit[8]) or 0
 							local upkeep = tonumber(payloadSplit[11]) or 0
-							print (altmove,'altmove')
 
 							if (result.DefendingArmiesKilled.DefensePower > 0)then -- making sure the attack actually had people who died
 								if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
@@ -446,7 +432,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 									local skipper = string.len(payloadSplit[6]) + 4
 									local namepayload = split(string.sub(builder.Name, skipper), ';');  -- removing part of the old name to replace
-									print(skipper,'skipper')
 
 									if result.IsSuccessful == true then territory = order.To
 									else territory = order.From end
@@ -483,7 +468,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 		end
 
 		if #defendingspecialUnits > 0 and wassuccessful == false then
-			print('defending special units found')
 
 			for i, v in pairs(defendingspecialUnits) do -- checking to see if an attack had a special unit
 				if v.proxyType == "CustomSpecialUnit" then -- making sure its a custom unit, not a commander or otherwise
@@ -507,6 +491,7 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 								local unitdefence = tonumber(payloadSplit[7]) or 0
 								local absoredDamage = math.max(unitpower,unitdefence)
 								local territory = order.To
+								local upkeep = tonumber(payloadSplit[11]) or 0
 
 								if (result.AttackingArmiesKilled.AttackPower  > 0)then -- making sure the attack actually had people who died
 									if levelamount ~= 0 and levelamount ~= nil then -- making sure the level option is turned on
@@ -536,9 +521,6 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 
 										builder.Name = "LV" .. currlevel .. ' ' .. namepayload[1]
 										builder.ModData = modSign(0) .. payloadSplit[1] .. ';;'..payloadSplit[2] .. ';;'..levelamount .. ';;'.. XP .. ';;' .. unitpower .. ';;' .. currlevel.. ';;'.. (unitdefence or 0).. ';;'.. (payloadSplit[8] or 0) .. ';;' .. (payloadSplit[9] or 0) .. ';;' .. (payloadSplit[10] or 0).. ';;' .. (payloadSplit[11] or 0)
-										print (v.ModData)
-										print (builder.ModData)
-										print (builder.AttackPower)
 										terrMod.AddSpecialUnits = {builder.Build()};
 										terrMod.RemoveSpecialUnitsOpt = {v.ID}
 

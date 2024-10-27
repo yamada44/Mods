@@ -37,21 +37,21 @@ local i = 1
             if publicdata.Action[i].Actiontype == ActionTypeNames(1) then
             SwitchingLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) 
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(2) then
-                SwapThenWasteland(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+                SwapThenWasteland(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(3) then
-                EliminateasisLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+                EliminateasisLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(4) then
-                EliminateWasteLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+                EliminateWasteLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(5) then
-                Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+                Absorblogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(6) then
-                ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+                ArmiesGone(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(7)  then
                 GoldBumpLogic(game, addNewOrder,publicdata.Action[i].incomebump,publicdata.Action[i].Cutoff)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(8)  then
-                Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID)
+                Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(9)  then
-                Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID)
+                Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus)
             end
             Addhistory(publicdata.Action[i],percentVote,game)
             table.remove(publicdata.Action,i)
@@ -131,10 +131,8 @@ function InAction( origID,newID) -- checks to see if a player in one action has 
     return notyet
 end
 function Turnlogic(origlandamount)
-    local percent = math.floor(origlandamount * (TurnPercent / 100))
+    return (math.floor(origlandamount * (TurnPercent / 100)))
     
-
-    return percent
 end
 function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
     --645468
@@ -235,7 +233,7 @@ function SwitchingLogic(game,addNewOrder,OrigID,NewID) --- Swapping
 
 end
 
-function SwapThenWasteland(game,addNewOrder,OrigID,NewID) --- Swapping to wasteland
+function SwapThenWasteland(game,addNewOrder,OrigID,NewID,Bonuson) --- Swapping to wasteland
     --645468
     local boot = {} 
     local Switch = {} 
@@ -254,16 +252,17 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID) --- Swapping to wastel
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
-                SUDelete(ts,addNewOrder)
+        if Bonuson == false then -- bonus terrain on
+            
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                    ArmyStackBoot = ts.NumArmies
+                    SUDelete(ts,addNewOrder)
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
-
     elseif ts.OwnerPlayerID == Switch.ID then -- switch
         for _,v in pairs (ts.NumArmies.SpecialUnits) do 
             if v.proxyType == "Commander" then
@@ -274,12 +273,16 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID) --- Swapping to wastel
         table.insert(Switch.SwitchTerr,ts.ID)
     end
    end
-
+   -- Logic for bonus terrain
+   if Bonuson == true then
+    for __, TID in pairs (Game.Map.Bonuses[OrigID].Territories) do 
+        table.insert(boot.bootedTerr,TID)
+        print(TID)
+    end
+   end
 --- Moving commander logic
 
 local amountTurned = Turnlogic(#boot.bootedTerr)
-
-
 ---------------------------------
      local idAirlift2 = 0
      for i,ts in pairs (boot.bootedTerr) do --turning first spot switch into boot 
@@ -318,7 +321,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
     end
 
 end
-function Absorblogic(game,addNewOrder,OrigID,NewID) -- Absorb logic
+function Absorblogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Absorb logic
     --645468
     local boot = {} 
     local Switch = {} 
@@ -374,7 +377,7 @@ function Absorblogic(game,addNewOrder,OrigID,NewID) -- Absorb logic
 
 
 end
-function EliminateasisLogic(game,addNewOrder,OrigID) --- Eliminating as is
+function EliminateasisLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminating as is
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -410,7 +413,7 @@ function EliminateasisLogic(game,addNewOrder,OrigID) --- Eliminating as is
 
 
 end
-function EliminateWasteLogic(game,addNewOrder,OrigID) -- Eliminate to wasteland 
+function EliminateWasteLogic(game,addNewOrder,OrigID,Bonuson) -- Eliminate to wasteland 
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -450,7 +453,7 @@ function EliminateWasteLogic(game,addNewOrder,OrigID) -- Eliminate to wasteland
 
 
 end
-function ArmiesGone(game,addNewOrder,OrigID) --- Remove Armies
+function ArmiesGone(game,addNewOrder,OrigID,Bonuson) --- Remove Armies
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -506,7 +509,7 @@ function GoldBumpLogic(game,addNewOrder,goldbonus, cutoff) -- Gold cutoff
 
 end
 
-function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID) -- Absorb than armies erased
+function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Absorb than armies erased
     local boot = {} 
     local Switch = {} 
      boot.ID = OrigID 
@@ -562,7 +565,7 @@ function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID) -- Absorb than 
 
 end
 
-function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID) --- Eliminating as is
+function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminating as is
     --645468
     local boot = {} 
      boot.ID = OrigID 

@@ -50,11 +50,13 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		UI.CreateLabel(row1).SetText( "Active Host: " .. hostname).SetColor('#0eb8c2')
 
 		if publicdata.HostID == ID then -- Give Host Controls
-			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give host controls	
+			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give host controls	
+
 		end
 		UI.CreateButton(rowBegin).SetText("Change Host").SetOnClick(function () Window(3,close,vert) end).SetInteractable(NoHostActionCreated) -- Change Host option
-	else
-		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action vote").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give controls to everyone
+	else -- give controls to everyone
+		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
+
 	end
 
 	History = UI.CreateButton(rowBegin).SetText("Action History").SetOnClick(function () Window(2,close) end) -- view history of powers
@@ -95,18 +97,27 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 				Serverload(3,"N/A",i,voteid,close)
 			end
 
+			--checking for income Action type
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
 				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
+			--All other action types besides income
 			else
+				--checking for neutrals instead of players for names
 				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
+				--checking for bonus action
+				if publicdata.Action[i].Bonus ~= nil and publicdata.Action[i].Bonus == true then
+					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.Action[i].OrigPlayerID].Name  .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
 
-				UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
-				
+				else
+					--defeault action display
+					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
+				end
 			end
+			--displaying voting buttons
 				UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
 				UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
-
+			--displaying voting stats
 				UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n".. GoldorLand).SetColor('#00FF05')
 				UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
 				UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
@@ -130,10 +141,12 @@ function Window(window, close, data)
 	elseif window == 3 then
 		Game.CreateDialog(Changehost)
 		close()	
+
 	end
 end
+--Player Action
 function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
-	setMaxSize(400, 400)
+	setMaxSize(500, 450)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
@@ -141,19 +154,22 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row33 = UI.CreateHorizontalLayoutGroup(vert)
 	local row34 = UI.CreateHorizontalLayoutGroup(vert)
-	local row4 = UI.CreateHorizontalLayoutGroup(vert)
+	local row35 = UI.CreateHorizontalLayoutGroup(vert)
+	local row36 = UI.CreateHorizontalLayoutGroup(vert)
+
 	HelperMessage = "select a Action, then click on this again, it will have a help tip"
 
-	UI.CreateLabel(row1).SetText("Original Player: ").SetColor('#4EC4FF')
+	playerText = UI.CreateLabel(row1).SetText("Original Player: ").SetColor('#4EC4FF')
 	OrigPlayerBtn = UI.CreateButton(row1).SetText("Select Old player...").SetOnClick(function ()PromptListSetup(1) end)
+	BonusListBtn = UI.CreateButton(row1).SetText("Select bonus...").SetOnClick(function ()PromptListSetup(6) end).SetInteractable(false)
+
 	UI.CreateLabel(row2).SetText("Action: ").SetColor('#4EC4FF')
 	ActPlayerBtn = UI.CreateButton(row2).SetText("Select Action...").SetOnClick(function ()PromptListSetup(3) end)
 	UI.CreateButton(row2).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert(HelperMessage); end);
 
 	UI.CreateLabel(row3).SetText("New Player: ").SetColor('#4EC4FF')
 	SwapPlayerBtn = UI.CreateButton(row3).SetText("Select New player...").SetOnClick(function ()PromptListSetup(2) end)
-
-	--TurnedBtn = UI.CreateCheckBox(row33).SetIsChecked(false).SetText("Land Affected percent") endt
+	
     Textland1 = UI.CreateLabel(row33).SetText('Percent of Land affected')
     TurnedBtn = UI.CreateNumberInputField(row33)
         .SetSliderMinValue(5)
@@ -165,12 +181,15 @@ function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
         .SetSliderMaxValue(500)
         .SetValue(100).SetInteractable(false)
 
+	BonusBtn = UI.CreateCheckBox(row35).SetIsChecked(false).SetText("Bonus instead of Original player").SetOnValueChanged(Onbonuschange) 
+
 		
 
-	UI.CreateButton(row4).SetText("Commit").SetOnClick(function ()Serverload(1,ActPlayerBtn.GetText(),OrigPlayerID,SwapPlayerID, close) end)
+	UI.CreateButton(row36).SetText("Commit").SetOnClick(function ()Serverload(1,ActPlayerBtn.GetText(),OrigPlayerID,SwapPlayerID, close) end)
 
 end
 
+--mega function for promptlist
 function PromptListSetup(data,votedplayers)
 	local funcvar
 	local Senttable = {}
@@ -181,6 +200,7 @@ function PromptListSetup(data,votedplayers)
             table.insert(Aliveplayers,player)
         end
     end
+
 	-- set up for each prompt
 	if data == 1 then 
 		funcvar = PlayerButton 
@@ -202,12 +222,16 @@ function PromptListSetup(data,votedplayers)
 		funcvar = PlayerButton
 		Senttable = Aliveplayers
 		message = "Select New Host"
+	elseif data == 6 then -- bonus list
+		funcvar = Bonuslist
+		Senttable = Game.Map.Bonuses
+		message = "Select Bonus"
 	end
-print(Senttable)
 
 	local options = map(Senttable, funcvar);
 	UI.PromptFromList(message, options)
 end
+-- prompt for players
 function PlayerButton(player)
 
 	local name = player.DisplayName(nil, false);
@@ -220,7 +244,19 @@ function PlayerButton(player)
 	end
 	return ret;
 end
+-- prompt for bonues
+function Bonuslist(bonus)
 
+	local name = bonus.Name 
+	local ret = {};
+	ret["text"] = name;
+	ret["selected"] = function() 
+		BonusListBtn.SetText(name)
+		BonusID = bonus.ID
+		DatapointSend = BonusID
+	end
+	return ret;
+end
 function SwapPlayerButton(player)
 
 	local name = player.DisplayName(nil, false);
@@ -241,36 +277,62 @@ function ActionButton(action)
 	ret["selected"] = function() 
 		ActPlayerBtn.SetText(name)
 		ActionType = action
+		local bonusvalue = BonusBtn.GetIsChecked()
 
-		if name == ActionTypeNames(2) then
+
+		if name == ActionTypeNames(1) then
 			SwapPlayerBtn.SetInteractable(true)
+
+				OrigPlayerBtn.SetInteractable(true)
+				HelperMessage = "New player and Original player Swap all land, armies, cities ect. with each other"
+		elseif name == ActionTypeNames(2) then
+			SwapPlayerBtn.SetInteractable(true)
+			if bonusvalue == false then
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "New player takes Original player's land, and New player's former land is turn to wasteland"
-		elseif name == ActionTypeNames(1) then
-			SwapPlayerBtn.SetInteractable(true)
-			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "New player and Original player Swap all land, armies, cities ect. with each other"
+			else 
+				HelperMessage = "New player takes over the land in the bonus, and New player's former land is turn to wasteland"
+			end
+
 		elseif name == ActionTypeNames(3) then
 			SwapPlayerBtn.SetInteractable(false)
+			if bonusvalue == false then
 			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "Original player is simply turned neutral, his land is left untouched"
+			HelperMessage = "Original player is simply turned neutral, Armies and structures are left untouched"
+			else 
+				HelperMessage = "Bonuses territory is turned neutral, Armies and structures are left untouched"
+			end
 			SwapPlayerID = -1
 		elseif name == ActionTypeNames(4) then
 			SwapPlayerBtn.SetInteractable(false)
+			if bonusvalue == false then
 			OrigPlayerBtn.SetInteractable(true)
 			HelperMessage = "Original player's land is factory wiped. cities, armies, special units, commanders. Everything is removed and replaced with wastelands"
+			else 
+				HelperMessage = "Bonsues territory is factory wiped. cities, armies, special units, commanders. Everything is removed and replaced with wastelands"
+			end
 			SwapPlayerID = -1
 		elseif name == ActionTypeNames(5) then
 			SwapPlayerBtn.SetInteractable(true)
-			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land as well"
+			if bonusvalue == false then
+				OrigPlayerBtn.SetInteractable(true)
+				HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land as well"
+			else 
+				HelperMessage =  "New player Takes all territory in this listed bonus. New player also keeps their former land as well"
+			end
+
 		elseif name == ActionTypeNames(6) then
 			SwapPlayerBtn.SetInteractable(false)
-			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "Original player's has all of his armies/special units removed"
-			SwapPlayerID = -1
+			if bonusvalue == false then
+				OrigPlayerBtn.SetInteractable(true)
+				HelperMessage = "Original player's has all of his armies/special units removed"
+			else 
+				HelperMessage = "bonuse territory has all of his armies/special units removed"
+			end
+				SwapPlayerID = -1
 		elseif name == ActionTypeNames(7) then
 			SwapPlayerBtn.SetInteractable(false)
+			
 			OrigPlayerBtn.SetInteractable(false)
 			Textland1.SetText("Bonus Income")
 			Textland2.SetText("Income Cut off")
@@ -280,12 +342,20 @@ function ActionButton(action)
 			SwapPlayerID = -1
 		elseif name == ActionTypeNames(8) then
 			SwapPlayerBtn.SetInteractable(true)
-			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land. Lastly the Armies and special units of Original players lands are removed"
+			if bonusvalue == false then
+				OrigPlayerBtn.SetInteractable(true)
+				HelperMessage = "New player Takes all of Original player's land. New player also keeps his former land. Lastly the Armies and special units of Original players lands are removed"
+			else 
+				HelperMessage = "New player Takes all of the listed bonuses territory. New player also keeps his former land. Lastly the Armies and special units of listed bonuse are removed"
+			end
 		elseif name == ActionTypeNames(9) then
 			SwapPlayerBtn.SetInteractable(false)
-			OrigPlayerBtn.SetInteractable(true)
-			HelperMessage = "Original player's land is turned neutral and the Armies and special units of Original players lands are removed"
+			if bonusvalue == false then
+				OrigPlayerBtn.SetInteractable(true)
+				HelperMessage = "Original player's land is turned neutral and the Armies and special units of Original players lands are removed"
+			else 
+				HelperMessage = "Listed bonsues's territory is turned neutral and the Armies and special units of listed bonus are removed"
+			end
 			OrigPlayerID = -1
 		end
 	end
@@ -301,20 +371,32 @@ function ViewButton(action)
 	end
 	return ret;
 end
-
+--load data to the server
 function Serverload(type, text,data1, data2,close)
 	if close ~= nil then
 		close()
 	end
 
-	local payload = {}
-	Pass = nil
+		local payload = {}
+		local datatrans = data1
+		Pass = nil
+		
+		if text ~= 0 then
+		if (text == ActionTypeNames(1) or text == ActionTypeNames(7)) and BonusBtn ~= nil and BonusBtn.GetIsChecked() == true then
+			UI.Alert("Cannot use the swap or income actions while using bonus mode")
+			return end
+		end 
+		if DatapointSend ~= nil then datatrans = DatapointSend end 
 
 		payload.entrytype = type
 		payload.text = text
-		payload.data1 = Nonill(data1)
+		payload.data1 = datatrans
 		payload.data2 = Nonill(data2)
 		payload.data3 = 100
+		payload.data4 = 0
+		payload.data5 = 0
+		if BonusBtn ~= nil then
+		payload.data5 = Nonill(BonusBtn.GetIsChecked()) end
 
 		if TurnedBtn ~= nil then
 		local data3 = Nonill(TurnedBtn.GetValue())
@@ -324,7 +406,7 @@ function Serverload(type, text,data1, data2,close)
 		payload.data3 = data3
 		payload.data4 = Nonill(TurnedBtn2.GetValue())
 		end
-
+	
 		Game.SendGameCustomMessage("new " .. "playerControl" .. "...", payload, function(returnValue)
 			publicdata = Mod.PublicGameData
 			if returnValue.Message ~= nil then 
@@ -333,7 +415,9 @@ function Serverload(type, text,data1, data2,close)
 		
 
 		end)	
-end
+
+
+	end
 
 function Votedplayers(newtable)
 	local group = {}
@@ -439,4 +523,23 @@ function DisplayHostVotes(rootParent,ActivePlayers,NeedPercent,close,ID,game)
 		end
 	end
 	
+end
+
+-- On value change for Bonus
+function Onbonuschange()
+	local bonusOn = BonusBtn.GetIsChecked()
+	if bonusOn == true then
+		OrigPlayerBtn.SetInteractable(false)
+		BonusListBtn.SetInteractable(true)
+		playerText.SetText("Bonus: ")
+		DatapointSend = BonusID
+
+
+	else 
+		OrigPlayerBtn.SetInteractable(true)
+		BonusListBtn.SetInteractable(false)
+		playerText.SetText("Original Player: ")
+		DatapointSend = OrigPlayerID
+	end
+ActionButton(ActPlayerBtn.GetText())
 end
