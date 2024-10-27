@@ -273,11 +273,12 @@ function SwapThenWasteland(game,addNewOrder,OrigID,NewID,Bonuson) --- Swapping t
         table.insert(Switch.SwitchTerr,ts.ID)
     end
    end
+
    -- Logic for bonus terrain
    if Bonuson == true then
-    for __, TID in pairs (Game.Map.Bonuses[OrigID].Territories) do 
+    for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
         table.insert(boot.bootedTerr,TID)
-        print(TID)
+
     end
    end
 --- Moving commander logic
@@ -301,7 +302,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
        addNewOrder(WL.GameOrderPlayCardAirlift.Create(cardinstance[1].ID, Switch.ID, Switch.Commander, idAirlift2, ArmystackSwitch))
      end
 
-
+--Action logic orig
    for i,ts in pairs (boot.bootedTerr) do
     if amountTurned < i then break end
     local mod = WL.TerritoryModification.Create(ts)
@@ -309,6 +310,7 @@ local amountTurned = Turnlogic(#boot.bootedTerr)
     addNewOrder(WL.GameOrderEvent.Create(0, "Switching", nil, {mod}))
     SUcompatibility(Terr[ts],addNewOrder,Switch.ID)
    end
+   --Action logic new 
    for i,ts in pairs (Switch.SwitchTerr) do
     local mod1 = WL.TerritoryModification.Create(ts)
     local Cities = {}
@@ -333,35 +335,39 @@ function Absorblogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Absorb logic
     Switch.SwitchTerr = {} 
 
 
-    local ArmyStackBoot
-    local ArmystackSwitch
+
     local Terr = game.ServerGame.LatestTurnStanding.Territories
     table.insert(InActionAlready,OrigID)
     table.insert(InActionAlready,NewID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
-                SUDelete(ts,addNewOrder)
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                    SUDelete(ts,addNewOrder)
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
-
     elseif ts.OwnerPlayerID == Switch.ID then -- switch
         for _,v in pairs (ts.NumArmies.SpecialUnits) do 
             if v.proxyType == "Commander" then
                 Switch.Commander = ts.ID
-                ArmystackSwitch = ts.NumArmies
+
             end
         end
         table.insert(Switch.SwitchTerr,ts.ID)
     end
    end
+   -- Logic for bonus terrain
+   if Bonuson == true then
+    for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+        table.insert(boot.bootedTerr,TID)
 
+    end
+   end
 --- Percent logic
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
@@ -384,23 +390,29 @@ function EliminateasisLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminating as 
     boot.Commander = 0 
     boot.bootedTerr = {} 
 
-    local ArmyStackBoot
-    local ArmystackSwitch
+
     local Terr = game.ServerGame.LatestTurnStanding.Territories
     table.insert(InActionAlready,OrigID)
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
-    if ts.OwnerPlayerID == boot.ID then -- boot
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
+        if ts.OwnerPlayerID == boot.ID then -- boot
+            if Bonuson == false then -- bonus terrain on
+                for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                    if v.proxyType == "Commander" then
+                        boot.Commander = ts.ID
+                    end
+                end
+                table.insert(boot.bootedTerr,ts.ID)
             end
         end
-        table.insert(boot.bootedTerr,ts.ID)
+   end
+   -- Logic for bonus terrain
+   if Bonuson == true then
+    for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+        table.insert(boot.bootedTerr,TID)
+
     end
    end
-
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
    for i,ts in pairs (boot.bootedTerr) do
@@ -428,15 +440,23 @@ function EliminateWasteLogic(game,addNewOrder,OrigID,Bonuson) -- Eliminate to wa
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
     end
    end
+      -- Logic for bonus terrain
+      if Bonuson == true then
+        for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+            table.insert(boot.bootedTerr,TID)
+    
+        end
+       end
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
    for i,ts in pairs (boot.bootedTerr) do
@@ -468,15 +488,23 @@ function ArmiesGone(game,addNewOrder,OrigID,Bonuson) --- Remove Armies
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
     end
    end
+      -- Logic for bonus terrain
+      if Bonuson == true then
+        for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+            table.insert(boot.bootedTerr,TID)
+    
+        end
+       end
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
    for i,ts in pairs (boot.bootedTerr) do
@@ -528,15 +556,14 @@ function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Abso
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
-                SUDelete(ts,addNewOrder)
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
 
     elseif ts.OwnerPlayerID == Switch.ID then -- switch
         for _,v in pairs (ts.NumArmies.SpecialUnits) do 
@@ -548,7 +575,13 @@ function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Abso
         table.insert(Switch.SwitchTerr,ts.ID)
     end
    end
+   -- Logic for bonus terrain
+   if Bonuson == true then
+    for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+        table.insert(boot.bootedTerr,TID)
 
+    end
+   end
 --- Percent logic
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
@@ -565,7 +598,7 @@ function Absorb_ArmiesErasedLogic(game,addNewOrder,OrigID,NewID,Bonuson) -- Abso
 
 end
 
-function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminating as is
+function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) -- Eliminate armies erased 
     --645468
     local boot = {} 
      boot.ID = OrigID 
@@ -579,16 +612,23 @@ function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminat
 
    for _,ts in pairs(Terr)do -- getting the Territories of each player
     if ts.OwnerPlayerID == boot.ID then -- boot
-        for _,v in pairs (ts.NumArmies.SpecialUnits) do 
-            if v.proxyType == "Commander" then
-                boot.Commander = ts.ID
-                ArmyStackBoot = ts.NumArmies
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                end
             end
+            table.insert(boot.bootedTerr,ts.ID)
         end
-        table.insert(boot.bootedTerr,ts.ID)
     end
    end
+   -- Logic for bonus terrain
+   if Bonuson == true then
+    for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+        table.insert(boot.bootedTerr,TID)
 
+    end
+   end
    local amountTurned = Turnlogic(#boot.bootedTerr)
 
    for i,ts in pairs (boot.bootedTerr) do
@@ -602,9 +642,8 @@ function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) --- Eliminat
 
 
 end
--- Eliminate armies erased
 
-function Addhistory(Action,VotedBy,game)
+function Addhistory(Action,VotedBy,game,Bonuson) -- History 
     table.insert(publicdata.History,{})
 
     local hiss = publicdata.History[#publicdata.History]
@@ -618,4 +657,5 @@ function Addhistory(Action,VotedBy,game)
     hiss.Turn = game.Game.TurnNumber
     hiss.incomebump = Action.incomebump
     hiss.cutoff = Action.Cutoff
+    hiss.Bonuson = Bonuson
 end

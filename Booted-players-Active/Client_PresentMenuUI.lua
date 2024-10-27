@@ -450,15 +450,17 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 					propername = Game.Game.Players[publicdata.History[i].createdBy].DisplayName(nil, false)
 				end
 				UI.CreateLabel(row1).SetText("Event: " .. publicdata.History[i].ActionID)
-	
-				if publicdata.History[i].type == ActionTypeNames(7) then 
-					UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
-					GoldorLand = ""
-				else
-					if publicdata.History[i].New ~= "Neutral" then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
-	
-					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\ngoldon turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
-					
+				if publicdata.History[i].New ~= "Neutral" then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
+				
+				if publicdata.History[i].Bonuson == false then -- Bonus option is off
+					if publicdata.History[i].type == ActionTypeNames(7) then 
+						UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
+						GoldorLand = ""
+					else
+						UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
+					end
+				else  -- Bonus option is on 
+					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#FF87FF')
 				end
 	
 				
