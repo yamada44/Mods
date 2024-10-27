@@ -452,7 +452,7 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 				UI.CreateLabel(row1).SetText("Event: " .. publicdata.History[i].ActionID)
 				if publicdata.History[i].New ~= "Neutral" then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
 				
-				if publicdata.History[i].Bonuson == false then -- Bonus option is off
+				if publicdata.History[i].Bonuson == nil or publicdata.History[i].Bonuson == false then -- Bonus option is off
 					if publicdata.History[i].type == ActionTypeNames(7) then 
 						UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 						GoldorLand = ""
