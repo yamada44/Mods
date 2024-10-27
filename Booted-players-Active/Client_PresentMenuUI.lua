@@ -450,7 +450,7 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 					propername = Game.Game.Players[publicdata.History[i].createdBy].DisplayName(nil, false)
 				end
 				UI.CreateLabel(row1).SetText("Event: " .. publicdata.History[i].ActionID)
-				if publicdata.History[i].New ~= "Neutral" or publicdata.History[i].type == ActionTypeNames(7) then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
+				if publicdata.History[i].New ~= "Neutral" and publicdata.History[i].type ~= ActionTypeNames(7) then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
 				
 				if publicdata.History[i].Bonuson == nil or publicdata.History[i].Bonuson == false then -- Bonus option is off
 					if publicdata.History[i].type == ActionTypeNames(7) then 
