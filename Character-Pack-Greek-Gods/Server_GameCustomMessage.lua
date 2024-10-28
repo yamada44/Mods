@@ -1,3 +1,5 @@
+require('Utilities')
+
 function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 local type = payload.type
 local publicdata = Mod.PublicGameData
