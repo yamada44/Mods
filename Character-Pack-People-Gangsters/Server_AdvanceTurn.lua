@@ -513,8 +513,8 @@ function LevelupLogic(game, order, result, skipThisOrder, addNewOrder)
 											levelamount = levelamount + (levelamount / currlevel)
 											builder.AttackPower = builder.AttackPower + (builder.AttackPower / currlevel)
 											builder.DefensePower = builder.DefensePower + (builder.DefensePower / currlevel);
-											builder.DamageToKill = absoredDamage + (absoredDamage / currlevel);
-											builder.DamageAbsorbedWhenAttacked = absoredDamage + (builder.DamageAbsorbedWhenAttacked / currlevel)
+											builder.DamageToKill = builder.DamageToKill + (absoredDamage / currlevel)
+											builder.DamageAbsorbedWhenAttacked = builder.DamageAbsorbedWhenAttacked + (absoredDamage / currlevel)
 											upkeep = upkeep + (upkeep / currlevel)
 											levelupmessage = builder.TextOverHeadOpt .. ' the ' .. v.Name .. ' has leveled up!!!'
 										end --starting XP over if level was reached
