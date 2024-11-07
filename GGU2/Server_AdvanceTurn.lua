@@ -1,4 +1,4 @@
-require('Utilities');
+require('Utilities')
 
 function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrder)
 	local publicgamedata = Mod.PublicGameData
@@ -18,6 +18,8 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 		local hiddenorder = publicgamedata.HiddenOrders
 
+
+
 		if (publicgamedata.trannum == nil)then publicgamedata.trannum = 1 end --keeping track of transactions to properly track
 		local transactionNumber = publicgamedata.trannum
 
@@ -26,27 +28,29 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 			local targetPlayerID = publicgamedata.orderAlt[i].targetPlayer
 			local goldsent = publicgamedata.orderAlt[i].realgold
 			local ourid = publicgamedata.orderAlt[i].us
+			local MyID = publicgamedata.Entity[ourid].ID
+			if MyID < 0 then MyID = 0 end
 
-			local localmessage = '(Local info) \n' .. goldsent  .. ' gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber;
-			local publicmessage =  '(public info) \nUnknown amount of gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
-			local revealmessage =  '(public info) \n' .. goldsent  .. ' gold sent from ' .. Game.Game.Players[ourid].DisplayName(nil, false) .. ' to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
-			local hiddenmessage =  '(public info) \n' .. goldsent .. ' gold sent from an unknown party to ' .. Game.Game.Players[targetPlayerID].DisplayName(nil, false) .. '\n#:' .. transactionNumber
+			local localmessage = '(Local info) \n' .. goldsent  .. ' gold sent from ' .. publicgamedata.Entity[ourid].Name .. ' to ' .. publicgamedata.Entity[targetPlayerID].Name .. '\n#:' .. transactionNumber;
+			local publicmessage =  '(public info) \nUnknown amount of gold sent from ' .. publicgamedata.Entity[ourid].Name .. ' to ' .. publicgamedata.Entity[targetPlayerID].Name .. '\n#:' .. transactionNumber
+			local revealmessage =  '(public info) \n' .. goldsent  .. ' gold sent from ' .. publicgamedata.Entity[ourid].Name .. ' to ' .. publicgamedata.Entity[targetPlayerID].Name .. '\n#:' .. transactionNumber
+			local hiddenmessage =  '(public info) \n' .. goldsent .. ' gold sent from an unknown party to ' .. publicgamedata.Entity[targetPlayerID].Name .. '\n#:' .. transactionNumber
 
 
 			if(hiddenorder == true and publicgamedata.orderAlt[i].reveal == false)then
-				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+				addNewOrder(WL.GameOrderEvent.Create(MyID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
 	 			addNewOrder(WL.GameOrderEvent.Create(0, hiddenmessage , nil, nil, nil, {}));
 
 
 			elseif(hiddenorder == true or publicgamedata.orderAlt[i].reveal == true)then -- for players who want to reveal there gifted gold
 
-				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, revealmessage ,  nil, nil, nil, {})); 
+				addNewOrder(WL.GameOrderEvent.Create(MyID, revealmessage ,  nil, nil, nil, {})); 
 
 			elseif(publicgamedata.orderAlt[i].reveal == false)then -- for players who dont
 			
 				-- creates message for players with visibility
-				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
-				addNewOrder(WL.GameOrderEvent.Create(game.Game.Players[ourid].ID, publicmessage , nil, nil, nil, {}));
+				addNewOrder(WL.GameOrderEvent.Create(MyID, localmessage ,  {targetPlayerID}, nil, nil, {})); 
+				addNewOrder(WL.GameOrderEvent.Create(MyID, publicmessage , nil, nil, nil, {}));
 				-- creates a message for everyone else who can't see the territory. handles no modifications 
 				-- this will create two messages for players who have visibility
 			end

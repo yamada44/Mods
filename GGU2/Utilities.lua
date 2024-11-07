@@ -1,3 +1,4 @@
+
 function Dump(obj)
 	if obj.proxyType ~= nil then
 		DumpProxy(obj);
@@ -101,41 +102,71 @@ function SortTable(tableinput,field)
 
 	return newtable
 end
-function EntitiesClient(Players,game)
-	local Entity = {}
-print("what")
-	for i,v in pairs(Players)do
-		Entity[i] = {}
-		Entity[i].Name = game.Game.Players[i].DisplayName(nil, false)
-		Entity[i].ID = i
-		Entity[i].Status = "P"
-		Entity[i].Gold = v.Income(0, game.LatestStanding, false, false) 
-		Entity[i].lowEstimate = 0
-		Entity[i].highEstimate = 0
 
+function Findmatch(findtable, match,what)
+    for i,v in pairs (findtable) do
+
+        if v[what] == match then
+            return i
+        end 
+    end
+    return nil
+end
+function FindmatchID(findtable, match,returnsetting) -- Return setting (1) = value / (2) = bool
+	local Returnvalue = false
+	if returnsetting == 1 then Returnvalue = nil end
+
+    for i,v in pairs (findtable) do
+
+        if v == match then
+			Returnvalue = true
+			if returnsetting == 1 then Returnvalue = i end
+            return Returnvalue
+
+        end 
+    end
+    return Returnvalue
+end
+-- serverside value to table conversion
+function Values2Table_Server(IDtable)
+	local newtable = {}
+	for i,v in pairs (IDtable) do
+		table.insert(newtable, Mod.PublicGameData.Entity[v])
+	end
+	return newtable
+end
+--creates a list of entities from a list of values
+function Values2Table(IDtable)
+	local newtable = {}
+	for i,v in pairs (IDtable) do
+		table.insert(newtable, Entities[v])
+	end
+	return newtable
+end
+--index then value to table
+	function Values2Table_key(IDtable,key)
+		local newtable = {}
+		for i,v in pairs (IDtable) do
+			
+			table.insert(newtable, Entities[v.AID])
+		end
+		return newtable
+	end
+-- compare two tables then create a new one on matches
+function SearchValue2Table(votegroup,compare,addtable)
+	local whovoted = addtable or {}
+
+	for i,v in pairs (compare) do
+		for i2,v2 in pairs(votegroup) do 
+			if v2 == v then 
+				table.insert(whovoted,v) 
+			end
+		end
 	end
 
-	return Entity
+	return whovoted
 end
-function Findmatch(findtable, match,what)
-    for i = 1, #findtable do
-
-        if findtable[i][what] == match then
-            print(match, i, "match")
-            return i
-
-        end 
-    end
-    return nil
-end
-function FindmatchID(findtable, match)
-    for i = 1, #findtable do
-
-        if findtable[i] == match then
-            print(match, i, "match")
-            return i
-
-        end 
-    end
-    return nil
-end
+--[[
+-- Prompt list functionally for players Entities (do not use. have not looked at)
+	function TargetEntitiesClicked()
+	end]]

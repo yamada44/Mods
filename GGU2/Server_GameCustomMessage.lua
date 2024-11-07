@@ -1,21 +1,30 @@
 require('Utilities')
-require('WLUtilities')
 
 --known bugs
 -- when you buy a plan on turn 1, it causes a bug and doesn't detect when your over 75%
 
 function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
-	Game = game
+	--if true then print("return HIT Server 2") return  end
 	local publicdate = Mod.PublicGameData
+	if payloadO.setup ~= -1 then 
+		print(publicdate.Entity)
+		print(publicdate.Entity[payloadO.ourID])
+	--	if publicdate.Entity[payloadO.ourID].Status == "A" then print("return HIT Server 3") return end 
+
+	end
+	Game = game
+
 
 	-- check for payment plan data
-	publicdate = DataCheck(publicdate,payloadO)
+	publicdate = DataCheck(publicdate,payloadO,game)
 
-	print("payload0",payloadO.planid)
+
 	local i = 1
 	publicdate.PayP.accessed = true
 	publicdate.PayP.Sameturn = game.Game.TurnNumber
-
+	if payloadO.setup == -1 then -- Entity update
+		setReturnTable({Ent = publicdate.Entity})
+	end
 	if payloadO.setup == 1 then -- continued setups
 	
 		while i <=  #publicdate.PayP.Plan do
@@ -40,26 +49,43 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 
 			end
 
-			Paymentprocess(game,publicdate.Entity[payloadO.ourID],payload,setReturnTable,publicdate)
+			Paymentprocess(game,payload,setReturnTable,publicdate)
 			i = i + 1
 
 		end
-	elseif payloadO.setup == 0 or payloadO.setup == 2 then --if payloadO.setup == 0 then -- single payment setup
-		Paymentprocess(game,publicdate.Entity[payloadO.ourID],payloadO,setReturnTable,publicdate)
+	elseif payloadO.setup == 0 or payloadO.setup == 2 then -- single payment
+		Paymentprocess(game,payloadO,setReturnTable,publicdate)
 	elseif payloadO.setup == 5 then -- remove payment plan
 		Removepayment(payloadO.planid,publicdate)
 		setReturnTable({ Message = "Payment Plan removed" })
 	elseif payloadO.setup == 6 then -- add member to account
+		AddMembers(publicdate,payloadO)
 	elseif payloadO.setup == 7 then -- add owner to account
-	elseif payloadO.setup == 8 then -- remove member/owner from account
-	elseif payloadO.setup == 9 then -- Withdraw funds
+		AddOwner(publicdate,payloadO)
+	elseif payloadO.setup == 8 then -- remove member
+		RemoveMember(publicdate,payloadO)
+	elseif payloadO.setup == 9 then -- Leave Account
+		LeavingAccount(publicdate,payloadO)
 	elseif payloadO.setup == 10 then -- Create account
-		Paymentprocess(game,publicdate.Entity[payloadO.ourID],payloadO,setReturnTable,publicdate)
+		AccountCreation(payloadO,publicdate,setReturnTable)
+		if payloadO.Gold > 0 then
+			Paymentprocess(game,payloadO,setReturnTable,publicdate)
+		end
+	elseif payloadO.setup == 11 then -- kicking Vote
+		KickingVoteCreation(publicdate,game,payloadO)
+	elseif payloadO.setup == 12 then -- Withdraw funds
+	elseif payloadO.setup == 13 then -- Add Vote / Remove Owner
+		Addvote(publicdate,payloadO)
+	elseif payloadO.setup == 14 then -- Remove Vote
+		Removevote(publicdate,payloadO)
+	elseif payloadO.setup == 15 then -- Reveal change
+		Revealtoggle(payloadO) 
 	end
+
+	
 
 
 	Mod.PublicGameData = publicdate 
-
 end
 --Creating a new payment plan (not used for single payments)
 function Newpayment(payload,publicdate,playerid)
@@ -119,15 +145,19 @@ function Addhistory(targetplayerid,publicdate, actualgold,playerid,reveal)
 	
 end
 --Processing the payment itself
-function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
+function Paymentprocess(game,payload,setReturnTable,publicdate)
+
 	--Entity variables
-	local entity = Lentity
+	print(payload.ourID,"ourid")
+	local Ourentity = publicdate.Entity[payload.ourID]
+	local TargetEntity = publicdate.Entity[payload.TargetPlayerID]
 	--Base payment variables
-	local id = payload.TargetPlayerID
+	--local id = payload.TargetPlayerID
 	local setgold = payload.setgold
 	local setturn = payload.setturn
 	local contu = payload.Cont
-	local ourid = entity.ID
+	local ourid = Ourentity.ID
+	local targetID = TargetEntity.ID
 	local newPlan = payload.setup
 	local planid = payload.planid
 	
@@ -136,7 +166,16 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 	local goldSending = payload.Gold; -- How much gold you sent before tax was applied
 	local goldtax = payload.multiplier 
 	local percent = payload.percent
-	
+	if Ourentity.Status == "A" then
+		if goldtax > 0 then
+			goldtax = Mod.Settings.ATax or goldtax * 4
+		elseif percent > 0 then
+			percent = 0
+		else
+			goldtax = Mod.Settings.ATax or 0
+		end
+	end
+
 	--tables for public data dhecks
 	if (publicdate.taxidtable == nil)then  publicdate.taxidtable = {}end
 	if (publicdate.taxidtable[ourid] == nil)then publicdate.taxidtable[ourid] = {count = 0, gap = 0}end
@@ -150,7 +189,7 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 	local gap2 = 0
 	local storeC =  publicdate.taxidtable[ourid].count
 	local storegap = publicdate.taxidtable[ourid].gap
-	local goldHave = entity.Gold
+	local goldHave = Ourentity.Gold
 	
 	-- if new turn, reset taxidtable
 	if (publicdate.orderaccess == false)then
@@ -160,7 +199,7 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 	end 
 	
 	-- Cannot gift yourself logic
-	if (ourid == payload.TargetPlayerID) then
+	if (ourid == targetID) then
 		setReturnTable({ Message = "You can't gift yourself" });
 		return
 	end
@@ -175,7 +214,7 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 		local tempgold = 0 
 		if newPlan == 2 then tempgold = setgold end
 		-- checking to see if You have to much gold
-		if #publicdate.PayP.Plan > 0 and entity.Income *0.75 < Banked(publicdate,tempgold,ourid) then 
+		if #publicdate.PayP.Plan > 0 and Ourentity.Income *0.75 < Banked(publicdate,tempgold,ourid) then 
 			-- if this is a timed plan, increment
 			if contu == 2 then publicdate.PayP.Plan[planid].Turntill = publicdate.PayP.Plan[planid].Turntill + 1 end
 
@@ -242,7 +281,7 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 	if (publicdate.orderAlt[publicdate.orderamount] == nil)then publicdate.orderAlt[publicdate.orderamount] = {}end
 
 	publicdate.orderAlt[publicdate.orderamount].realgold = actualGoldSent
-	publicdate.orderAlt[publicdate.orderamount].targetPlayer = id
+	publicdate.orderAlt[publicdate.orderamount].targetPlayer = targetID
 	publicdate.orderAlt[publicdate.orderamount].us = payload.ourID
 	publicdate.orderAlt[publicdate.orderamount].reveal = payload.reveal
 	publicdate.HiddenOrders = payload.hidden
@@ -250,25 +289,26 @@ function Paymentprocess(game,Lentity,payload,setReturnTable,publicdate)
 
 	
 	-- History logic
-	Addhistory(id,publicdate,actualGoldSent,ourid,payload.reveal)
+	Addhistory(payload.TargetPlayerID,publicdate,actualGoldSent,ourid,payload.reveal)
 	Mod.PublicGameData = publicdate -- Saving Data
 
-	print("---------- End of updated Code ----------")
+
 	--Subtract goldSending from ourselves, add goldSending to target
 
 	-- Getting target player for gold and name
-	local targetPlayer = game.Game.Players[payload.TargetPlayerID]
-	local targetPlayerHasGold = game.ServerGame.LatestTurnStanding.NumResources(targetPlayer.ID, WL.ResourceType.Gold)
+	
+	publicdate = AlterGold(Ourentity.ID,goldSending,publicdate,"-")
+	publicdate = AlterGold(TargetEntity.ID,actualGoldSent,publicdate,"+")
 
-	game.ServerGame.SetPlayerResource(ourid, WL.ResourceType.Gold, goldHave - goldSending)
-	game.ServerGame.SetPlayerResource(targetPlayer.ID, WL.ResourceType.Gold, targetPlayerHasGold + actualGoldSent)
+	--game.ServerGame.SetPlayerResource(ourid, WL.ResourceType.Gold, goldHave - goldSending)
+	--game.ServerGame.SetPlayerResource(targetPlayer.ID, WL.ResourceType.Gold, targetPlayerHasGold + actualGoldSent)
 
-	setReturnTable({ Message = "Sent " .. targetPlayer.DisplayName(nil, false) .. ': ' .. actualGoldSent .. ' gold.\nYou now have: ' .. (goldHave - goldSending) .. '.', realGold = actualGoldSent  })
+	setReturnTable({ Message = "Sent " .. TargetEntity.Name .. ': ' .. actualGoldSent .. ' gold.\nYou now have: ' .. (goldHave - goldSending) .. ' gold.', realGold = actualGoldSent,NewtargetID =TargetEntity.ID   })
 
 end
  
 -- Pre entry data creation/updating
-function DataCheck(publicdate,payload)
+function DataCheck(publicdate,payload,game)
 	local ID = payload.ourID
 
 	if publicdate.GlobalIDs == nil then publicdate.GlobalIDs =  -1 end
@@ -279,69 +319,317 @@ function DataCheck(publicdate,payload)
 	if publicdate.PayP.Sameturn == nil then publicdate.PayP.Sameturn = Game.Game.TurnNumber end
 	if publicdate.PayP.accessed == nil then publicdate.PayP.accessed = true end
 
+	-- Random Variables
+	if publicdate.RandomVar == nil then publicdate.RandomVar = {DeleteID = 0} end
+
 	--entities creation
+	if publicdate.Entity == nil then publicdate.Entity = {} 
+	PlayerEntityCreation(publicdate)
+	end
+	--updating all entities
+	EntityUpdate(publicdate)
+	-- Voting Time Update
+	UpdateVote(publicdate,game)
+
+	return publicdate
+end
+--Creating all entities for the first time
+function PlayerEntityCreation(publicdate)
+		--Entity Creation
+
+	local TrashID = publicdate.RandomVar.DeleteID
+
 	if publicdate.Entity == nil then publicdate.Entity = {} end
-	if publicdate.Entity[ID] == nil then publicdate.Entity[ID] = {}
-		local short = publicdate.Entity[ID]
-		if Game.Game.PlayingPlayers[ID] ~= nil then
-			short.Name = Game.Game.Players[ID].DisplayName(nil, false)
-			short.ID = ID
-			short.Status = "P"
+	for ID,v in pairs (Game.Game.PlayingPlayers) do
+		if publicdate.Entity[ID] == nil then publicdate.Entity[ID] = {}
+			local short = publicdate.Entity[ID]
+				short.Name = Game.Game.Players[ID].DisplayName(nil, false)
+				short.ID = ID
+				short.Status = "P"
+				short.Gold = Game.ServerGame.LatestTurnStanding.NumResources(ID, WL.ResourceType.Gold)
+				-- Income data
+				local standing = Game.ServerGame.LatestTurnStanding
+				local player = Game.Game.PlayingPlayers[ID]
+				local income = {Total = 0}
+				if player ~= nil then -- Making sure the player is actually still in the game
+					income = player.Income(0, standing, false, false)
+				end
+				short.Income = income.Total
+				short.lowEstimate = -1
+				short.highEstimate = -1
+				short.YourAccounts = {}
 
-			short.Gold = Game.ServerGame.LatestTurnStanding.NumResources(ID, WL.ResourceType.Gold)
-
-			-- Income data
-			local standing = Game.ServerGame.LatestTurnStanding
-			local player = Game.Game.PlayingPlayers[ID]
-			local income = {Total = 0}
-			if player ~= nil then -- Making sure the player is actually still in the game
-				income = player.Income(0, standing, false, false)
-			end
-			short.Income = income.Total
-		else -- creating an account
-			short.Name = payload.Accountname
-			short.ID = publicdate.GlobalIDs
-			short.Status = "A"
-			short.Gold = 0
-			short.members = {}
-			short.owners = {}
-			short.Gold = payload.Gold
-			short.Income = 0
-			local high = math.random(short.Gold ,short.Gold * 1.5)
-			local low = math.random(short.Gold * 0.5,short.Gold)
-			short.lowEstimate = low
-			short.highEstimate = high
-			--jijiji
-			short.AlterGold() --jijij
-
-			publicdate.GlobalIDs = publicdate.GlobalIDs - 1
 		end
 	end
-	
-	-- Entity Update check
-	for i,v in pairs (publicdate.Entity) do
-		 if v.Status == "P" then
-			v.Gold = Game.ServerGame.LatestTurnStanding.NumResources(i, WL.ResourceType.Gold)
-			local standing = Game.ServerGame.LatestTurnStanding
-			local player = Game.Game.PlayingPlayers[ID]
-			local income = {Total = 0}
-			if player ~= nil then -- Making sure the player is actually still in the game
-				income = player.Income(0, standing, false, false)
-			end
-			v.Income = income.Total
-		 elseif v.Status == "A" then
-			local high = math.random(v.Gold ,v.Gold * 1.5)
-			local low = math.random(v.Gold * 0.5,v.Gold)
-			v.lowEstimate = low
-			v.highEstimate = high
-		 else
-			print("Error: no Status found for entity " .. i .. " " .. v.Name)
-		 end 
+	if publicdate.Entity[TrashID] == nil then publicdate.Entity[TrashID] = {} -- Trash Can
+		local short = publicdate.Entity[TrashID]
+		short.Name = "Delete Gold"
+		short.ID = TrashID
+		short.Status = "D"
+		short.Gold = 0
+		short.Income = 0
+		short.lowEstimate = -1
+		short.highEstimate = -1
+
 	end
 
 	return publicdate
 end
+--updating all entities
+function EntityUpdate(publicdate)
 
-function AlterGold(ID)
+	-- Entity Update check
+	for i,v in pairs (publicdate.Entity) do
+		if v.Status == "P" then
+		   v.Gold = Game.ServerGame.LatestTurnStanding.NumResources(i, WL.ResourceType.Gold)
+		   local standing = Game.ServerGame.LatestTurnStanding
+		   local player = Game.Game.PlayingPlayers[v.ID]
+		   local income = {Total = 0}
+		   if player ~= nil then -- Making sure the player is actually still in the game
+			   income = player.Income(0, standing, false, false)
+		   end
+		   v.Income = income.Total
+		elseif v.Status == "A" then
+			local high = math.random(v.Gold ,v.Gold * 1.5)
+			local low = math.random(v.Gold * 0.4,v.Gold )
+		   v.lowEstimate = low
+		   v.highEstimate = high
+		   v.Income = v.Gold
+		else
+		   print("Error: no Status found for entity " .. i .. " " .. v.Name)
+		end 
+   end
+   return publicdate
+end
+--creating a account
+function AccountCreation(payload,publicdate,setReturnTable)
+	local currentEnt = 0
+	-- Gold check for account Cost
+	if (publicdate.Entity[payload.ourID].Gold < payload.Acost) then
+		setReturnTable({ Message = "You have less then " .. payload.Acost .. " gold. your current gold reserve is: " .. publicdate.Entity[payload.ourID].Gold .. '\n\n' .. 'Refresh Page for best results' })
+			return
+	else 
+		AlterGold(payload.ourID,payload.Acost,publicdate,"-")
+	end
+
+
+	if publicdate.Entity[publicdate.GlobalIDs] == nil then publicdate.Entity[publicdate.GlobalIDs] = {}
+		local short = publicdate.Entity[publicdate.GlobalIDs]
+			print(#payload.members,"member amount")
+		 -- creating an account
+			short.Name = payload.Accountname
+			short.ID = publicdate.GlobalIDs
+			short.Status = "A"
+			short.Gold = 0
+			short.members = payload.members
+			short.owners = payload.owners
+			short.Income = 0
+			local high = math.random(short.Gold,short.Gold * 1.5)
+			local low = math.random(short.Gold * 0.4,short.Gold)
+			if low < 0 then low = 0 end
+			short.lowEstimate = low
+			short.highEstimate = high
+			short.kickrate = payload.Rate
+			short.Reveal = false
+			publicdate.GlobalIDs = publicdate.GlobalIDs - 1 -- account ID tracker
+			currentEnt = short.ID
+			table.insert(short.owners,payload.ourid) 
+
+			--Adding this account to the owner and member list
+		for i,v in pairs (payload.owners)do
+			
+				table.insert(publicdate.Entity[v].YourAccounts,{AID = short.ID,Turnadded = Game.Game.TurnNumber})
+		end
+		for i,v in pairs (payload.members)do
+			table.insert(publicdate.Entity[v].YourAccounts,{AID = short.ID,Turnadded = Game.Game.TurnNumber})
+		end
+		
+	end
+	payload.TargetPlayerID = publicdate.Entity[currentEnt].ID
+
+end
+-- Alter gold inside Accounts
+function AlterGold(ID,Subtract,publicdata,process)
+	local Entity = publicdata.Entity[ID]
+	if Entity.Status == "A" then
+		if process == "-" then
+			Entity.Gold = Entity.Gold - Subtract
+		elseif process == "+" then
+			Entity.Gold = Entity.Gold + Subtract
+		else
+			Print("wrong process inputed")
+		end
+
+	elseif Entity.Status == "P" then
+
+		if process == "-" then
+			Game.ServerGame.SetPlayerResource(ID, WL.ResourceType.Gold, Entity.Gold - Subtract)
+		elseif process == "+" then
+			Game.ServerGame.SetPlayerResource(ID, WL.ResourceType.Gold, Entity.Gold + Subtract)
+		else
+			Print("wrong process inputed")
+		end
+	else
+		print("Error: No Status found for Entity " .. ID .. " " .. Entity.Name .. " on function 'Altergold'")
+	end
+	return publicdata
+end
+-- Kicking Vote Creation
+function KickingVoteCreation(publicdate,game,payload)
+	local Ent = publicdate.Entity[payload.accountID]
+	local addedvoteID = payload.Default
+	print(payload.voteof,"ourID kick",addedvoteID)
+	if Ent.KVote == nil then Ent.KVote = {} end
+	if Ent.KVote[#Ent.KVote + 1] == nil then Ent.KVote[#Ent.KVote + 1] = {} 
+		local short = Ent.KVote[#Ent.KVote]
+		short.voteof = payload.voteof
+		short.Vlist = {addedvoteID}
+		short.Turncreated = game.Game.TurnNumber
+
+	end
+end
+--Add vote 
+function Addvote(publicdata,payload)
+	local Ent = publicdata.Entity[payload.accountID]
+	local KvoteID = payload.TargetID
+	print(payload.plan,"voting ID")
+	table.insert(Ent.KVote[KvoteID].Vlist,payload.Default)
+
+	Ownerremovelogic(publicdata,payload,Ent,KvoteID)
+end
+--Remove Vote
+function Removevote(publicdata,payload)
+	local Ent = publicdata.Entity[payload.accountID]
+	local KvoteID = payload.TargetID
+
+	table.remove(Ent.KVote[KvoteID].Vlist,FindmatchID(Ent.KVote[KvoteID].Vlist,payload.Default,1)) -- remove ID from vote
+	if #Ent.KVote[KvoteID].Vlist == 0 then 
+		table.remove(Ent.KVote,KvoteID) -- Remove the Vote itself
+	end
+
+end
+--Add owner to account
+function AddOwner(publicdata,payload)
+
+	table.insert(publicdata.Entity[payload.accountID].owners,payload.voteof)
+
+end
+--Add member to account
+function AddMembers(publicdata,payload)
+
+	table.insert(publicdata.Entity[payload.voteof].YourAccounts,{AID = payload.accountID,Turnadded = Game.Game.TurnNumber})
+	table.insert(publicdata.Entity[payload.accountID].members,payload.voteof)
+
+end
+--remove owner to account
+function RemoveOwner(publicdata,payload,removeID,accountID)
+	local Ent = publicdata.Entity[payload.accountID]
+	local Youraccounts = publicdata.Entity[removeID].YourAccounts
+	print("did delete")
+	table.remove(Youraccounts,Findmatch(Youraccounts,payload.accountID,"AID")) -- Remove account from your list of accounts
+	table.remove(Ent.owners,FindmatchID(Ent.owners,removeID,1)) -- remove yourself from ownerlist
 	
+
+end
+
+--check to see if kicking rate is above threshold
+function Ownerremovelogic(publicdata,payload,Ent,KID)
+	-- Variables
+	local totalplayers = #Ent.members + #Ent.owners
+	local KvoteT = Ent.KVote[KID]
+	local didnotdelete = true
+
+	-- vote percent calculations
+	local Votedplayers = SearchValue2Table(Ent.owners,KvoteT.Vlist,nil)
+	Votedplayers = SearchValue2Table(Ent.members,KvoteT.Vlist,Votedplayers)
+	local percentVote = math.floor((#Votedplayers / totalplayers) * 100)
+	-- vote percent rate
+	if percentVote > Ent.kickrate then  
+		didnotdelete = false
+
+		print(payload,"payload check")
+		table.remove(Ent.KVote,KID) -- Remove the Vote itself
+		RemoveOwner(publicdata,payload,payload.Default,Ent.ID) -- remove logic
+	end
+	return didnotdelete
+end
+
+function RemoveMember(publicdate,payload)
+	local AccountEnt = publicdate.Entity[payload.accountID]
+	local Youraccounts = publicdate.Entity[payload.voteof].YourAccounts
+
+	table.remove(Youraccounts,Findmatch(Youraccounts,payload.accountID,"AID")) -- Remove account from your list of accounts
+	table.remove(AccountEnt.members,FindmatchID(AccountEnt.members,payload.voteof,1)) -- remove yourself from memberlist
+end
+-- Leaving Account
+function LeavingAccount (publicdate,payload)
+	-- variables
+	local AccountEnt = publicdate.Entity[payload.accountID]
+	local YourEnt = publicdate.Entity[payload.Default].YourAccounts
+	local IsOwner = true
+	--Member or Owner logic
+	if not FindmatchID(AccountEnt.owners,payload.Default,2) then IsOwner = false end
+	--remove from accountlist
+	table.remove(YourEnt, Findmatch(YourEnt,payload.accountID,"AID")) -- Remove account from your list of accounts
+	--remove from proper other list
+	if IsOwner then
+		table.remove(AccountEnt.owners,FindmatchID(AccountEnt.owners,payload.Default,1)) -- remove yourself from ownerlist
+		LastOwner( publicdate, AccountEnt) 
+	else
+		table.remove(AccountEnt.members,FindmatchID(AccountEnt.members,payload.Default,1)) -- remove yourself from memberlist
+	end
+
+
+end
+--update Vote status
+function UpdateVote(publicdate,game)
+	local CustomPayload = {Default = 0,accountID = 0}
+	local breakLoop = false
+	while breakLoop == false do -- keep redoing loop cause we deleted while looping
+		breakLoop = true
+		for i,v in pairs(publicdate.Entity) do
+			if v.KVote ~= nil then
+				for i2,v2 in pairs(v.KVote) do
+					print("update vote")
+					CustomPayload.Default = v2.voteof
+					CustomPayload.accountID = v.ID
+					if Ownerremovelogic(publicdate,CustomPayload,v,i2) then
+						print("Access over time")
+						if v2.Turncreated + 3 <= game.Game.TurnNumber then
+							print("removed vote")
+							table.remove(v.KVote,i2) -- Remove the Vote itself
+							breakLoop = false
+							break
+						end
+					end
+				end
+			end
+		end
+	end
+
+end
+-- Reveal Toggle of gold to players
+function Revealtoggle(publicdate,payload)
+	local Ent = publicdate.Entity[payload.Default]
+
+	if Ent.Reveal then Ent.Reveal = false 
+	else Ent.Reveal = true end
+end
+
+function LastOwner (public,Ent) 
+
+	if #Ent.owners == 0 then
+
+		if #Ent.members > 0 then 
+			local CustomPayload = {voteof = Ent.members[1],accountID = Ent.ID}
+
+			AddOwner (public,CustomPayload)
+			RemoveMember(public,CustomPayload)
+		else 
+			--delete account
+			public.Entity[Ent.ID] = nil
+			
+		end
+	end
+
 end
