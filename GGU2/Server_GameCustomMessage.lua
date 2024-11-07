@@ -6,12 +6,7 @@ require('Utilities')
 function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 	--if true then print("return HIT Server 2") return  end
 	local publicdate = Mod.PublicGameData
-	if payloadO.setup ~= -1 then 
-		print(publicdate.Entity)
-		print(publicdate.Entity[payloadO.ourID])
-	--	if publicdate.Entity[payloadO.ourID].Status == "A" then print("return HIT Server 3") return end 
 
-	end
 	Game = game
 
 
