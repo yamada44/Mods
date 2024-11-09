@@ -11,19 +11,21 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local window = {rootParent, setMaxSize, setScrollable, game, close,true}
 
 	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
-		UI.CreateLabel(vert).SetText("You cannot gift gold since you're not in the game")
+		UI.CreateLabel(rootParent).SetText("You cannot gift gold since you're not in the game")
 		return
 	end
 	if (game.Settings.CommerceGame == false) then
-		UI.CreateLabel(vert).SetText("This mod only works in commerce games.  This isn't a commerce game.");
+		UI.CreateLabel(rootParent).SetText("This mod only works in commerce games.  This isn't a commerce game.");
 		return;
 	end
+-- updated features here
+	GlobalFarm(game.Us.ID)
+
 	--updating all Entities
 	Serverload(nil,-1,-1,-1)
 
--- updated features here
-	GlobalFarm(game.Us.ID)
 	MainMenuID(window)
+
 
 
 end
@@ -31,9 +33,9 @@ end
 --Ui info for your account
 function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	--Create the entity then preform a single payment
-	setMaxSize(500, 400)
+	setMaxSize(500, 450)
 
-	Accountincome = Entities[GlobalID].Income 
+	Accountincome = Entities[GlobalID].Gold 
 	table.insert(Ownerlist,GlobalID)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
@@ -44,6 +46,7 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 	local row5 = UI.CreateHorizontalLayoutGroup(vert)
+	local rowbefore6 = UI.CreateHorizontalLayoutGroup(vert)
 	local row6 = UI.CreateHorizontalLayoutGroup(vert)
 	local row7 = UI.CreateHorizontalLayoutGroup(vert)
 	local row8 = UI.CreateHorizontalLayoutGroup(vert)
@@ -51,8 +54,8 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 
 
 	-- Name of account
-	UI.CreateLabel(row00).SetText("Cost to create account " .. AccountCost)
-	UI.CreateLabel(row0).SetText("Name your account ")
+	AddStringToUI(row00,"<#ffffff>Cost to create account: </><#ee882f>" .. AccountCost .. "</>",nil)
+	AddStringToUI(vert,"<#ffffff>Name your account</>",nil)
 	AcountName = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of account          ").SetFlexibleWidth(1).SetCharacterLimit(25)
 	
 	--Inial Deposit
@@ -60,7 +63,7 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	GoldInput = UI.CreateNumberInputField(row1)
 	.SetSliderMinValue(1)
 	.SetSliderMaxValue(Accountincome)
-	.SetValue(0)
+	.SetValue(1)
 
 	-- Kick rate
 	UI.CreateLabel(row2).SetText('Voting requirment to kick owners ')
@@ -77,9 +80,11 @@ function CreateAccount(rootParent, setMaxSize, setScrollable, game, close)
 	TargetMemberBtn = UI.CreateButton(row4).SetText("Select player...").SetOnClick(function () TargetPlayerClicked(1) end)
 
 	--Showing Owners/Members list
-	UI.CreateLabel(row5).SetText("Owners ------")
+	AddStringToUI(row5,"<#ffffff>Owners ------</>",nil)
+	AddStringToUI(rowbefore6,"<#1edc00>" .. Entities[GlobalID].Name .. "</>",nil)
+
 	Ownernames = UI.CreateLabel(row6).SetText("")
-	UI.CreateLabel(row7).SetText("memebers ------")
+	AddStringToUI(row7,"<#ffffff>Members ------</>",nil)
 	membernames = UI.CreateLabel(row8).SetText("")
 
 
@@ -103,7 +108,7 @@ end
 -- Your current open account
 function OpenAccount(rootParent, setMaxSize, setScrollable, game, close)
 
-	setMaxSize(600, 420)
+	setMaxSize(500, 450)
 	local Ent = Datatransfer
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert)
@@ -113,45 +118,49 @@ function OpenAccount(rootParent, setMaxSize, setScrollable, game, close)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 	local row5 = UI.CreateHorizontalLayoutGroup(vert)
 	local row6 = UI.CreateHorizontalLayoutGroup(vert)
+	local rowAfter6 = UI.CreateHorizontalLayoutGroup(vert)
 	local row7Over = UI.CreateHorizontalLayoutGroup(vert)
 	local rowSide = UI.CreateHorizontalLayoutGroup(vert)
 	local row8 = UI.CreateVerticalLayoutGroup(rowSide)
 	local row9 = UI.CreateVerticalLayoutGroup(rowSide)
 	local IsOwner = FindmatchID(Ent.owners,GlobalID,2)
 
-	UI.CreateLabel(row0).SetText("Account Name: " .. Ent.Name)
+	--Account Name
+	AddStringToUI(row0,"<#e09e3b>Account Name:</> <#0b9dff>" .. Ent.Name .. "</>",nil)
+
 	-- Funds
-	UI.CreateLabel(row1).SetText("Total Funds: " .. Ent.Gold)
+	AddStringToUI(row1,"<#FFFFFF>Total Funds: </><#f8ff0b>" .. Ent.Gold .. "</>",nil)
 
 
 	-- Change User
-	UI.CreateLabel(row2).SetText("Transactions ") -- selecting player
+	AddStringToUI(row2,"<#FFFFFF>Transactions </>",nil)
 	UI.CreateButton(row2).SetText("Open ...").SetOnClick(function () ChangeUserID(Ent.ID,close) end).SetInteractable(IsOwner)
-	print(Ent.ID,"entID")
+
 	-- Reveal Funds
-	UI.CreateLabel(row3).SetText("Reveal Funds to host ") -- Toggle Reveal Money
-	UI.CreateCheckBox(row3).SetText("").SetOnValueChanged(function () Serverload(nil,Ent.ID,15,nil,nil) end).SetInteractable(IsOwner)
+	AddStringToUI(row3,"<#FFFFFF>Reveal Funds to host</>",nil)
+	UI.CreateCheckBox(row3).SetText("").SetIsChecked(Ent.Reveal).SetOnValueChanged(function () Serverload(close,nil,15,Ent.ID,"king") end).SetInteractable(IsOwner)
 
 	-- kicking/Add/Leaving from account
-	UI.CreateButton(row6).SetText("Kick/Add").SetOnClick(function () Dialogwindow(10,close,Ent.ID) end ).SetInteractable(IsOwner)
-	UI.CreateButton(row6).SetText("Leave Account").SetOnClick(function () Serverload(close,GlobalID,9,Ent.ID,nil) end)
-	UI.CreateButton(row6).SetText("Notes").SetOnClick(function ()  Dialogwindow(10,close,Ent.ID) end)
+	UI.CreateButton(row6).SetText("Notes").SetOnClick(function ()  Dialogwindow(12,close,Ent.ID) end)
+	UI.CreateButton(row6).SetText("Owner History").SetOnClick(function ()  Dialogwindow(13,close,Ent.OwnerHistory) end)
+	UI.CreateButton(rowAfter6).SetText("Kick/Add").SetOnClick(function () Dialogwindow(10,close,Ent.ID) end ).SetInteractable(IsOwner)
+	UI.CreateButton(rowAfter6).SetText("Leave Account").SetOnClick(function () Serverload(close,GlobalID,9,Ent.ID,nil) end)
 	--Voting Logic
 	if Ent.KVote ~= nil then
 		Votinglogic(Ent,row7Over,close)
 	end 
-	--Showing Owners/Members list
-	UI.CreateLabel(row8).SetText("Owners ------")
-	UI.CreateLabel(row9).SetText("Members ------")
-	for i,v in pairs (Values2Table(Ent.owners)) do
+	--Showing Owners/Members list  3be0df
+	AddStringToUI(row8,"<#e09e3b>Owners ------</>",nil)
+	AddStringToUI(row9,"<#e09e3b>Members ------</>",nil)
 
-		UI.CreateLabel(row8).SetText(v.Name)
+	for i,v in pairs (Values2Table(Ent.owners)) do
+		AddStringToUI(row8,"<#3be0df>".. v.Name .. "</>",nil)
+
 	end
 
 	for i,v in pairs (Values2Table(Ent.members)) do
 		local color = "#FF697A"
-		print("color",v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded,game.Game.TurnNumber)
-		if 	v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded + 2 < game.Game.TurnNumber then color = "#0021FF"  end
+		if 	v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded + TurnsNeededInAccount < game.Game.TurnNumber then color = "#3be0df"  end
 			UI.CreateLabel(row9).SetText(v.Name).SetColor(color)
 
 	end
@@ -163,9 +172,11 @@ function AllAccounts(rootParent, setMaxSize, setScrollable, game, close)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local SortedTable = SortTable(Entities,"Gold")
 	UI.CreateLabel(row1).SetText("All Accounts ").SetColor('#00F4FF')
 
-	for i,v in pairs(Entities) do 
+
+	for i,v in pairs(SortedTable) do 
 		if v.Status == "A" then
 			local row2 = UI.CreateHorizontalLayoutGroup(vert)
 			UI.CreateButton(row2).SetText("Account: " .. v.Name).SetOnClick(function () Dialogwindow(11,close,v) end )
@@ -180,29 +191,35 @@ function PeakAccount(rootParent, setMaxSize, setScrollable, game, close)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 	local row0 = UI.CreateVerticalLayoutGroup(vert)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local rowSide = UI.CreateHorizontalLayoutGroup(vert)
 	local row8 = UI.CreateVerticalLayoutGroup(rowSide)
 	local row9 = UI.CreateVerticalLayoutGroup(rowSide)
-	local Funds = Ent.lowEstimate .. " - " ..  Ent.highEstimate
-	if Ent.Reveal then Funds = Ent.Gold end
+	local Funds = "<#ffffff>Gold Estimate: </><#f2ee00>" .. Ent.lowEstimate .. "</>- <#f2ee00>" ..  Ent.highEstimate .. "</>"
+	if Ent.Reveal then Funds = "Gold Revealed: <#f2ee00>" .. Ent.Gold .. "<#f2ee00>" end
 
-	UI.CreateLabel(row0).SetText("Account Name: " .. Ent.Name)
+
+	AddStringToUI(row0,"<#ffffff>Account Name: </><#b2efe0>" .. Ent.Name .. "</>",nil)
+
 	-- Funds
-	UI.CreateLabel(row1).SetText("Gold Estimate: " .. Funds)
+	AddStringToUI(row1,Funds,nil)
+	--Owner History button
+	UI.CreateButton(row2).SetText("Owner History").SetOnClick(function ()  Dialogwindow(13,close,Ent.OwnerHistory) end)
 
 
 	--Showing Owners/Members list
-	UI.CreateLabel(row8).SetText("Owners ------")
-	UI.CreateLabel(row9).SetText("Members ------")
-	for i,v in pairs (Values2Table(Ent.owners)) do
 
-		UI.CreateLabel(row8).SetText(v.Name)
+	AddStringToUI(row8,"<#ffffff>Owners ------</>",nil)
+	AddStringToUI(row9,"<#ffffff>Members ------</>",nil)
+
+	for i,v in pairs (Values2Table(Ent.owners)) do
+		AddStringToUI(row8,"<#b2efe0>".. v.Name .. "</>",nil)
+
 	end
 
 	for i,v in pairs (Values2Table(Ent.members)) do
 		local color = "#FF697A"
-		print("color",v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded,game.Game.TurnNumber)
-		if 	v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded < game.Game.TurnNumber then color = "#0021FF"  end
+		if 	v.YourAccounts[Findmatch(v.YourAccounts,Ent.ID,"AID")].Turnadded + TurnsNeededInAccount < game.Game.TurnNumber then color = "#0021FF"  end
 			UI.CreateLabel(row9).SetText(v.Name).SetColor(color)
 
 	end
@@ -213,7 +230,6 @@ end
 function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(450, 320)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
-	Serverload(nil,-1,-1,-1)
 	local GoldHave = Entities[GlobalID].Gold
 
  -- creating rows
@@ -232,9 +248,10 @@ function Giftgold(rootParent, setMaxSize, setScrollable, game, close)
 		.SetValue(1)
 
 -- enacting the gift gold logic	
-	Giftbtn = UI.CreateButton(vert).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(true).SetColor('#0021FF')
+	Giftbtn = UI.CreateButton(vert).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(false).SetColor('#0021FF')
 
 	--Tax logic
+	GoldText = UI.CreateTextInputField(vert).SetPlaceholderText("Describe Gold Gift (Optional)").SetFlexibleWidth(1).SetCharacterLimit(25)
 
 
 	Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true)
@@ -273,6 +290,8 @@ function SetTurns(rootParent, setMaxSize, setScrollable, game, close)
 		Cont = UI.CreateCheckBox(row4).SetText("Locked ").SetIsChecked(Contbool).SetOnValueChanged(Numberson)
 		Reveal = UI.CreateCheckBox(row4).SetText("Reveal Gold amount").SetIsChecked(true).SetInteractable(false)
 		AdvanceBtn = UI.CreateButton(row4).SetText("Gift").SetOnClick(function () SubmitClicked(close,0)end).SetInteractable(false).SetColor('#0021FF')
+		GoldText = UI.CreateTextInputField(vert).SetPlaceholderText("Describe Gold Gift (optional)").SetFlexibleWidth(1).SetCharacterLimit(25)
+
 
 		UI.CreateLabel(vert).SetText("You cannot cancel this payment early if the 'Locked' button is selected").SetColor('#E5FF00')
 
@@ -311,12 +330,13 @@ function Plans(rootParent, setMaxSize, setScrollable, game, close)
 end
 -- Main UI display for all history functions
 function History(rootParent, setMaxSize, setScrollable, game, close)
-	setMaxSize(500, 320)
+	setMaxSize(500, 450)
 	Destroygroup = {}
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert)
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+
+	
 	if publicdate.PayP ~= nil and #publicdate.PayP.History > 0 then
 	OptionA = UI.CreateButton(row0).SetText("Total payments").SetInteractable(true).SetColor('#0021FF').SetOnClick(function () OptionAfunc(vert)end)
 	OptionB = UI.CreateButton(row0).SetText("Payments by players").SetInteractable(true).SetColor('#0021FF').SetOnClick(function () OptionBfunc(vert)end)
@@ -332,8 +352,11 @@ function OptionAfunc(vert)
 	OptionA.SetInteractable(false).SetColor("#FF0000")
 	OptionB.SetInteractable(true).SetColor("#0021FF")
 	Destroylogic()
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
-	table.insert(Destroygroup,row1)
+	local ROver = UI.CreateVerticalLayoutGroup(vert)
+
+	table.insert(Destroygroup,ROver)
+
+
 	local sortedpayments = SortTable(publicdate.PayP.History,"turn")
 	local color = '#FF697A'
 	local turn = 1
@@ -345,17 +368,25 @@ function OptionAfunc(vert)
 			color = "#BABABC"
 			end end -- end of colors
 
-		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		local row2 = UI.CreateHorizontalLayoutGroup(ROver)
+		local row1 = UI.CreateHorizontalLayoutGroup(ROver)
+
+		table.insert(Destroygroup,row1)
+		table.insert(Destroygroup,row2)
 		local spacer = v.goldamount
 		table.insert(Destroygroup,row1)
 		local Entname = Entities[v.from].Name
+		local text = nil
 		if v.noshow ~= nil then spacer = v.noshow end
+		if v.text ~= nil then text = "#" .. v.trannum  .. " " .. v.text end
 
-		
+		if text ~= nil then
+		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row2).SetText(text).SetColor(color) end
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText(Entname ).SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " sent " .. spacer .. " gold to ").SetColor(color)
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " " .. Entities[v.to].Name .. "  ").SetColor('#FFE5B4')
 		Destroygroup[#Destroygroup+1] = UI.CreateLabel(row1).SetText( " On turn ".. v.turn).SetColor(color)
+
 
 	end
 
@@ -416,11 +447,12 @@ function Byplayer(vert)
 	end
 end
 
--- Submit orders / Server load heavy weight
+-- Submit orders for payments
 function SubmitClicked(close,plan,data,data2)
 close()
 	--Check for negative gold. We don't need to check to ensure we have this much since the server does that check in Server_GameCustomMessage
 	local gold = 0
+	local goldtext = ""
 	if GoldInput ~= nil then gold = GoldInput.GetValue() end
 	local setturns = 0
 	local setgold = 0
@@ -434,7 +466,7 @@ close()
 	local Aname = ""
 	local kickrate = 0
 	
-
+	if GoldText ~= nil then goldtext = GoldText.GetText() end
 	if KickInput ~= nil then 
 		if KickInput.GetValue() > 100 or KickInput.GetValue() < 0 then 	
 			UI.Alert("Your Kick rate cannot be greater than 100 or less than 0")
@@ -446,7 +478,7 @@ close()
 	end
 	if Reveal ~= nil then rev = Reveal.GetIsChecked() end
 	if Cont ~= nil then con = Cont.GetIsChecked() end
-	if (gold <= 0 and GoldInput ~= nil) then
+	if (gold < 1 and GoldInput ~= nil) then
 		UI.Alert("Gold to gift must be a positive number")
 		return
 	end
@@ -461,7 +493,7 @@ close()
 	end
 	if data == 1 then -- create account logic
 		if Entities[GlobalID].Gold < AccountCost then UI.Alert("Dont have enough gold to create an account") return end 
-		if GoldInput.GetValue() > Accountincome then Ui.Alert("You cannot Deposit more money than you have in your account")  return end
+		if GoldInput.GetValue() > Accountincome then UI.Alert("You cannot Deposit more money than you have in your account")  return end
 		if AccountCost + GoldInput.GetValue() > Accountincome then UI.Alert("Your Deposit is to high, dont have enough money to create an account and deposit " .. GoldInput.GetValue() .. " gold" ) return end
 		if string.len(AcountName.GetText()) <= 0 then UI.Alert("Must give your account a name") 
 			return
@@ -492,6 +524,7 @@ close()
 	payload.Accountname = Aname -- account name
 	payload.Rate = kickrate
 	payload.Acost = AccountCost
+	payload.Desc = goldtext
 
 	----------------------- new shit
 
@@ -511,35 +544,45 @@ close()
 			local orders = Game.Orders
 			table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload))
 			Game.Orders = orders
+			if setup ~= 10 then
+			Dialogwindow(8,nil,nil) end 
 		end
 		publicdate = Mod.PublicGameData
 
 	end)
 end
--- Serverload lightweight
+-- Serverload Non Payment
 function Serverload(close,plan,data1,data2,data3)
 --Payload Creation
-
-if (data1 ~= -1 and data1 ~= 15) then close() end
+	--Note check
+	print(data3,"data3")
+if (data1 ~= -1) then close() end
 	local payload = {}
+	if data3 == "" then data1 = nil end -- skip setup if no text from notes but still load main menu by going through server
+
 	payload.Default = plan -- default ID 
 	payload.setup = data1 -- what kind of access to server needed
 	payload.accountID = data2 -- Account ID
 	payload.voteof = TargetPlayerID
 	payload.TargetID = data3
 
+
 	Game.SendGameCustomMessage("Gifting gold...", payload, function(returnValue) 
+		publicdate = Mod.PublicGameData
 		if returnValue.Ent ~= nil then
 
 		Entities = returnValue.Ent
+		print("created 0")
+		if data1 ~= -1 then
+		Dialogwindow(8,nil,nil) end
 		end
-		publicdate = Mod.PublicGameData
+
 	end)
 end
 
 --promptlist functionally for everyone 
-function TargetEntityClicked(acton)
-	Action = acton
+function TargetEntityClicked(action)
+	Action = action
 	local playergroup = Entities
 
 	playergroup = filter(playergroup, function (p) return (p.ID ~= GlobalID) end) -- Remove self
@@ -550,8 +593,8 @@ function TargetEntityClicked(acton)
 end
 
 --promptlist Add to account (players only)
-function TargetPlayerClicked(acton)
-	Action = acton
+function TargetPlayerClicked(action)
+	Action = action
 	local playergroup = Entities
 	--updating list from old UI cycle
 	Ownerlist = Ownerlist
@@ -583,10 +626,10 @@ function PromptKicklist(list,type)
 	local options = map(playergroup, PlayerButton)
 	UI.PromptFromList("Select the Owner/Member of the account", options)
 end
---promptlist Add to Members (players only)
+--promptlist Add to Owner from members (players only)
 function PromptAddOwners(Ent,action)
 	Action = action
-	local TurnsMustBeInAccount = 2
+	local TurnsMustBeInAccount = TurnsNeededInAccount
 	local playergroup =  Values2Table(Ent.members) -- creates a table of Ents only of members
 	local Newplayergroup = filter(playergroup, function (p) return (p.ID ~= GlobalID) end) -- Remove self
 	playergroup = filter(Newplayergroup, function (p) 
@@ -597,6 +640,32 @@ function PromptAddOwners(Ent,action)
 
 	local options = map(playergroup, PlayerButton)
 	UI.PromptFromList("Can only add Blue members who have been on the account for 3 turns", options)
+end
+--Add nenber
+function PromptAddMember(Ent,action)
+	Action = action
+	local localEnt = Ent
+	local playergroup = Entities
+	--updating list from old UI cycle
+	local Ownerlist = localEnt.owners
+	local Memberlist = localEnt.members
+	local Newplayergroup = filter(playergroup, function (p) return (p.ID ~= GlobalID) end) -- Remove self
+	local thirdplayergroup = filter(Newplayergroup, function (p) return (p.Status ~= "A") end) -- Remove all non player Entities
+	playergroup = filter(thirdplayergroup, function (p) return (p.Status ~= "D") end) -- Remove Trash can Entity
+
+	-- filtering out ownerlist from Entity pool
+	for i,v in pairs(Ownerlist) do 
+		playergroup = filter(playergroup, function (p) return (p.ID ~= v) end)
+	end	
+	-- filtering out memberlist from Entity pool
+	for i,v in pairs(Memberlist) do
+		playergroup = filter(playergroup, function (p) return (p.ID ~= v) end)
+	end
+
+
+	local options = map(playergroup, PlayerButton)
+	UI.PromptFromList("Select the player you would like to add to the account", options)
+
 end
 
 -- voted player
@@ -615,17 +684,19 @@ function PlayerButton(entity)
 	ret["text"] = name;
 	ret["selected"] = function() 
 		TargetPlayerID = entity.ID
-		local Ownerhold = ""
-		local Memberhold = ""
 
 		if TargetPlayerBtn ~= nil then -- Non account logic
 			TargetPlayerBtn.SetText(name)
 
 			if Giftbtn ~= nil then -- Single payment logic
 				Giftbtn.SetInteractable(true) 
+				-- Trashcan logic
 				if TargetPlayerID == publicdate.RandomVar.DeleteID  then TargetPlayerBtn.SetColor('#76FF7A') -- Trashcan logic
 					Giftbtn.SetText("Erase Gold")
-				end -- Trashcan logic
+				else -- everyone else
+					TargetPlayerBtn.SetColor('#FFFFFF') 
+					Giftbtn.SetText("Gift")
+				end 
 			end
 
 			if Searchbtn ~= nil then Searchbtn.SetInteractable(true) end
@@ -634,21 +705,24 @@ function PlayerButton(entity)
 				if TargetPlayerID == publicdate.RandomVar.DeleteID  then -- Trashcan logic
 					TargetPlayerBtn.SetColor('#76FF7A') 
 					AdvanceBtn.SetText("Erase Gold")
+				else --everyone else
+					TargetPlayerBtn.SetColor('#FFFFFF')
+					AdvanceBtn.SetText("Gift")
 				end 
 			 end 
 		end
 		--Create Account logic
 		if Action == 0 then -- owner
 			table.insert(Ownerlist,TargetPlayerID) 
-			Ownerhold = Ownerhold .. Entities[TargetPlayerID].Name .. "\n"
-			Ownernames.SetText(Ownerhold)
+			OwnernamesText = OwnernamesText .. Entities[TargetPlayerID].Name .. "\n"
+			Ownernames.SetText(OwnernamesText).SetColor("#1edc00")
 			TargetOwnerBtn.SetText("Total Owners " .. #Ownerlist)
 		elseif Action == 1 then -- members
 			table.insert(Memberlist, TargetPlayerID)
-			Memberhold = Memberhold .. Entities[TargetPlayerID].Name .. "\n"
-			membernames.SetText(Memberhold)
+			MembernamesText = MembernamesText .. Entities[TargetPlayerID].Name .. "\n"
+			membernames.SetText(MembernamesText).SetColor("#1edc00")
 			TargetMemberBtn.SetText("Total Members " .. #Memberlist) 
-		-- Adding Owners/Members
+		-- Adding Owners/Members (after account creation)
 		elseif Action == 3 then -- Owners
 			AddOwnerbtn.SetInteractable(true)	
 			addowner.SetText(entity.Name)
@@ -696,7 +770,7 @@ publicdate = Mod.PublicGameData
 		close()
     elseif window == 2 then -- Payment plans
 		Game.CreateDialog(Plans)
-
+		close()
 	elseif window == 3 then -- Payment history
 		Game.CreateDialog(History)
 
@@ -708,16 +782,17 @@ publicdate = Mod.PublicGameData
 		close()
 	elseif window == 6 then -- your account
 		Game.CreateDialog(YourAccount)
+		close()
 	elseif window == 7 then -- All Accounts
 		Game.CreateDialog(AllAccounts)
 		close()
 	elseif window == 8 then -- create main menu
 		Game.CreateDialog(WrapperMainmeunID)
-		close()
+		if close ~= nil then close() end
 	elseif window == 9 then -- Open account
 	Datatransfer = data -- giving what account to open
 		Game.CreateDialog(OpenAccount)
-		close()
+		if close ~= nil then close() end
 	elseif window == 10 then -- Kicking window
 		Datatransfer = data -- giving what account to open
 		Game.CreateDialog(KickingWindow)
@@ -726,8 +801,15 @@ publicdate = Mod.PublicGameData
 		Datatransfer = data -- giving what account to open
 		Game.CreateDialog(PeakAccount)
 	elseif window == 12 then -- Note tracking
-		Game.CreateDialog(OpenNotes)
 		Datatransfer = data
+		Game.CreateDialog(OpenNotes)
+		if close ~= nil then close() end
+	elseif window == 13 then-- Owner tracker
+		Datatransfer = data
+		Game.CreateDialog(OwnerHistory) 
+	elseif window == 14 then -- Calculator
+		Datatransfer = data
+		Game.CreateDialog(Calculator) 
 	end
 end
 
@@ -761,15 +843,19 @@ function GlobalFarm(ID)
    playerpicked = false
    Memberlist = {}
    Ownerlist = {}
+   MembernamesText = ""
+   OwnernamesText = ""
    MaxTurns = 20
    GlobalID = ID
    KickInput = nil
    AccountCost = Mod.Settings.ACost or 0
    AccountTax = Mod.Settings.ATax or 0
+   TurnsNeededInAccount = 1
 
 
 
 end
+--wrapper for main menu
 function WrapperMainmeunID(rootParent, setMaxSize, setScrollable, game, close)
 	local window = {rootParent, setMaxSize, setScrollable, game, close,false}
 
@@ -777,7 +863,7 @@ function WrapperMainmeunID(rootParent, setMaxSize, setScrollable, game, close)
 end
 -- Main logic of mainmenu
 function MainMenuID(Window)
-		--Creating all Global variables
+		TargetPlayerBtn = nil
 
 	local setMaxSize = Window[2]
 	local rootParent = Window[1]
@@ -786,11 +872,14 @@ function MainMenuID(Window)
 	local game = Window[4]
 	local access = Window[6]
 	local Name = "You"
-	setMaxSize(450, 320)
+	local CalReady = false
+	if publicdate.taxidtable ~= nil then CalReady = true end
+	setMaxSize(470, 350)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert)
 	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateHorizontalLayoutGroup(vert)
 	
@@ -807,6 +896,8 @@ function MainMenuID(Window)
 		UI.CreateButton(row1).SetText("Your Accounts").SetOnClick(function () Dialogwindow(6,close,nil) end )
 		UI.CreateButton(row1).SetText("All Accounts").SetOnClick(function () Dialogwindow(7,close,nil) end )
 	end
+	UI.CreateButton(row2).SetText("Calculator").SetOnClick(function () Dialogwindow(14,close,nil) end ).SetInteractable(CalReady)
+
 	TaxText(row3)
 	if Entities ~= nil then Name = Entities[GlobalID].Name end
 	UI.CreateLabel(row4).SetText("Current User: " .. Name).SetColor('#6eef41')
@@ -839,7 +930,7 @@ function KickingWindow(rootParent, setMaxSize, setScrollable, game, close)
 
 	--Add memeber
 	UI.CreateLabel(row5).SetText("Add Member") -- selecting player
-	addmember = UI.CreateButton(row5).SetText("Select player...").SetOnClick(function () TargetPlayerClicked(4) end) 
+	addmember = UI.CreateButton(row5).SetText("Select player...").SetOnClick(function () PromptAddMember(Ent,4) end) 
 	Addmemberbtn = UI.CreateButton(row5).SetText("Submit...").SetOnClick(function () Serverload(close,GlobalID,6,Datatransfer,nil) end ).SetInteractable(false)
 
 
@@ -848,7 +939,8 @@ end
 -- Voting UI logic
 function Votinglogic(Ent,row7Over,close)
 
-	local totalplayers = #Ent.members + #Ent.owners
+	local totalplayers = (#Ent.members + #Ent.owners) - 1
+	if totalplayers == 0 then totalplayers = 1 end
 	for i,v in pairs (Ent.KVote) do 
 
 		local YourVote = FindmatchID(v.Vlist,GlobalID,2)
@@ -864,21 +956,194 @@ function Votinglogic(Ent,row7Over,close)
 
 	end
 end
+--Change User ID
 function ChangeUserID (ID,close)
 	GlobalID = ID
 
 	Dialogwindow(8,close,nil)
 end
+-- Notes for account
 function OpenNotes(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(450, 320)
 	local Ent = Entities[Datatransfer]
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
 	local row0 = UI.CreateHorizontalLayoutGroup(vert)
-	local row1 = UI.CreateHorizontalLayoutGroup(vert)
 
+	local IsOwner = FindmatchID(Ent.owners,GlobalID,2)
 
 	NoteField = UI.CreateTextInputField(vert).SetPlaceholderText("Notes").SetFlexibleWidth(1)
-	UI.CreateLabel(row4).SetText("Add member to account ") -- selecting player
-	TargetMemberBtn = UI.CreateButton(row4).SetText("Select player...").SetOnClick(function () TargetPlayerClicked(1) end)
+	EnterBtn = UI.CreateButton(row0).SetText("Enter").SetOnClick(function ()  wrapperOpenaccount_fromNotes(close,GlobalID,12,Ent.ID,nil) end) -- Enter
+	ClearBtn = UI.CreateButton(row0).SetText("Clear").SetOnClick(function ()  wrapperOpenaccount_fromNotes(close,GlobalID,16,Ent.ID,nil)end).SetInteractable(IsOwner) -- Clear
+
+	--Displaying Notes
+	if Ent.Notes ~= nil then
+		local SortedT = SortTable(Ent.Notes,"Turn")
+		local turn = 0
+		for i,v in pairs (SortedT) do
+			
+			if v.Turn ~= turn then
+				local row1 = UI.CreateHorizontalLayoutGroup(vert)
+				AddStringToUI(row1,"<#8340fb>-------</><#FFFFFF> Turn " .. v.Turn .. "</><#8340fb> -------</>",nil)
+				turn = v.Turn
+				
+			end
+			local row2 = UI.CreateHorizontalLayoutGroup(vert)
+			AddStringToUI(row2,"<#75fb40>".. v.Name.."</>",nil)
+			AddStringToUI(row2,"<#FFFFFF>"..v.notes.."</>",nil)
+
+
+		end
+	end
+end
+--Wrapper To open notes and load data
+function wrapperOpenaccount_fromNotes (close,globid,setup,EntID,data)
+
+	local data0 = nil
+	if NoteField ~= nil then data0 = NoteField.GetText() end
+
+	Serverload(close,globid,setup,EntID,data0)
+end
+-- Owner Histor data
+function OwnerHistory(rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(350, 390)
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local row0 = UI.CreateHorizontalLayoutGroup(vert)
+	local OwnerHist = Datatransfer
+
+
+	if OwnerHist ~= nil and #OwnerHist ~= 0 then
+		print(#OwnerHist,"ownerhist")
+		local SortedT = SortTable(OwnerHist,"Turn")
+		local turn = 0
+		for i,v in pairs (SortedT) do
+			
+			if v.Turn ~= turn then
+				local row1 = UI.CreateHorizontalLayoutGroup(vert)
+				AddStringToUI(row1,"<#ff3400>---</><#FFFFFF> Turn " .. v.Turn .. "</><#ff3400> ---</>",nil)
+
+				turn = v.Turn
+				
+			end
+			local row2 = UI.CreateHorizontalLayoutGroup(vert)
+			UI.CreateButton(row2).SetText(#v.List .." Owners").SetOnClick(function () PromptKicklist(v.List,nil) end)
+
+
+		end
+	else
+		UI.CreateLabel(row0).SetText("Owners are added at turn end. wait for turn to process") 
+
+	end
+end
+--Calculator Tax UI
+function Calculator (rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(450, 350)
 	
+	-- Price
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2 = UI.CreateHorizontalLayoutGroup(vert)
+	local row2after = UI.CreateHorizontalLayoutGroup(vert)
+	local row3 = UI.CreateHorizontalLayoutGroup(vert)
+	local row4 = UI.CreateHorizontalLayoutGroup(vert)
+	local row5 = UI.CreateHorizontalLayoutGroup(vert)
+	local row6 = UI.CreateHorizontalLayoutGroup(vert)
+	local tax = tempGoldtax
+	local secondtax = tempGoldtax
+	local accounttax = AccountTax
+	local spacer = tax..""
+	local spacer2 = AccountTax..""
+	if tax == 0 then 
+		secondtax = Temppercent 
+		accounttax = 0 
+		spacer = secondtax .. "%"
+		spacer2 = "0%"
+	end
+
+
+	UI.CreateLabel(row1).SetText('Calculate tax for this amount of Gold ').SetColor("#FFFFFF")
+	CalGold = UI.CreateNumberInputField(row1)
+	.SetSliderMinValue(1)
+	.SetSliderMaxValue(500)
+	.SetValue(1)
+	UI.CreateButton(row2).SetText("Calculate Base").SetOnClick(function () CrunchNumbers(tax,secondtax,tax) end)
+	AddStringToUI(row2,'----Tax Rate: <#1c6aad>'.. spacer..'</>',nil)
+
+	UI.CreateButton(row2after).SetText("Calculate Account").SetOnClick(function () CrunchNumbers(tax,secondtax,accounttax) end)
+	AddStringToUI(row2after,'----Tax Rate: <#1c6aad>'.. spacer2..'</>',nil)
+
+
+
+
+	UI.CreateLabel(row3).SetText('Gold Sent: ')
+	CalSent = UI.CreateLabel(row3).SetText('0')
+
+	UI.CreateLabel(row4).SetText('Gold Recived: ')
+	CalReci = UI.CreateLabel(row4).SetText('0')
+
+	UI.CreateLabel(row5).SetText('Tax Paid: ')
+	CalTax = UI.CreateLabel(row5).SetText('0')
+
+
+end
+--Calculate Tax data
+function CrunchNumbers(Tax,Percent,truetax)
+
+	local newtax = Tax
+	local percent = 0
+	if newtax == 0 then 
+		truetax = 0
+		percent = Percent
+		 end 
+
+	newtax = truetax
+	local ourid = GlobalID
+	local gap2 = 0
+	local storeC =  publicdate.taxidtable[ourid].count
+	local storegap = publicdate.taxidtable[ourid].gap
+	local goldtax = newtax
+	local actualGoldSent = 0
+	local goldSending = CalGold.GetValue()
+
+
+	--Tax Logic
+	if (storegap + goldSending > goldtax and storegap > 0 )then
+		gap2 = goldtax - storegap
+		actualGoldSent = actualGoldSent + (gap2 / (storeC + 1))
+		storegap = 0
+
+		storeC = storeC + 1
+	end
+
+-- tax multiplier logic ( 0 means no Tax)
+	if (goldtax > 0 )then 
+	local ga = goldtax        --- how many units in each group
+	local group = math.ceil((goldSending - gap2) / ga) --- how many groups of Ga are in goldsending
+
+	for C = 1, group, 1 do
+
+		if (C < group)then
+			actualGoldSent = actualGoldSent + (ga / (C + storeC)) --appliy Tax to gold divided into groups
+		elseif (C >= group) then -- this means your in the last group
+			local gap = (goldSending-gap2) - (ga * (C-1)) -- finding the difference between the last group and current amount in 'actualGoldSent'
+			actualGoldSent = actualGoldSent + (gap / (C + storeC))
+			if (gap == goldtax)then -- cancel gap logic if you sent the exact amount
+				storeC = storeC + 1
+				gap = 0
+			end
+		end
+	end
+	elseif (percent > 0 )then 	-- Percent Tax
+		local temppercent = 100 - percent
+		local percentGold = goldSending * (temppercent / 100)
+		actualGoldSent = (percentGold+gap2);
+	else 	--No tax
+		actualGoldSent = (goldSending)
+
+	end
+
+
+
+	CalSent.SetText(goldSending).SetColor("#45ad1c")
+	CalReci.SetText(math.floor(actualGoldSent)).SetColor("#f8ff0b")
+	CalTax.SetText(goldSending - math.floor(actualGoldSent)).SetColor("#FF697A")
 end

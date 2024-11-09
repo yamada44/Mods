@@ -19,8 +19,7 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 	publicdate.PayP.Sameturn = game.Game.TurnNumber
 	if payloadO.setup == -1 then -- Entity update
 		setReturnTable({Ent = publicdate.Entity})
-	end
-	if payloadO.setup == 1 then -- continued setups
+	elseif payloadO.setup == 1 then -- continued setups
 	
 		while i <=  #publicdate.PayP.Plan do
 			local v = publicdate.PayP.Plan[i]
@@ -37,6 +36,7 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 			payload.Cont = v.cont
 			payload.setup = 1
 			payload.planid = i
+			payload.Desc = v.text
 
 			if v.Turntill <=  game.Game.TurnNumber and v.Turntill > 0 then
 				payload.setup = 3
@@ -55,26 +55,40 @@ function Server_GameCustomMessage(game, playerID, payloadO, setReturnTable)
 		setReturnTable({ Message = "Payment Plan removed" })
 	elseif payloadO.setup == 6 then -- add member to account
 		AddMembers(publicdate,payloadO)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 7 then -- add owner to account
 		AddOwner(publicdate,payloadO)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 8 then -- remove member
 		RemoveMember(publicdate,payloadO)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 9 then -- Leave Account
 		LeavingAccount(publicdate,payloadO)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 10 then -- Create account
 		AccountCreation(payloadO,publicdate,setReturnTable)
 		if payloadO.Gold > 0 then
 			Paymentprocess(game,payloadO,setReturnTable,publicdate)
 		end
+		
 	elseif payloadO.setup == 11 then -- kicking Vote
 		KickingVoteCreation(publicdate,game,payloadO)
-	elseif payloadO.setup == 12 then -- Withdraw funds
+		setReturnTable({Ent = publicdate.Entity})
+	elseif payloadO.setup == 12 then -- Enter Notes
+		EnterText(publicdate,payloadO,game)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 13 then -- Add Vote / Remove Owner
 		Addvote(publicdate,payloadO)
+		setReturnTable({Ent = publicdate.Entity})
 	elseif payloadO.setup == 14 then -- Remove Vote
 		Removevote(publicdate,payloadO)
-	elseif payloadO.setup == 15 then -- Reveal change
-		Revealtoggle(payloadO) 
+		setReturnTable({Ent = publicdate.Entity})
+	elseif payloadO.setup == 15 then -- Reveal change (still must add on client in all accounts)
+		Revealtoggle(publicdate,payloadO) 
+		setReturnTable({Ent = publicdate.Entity})
+	elseif payloadO.setup == 16 then -- Clear Notes
+		ClearText(publicdate,payloadO,game)
+		setReturnTable({Ent = publicdate.Entity})
 	end
 
 	
@@ -108,6 +122,7 @@ function Newpayment(payload,publicdate,playerid)
 	short.setup = payload.setup -- what kind of action needed for plan
 	short.ID = playerid
 	short.bank = 0
+	short.text = payload.Desc
 	end
 	return payload.setgold
 end
@@ -126,15 +141,17 @@ function Removepayment(planid,publicdate)
 	table.remove(publicdate.PayP.Plan,planid)
 end
 --Tracking all payments ever made
-function Addhistory(targetplayerid,publicdate, actualgold,playerid,reveal)
+function Addhistory(targetplayerid,publicdate, actualgold,playerid,reveal,text,trans)
 	if publicdate.PayP.History[#publicdate.PayP.History + 1] == nil then
 		publicdate.PayP.History[#publicdate.PayP.History + 1] = {}
 		local short = publicdate.PayP.History[#publicdate.PayP.History]
+		if text == nil then text = "" end
 		short.from = playerid
 		short.to = targetplayerid
 		if reveal == false then short.noshow = "???" end 
 		short.goldamount = actualgold
-
+		short.text = text
+		short.trannum = trans
 		short.turn = Game.Game.TurnNumber
 	end
 	
@@ -199,6 +216,7 @@ function Paymentprocess(game,payload,setReturnTable,publicdate)
 		return
 	end
   -- don't have enough money
+
 	if (goldHave < goldSending) then
 		setReturnTable({ Message = "You have less then " .. goldSending .. " gold. your current gold reserve is: " .. goldHave .. '\n\n' .. 'Refresh Page for best results' })
 			return
@@ -260,7 +278,7 @@ function Paymentprocess(game,payload,setReturnTable,publicdate)
 		local percentGold = goldSending * (temppercent / 100)
 		actualGoldSent = (percentGold+gap2);
 	else 	--No tax
-		actualGoldSent = (goldSending+gap2);
+		actualGoldSent = (goldSending) -- +gap2 was here (if errors occure add back)
 	end
 	
 	actualGoldSent = math.floor(actualGoldSent)
@@ -279,25 +297,22 @@ function Paymentprocess(game,payload,setReturnTable,publicdate)
 	publicdate.orderAlt[publicdate.orderamount].targetPlayer = targetID
 	publicdate.orderAlt[publicdate.orderamount].us = payload.ourID
 	publicdate.orderAlt[publicdate.orderamount].reveal = payload.reveal
+	publicdate.orderAlt[publicdate.orderamount].Trannumber = publicdate.trannum
 	publicdate.HiddenOrders = payload.hidden
-
 
 	
 	-- History logic
-	Addhistory(payload.TargetPlayerID,publicdate,actualGoldSent,ourid,payload.reveal)
-	Mod.PublicGameData = publicdate -- Saving Data
+	Addhistory(payload.TargetPlayerID,publicdate,actualGoldSent,ourid,payload.reveal,payload.Desc,publicdate.trannum )
 
-
-	--Subtract goldSending from ourselves, add goldSending to target
+	--transaction number
+	publicdate.trannum = publicdate.trannum + 1
 
 	-- Getting target player for gold and name
 	
 	publicdate = AlterGold(Ourentity.ID,goldSending,publicdate,"-")
 	publicdate = AlterGold(TargetEntity.ID,actualGoldSent,publicdate,"+")
 
-	--game.ServerGame.SetPlayerResource(ourid, WL.ResourceType.Gold, goldHave - goldSending)
-	--game.ServerGame.SetPlayerResource(targetPlayer.ID, WL.ResourceType.Gold, targetPlayerHasGold + actualGoldSent)
-
+	Mod.PublicGameData = publicdate -- Saving Data
 	setReturnTable({ Message = "Sent " .. TargetEntity.Name .. ': ' .. actualGoldSent .. ' gold.\nYou now have: ' .. (goldHave - goldSending) .. ' gold.', realGold = actualGoldSent,NewtargetID =TargetEntity.ID   })
 
 end
@@ -316,6 +331,8 @@ function DataCheck(publicdate,payload,game)
 
 	-- Random Variables
 	if publicdate.RandomVar == nil then publicdate.RandomVar = {DeleteID = 0} end
+	if (publicdate.trannum == nil)then publicdate.trannum = 1 end --keeping track of transactions to properly track
+	publicdate.ServerAccess = false
 
 	--entities creation
 	if publicdate.Entity == nil then publicdate.Entity = {} 
@@ -375,6 +392,7 @@ function EntityUpdate(publicdate)
 
 	-- Entity Update check
 	for i,v in pairs (publicdate.Entity) do
+		--Update players
 		if v.Status == "P" then
 		   v.Gold = Game.ServerGame.LatestTurnStanding.NumResources(i, WL.ResourceType.Gold)
 		   local standing = Game.ServerGame.LatestTurnStanding
@@ -384,13 +402,16 @@ function EntityUpdate(publicdate)
 			   income = player.Income(0, standing, false, false)
 		   end
 		   v.Income = income.Total
+		--Update Accounts
 		elseif v.Status == "A" then
 			local high = math.random(v.Gold ,v.Gold * 1.5)
 			local low = math.random(v.Gold * 0.4,v.Gold )
 		   v.lowEstimate = low
 		   v.highEstimate = high
 		   v.Income = v.Gold
-		else
+		--error Handling
+		elseif v.Status ~= "D" then
+			
 		   print("Error: no Status found for entity " .. i .. " " .. v.Name)
 		end 
    end
@@ -426,6 +447,8 @@ function AccountCreation(payload,publicdate,setReturnTable)
 			short.highEstimate = high
 			short.kickrate = payload.Rate
 			short.Reveal = false
+			short.Notes = {}
+			short.OwnerHistory = {}
 			publicdate.GlobalIDs = publicdate.GlobalIDs - 1 -- account ID tracker
 			currentEnt = short.ID
 			table.insert(short.owners,payload.ourid) 
@@ -464,6 +487,7 @@ function AlterGold(ID,Subtract,publicdata,process)
 		else
 			Print("wrong process inputed")
 		end
+
 	else
 		print("Error: No Status found for Entity " .. ID .. " " .. Entity.Name .. " on function 'Altergold'")
 	end
@@ -605,8 +629,8 @@ function UpdateVote(publicdate,game)
 end
 -- Reveal Toggle of gold to players
 function Revealtoggle(publicdate,payload)
-	local Ent = publicdate.Entity[payload.Default]
-
+	local Ent = publicdate.Entity[payload.accountID]
+	print("toggled")
 	if Ent.Reveal then Ent.Reveal = false 
 	else Ent.Reveal = true end
 end
@@ -627,4 +651,14 @@ function LastOwner (public,Ent)
 		end
 	end
 
+end
+
+function EnterText(publicdate,payload,game)
+
+	table.insert(publicdate.Entity[payload.accountID].Notes,{Name = publicdate.Entity[payload.Default].Name,notes = payload.TargetID,Turn = game.Game.TurnNumber} )
+end
+function ClearText(publicdate,payload,game)
+
+	publicdate.Entity[payload.accountID].Notes = {}
+	
 end

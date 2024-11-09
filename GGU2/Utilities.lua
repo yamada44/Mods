@@ -1,3 +1,4 @@
+require('ColorUI/TextWriter')
 
 function Dump(obj)
 	if obj.proxyType ~= nil then
