@@ -375,6 +375,7 @@ function OptionAfunc(vert)
 		table.insert(Destroygroup,row2)
 		local spacer = v.goldamount
 		table.insert(Destroygroup,row1)
+		print(v.from,Entities)
 		local Entname = Entities[v.from].Name
 		local text = nil
 		if v.noshow ~= nil then spacer = v.noshow end
