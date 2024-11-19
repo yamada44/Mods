@@ -88,7 +88,7 @@ function Server_StartGame (game,standing)
                 local absoredDamage = (unitpower+defence)/2
                 local startinglevel = 0
         
-                local builder = WL.CustomSpecialUnitBuilder.Create(ts.OwnerPlayerID);
+                local builder = WL.CustomSpecialUnitBuilder.Create(owner);
                 builder.Name = typename;
                 builder.IncludeABeforeName = true;
                 builder.ImageFilename = filename;
