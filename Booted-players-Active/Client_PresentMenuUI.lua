@@ -459,14 +459,14 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 						GoldorLand = ""
 					else
 						if publicdata.History[i].original > 800 and publicdata.History[i].original < 900 then 
-							UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#FF87FF')
+							UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 
 						else
 							UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 						end
 					end
 				else  -- Bonus option is on 
-					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#FF87FF')
+					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 				end
 	
 				
