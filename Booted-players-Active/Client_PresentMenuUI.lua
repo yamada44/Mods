@@ -396,7 +396,7 @@ function Serverload(type, text,data1, data2,close)
 		payload.data4 = 0
 		payload.data5 = 0
 		if BonusBtn ~= nil then
-		payload.data5 = Nonill(BonusBtn.GetIsChecked()) end
+		payload.data5 = BonusBtn.GetIsChecked() or false end
 
 		if TurnedBtn ~= nil then
 		local data3 = Nonill(TurnedBtn.GetValue())
@@ -458,9 +458,10 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 						UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 						GoldorLand = ""
 					else
-						print(publicdata.History[i].original,"org")
-						print(Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false),"org" )
+						if publicdata.History[i].original > 800 and publicdata.History[i].original < 900 then 
+							UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.History[i].original].Name  .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#FF87FF')
 
+						end
 						UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 					end
 				else  -- Bonus option is on 

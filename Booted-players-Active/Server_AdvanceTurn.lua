@@ -657,5 +657,5 @@ function Addhistory(Action,VotedBy,game,Bonuson) -- History
     hiss.Turn = game.Game.TurnNumber
     hiss.incomebump = Action.incomebump
     hiss.cutoff = Action.Cutoff
-    hiss.Bonuson = Bonuson
+    hiss.Bonuson = Action.Bonus
 end
