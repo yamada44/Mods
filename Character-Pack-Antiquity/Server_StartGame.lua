@@ -68,7 +68,9 @@ function Server_StartGame (game,standing)
                 local combatorder = 123
                 local assass = Mod.Settings.Unitdata[type].Assassination or 0
                 local upkeep = Mod.Settings.Unitdata[type].Upkeep or 0
-
+                local owner = ts.OwnerPlayerID
+                
+                if owner == 0 then owner = game.Game.Players[1] end
                 if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
                     altmove = 1
                 end 
