@@ -454,9 +454,13 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 				
 				if publicdata.History[i].Bonuson == nil or publicdata.History[i].Bonuson == false then -- Bonus option is off
 					if publicdata.History[i].type == ActionTypeNames(7) then 
+						
 						UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 						GoldorLand = ""
 					else
+						print(publicdata.History[i].original,"org")
+						print(Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false),"org" )
+
 						UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " was " .. publicdata.History[i].type .. " by " ..tempname .. GoldorLand .. "\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 					end
 				else  -- Bonus option is on 
