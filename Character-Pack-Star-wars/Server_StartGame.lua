@@ -70,7 +70,13 @@ function Server_StartGame (game,standing)
                 local upkeep = Mod.Settings.Unitdata[type].Upkeep or 0
                 local owner = ts.OwnerPlayerID
                 
-                if owner == 0 then owner = game.Game.Players[1] end
+
+                if owner == 0 then 
+                    for i,v in pairs (game.Game.Players) do
+                        owner = i
+                        break
+                    end
+                 end
                 if (Mod.Settings.Unitdata[type].Altmoves ~= nil and Mod.Settings.Unitdata[type].Altmoves ~= false)then -- adding values after mod launched
                     altmove = 1
                 end 
