@@ -39,47 +39,48 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 					break
 				end
 			end
-			if isSlot == false then
-				UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) 
-			end
-		end
 
-		for _,order in pairs(Game.Orders) do
-			if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, OrderstartsWith)) then
-				unitamount = unitamount + 1
-			end
 		end
+		if isSlot == false then
+			UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) 
+		else
+			for _,order in pairs(Game.Orders) do
+				if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, OrderstartsWith)) then
+					unitamount = unitamount + 1
+				end
+			end
 
-		if unitamount == 0 then unitamount = 1 increasingCost[i] = 0 end
-		if modplayers[i] == nil then modplayers[i] = {} end
-		if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
-		if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
-		if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
-			morgeRow = vert
-			Ruleson = false 
-			modplayers[i][ID].readrules = true
-		else morgeRow = row3 end
-		
-		local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
-		local hostmessage = "Host Rules/Lore for Unit"
-		local infomessage = dynamicInfo(i)
+			if unitamount == 0 then unitamount = 1 increasingCost[i] = 0 end
+			if modplayers[i] == nil then modplayers[i] = {} end
+			if modplayers[i][ID] == nil then modplayers[i][ID] = {} end
+			if modplayers[i][ID].readrules == nil then modplayers[i][ID].readrules = false end
+			if Playerdata.Unitdata[i].HostRules == nil or Playerdata.Unitdata[i].HostRules == '' then -- making sure the buttons look clean
+				morgeRow = vert
+				Ruleson = false 
+				modplayers[i][ID].readrules = true
+			else morgeRow = row3 end
 			
-		if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
-			buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
-		elseif publicdata[i] ~= nil and (publicdata[i][ Game.Us.ID] ~= nil) then
-			print('cool down started')
-			if (publicdata[i][ Game.Us.ID].cooldowntimer ~= nil and publicdata[i][ Game.Us.ID].cooldowntimer >= Game.Game.TurnNumber) then turnactive = false 
-				buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)'
-			end
-		end 
+			local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
+			local hostmessage = "Host Rules/Lore for Unit"
+			local infomessage = dynamicInfo(i)
+				
+			if (Playerdata.Unitdata[i].Active ~= nil and Playerdata.Unitdata[i].Active ~= 0 and Playerdata.Unitdata[i].Active > Game.Game.TurnNumber)then turnactive = false 
+				buttonmessage = Playerdata.Unitdata[i].Name .. ' disabled until turn ' .. Playerdata.Unitdata[i].Active 
+			elseif publicdata[i] ~= nil and (publicdata[i][ Game.Us.ID] ~= nil) then
+				print('cool down started')
+				if (publicdata[i][ Game.Us.ID].cooldowntimer ~= nil and publicdata[i][ Game.Us.ID].cooldowntimer >= Game.Game.TurnNumber) then turnactive = false 
+					buttonmessage = Playerdata.Unitdata[i].Name .. ' cooling down for ' ..  ((publicdata[i][ Game.Us.ID].cooldowntimer + 1) - Game.Game.TurnNumber) .. ' turn(s)'
+				end
+			end 
 
-		if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
-		UI.CreateLabel(row1).SetText(infomessage);
-		UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
-		if (Ruleson == true )then
-			UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
-		Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
-		::next::
+			if (Playerdata.Unitdata[i].Maxunits == 0) then goto next end
+			UI.CreateLabel(row1).SetText(infomessage);
+			UI.CreateButton(morgeRow).SetText(buttonmessage).SetOnClick(function () PurchaseClicked(i) end).SetInteractable(turnactive).SetFlexibleWidth(1)
+			if (Ruleson == true )then
+				UI.CreateButton(row3).SetText(hostmessage).SetOnClick(function () RulesClicked(i) end).SetInteractable(turnactive) end
+			Chartracker[i] = UI.CreateTextInputField(vert).SetPlaceholderText(" Name of Character                       ").SetFlexibleWidth(1).SetCharacterLimit(20)
+			::next::
+		end
 	end	
 end
 
