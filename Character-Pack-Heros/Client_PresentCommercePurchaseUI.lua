@@ -40,6 +40,8 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 				end
 			end
 
+		else 
+			isSlot = true
 		end
 		if isSlot == false then
 			UI.CreateLabel(rootParent).SetText("This Slot cannot build a "..Playerdata.Unitdata[i].Name) 
