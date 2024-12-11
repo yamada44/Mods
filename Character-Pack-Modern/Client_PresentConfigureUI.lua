@@ -167,7 +167,7 @@ function Unittemplates(vert, i)
 	slot = uniteconfig[i].Slotstore 
 	end
 
-	local upkeep = uniteconfig[i].upkeep
+	local upkeep = uniteconfig[i].Upkeep
 	if upkeep == nil then upkeep = 0 end
 
 	--setting up the UI and all its fields
