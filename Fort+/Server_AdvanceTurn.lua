@@ -72,14 +72,12 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 					leftover = result.ActualArmies.NumArmies - removedtroops
 				end
 
-				structures[WL.StructureType.MercenaryCamp] = structures[WL.StructureType.MercenaryCamp] - removedbuilds
 				result.ActualArmies = WL.Armies.Create(leftover,SUremoved.add)
-
 
 				local bigmod = {}
 				local mod = WL.TerritoryModification.Create(order.To) -- the defenders
 				--mod.RemoveSpecialUnitsOpt = SUremoved
-				mod.SetStructuresOpt = structures
+				mod.AddStructuresOpt = {[WL.StructureType.MercenaryCamp] = removedbuilds};
 
 				local mod2 = WL.TerritoryModification.Create(order.From) -- the attackers
 				mod2.AddArmies = removedtroops * -1
@@ -107,11 +105,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 --Forts stop attacks
 		elseif Mod.Settings.Need == 0 then -- Base Fort mod logic
 			--Attack found against a fort!  Cancel the attack and remove the fort.
-			
-			structures[WL.StructureType.MercenaryCamp] = structures[WL.StructureType.MercenaryCamp] - 1
 
 			local terrMod = WL.TerritoryModification.Create(order.To)
-			terrMod.SetStructuresOpt = structures
+			terrMod.AddStructuresOpt = {[WL.StructureType.MercenaryCamp] = -1};
 			addNewOrder(WL.GameOrderEvent.Create(order.PlayerID, 'Destroyed a fort', {}, {terrMod}))
 
 			if (result.DefendingArmiesKilled.IsEmpty) then
