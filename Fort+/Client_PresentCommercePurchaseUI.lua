@@ -164,7 +164,7 @@ end
 function TerritoryPower(terrDetails)
 	SelectTerritoryBtnpower.SetInteractable(true)
 	local amount = Buildnumber(Game.LatestStanding.Territories[terrDetails.ID].Structures)
-	if amount <= 0  then UI.Alert("No Fort Found ") return end
+	--if amount <= 0  then UI.Alert("No Fort Found ") return end
 
 	local Poweramount = Combatinfo
 	print (Poweramount,"power")
