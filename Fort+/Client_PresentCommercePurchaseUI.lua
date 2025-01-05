@@ -182,7 +182,7 @@ function TerritoryPower(terrDetails)
 	else
 		--Territory was clicked, check it
 
-			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount)	
+			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount .. " || ID: " .. terrDetails.ID)	
 		
 	end
 end
