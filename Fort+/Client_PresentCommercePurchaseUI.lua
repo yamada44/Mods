@@ -47,7 +47,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	PreFinalcost = (SettingData.HiveCost + Xincrease)
 	FortPower = math.floor(PreFinalcost + (PreFinalcost * CostScale))
 	local buttonmessage = "Build a Fort"
-	local powermessage = "Find Fort\nPower"
+	local powermessage = "Find/What is\n Fort Power"
 	local infomessage = "- This Fort cost " .. FortPower .. "\n- You can only have ".. SettingData.Maxhives .. " at a time\n- Fort Combat power is " .. Combatinfo
 
 	UI.CreateLabel(row1).SetText(infomessage).SetColor("#00B5FF")
@@ -182,7 +182,7 @@ function TerritoryPower(terrDetails)
 	else
 		--Territory was clicked, check it
 
-			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount .. " || ID: " .. terrDetails.ID)	
+			TargetTerritoryInstructionpower.SetText("Fort's Power is: \n" .. Poweramount)	
 		
 	end
 end

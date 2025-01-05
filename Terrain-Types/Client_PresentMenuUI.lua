@@ -122,14 +122,24 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	local turn = Data.turnstart
 			if turn == -1 then turn = "Always active"
 			else turn = "The Terrain last between the turns " .. Data.turnstart .. " - " .. Data.turnend - 1 end
+	local city = Data.Removebuild
+			if city == true then city = " Remove structures"
+			else city = "Keep structures" end
+
 
 			AddStringToUI(vert,"<#DEF265>Army Rules: </>" .. armyrules,nil)
 			AddStringToUI(vert,"<#DEF265>Terrain ID: </>" .. ownerrules,nil)
 			AddStringToUI(vert,"<#DEF265>Special units defined: </>".. Modrules,nil)
 			AddStringToUI(vert,"<#DEF265>Base Rules: </>" .. Basesettings,nil)
+			AddStringToUI(vert,"<#DEF265>Strutures: </>" .. city,nil)
 			AddStringToUI(vert,"<#DEF265>Duration: </>" .. turn,nil)
-	end
 
+	end
+	
+	for i,v in pairs (Pub.Type) do
+		AddStringToUI(vert,"<#DEF265>Duration: </>" .. i .." ".. v.Name,nil)
+
+	end
 
 
 end
