@@ -120,6 +120,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			--displaying voting stats
 				UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n".. GoldorLand).SetColor('#00FF05')
 				UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
+				UI.CreateButton(row3).SetText("Delete").SetOnClick(function ()Serverload(8,"N/A",i,ID,close) end)
 				UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
 			
 			UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF697A')

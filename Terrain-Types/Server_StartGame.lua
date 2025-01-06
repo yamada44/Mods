@@ -21,7 +21,6 @@ function Server_StartGame (game,standing)
         Pub.Type[i].armyValueChange = v.C_Value
         Pub.Type[i].ModFormat = ModDataSetup(v.C_Definegroup)
         Pub.Type[i].BaseSettings = v.C_Inverse
-
         Pub.Type[i].Removebuild = v.C_RemoveBuild
     end
 

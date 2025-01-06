@@ -95,6 +95,10 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     if #publicdata.ChangeAction[data1].VotingIDs == 0 then
       table.remove(publicdata.ChangeAction,data1) -- remove the action if no one votes for it
     end
+  elseif type == 8 then -- removing action and updating action creation list
+    local place = FindmatchID(publicdata.CreatedActionID, data2,1)
+    table.remove(publicdata.CreatedActionID,place)
+    table.remove(publicdata.Action,data1)
   end
 
     Mod.PublicGameData = publicdata

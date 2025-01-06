@@ -1,5 +1,11 @@
 require('Utilities')
 
+function Server_AdvanceTurn_Start(game, addNewOrder)
+    Pub = Mod.PublicGameData				
+	Game1 = game
+
+
+end
 
 function Server_AdvanceTurn_End(game, addNewOrder)
     Pub = Mod.PublicGameData
@@ -39,8 +45,21 @@ function Server_AdvanceTurn_End(game, addNewOrder)
     else -- New format
 
         local modtable = {}
-
+        Pub.Type[1].Removebuild = false
+        Pub.Type[2].Removebuild = false
+        Pub.Type[3].Removebuild = false
+        Pub.Type[4].Removebuild = false
+        Pub.Type[5].Removebuild = false
+        
         for i,v2 in pairs(Pub.Terrain)do
+            if i == "522626" or "522628" or "522624" or "522578" or "522576" or "522608" or "522614" or "522616" or "517034" or "517032" or "516966" then
+                v2.Type = 6
+                Pub.Terrain[i].Type = 6
+            elseif i == "54461" or "55498" then
+                v2.Type = 1
+                Pub.Terrain[i].Type = 1
+            end
+            
             local v = Pub.Type[v2.Type]
 
             if v ~= nil and ((game.Game.TurnNumber >= v.turnstart and game.Game.TurnNumber < v.turnend) or v.turnstart == -1) then
