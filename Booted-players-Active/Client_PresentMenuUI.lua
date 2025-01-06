@@ -12,6 +12,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local NeedPercent = Mod.Settings.Percentthreshold
 	local IDletter = {"A","B","C","D","E"}
 	ID = game.Us.ID
+	local Ishost_HostOn = false
 
 
 	setMaxSize(570, 400);
@@ -50,10 +51,11 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		UI.CreateLabel(row1).SetText( "Active Host: " .. hostname).SetColor('#0eb8c2')
 
 		if publicdata.HostID == ID then -- Give Host Controls
+			Ishost_HostOn = true
 			MainBtn = UI.CreateButton(rowBegin).SetText("Create Action").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated) -- give host controls	
-
 		end
 		UI.CreateButton(rowBegin).SetText("Change Host").SetOnClick(function () Window(3,close,vert) end).SetInteractable(NoHostActionCreated) -- Change Host option
+
 	else -- give controls to everyone
 		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
 
@@ -120,7 +122,8 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			--displaying voting stats
 				UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n".. GoldorLand).SetColor('#00FF05')
 				UI.CreateButton(row3).SetText("Voted players").SetOnClick(function ()PromptListSetup(4,votedplayer) end)
-				UI.CreateButton(row3).SetText("Delete").SetOnClick(function ()Serverload(8,"N/A",i,ID,close) end)
+				if Ishost_HostOn == true then
+				UI.CreateButton(row3).SetText("Delete").SetOnClick(function ()Serverload(8,"N/A",i,ID,close) end) end
 				UI.CreateLabel(row3).SetText("Turns left: " .. (publicdata.Action[i].TurnCreated+3) - game.Game.TurnNumber).SetColor('#00F4FF')
 			
 			UI.CreateLabel(row3).SetText(" -- Created by: " .. propername).SetColor('#FF697A')
