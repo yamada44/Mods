@@ -129,3 +129,19 @@ function ActionTypeNames(index)
 	end
 	return type[index]
 end
+
+function FindmatchID(findtable, match,returnsetting) -- Return setting (1) = value / (2) = bool
+	local Returnvalue = false
+	if returnsetting == 1 then Returnvalue = nil end
+
+    for i,v in pairs (findtable) do
+
+        if v == match then
+			Returnvalue = true
+			if returnsetting == 1 then Returnvalue = i end
+            return Returnvalue
+
+        end 
+    end
+    return Returnvalue
+end
