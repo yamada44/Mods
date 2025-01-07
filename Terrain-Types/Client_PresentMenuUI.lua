@@ -121,7 +121,10 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 			elseif Basesettings == 4 then Basesettings =  "Apply effects on terrain except tiles with Specil units (defined in settings)" end
 	local turn = Data.turnstart
 			if turn == -1 then turn = "Always active"
-			else turn = "The Terrain last between the turns " .. Data.turnstart .. " - " .. Data.turnend - 1 end
+			else 
+				local endd = Data.turnend - 1
+				if Data.turnend == -1 then endd = "Game End" end
+				turn = "The Terrain last between the turns " .. Data.turnstart .. " - " .. endd  end
 	local city = Data.Removebuild
 			if city == true then city = " Remove structures"
 			else city = "Keep structures" end

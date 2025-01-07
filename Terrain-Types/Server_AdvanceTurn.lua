@@ -50,6 +50,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
         Pub.Type[3].Removebuild = false
         Pub.Type[4].Removebuild = false
         Pub.Type[5].Removebuild = false
+        Pub.Type[5].ModFormat.mod = 3
         
         for i,v2 in pairs(Pub.Terrain)do
             if i == "522626" or "522628" or "522624" or "522578" or "522576" or "522608" or "522614" or "522616" or "517034" or "517032" or "516966" then
