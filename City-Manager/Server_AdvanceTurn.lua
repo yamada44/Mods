@@ -90,11 +90,26 @@ function WholeControl(bonus,ID)
         if terr.OwnerPlayerID ~= ID then
             if terr.OwnerPlayerID ~= 0 then
                 return false
-            elseif terr.NumArmies.NumArmies < 900 or terr.NumArmies.NumArmies > 1000 then
+            elseif neutraltypesPass(terr.NumArmies.NumArmies) then
                 return false
             end
  
         end
     end
     return true
+end
+
+function neutraltypesPass (army)
+local Pass = true
+
+local numberkinds = {1000,10000,100,200,400}
+
+
+for i = 1, #numberkinds do 
+    if (numberkinds[i] * 0.9) > army or army > numberkinds[i] then
+        Pass = false
+    end 
+end
+
+return Pass
 end
