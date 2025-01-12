@@ -100,14 +100,14 @@ function WholeControl(bonus,ID)
 end
 
 function neutraltypesPass (army)
-local fail = false
+local fail = true
 
 local numberkinds = {1000,10000,100,200,400}
 
 
 for i = 1, #numberkinds do 
-    if (numberkinds[i] * 0.9) > army then
-        return true
+    if (numberkinds[i] * 0.9) < army and army <= numberkinds[i]  then
+        return false 
     end 
 end
 
