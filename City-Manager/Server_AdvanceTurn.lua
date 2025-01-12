@@ -107,7 +107,7 @@ local numberkinds = {1000,10000,100,200,400}
 
 for i = 1, #numberkinds do 
     if (numberkinds[i] * 0.9) > army or army > numberkinds[i] then
-        Pass = false
+        return false
     end 
 end
 
