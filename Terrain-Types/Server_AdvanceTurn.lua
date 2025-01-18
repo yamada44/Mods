@@ -45,6 +45,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
     else -- New format
 
         local modtable = {}
+        Pub.Type[5].BaseSettings = 4
         for i,v2 in pairs(Pub.Terrain)do
 
             
