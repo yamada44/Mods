@@ -331,6 +331,7 @@ function DataCheck(publicdate,payload,game)
 
 	-- Random Variables
 	if publicdate.RandomVar == nil then publicdate.RandomVar = {DeleteID = 0} end
+	if publicdate.RandomVar.GM == nil then publicdate.RandomVar.GM = -1000 end
 	if (publicdate.trannum == nil)then publicdate.trannum = 1 end --keeping track of transactions to properly track
 	publicdate.ServerAccess = false
 
@@ -350,6 +351,7 @@ function PlayerEntityCreation(publicdate)
 		--Entity Creation
 
 	local TrashID = publicdate.RandomVar.DeleteID
+	local GMID = publicdate.RandomVar.GM
 
 	if publicdate.Entity == nil then publicdate.Entity = {} end
 	for ID,v in pairs (Game.Game.PlayingPlayers) do
@@ -384,6 +386,17 @@ function PlayerEntityCreation(publicdate)
 		short.highEstimate = -1
 
 	end
+	if publicdate.Entity[GMID] == nil then publicdate.Entity[GMID] = {} -- Trash Can
+		local short = publicdate.Entity[GMID]
+		short.Name = "GM Funds"
+		short.ID = GMID
+		short.Status = "G"
+		short.Gold = 10000
+		short.Income = 0
+		short.lowEstimate = -1
+		short.highEstimate = -1
+	
+	end
 
 	return publicdate
 end
@@ -411,7 +424,10 @@ function EntityUpdate(publicdate)
 		   v.Income = v.Gold
 		--error Handling
 		elseif v.Status ~= "D" then
-			
+		elseif v.Status ~= "G" then
+			v.Gold = 10000
+		   v.Income = v.Gold
+		else 
 		   print("Error: no Status found for entity " .. i .. " " .. v.Name)
 		end 
    end

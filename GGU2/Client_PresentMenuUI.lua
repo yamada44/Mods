@@ -874,7 +874,7 @@ function MainMenuID(Window)
 	local access = Window[6]
 	local Name = "You"
 	local CalReady = false
-	if publicdate.taxidtable ~= nil then CalReady = true end
+	if publicdate.taxidtable ~= nil or publicdate.taxidtable == {} then CalReady = true end
 	setMaxSize(470, 350)
 
 	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)

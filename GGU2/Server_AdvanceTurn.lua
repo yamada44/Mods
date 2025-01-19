@@ -67,7 +67,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 	end
 	
 	if publicgamedata.ServerAccess == false then
-		publicgamedata.Entity = AccountEntityUpdate(publicgamedata,publicgamedata.Entity,game)
+		publicgamedata = AccountEntityUpdate(publicgamedata,publicgamedata.Entity,game)
 		publicgamedata.ServerAccess = nil
 
 		Mod.PublicGameData = publicgamedata
@@ -87,5 +87,5 @@ function AccountEntityUpdate(publicgamedata,Entity,Game)
 	
 	end
 
-	return Entity
+	return publicgamedata
 end
