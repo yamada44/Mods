@@ -188,7 +188,6 @@ function PresentBuyUnitDialog(rootParent, setMaxSize, setScrollable, game, close
 	SelectTerritoryBtn = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
 	TargetTerritoryInstructionLabel = UI.CreateLabel(vert).SetText("");
 	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Purchase").SetOnClick(CompletePurchaseClicked);
-	UI.Alert('test')
 	SelectTerritoryClicked(); --just start us immediately in selection mode, no reason to require them to click the button
 end
 
@@ -220,7 +219,8 @@ end
 
 function CompletePurchaseClicked()
 --print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
-	local city = false
+if true then 	UI.Alert('error 0')return end
+local city = false
 	if true then 	UI.Alert('error 1')return end
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
