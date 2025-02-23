@@ -224,7 +224,7 @@ local city = false
 	--if true then 	UI.Alert('error 1')return end
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
-	if true then 	UI.Alert('error 1.1')return end
+	--if true then 	UI.Alert('error 1.1')return end
 	if city then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures
@@ -239,13 +239,15 @@ local city = false
 	end
 	if true then 	UI.Alert('error 2')return end
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
+	if true then 	UI.Alert('error 2.1')return end
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
+	if true then 	UI.Alert('error 2.2')return end
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
 					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
 					  .. ';;' .. Chartracker[Type].GetText() 
-					  if true then 	UI.Alert('error 3')return end
-					  local orders = Game.Orders;
+	if true then 	UI.Alert('error 3')return end
+	local orders = Game.Orders;
 
 	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost[Type] * unitamount) } ));
 	Game.Orders = orders;
