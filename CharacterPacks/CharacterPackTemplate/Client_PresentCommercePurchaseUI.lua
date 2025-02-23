@@ -234,14 +234,15 @@ function CompletePurchaseClicked()
 			return
 		end
 	end
-	if true then return end
+
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
 					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
 					  .. ';;' .. Chartracker[Type].GetText() 
-	local orders = Game.Orders;
+					  if true then return end
+					  local orders = Game.Orders;
 	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost[Type] * unitamount) } ));
 	Game.Orders = orders;
 	Close2();
