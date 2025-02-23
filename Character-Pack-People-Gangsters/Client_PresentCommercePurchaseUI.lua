@@ -220,7 +220,7 @@ end
 function CompletePurchaseClicked()
 
 	local city = false
-
+UI.Alert(Chartracker[Type].GetText() .. " here")
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
 	if city then
@@ -240,7 +240,8 @@ function CompletePurchaseClicked()
 	--Problem right here
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
-					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) .. ';;' .. Chartracker[Type].GetText() 
+					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
+					  .. ';;' .. Chartracker[Type].GetText() 
 	if true then 	UI.Alert('error 3')return end
 	local orders = Game.Orders;
 
