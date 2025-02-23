@@ -221,9 +221,10 @@ function CompletePurchaseClicked()
 --print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 --if true then 	UI.Alert('error 0')return end
 local city = false
-	if true then 	UI.Alert('error 1')return end
+	--if true then 	UI.Alert('error 1')return end
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
+	if true then 	UI.Alert('error 1.1')return end
 	if city then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures
