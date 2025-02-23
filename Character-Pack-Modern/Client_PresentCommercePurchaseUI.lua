@@ -188,6 +188,7 @@ function PresentBuyUnitDialog(rootParent, setMaxSize, setScrollable, game, close
 	SelectTerritoryBtn = UI.CreateButton(vert).SetText("Select Territory").SetOnClick(SelectTerritoryClicked);
 	TargetTerritoryInstructionLabel = UI.CreateLabel(vert).SetText("");
 	BuyUnitBtn = UI.CreateButton(vert).SetInteractable(false).SetText("Complete Purchase").SetOnClick(CompletePurchaseClicked);
+	UI.Alert('test')
 	SelectTerritoryClicked(); --just start us immediately in selection mode, no reason to require them to click the button
 end
 
@@ -241,7 +242,7 @@ function CompletePurchaseClicked()
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
 					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
 					  .. ';;' .. Chartracker[Type].GetText() 
-					  if true then 		UI.Alert('error 3')return; end
+					  if true then 	UI.Alert('error 4')return end
 					  local orders = Game.Orders;
 
 	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost[Type] * unitamount) } ));
