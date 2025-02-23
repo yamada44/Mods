@@ -239,7 +239,7 @@ local city = false
 	end
 	--if true then 	UI.Alert('error 2')return end
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
-	if true then 	UI.Alert('error 2.1')return end
+	--if true then 	UI.Alert('error 2.1')return end
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	if true then 	UI.Alert('error 2.2')return end
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
