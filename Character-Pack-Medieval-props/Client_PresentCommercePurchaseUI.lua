@@ -218,13 +218,11 @@ function TerritoryClicked(terrDetails)
 end
 
 function CompletePurchaseClicked()
---print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
---if true then 	UI.Alert('error 0')return end
-local city = false
-	--if true then 	UI.Alert('error 1')return end
+
+	local city = false
+
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
-	--if true then 	UI.Alert('error 1.1')return end
 	if city then
 		local Land = Game.LatestStanding.Territories[SelectedTerritory.ID]
 		local Cities = Land.Structures
@@ -237,15 +235,13 @@ local city = false
 			return
 		end
 	end
-	--if true then 	UI.Alert('error 2')return end
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
-	--if true then 	UI.Alert('error 2.1')return end
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
-	--if true then 	UI.Alert('error 2.2')return end
+	--Problem right here
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
-					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
-					  .. ';;' .. Chartracker[Type].GetText() 
+					  ';;'.. Playerdata.Unitdata[Type].image-- .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
+					  --.. ';;' .. Chartracker[Type].GetText() 
 	if true then 	UI.Alert('error 3')return end
 	local orders = Game.Orders;
 
