@@ -240,8 +240,7 @@ function CompletePurchaseClicked()
 	--Problem right here
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
-					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
-					  .. ';;' .. Chartracker[Type].GetText() 
+					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) .. ';;' .. Chartracker[Type].GetText() 
 	if true then 	UI.Alert('error 3')return end
 	local orders = Game.Orders;
 
