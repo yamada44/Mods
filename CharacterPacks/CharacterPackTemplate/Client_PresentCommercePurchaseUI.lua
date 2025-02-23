@@ -62,7 +62,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 				modplayers[i][ID].readrules = true
 			else morgeRow = row3 end
 			
-			local buttonmessage = "Under maintaince " --"Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
+			local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
 			local hostmessage = "Host Rules/Lore for Unit"
 			local infomessage = dynamicInfo(i)
 				
@@ -136,11 +136,7 @@ function PurchaseClicked(type)
 	--We check on the client for player convenience. Another check happens on the server, so even if someone hacks their client and removes this check they still won't be able to go over the max.
 	local playerID = Game.Us.ID;
 
-	if Chartracker[type].GetText() ~= "0" then
-		UI.Alert('Mod is under maintaince due to warzone update')
-		Close1()
-		return;
-	end
+
 	if (modplayers[type][ID].readrules == false)then  -- error check for name	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
