@@ -20,7 +20,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 --upkeep message
 
-	if publicdata.Upkeepdisplay ~= 0 then
+	if publicdata.Upkeepdisplay ~= 0 and publicdata.Upkeepdisplay ~= nil then
 		local display = publicdata.Upkeepdisplay or 0
 		local Upkeepmessage = "Total up: " .. display
 		local vert = UI.CreateVerticalLayoutGroup(rootParent);
@@ -290,7 +290,7 @@ function dynamicInfo(i)
 		message = message .. "\nBuild on ".. name .." Only"
 	end
 	if upkeep ~= nil and upkeep ~= 0 then
-		message = message .. "\nUpkeep Cost: " .. upkeep .. " gold"
+		message = message .. "\nUpkeep: " .. upkeep .. " gold"
 	end
  
 	message = message .. '\nMore details on this unit type in full Settings        '
