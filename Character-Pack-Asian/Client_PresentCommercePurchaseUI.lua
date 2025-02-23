@@ -18,7 +18,16 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 	OrderstartsWith = modSign(0) -- the last letter represents the mod used
 	TransferfromConfig()
 
-	-- For loop start	
+--upkeep message
+
+	if publicdata.Upkeepdisplay ~= 0 then
+		local Upkeepmessage = "Total up: " .. publicdata.Upkeepdisplay or 0
+		local vert = UI.CreateVerticalLayoutGroup(rootParent);
+		local row1 = UI.CreateHorizontalLayoutGroup(vert)
+		UI.CreateLabel(row1).SetText(Upkeepmessage).SetColor('#f22613')
+
+	end
+-- For loop start	
 	for i = 1, Playerdata.Maxtypes  do  
 		local vert = UI.CreateVerticalLayoutGroup(rootParent);
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
@@ -250,7 +259,7 @@ function dynamicInfo(i)
 	local message = 'Name: ' ..Playerdata.Unitdata[i].Name -- Attack message
 	local defend = Playerdata.Unitdata[i].unitpower / 2
 	local city = false
-	local upkeep = Playerdata.Unitdata[i].upkeep
+	local upkeep = Playerdata.Unitdata[i].Upkeep
 
 	message = message .. '\nCost: ' ..  Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount)
 

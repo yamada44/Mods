@@ -4,7 +4,9 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
 local type = payload.type
 local publicdata = Mod.PublicGameData
 if publicdata.Access == nil then publicdata.Access = false end
+if publicdata.Upkeepdisplay == nil then publicdata.Upkeepdisplay = 0 end
 publicdata.Access = false
+local totalupkeeptracker = 0
 
 if type > 0 then 
   if publicdata[type] == nil then publicdata[type] = {} end
@@ -23,6 +25,7 @@ elseif type == 0 then -- upkeep access loop
             if upkeep > 0 then -- check to see if it has upkeep functions
               if totalupkeep[ts.OwnerPlayerID] == nil then totalupkeep[ts.OwnerPlayerID] = 0 end
               totalupkeep[ts.OwnerPlayerID] = totalupkeep[ts.OwnerPlayerID] + upkeep 
+              totalupkeeptracker = totalupkeeptracker + upkeep
             end
             
             
@@ -33,13 +36,14 @@ elseif type == 0 then -- upkeep access loop
   end
 
   -- upkeep gold update loop
+
   for upkeepID, upkeep in pairs(totalupkeep) do
     local goldHave = game.ServerGame.LatestTurnStanding.NumResources(upkeepID, WL.ResourceType.Gold)
     local newgold = goldHave - upkeep
     if upkeep >= goldHave then newgold = 0 end -- making sure upkeep does not surpass current gold
     game.ServerGame.SetPlayerResource(upkeepID, WL.ResourceType.Gold, newgold)
   end
-
+  publicdata.Upkeepdisplay = totalupkeeptracker
 end
   Mod.PublicGameData = publicdata
   setReturnTable({});

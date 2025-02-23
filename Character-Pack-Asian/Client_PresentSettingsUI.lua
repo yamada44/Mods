@@ -21,6 +21,7 @@ function Client_PresentSettingsUI(rootParent)
 		local auto = 0
 		local powermessage = 'Attack Power in armies: ' .. Mod.Settings.Unitdata[i].unitpower
 		local slot = "All"
+		local upkeep = 0
 
 		if (Mod.Settings.Unitdata[i].Maxunits == 0) then goto next end
 			if (Mod.Settings.Unitdata[i].Slotstore ~= nil) then slot = Mod.Settings.Unitdata[i].Slotstore end
@@ -41,6 +42,8 @@ function Client_PresentSettingsUI(rootParent)
 			elseif Mod.Settings.Unitdata[i].Oncity ~= nil and Mod.Settings.Unitdata[i].Oncity ~= false and Mod.Settings.Unitdata[i].Oncity > 0 then city = getBuildInfo(Mod.Settings.Unitdata[i].Oncity, "name") end
 			if ((Mod.Settings.Unitdata[i].CombatOrder or 0) == 1 ) then combat = "Before Armies" end
 			if (Mod.Settings.Unitdata[i].Autovalue ~= nil) then auto = Mod.Settings.Unitdata[i].Autovalue end
+			if (Mod.Settings.Unitdata[i].Upkeep ~= nil) then upkeep = Mod.Settings.Unitdata[i].Upkeep end
+
 
 			UI.CreateLabel(vert).SetText('\nUnit type ' .. i .. ': ' .. Mod.Settings.Unitdata[i].Name ).SetColor('#FEFF9B')
 			UI.CreateLabel(vert).SetText('Cost: ' .. Mod.Settings.Unitdata[i].unitcost)
@@ -61,7 +64,8 @@ function Client_PresentSettingsUI(rootParent)
 			UI.CreateLabel(vert).SetText('Cool Down timer (in turns): ' .. cooldown).SetColor('#dbddf4')
 			UI.CreateLabel(vert).SetText('Assassination/Sabotage level: ' .. assass)
 			UI.CreateLabel(vert).SetText('Auto Place Number: ' .. auto).SetColor('#dbddf4')
-			UI.CreateLabel(vert).SetText('Image used: ' .. image)
+			UI.CreateLabel(vert).SetText('Upkeep: ' .. upkeep)
+			UI.CreateLabel(vert).SetText('Image used: ' .. image).SetColor('#dbddf4')
 		::next::
 	end
 end
