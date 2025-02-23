@@ -221,6 +221,7 @@ end
 function CompletePurchaseClicked()
 --print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 	local city = false
+	if true then 	UI.Alert('error 1')return end
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
 	if city then
@@ -235,14 +236,14 @@ function CompletePurchaseClicked()
 			return
 		end
 	end
-
+	if true then 	UI.Alert('error 2')return end
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
 					 .. ';;'.. power .. ';;'.. Playerdata.Unitdata[Type].Name.. ';;'.. Playerdata.Unitdata[Type].Maxunits..
 					  ';;'.. Playerdata.Unitdata[Type].image .. ';;'.. tostring(Playerdata.Unitdata[Type].Shared) .. ';;'.. tostring(Playerdata.Unitdata[Type].Visible) 
 					  .. ';;' .. Chartracker[Type].GetText() 
-					  if true then 	UI.Alert('error 4')return end
+					  if true then 	UI.Alert('error 3')return end
 					  local orders = Game.Orders;
 
 	table.insert(orders, WL.GameOrderCustom.Create(Game.Us.ID, msg, payload,  { [WL.ResourceType.Gold] = Playerdata.Unitdata[Type].unitcost + (increasingCost[Type] * unitamount) } ));
