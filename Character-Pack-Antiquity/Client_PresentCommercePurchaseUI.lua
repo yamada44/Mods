@@ -152,7 +152,7 @@ function PurchaseClicked(type)
 		Close1()
 		return
 	end
-
+	CharName = Chartracker[type].GetText()
 	Type = type
 	local numUnitAlreadyHave = 0;
 	for _,order in pairs(Game.Orders) do
@@ -220,7 +220,7 @@ end
 function CompletePurchaseClicked()
 
 	local city = false
-UI.Alert(tostring(Chartracker[Type]) .. " here")
+UI.Alert(tostring(CharName) .. " here")
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
 	if city then
