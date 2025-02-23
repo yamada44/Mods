@@ -220,7 +220,7 @@ end
 function CompletePurchaseClicked()
 
 	local city = false
-UI.Alert(Chartracker[Type].GetText() .. " here")
+UI.Alert(tostring(Chartracker[Type].GetText()) .. " here")
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
 	if city then
