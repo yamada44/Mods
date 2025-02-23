@@ -530,7 +530,9 @@ function GoldBumpLogic(game,addNewOrder,goldbonus, cutoff) -- Gold cutoff
             local incomeMod = WL.IncomeMod.Create(playerID, added, 'Income for balancing')
             addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}))
 
-            --
+           else
+            local incomeMod = WL.IncomeMod.Create(playerID, 1, 'Income for stats')
+            addNewOrder(WL.GameOrderEvent.Create(0, "state viewing" , nil, nil,nil,{incomeMod}))
            end
         end
     end

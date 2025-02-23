@@ -56,12 +56,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 		end
 
 
-
-      
-
-
-
-
 	if (order.proxyType == 'GameOrderCustom' and startsWith(order.Payload, modSign(0))) then  --look for the order that we inserted in Client_PresentCommercePurchaseUI
 		
 		local publicdata = Mod.PublicGameData
