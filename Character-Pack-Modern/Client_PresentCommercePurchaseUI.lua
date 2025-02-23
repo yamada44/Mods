@@ -62,7 +62,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 				modplayers[i][ID].readrules = true
 			else morgeRow = row3 end
 			
-			local buttonmessage = "Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
+			local buttonmessage = "Under maintaince " --"Purchase a ".. Playerdata.Unitdata[i].Name.." for " .. Playerdata.Unitdata[i].unitcost + (increasingCost[i] * unitamount) .. " gold"
 			local hostmessage = "Host Rules/Lore for Unit"
 			local infomessage = dynamicInfo(i)
 				
@@ -135,9 +135,11 @@ function PurchaseClicked(type)
 	--Check if they're already at max.  Add in how many they have on the map plus how many purchase orders they've already made
 	--We check on the client for player convenience. Another check happens on the server, so even if someone hacks their client and removes this check they still won't be able to go over the max.
 	local playerID = Game.Us.ID;
-	print (Chartracker[type].GetText())
-	print(type)
 
+	if Chartracker[type].GetText() ~= "123" then
+		UI.Alert('Mod is under maintaince due to warzone update')
+		Close1()
+	end
 	if (modplayers[type][ID].readrules == false)then  -- error check for name	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
 		Close1()
@@ -215,7 +217,7 @@ function TerritoryClicked(terrDetails)
 end
 
 function CompletePurchaseClicked()
-print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
+--print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
 	local city = false
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
 	elseif Mod.Settings.Unitdata[Type].Oncity ~= nil and Mod.Settings.Unitdata[Type].Oncity ~= false and Mod.Settings.Unitdata[Type].Oncity > 0 then city = true end
