@@ -21,7 +21,8 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 --upkeep message
 
 	if publicdata.Upkeepdisplay ~= 0 then
-		local Upkeepmessage = "Total up: " .. publicdata.Upkeepdisplay or 0
+		local display = publicdata.Upkeepdisplay or 0
+		local Upkeepmessage = "Total up: " .. display
 		local vert = UI.CreateVerticalLayoutGroup(rootParent);
 		local row1 = UI.CreateHorizontalLayoutGroup(vert)
 		UI.CreateLabel(row1).SetText(Upkeepmessage).SetColor('#f22613')
