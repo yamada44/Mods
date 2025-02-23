@@ -136,9 +136,10 @@ function PurchaseClicked(type)
 	--We check on the client for player convenience. Another check happens on the server, so even if someone hacks their client and removes this check they still won't be able to go over the max.
 	local playerID = Game.Us.ID;
 
-	if Chartracker[type].GetText() ~= "123" then
+	if Chartracker[type].GetText() ~= "0" then
 		UI.Alert('Mod is under maintaince due to warzone update')
 		Close1()
+		return;
 	end
 	if (modplayers[type][ID].readrules == false)then  -- error check for name	
 		UI.Alert('You have not Read unit rules yet.\n please read Unit rules before buying')
@@ -233,7 +234,7 @@ function CompletePurchaseClicked()
 			return
 		end
 	end
-
+	if true then return end
 	local power = math.random(Playerdata.Unitdata[Type].unitpower, Playerdata.Unitdata[Type].AttackMax)
 	local msg = 'Buy a '.. Playerdata.Unitdata[Type].Name ..' on ' .. SelectedTerritory.Name;
 	local payload = OrderstartsWith ..  Type .. '_' .. SelectedTerritory.ID ..';;'.. Type
