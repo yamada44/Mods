@@ -219,7 +219,7 @@ end
 
 function CompletePurchaseClicked()
 --print(Mod.Settings.Unitdata[Type].Oncity, "Oncity")
-if true then 	UI.Alert('error 0')return end
+--if true then 	UI.Alert('error 0')return end
 local city = false
 	if true then 	UI.Alert('error 1')return end
 	if (Mod.Settings.Unitdata[Type].Oncity == true )then city = true
