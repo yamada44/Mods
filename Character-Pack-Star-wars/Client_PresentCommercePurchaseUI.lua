@@ -20,7 +20,7 @@ function Client_PresentCommercePurchaseUI(rootParent, game, close)
 
 --upkeep message
 
-	if publicdata.Upkeepdisplay ~= nil and publicdata.Upkeepdisplay[ID] ~= nil and publicdata.Upkeepdisplay[ID] > 0 then
+	if publicdata.Upkeepdisplay ~= nil and type(publicdata.Upkeepdisplay) == "table" and publicdata.Upkeepdisplay[ID] ~= nil and publicdata.Upkeepdisplay[ID] > 0 then
 		local display = publicdata.Upkeepdisplay[ID] or 0
 		local Upkeepmessage = "Total upkeep: " .. display
 		local vert = UI.CreateVerticalLayoutGroup(rootParent);
