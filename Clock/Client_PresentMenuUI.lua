@@ -9,18 +9,19 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local row2 = UI.CreateHorizontalLayoutGroup(vert)
 	local row3 = UI.CreateHorizontalLayoutGroup(vert)
 	local row4 = UI.CreateVerticalLayoutGroup(row3)
-	ID = game.Us.ID
+
 	short = Mod.PublicGameData
 	ViewValues = {}
 
 
 	
 
-	if (game.Us == nil or game.Us.State ~= WL.GamePlayerState.Playing) then
-		UI.CreateLabel(vert).SetText("You cannot Vote since you're not in the game")
+	if (game.Us == nil or game.Us.ID == nil) then
+		UI.CreateLabel(vert).SetText("you were never in the game, sorry mate. heres the current date though\n")
+		UI.CreateLabel(vert).SetText("Year:"..short.Date.year .."\nDay:".. short.Date.day.."\nMonth:".. short.Date.month.."\nDay of Month:"..short.Date.DayName)
 		return
 	end
-
+	ID = game.Us.ID
 	print(short)
 	print(short.Date,"date")
 --	local totaldays = Finddayofweek(short.Daysinmonths,Time.month,Time.day)
