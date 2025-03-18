@@ -18,7 +18,7 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	if (game.Us == nil or game.Us.ID == nil) then
 		UI.CreateLabel(vert).SetText("you were never in the game, sorry mate. heres the current date though\n")
-		UI.CreateLabel(vert).SetText("Year:"..short.Date.year .."\nDay:".. short.Date.day.."\nMonth:".. short.Date.month.."\nDay of Month:"..short.Date.DayName)
+		UI.CreateLabel(vert).SetText("Year: "..short.Date.year .."\nDay: ".. short.Date.day.."\nMonth: ".. short.Date.month)
 		return
 	end
 	ID = game.Us.ID
