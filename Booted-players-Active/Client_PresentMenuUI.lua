@@ -107,8 +107,8 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 
 			--checking for income Action type
 			if publicdata.Action[i].Actiontype == ActionTypeNames(10) then 
-					local armycut
-					if publicdata.Action[i].Armycut > 100 then armycut = 100 end
+					local armycut = 0
+					if publicdata.Action[i].Armycut >= 100 or  publicdata.Action[i].Armycut == 0 then armycut = 100 end
 					temptext =  "\nArmies would be cut by ".. armycut .. "%" end
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
 				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
