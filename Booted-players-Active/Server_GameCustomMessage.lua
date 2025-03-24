@@ -33,7 +33,8 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     table.insert(publicdata.CreatedActionID,playerID) 
     
 
-      if typetext == ActionTypeNames(3) or typetext == ActionTypeNames(4) or typetext == ActionTypeNames(6) or typetext == ActionTypeNames(9) then data2 = "Neutral" end 
+      if typetext == ActionTypeNames(3) or typetext == ActionTypeNames(4) or typetext == ActionTypeNames(6) or typetext == ActionTypeNames(9) -- condition continues
+       or  typetext == ActionTypeNames(10) or typetext == ActionTypeNames(11) then data2 = "Neutral" end 
 
     if publicdata.Action[#publicdata.Action + 1] == nil then publicdata.Action[#publicdata.Action + 1] = {} end
       local short = publicdata.Action[#publicdata.Action]
@@ -53,6 +54,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     short.turned = data3
     short.playerWhoCreated = playerID
     short.Bonus = data5
+    short.Armycut = data4
 
 
   elseif type == 2 then -- Adding Vote

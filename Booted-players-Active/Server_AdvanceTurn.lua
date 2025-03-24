@@ -30,7 +30,7 @@ local i = 1
         local percentVote = (#publicdata.Action[i].VotingIDs / ActivePlayers) * 100
         local alwaysaccess = false -- Host control logic
          if publicdata.HostID > 0 then alwaysaccess = true end
-        if (percentVote >= NeedPercent and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) or alwaysaccess ) then
+        if (percentVote >= NeedPercent or alwaysaccess ) and InAction(publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID) then
             TurnPercent = publicdata.Action[i].turned
 
 
@@ -52,6 +52,10 @@ local i = 1
                 Absorb_ArmiesErasedLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].NewPlayerID,publicdata.Action[i].Bonus)
             elseif publicdata.Action[i].Actiontype == ActionTypeNames(9)  then
                 Eliminate_ArmiesGoneLogic(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(10)  then -- Army cut off
+                ArmiesCut(game,addNewOrder,publicdata.Action[i].OrigPlayerID,publicdata.Action[i].Bonus,publicdata.Action[i].Armycut)
+            elseif publicdata.Action[i].Actiontype == ActionTypeNames(11)  then -- Gold by players
+                GoltToOne(game,addNewOrder,publicdata.Action[i].incomebump, publicdata.Action[i].OrigPlayerID)
             end
             Addhistory(publicdata.Action[i],percentVote,game)
             table.remove(publicdata.Action,i)
@@ -645,6 +649,73 @@ function Eliminate_ArmiesGoneLogic(game,addNewOrder,OrigID,Bonuson) -- Eliminate
 
 end
 
+function ArmiesCut(game,addNewOrder,OrigID,Bonuson,ArmiesCut) -- Army cut
+    
+local boot = {} 
+     boot.ID = OrigID 
+    boot.Commander = 0 
+    boot.bootedTerr = {} 
+
+
+    local armycut = ArmiesCut
+    if armycut > 100 then armycut = 100 end
+    armycut = math.floor((armycut - 100) * -1)    
+    local Terr = game.ServerGame.LatestTurnStanding.Territories
+    table.insert(InActionAlready,OrigID)
+
+   for _,ts in pairs(Terr)do -- getting the Territories of each player
+    if ts.OwnerPlayerID == boot.ID then -- boot
+        if Bonuson == false then -- bonus terrain on
+            for _,v in pairs (ts.NumArmies.SpecialUnits) do 
+                if v.proxyType == "Commander" then
+                    boot.Commander = ts.ID
+                end
+            end
+            table.insert(boot.bootedTerr,ts.ID)
+        end
+    end
+   end
+      -- Logic for bonus terrain
+      if Bonuson == true then
+        for __, TID in pairs (game.Map.Bonuses[OrigID].Territories) do 
+            table.insert(boot.bootedTerr,TID)
+    
+        end
+       end
+   local amountTurned = Turnlogic(#boot.bootedTerr)
+
+   for i,ts in pairs (boot.bootedTerr) do
+    if amountTurned < i then break end
+    local mod = WL.TerritoryModification.Create(ts)
+    local Currentarmies = Terr[ts].NumArmies.NumArmies
+     mod.SetArmiesTo = Currentarmies * (armycut / 100)
+    addNewOrder(WL.GameOrderEvent.Create(0, "Armies Cut", nil, {mod}))
+    SUDelete(Terr[ts],addNewOrder)
+   end
+
+
+end
+
+function GoltToOne(game,addNewOrder,goldbonus, ID) -- Gold cutoff
+
+    local added = goldbonus
+    local standing = game.ServerGame.LatestTurnStanding
+    for playerID, player in pairs(game.Game.PlayingPlayers) do
+            
+        local income = player.Income(0, standing, true, true) 
+        if playerID == ID then
+        local incomeMod = WL.IncomeMod.Create(playerID, added, 'Extra Income')
+        addNewOrder(WL.GameOrderEvent.Create(playerID, "Added income " , nil, {},nil,{incomeMod}))
+
+        else
+        local incomeMod = WL.IncomeMod.Create(playerID, 1, 'Income for stats')
+        addNewOrder(WL.GameOrderEvent.Create(0, "state viewing" , nil, nil,nil,{incomeMod}))
+        end
+
+    end
+
+end
+
 function Addhistory(Action,VotedBy,game,Bonuson) -- History 
     table.insert(publicdata.History,{})
 
@@ -660,4 +731,6 @@ function Addhistory(Action,VotedBy,game,Bonuson) -- History
     hiss.incomebump = Action.incomebump
     hiss.cutoff = Action.Cutoff
     hiss.Bonuson = Action.Bonus
+    hiss.armycut = Action.Armycut
+    hiss.goldby = Action.incomebump
 end

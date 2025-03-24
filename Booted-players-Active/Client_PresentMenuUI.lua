@@ -30,9 +30,14 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 
 	local NoActionCreated = true -- making sure this client cannot create multiple normal actions
 	if publicdata.CreatedActionID ~= nil then
-	for i = 1, #publicdata.CreatedActionID do
-		if ID == publicdata.CreatedActionID[i] then NoActionCreated = false end
-	end end
+		if publicdata.HostID ~= ID then -- if host, unlimted Actions
+			for i = 1, #publicdata.CreatedActionID do
+				if ID == publicdata.CreatedActionID[i] then NoActionCreated = false end
+			end 
+
+		end 
+
+	end
 
 	local NoHostActionCreated = true 	--making sure this client cannot create multiple host actions
 	if publicdata.CreatedHostchangeID ~= nil then
@@ -83,6 +88,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 		end
 
 			local GoldorLand = Nonill(publicdata.Action[i].turned) .. "% of land affected"
+			local temptext = ""
 			local row1 = UI.CreateHorizontalLayoutGroup(vert)
 			local row2 = UI.CreateHorizontalLayoutGroup(vert)
 			local row3 = UI.CreateHorizontalLayoutGroup(vert)
@@ -100,8 +106,15 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			end
 
 			--checking for income Action type
+			if publicdata.Action[i].Actiontype == ActionTypeNames(10) then 
+					local armycut
+					if publicdata.Action[i].Armycut > 100 then armycut = 100 end
+					temptext =  "\nArmies would be cut by ".. armycut .. "%" end
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
 				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
+				GoldorLand = ""
+			elseif publicdata.Action[i].Actiontype == ActionTypeNames(11) then
+				UI.CreateLabel(row2).SetText(Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " Will Get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
 			--All other action types besides income
 			else
@@ -109,11 +122,11 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 				if publicdata.Action[i].NewPlayerID ~= "Neutral" then tempname = Game.Game.Players[publicdata.Action[i].NewPlayerID].DisplayName(nil, false) end
 				--checking for bonus action
 				if publicdata.Action[i].Bonus ~= nil and publicdata.Action[i].Bonus == true then
-					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.Action[i].OrigPlayerID].Name  .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
+					UI.CreateLabel(row2).SetText(Game.Map.Bonuses[publicdata.Action[i].OrigPlayerID].Name  .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname..temptext).SetColor('#FF87FF')
 
 				else
 					--defeault action display
-					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname).SetColor('#FF87FF')
+					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " to be " .. publicdata.Action[i].Actiontype .. " by " ..tempname..temptext).SetColor('#FF87FF')
 				end
 			end
 			--displaying voting buttons
@@ -361,6 +374,29 @@ function ActionButton(action)
 				HelperMessage = "Listed bonsues's territory is turned neutral and the Armies and special units of listed bonus are removed"
 			end
 			OrigPlayerID = -1
+		elseif name == ActionTypeNames(10) then -- armies cut by %
+			SwapPlayerBtn.SetInteractable(false)
+			OrigPlayerBtn.SetInteractable(true)
+
+			Textland1.SetText("Land percentage")
+			Textland2.SetText("Armies cut by (Max 100%)")
+			TurnedBtn2.SetInteractable(true)
+			if bonusvalue == false then
+			HelperMessage = "Original player's armies cut by 'Army cut by"
+			else
+				HelperMessage = "Bonus armies cut by 'Army cut by"
+			end
+			SwapPlayerID = -1
+		elseif name == ActionTypeNames(11) then -- Gold by player
+			SwapPlayerBtn.SetInteractable(false)
+
+			OrigPlayerBtn.SetInteractable(true)
+			Textland1.SetText("Bonus Income")
+			TurnedBtn.SetInteractable(true)
+			TurnedBtn2.SetInteractable(false)
+			HelperMessage = "Original player Gets 'Bonus income' more gold this turn New player income "
+
+			SwapPlayerID = -1
 		end
 	end
 	return ret;
@@ -377,6 +413,9 @@ function ViewButton(action)
 end
 --load data to the server
 function Serverload(type, text,data1, data2,close)
+	if type ~= 0 then
+	if (OrigPlayerID ~= -1 and  OrigPlayerID == nil) or (SwapPlayerID ~= -1 and  SwapPlayerID == nil) then UI.Alert("Must select a player(s)") return end end
+
 	if close ~= nil then
 		close()
 	end
@@ -456,10 +495,19 @@ function DisplayHistory(rootParent, setMaxSize, setScrollable, game, close)
 				UI.CreateLabel(row1).SetText("Event: " .. publicdata.History[i].ActionID)
 				if publicdata.History[i].New ~= "Neutral" and publicdata.History[i].type ~= ActionTypeNames(7) then tempname = Game.Game.Players[publicdata.History[i].New].DisplayName(nil, false) end
 				
+				
 				if publicdata.History[i].Bonuson == nil or publicdata.History[i].Bonuson == false then -- Bonus option is off
-					if publicdata.History[i].type == ActionTypeNames(7) then 
+					if publicdata.History[i].type == ActionTypeNames(10) then 
+						local armycut = 0
+						if publicdata.History[i].armycut >= 100 or publicdata.History[i].armycut == 0 then armycut = 100 end
+						GoldorLand =  "\nArmies cut by ".. armycut .."%\n" .. Nonill(publicdata.History[i].Datapoint3) .. "% of land affected\n" end
+					if publicdata.History[i].type == ActionTypeNames(7) then --iincome
 						
 						UI.CreateLabel(row2).SetText( "All players(non AI) under " .. publicdata.History[i].cutoff .. " or less income received " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
+						GoldorLand = ""
+					elseif publicdata.History[i].type == ActionTypeNames(11) then -- gold by player
+					
+						UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.History[i].original].DisplayName(nil, false) .. " Got " .. publicdata.History[i].incomebump .. " income\non turn " .. publicdata.History[i].Turn).SetColor('#daffdc')
 						GoldorLand = ""
 					else
 						if publicdata.History[i].original > 800 and publicdata.History[i].original < 900 then 
