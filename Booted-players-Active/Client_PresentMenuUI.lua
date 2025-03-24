@@ -439,7 +439,7 @@ function Serverload(type, text,data1, data2,close)
 		payload.data4 = 0
 		payload.data5 = 0
 		if BonusBtn ~= nil then
-		payload.data5 = BonusBtn.GetIsChecked() or false end
+		payload.data5 = BonusBtn.GetIsChecked() end
 
 		if TurnedBtn ~= nil then
 		local data3 = Nonill(TurnedBtn.GetValue())
