@@ -82,7 +82,9 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				mod.SetStructuresOpt = structures
 
 				local mod2 = WL.TerritoryModification.Create(order.From) -- the attackers
-				mod2.AddArmies = removedtroops * -1
+				local temp_removearmies = removedtroops * -1 
+				if temp_removearmies < 0 then temp_removearmies = 0 end
+				mod2.AddArmies = temp_removearmies
 				mod2.RemoveSpecialUnitsOpt = SUremoved.remove
 				
 				table.insert(bigmod,mod)
