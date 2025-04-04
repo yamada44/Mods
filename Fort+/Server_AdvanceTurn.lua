@@ -71,7 +71,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				else
 					leftover = result.ActualArmies.NumArmies - removedtroops
 				end
-
+				if leftover < 0 then leftover = 0 end
 				structures[WL.StructureType.MercenaryCamp] = structures[WL.StructureType.MercenaryCamp] - removedbuilds
 				result.ActualArmies = WL.Armies.Create(leftover,SUremoved.add)
 
