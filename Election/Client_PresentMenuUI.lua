@@ -414,7 +414,7 @@ end
 --load data to the server
 function Serverload(type, text,data1, data2,close)
 	if type ~= 0 then
-	if (OrigPlayerID ~= -1 and  OrigPlayerID == nil) or (SwapPlayerID ~= -1 and  SwapPlayerID == nil) and type == 1 then UI.Alert("Must select a player(s)") return end end
+	if (OrigPlayerID ~= -1 and  OrigPlayerID == nil) or (SwapPlayerID ~= -1 and  SwapPlayerID == nil) then UI.Alert("Must select a player(s)") return end end
 
 	if close ~= nil then
 		close()
