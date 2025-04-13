@@ -33,7 +33,8 @@ function Client_PresentSettingsUI(rootParent)
 
 if Mod.Settings.P_bomb ~= nil then
 	local row8 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(row8).SetText('Pure AI can play bomb card: ' .. tostring(Mod.Settings.P_bomb .. '\n\n')) end
+	UI.CreateLabel(row8).SetText('Pure AI can play bomb card: ' .. tostring(Mod.Settings.P_bomb) .. '\n\n') end
+
 --Human
 local row00 = UI.CreateHorizontalLayoutGroup(vert) -- Human Text
 UI.CreateLabel(row00).SetText("Human AI")
@@ -61,5 +62,5 @@ UI.CreateLabel(row00).SetText("Human AI")
 
 	if Mod.Settings.H_bomb ~= nil then
 	local rowH8 = UI.CreateHorizontalLayoutGroup(vert) 
-	UI.CreateLabel(rowH8).SetText('Human AI can play bomb card: ' .. tostring(Mod.Settings.H_bomb .. '\n\n')) end
+	UI.CreateLabel(rowH8).SetText('Human AI can play bomb card: ' .. tostring(Mod.Settings.H_bomb) .. '\n\n') end
 end

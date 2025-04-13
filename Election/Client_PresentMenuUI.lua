@@ -65,7 +65,9 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 		MainBtn = UI.CreateButton(rowBegin).SetText("Create Action").SetOnClick(function () Window(1,close,vert) end).SetInteractable(NoActionCreated)
 
 	end
-
+	-- Create Group
+	Groups = UI.CreateButton(rowBegin).SetText("Group controls").SetOnClick(function () Window(2,close) end) -- view history of powers
+	-- History
 	History = UI.CreateButton(rowBegin).SetText("Action History").SetOnClick(function () Window(2,close) end) -- view history of powers
 
 
@@ -150,7 +152,7 @@ end
 function Window(window, close, data)
 	
 	if window == 1 then
-		Game.CreateDialog(DisplaySwapAction)
+		Game.CreateDialog(CreateVote)
 		close()
 	elseif window == 2 then
 		Game.CreateDialog(DisplayHistory)
@@ -158,11 +160,16 @@ function Window(window, close, data)
 	elseif window == 3 then
 		Game.CreateDialog(Changehost)
 		close()	
-
+	elseif window == 4 then
+		Game.CreateDialog(GroupOptions)
+	elseif window == 5 then
+		Game.CreateDialog(CreateGroup)
+	elseif window == 6 then
+		Game.CreateDialog(PlayerstoGroup)
 	end
 end
 --Player Action
-function DisplaySwapAction(rootParent, setMaxSize, setScrollable, game, close)
+function CreateVote(rootParent, setMaxSize, setScrollable, game, close)
 	setMaxSize(500, 450)
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
@@ -602,4 +609,39 @@ function Onbonuschange()
 		DatapointSend = OrigPlayerID
 	end
 ActionButton(ActPlayerBtn.GetText())
+end
+
+--GroupDisplay
+function GroupOptions(rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(400, 400)
+
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local row00 = UI.CreateHorizontalLayoutGroup(vert)
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+
+	for i,v in pairs({}) do -- Display all groups your in
+		-- display groups
+	end
+
+	--create group 
+	UI.CreateButton(row1).SetText("Create New group").SetOnClick(function () Window(5,close) end) -- view history of powers
+
+end
+
+-- Create group
+function CreateGroup(rootParent, setMaxSize, setScrollable, game, close)
+	setMaxSize(400, 400)
+
+	local vert = UI.CreateVerticalLayoutGroup(rootParent).SetFlexibleWidth(1)
+	local row00 = UI.CreateHorizontalLayoutGroup(vert)
+	local row1 = UI.CreateHorizontalLayoutGroup(vert)
+
+	-- Name group
+	--add players
+	--set time rules
+	-- 
+
+	--Server load 
+
+
 end
