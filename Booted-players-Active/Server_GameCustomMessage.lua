@@ -61,9 +61,9 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     table.insert(publicdata.Action[data1].VotingIDs,playerID)
 
   elseif type == 3 then -- removing vote
-    table.remove(publicdata.Action[data4].VotingIDs,data2)
-    if #publicdata.Action[data4].VotingIDs == 0 then
-      table.remove(publicdata.Action,data4) -- remove the action if no one votes for it
+    table.remove(publicdata.Action[data1].VotingIDs,data2)
+    if #publicdata.Action[data1].VotingIDs == 0 then
+      table.remove(publicdata.Action,data1) -- remove the action if no one votes for it
     end
 
 
@@ -93,9 +93,9 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     table.insert(publicdata.ChangeAction[data1].VotedPlayers,playerID)
 
   elseif type == 7 then -- removing for host
-    table.remove(publicdata.ChangeAction[data1].VotingIDs,data2)
-    if #publicdata.ChangeAction[data1].VotingIDs == 0 then
-      table.remove(publicdata.ChangeAction,data1) -- remove the action if no one votes for it
+    table.remove(publicdata.ChangeAction[data4].VotingIDs,data2)
+    if #publicdata.ChangeAction[data4].VotingIDs == 0 then
+      table.remove(publicdata.ChangeAction,data4) -- remove the action if no one votes for it
     end
   elseif type == 8 then -- removing action and updating action creation list
     local place = FindmatchID(publicdata.CreatedActionID, data2,1)
