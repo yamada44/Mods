@@ -130,7 +130,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 				end
 			end
 			--displaying voting buttons
-				UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
+				UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(3,"N/A",i,ID,close) end).SetInteractable(not HaventVoted)
 				UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(2,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 			--displaying voting stats
 				UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n".. GoldorLand).SetColor('#00FF05')
@@ -572,7 +572,7 @@ function DisplayHostVotes(rootParent,ActivePlayers,NeedPercent,close,ID,game)
 					UI.CreateLabel(row2).SetText( Game.Game.Players[publicdata.ChangeAction[i].NewHostID].DisplayName(nil, false) .. " is to be voted on to become the new Host ").SetColor('#bfc69c')
 					
 				
-					UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(7,"N/A",i,voteid,close) end).SetInteractable(not HaventVoted)
+					UI.CreateButton(row2).SetText("Remove Vote").SetOnClick(function () Serverload(7,"N/A",i,ID,close) end).SetInteractable(not HaventVoted)
 					UI.CreateButton(row2).SetText("Add Vote").SetOnClick(function () Serverload(6,"N/A",i,ID,close) end).SetInteractable(HaventVoted)
 	
 					UI.CreateLabel(row2).SetText(percentVote .. "% of active players voted. need ".. NeedPercent.."%\n").SetColor('#7cfff5')
