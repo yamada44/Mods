@@ -60,10 +60,10 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
   elseif type == 2 then -- Adding Vote
     table.insert(publicdata.Action[data1].VotingIDs,playerID)
 
-  elseif type == 3 then -- removing
-    table.remove(publicdata.Action[data1].VotingIDs,data2)
-    if #publicdata.Action[data1].VotingIDs == 0 then
-      table.remove(publicdata.Action,data1) -- remove the action if no one votes for it
+  elseif type == 3 then -- removing vote
+    table.remove(publicdata.Action[data4].VotingIDs,data2)
+    if #publicdata.Action[data4].VotingIDs == 0 then
+      table.remove(publicdata.Action,data4) -- remove the action if no one votes for it
     end
 
 

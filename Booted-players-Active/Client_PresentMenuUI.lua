@@ -436,7 +436,7 @@ function Serverload(type, text,data1, data2,close)
 		payload.data1 = datatrans
 		payload.data2 = Nonill(data2)
 		payload.data3 = 100
-		payload.data4 = 0
+		payload.data4 = data1
 		payload.data5 = 0
 		if BonusBtn ~= nil then
 		payload.data5 = BonusBtn.GetIsChecked() end
