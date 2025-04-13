@@ -93,7 +93,7 @@ function Server_GameCustomMessage(game, playerID, payload, setReturnTable)
     table.insert(publicdata.ChangeAction[data1].VotedPlayers,playerID)
 
   elseif type == 7 then -- removing for host
-    table.remove(publicdata.ChangeAction[data1].VotingIDs,playerID)
+    table.remove(publicdata.ChangeAction[data1].VotingIDs,data2)
     if #publicdata.ChangeAction[data1].VotingIDs == 0 then
       table.remove(publicdata.ChangeAction,data1) -- remove the action if no one votes for it
     end
