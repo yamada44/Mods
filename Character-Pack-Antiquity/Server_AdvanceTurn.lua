@@ -340,7 +340,7 @@ function Deathlogic(game, order, result, skipThisOrder, addNewOrder)
 		for i,v in pairs (specialUnitKilled)do
 			if v.proxyType == "CustomSpecialUnit" then
 				if v.ModData ~= nil then 
-					if startsWith(v.ModData, modSign(0)) and false then -- make sure to delete false
+					if startsWith(v.ModData, modSign(0)) then
 						local Overhead = v.Name
 						if v.TextOverHeadOpt ~= nil then Overhead = v.TextOverHeadOpt end
 
