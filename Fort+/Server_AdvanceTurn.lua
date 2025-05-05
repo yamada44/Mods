@@ -78,7 +78,6 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 
 				local bigmod = {}
 				local mod = WL.TerritoryModification.Create(order.To) -- the defenders
-				--mod.RemoveSpecialUnitsOpt = SUremoved
 				mod.SetStructuresOpt = structures
 
 				local mod2 = WL.TerritoryModification.Create(order.From) -- the attackers
