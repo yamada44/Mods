@@ -89,7 +89,7 @@ function Server_AdvanceTurn_Order(game, order, result, skipThisOrder, addNewOrde
 				table.insert(bigmod,mod2)
 				addNewOrder(WL.GameOrderEvent.Create(game.ServerGame.LatestTurnStanding.Territories[order.From].OwnerPlayerID, removedbuilds .." Forts Destroyed", nil, bigmod))
 	
-				result.DefendingArmiesKilled = WL.Armies.Create(result.ActualArmies.AttackPower * game.Settings.OffenseKillRate )
+				--result.DefendingArmiesKilled = WL.Armies.Create(result.ActualArmies.AttackPower * game.Settings.OffenseKillRate )
 
 			else -- if the attack is not enough to destroy 1 fort
 				if (result.DefendingArmiesKilled.IsEmpty) then
