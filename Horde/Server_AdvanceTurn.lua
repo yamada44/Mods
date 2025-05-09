@@ -322,7 +322,7 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
 --calculate any damage done to SU that didn't die and return that number
   for i = 1, 2 do
     for _,v in pairs(SU)do
-      print(v.Name ,"unit name",i,#SU)
+
       local islive = IsDead(v.ID,DeathSU)
         if i == 1 and v.CombatOrder < 0 then -- for SU before armies
           local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
