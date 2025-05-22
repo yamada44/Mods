@@ -97,7 +97,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
     
 
 
-    print (game.Game.ID)
+    print (game.Game.ID,"Id")
 
 end
 
