@@ -331,7 +331,13 @@ function Zombiestoadd(SU, Killingpower,DeathSU,Armies)
           powerNow = table.powerNow
 
         elseif i == 2 and v.CombatOrder >= 0 then -- for SU after armeis
-          local table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
+        local table = {}
+        --checking for commanders
+        	if v.proxyType ~= "CustomSpecialUnit" then
+          table = Quicklogic(powerNow,addedZombies,7)
+          else
+           table = Quicklogic(powerNow,addedZombies,v.DamageAbsorbedWhenAttacked)
+          end
           if islive then
           addedZombies = table.addedZombies end
           powerNow = table.powerNow
