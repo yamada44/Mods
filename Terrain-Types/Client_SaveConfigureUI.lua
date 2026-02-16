@@ -116,8 +116,8 @@ function Client_SaveConfigureUI(alert)
                 local nilgroup = {}
                 nilgroup[1] = {0,0}
                 Mod.Settings.Landdata[i].C_Definegroup = nilgroup
-                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"
-                alert("Mod Define data may have reset. Please check data")
+                Mod.Settings.Landdata[i].C_DefinedStored = "0-0{{{{}}}}"
+
             end
         end
     Mod.Settings.Landdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
