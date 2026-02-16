@@ -12,6 +12,8 @@ function Client_PresentMenuUI(rootParent, setMaxSize, setScrollable, game, close
 	local NeedPercent = Mod.Settings.Percentthreshold
 	local IDletter = {"A","B","C","D","E"}
 	ID = game.Us.ID
+	BonusBtn = nil
+	TurnedBtn = nil
 	local Ishost_HostOn = false
 
 
@@ -113,6 +115,7 @@ if publicdata.Action ~= nil and #publicdata.Action > 0 then
 			if publicdata.Action[i].Actiontype == ActionTypeNames(7) then 
 				UI.CreateLabel(row2).SetText( "All players(non AI) with " .. publicdata.Action[i].Cutoff .. " or less income will get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
+			--Gold by player
 			elseif publicdata.Action[i].Actiontype == ActionTypeNames(11) then
 				UI.CreateLabel(row2).SetText(Game.Game.Players[publicdata.Action[i].OrigPlayerID].DisplayName(nil, false) .. " Will Get " .. publicdata.Action[i].incomebump .. " income Next turn").SetColor('#FF87FF')
 				GoldorLand = ""
@@ -347,7 +350,7 @@ function ActionButton(action)
 				HelperMessage = "bonuse territory has all of his armies/special units removed"
 			end
 				SwapPlayerID = -1
-		elseif name == ActionTypeNames(7) then
+		elseif name == ActionTypeNames(7) then -- income 
 			SwapPlayerBtn.SetInteractable(false)
 			
 			OrigPlayerBtn.SetInteractable(false)
@@ -396,7 +399,7 @@ function ActionButton(action)
 			TurnedBtn2.SetInteractable(false)
 			HelperMessage = "Original player Gets ' X ' more gold this turn"
 
-			SwapPlayerID = -1
+			SwapPlayerID = -2
 		end
 	end
 	return ret;
@@ -444,8 +447,8 @@ function Serverload(type, text,data1, data2,close)
 
 		if TurnedBtn ~= nil then
 		local data3 = Nonill(TurnedBtn.GetValue())
-		if TurnedBtn2.GetInteractable() == false then
-		if data3 > 100 or data3 < 5 then data3 = 101 end end
+		if TurnedBtn2.GetInteractable() == false and data2 ~= -2 then
+		if data3 > 100 or data3 < 5 then data3 = 100 end end
 
 		payload.data3 = data3
 		payload.data4 = Nonill(TurnedBtn2.GetValue())
