@@ -112,11 +112,11 @@ function Client_SaveConfigureUI(alert)
          
                  Mod.Settings.Landdata[i].C_Definegroup = SUgroup
                  Mod.Settings.Landdata[i].C_DefinedStored = Preformat
-            elseif InputFieldTable[i].Template.GetIsChecked() == true then
+           --[[ elseif InputFieldTable[i].Template.GetIsChecked() == true then
                 local nilgroup = {}
                 nilgroup[1] = {0,0}
                 Mod.Settings.Landdata[i].C_Definegroup = nilgroup
-                Mod.Settings.Landdata[i].C_DefinedStored = "0-0{{{{}}}}"
+                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"]]--
 
             end
         end
