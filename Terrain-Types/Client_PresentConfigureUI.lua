@@ -144,6 +144,8 @@ function Unittemplates(vert, i)
 	  local build = landconfig[i].C_RemoveBuild
 	  if (build == nil ) then build = true end 
 
+	  
+
 
 
 

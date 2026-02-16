@@ -78,7 +78,7 @@ function Client_SaveConfigureUI(alert)
             end
             
 ------------Add on
-            if (TableFormat(InputFieldTable[i].C_Defined,tex) ~= '' and TableFormat(InputFieldTable[i].C_Defined,tex) ~= nil)then
+            if (TableFormat(InputFieldTable[i].C_Defined,tex) ~= '' and TableFormat(InputFieldTable[i].C_Defined,tex) ~= nil and InputFieldTable[i].TemplateStored == true)then
                 local Preformat = TableFormat(InputFieldTable[i].C_Defined,tex)
                 local Specialunitgroup = split(Preformat, '/')
                 local Specialunitdetails = {}
@@ -112,11 +112,11 @@ function Client_SaveConfigureUI(alert)
          
                  Mod.Settings.Landdata[i].C_Definegroup = SUgroup
                  Mod.Settings.Landdata[i].C_DefinedStored = Preformat
-            else 
-                --[[local nilgroup = {}
+            elseif InputFieldTable[i].TemplateStored == false then
+                local nilgroup = {}
                 nilgroup[1] = {0,0}
                 Mod.Settings.Landdata[i].C_Definegroup = nilgroup
-                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"]]--
+                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"
                 alert("Mod Define data may have reset. Please check data")
             end
         end
