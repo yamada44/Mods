@@ -234,7 +234,7 @@ function Unittemplates(vert, i)
   UI.CreateButton(row11).SetText("Mod info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What mod special units are defined \n0 - All mods defined\n1 - only Character packs mods defined\n2 - Antiquity \n3 - Ship props \n4 - Heros \n5 - Asian \n6 - World war \n7 - Greek Gods \n8 - Medieval \n9 - Medieval props \n10 - Modern \n11 - Monsters \n12 - People Gangsters \n13 - Game of thrones \n14 - Star wars \n15 - Star wars props \n16 - Victorian \n17 - Muv Luv 1 \n18 - Muv Luv Beta/Human") end)
   UI.CreateButton(row11).SetText("Unit info").SetColor('#0000FF').SetOnClick(function() UI.Alert("What unit type template number in your character pack does this terrain tpye work with\nOnly applies if your mod info number is between 2 and 18\nSet to 0 for the entire character pack to applie or disable this feature ") end) 
 
-  InputFieldTable[i].C_Defined = UI.CreateTextInputField(vert)
+  InputFieldTable[i].C_DefinedStored = UI.CreateTextInputField(vert)
   .SetPlaceholderText("Special units Defined").SetText(define)
   .SetFlexibleWidth(1)
   .SetCharacterLimit(300)

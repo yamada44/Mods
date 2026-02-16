@@ -78,8 +78,8 @@ function Client_SaveConfigureUI(alert)
             end
             
 ------------Add on
-            if (TableFormat(InputFieldTable[i].C_Defined,tex) ~= '' and TableFormat(InputFieldTable[i].C_Defined,tex) ~= nil and InputFieldTable[i].TemplateStored == true)then
-                local Preformat = TableFormat(InputFieldTable[i].C_Defined,tex)
+            if (TableFormat(InputFieldTable[i].C_DefinedStored,tex) ~= '' and TableFormat(InputFieldTable[i].C_DefinedStored,tex) ~= nil)then
+                local Preformat = TableFormat(InputFieldTable[i].C_DefinedStored,tex)
                 local Specialunitgroup = split(Preformat, '/')
                 local Specialunitdetails = {}
                 for i = 1, #Specialunitgroup do
