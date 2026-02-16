@@ -63,7 +63,7 @@ function Server_AdvanceTurn_End(game, addNewOrder)
 
                 SUdata = SUImmuneOrNot(game.ServerGame.LatestTurnStanding.Territories[i],v.ModFormat,hotfix)
                 if SUdata.Immune_logic == false then
-                    mod.RemoveSpecialUnitsOpt = SUdata.SU
+                    mod.RemoveSpecialUnitsOpt = SUdata.SU -- remove SU
 
                     --ownership change
                     print(v2.ownerID, game.ServerGame.LatestTurnStanding.Territories[i].OwnerPlayerID, "ID's" )

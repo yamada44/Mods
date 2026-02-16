@@ -217,12 +217,13 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
                             if unittype == value.type or value.type == 0 then
                                 t.correctunit = true
                                 table.insert(t.SU, v.ID)   
+                                print("ID match fail 1")
                             end
 
                         elseif Modloader(value.mod) == 0 then 
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
-
+                            print("ID match fail 2")
                         end
                     end
                 end
