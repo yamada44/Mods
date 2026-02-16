@@ -228,6 +228,8 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
                             print("ID match fail 2")
+                        else -- Unit was not defined by settings
+                            table.insert(t.SU, v.ID)
                         end
                     end
                 end
