@@ -114,6 +114,7 @@ function Client_SaveConfigureUI(alert)
                  Mod.Settings.Landdata[i].C_DefinedStored = Preformat
             else 
                 local nilgroup = {}
+                print("reset mod defined tables")
                 nilgroup[1] = {0,0}
                 Mod.Settings.Landdata[i].C_Definegroup = nilgroup
                 Mod.Settings.Landdata[i].C_DefinedStored = "0-0"
