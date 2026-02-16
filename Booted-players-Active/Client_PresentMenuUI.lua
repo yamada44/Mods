@@ -456,7 +456,7 @@ function Serverload(type, text,data1, data2,close)
 			if returnValue.Message ~= nil then 
 				UI.Alert(returnValue.Message)
 			end
-		
+		BonusBtn = nil
 
 		end)	
 
