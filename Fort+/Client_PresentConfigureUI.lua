@@ -45,6 +45,13 @@ function Client_PresentConfigureUI(rootParent)
 	if market == nil then
 		market = false
 	end
+
+	--auto place hibes
+	local auto = Mod.Settings.Auto
+	if auto == nil then
+		auto = 0
+	end
+
 	local vert = UI.CreateVerticalLayoutGroup(rootParent)
 
 
@@ -109,5 +116,11 @@ function Client_PresentConfigureUI(rootParent)
 	UI.CreateLabel(row101).SetText('Cost keeps up with turn Scaling')
 	Marketfield = UI.CreateCheckBox(row101).SetText("").SetIsChecked(market)
 
-
+		local row5 = UI.CreateHorizontalLayoutGroup(vert) -- Autoplacer for Forts
+		UI.CreateButton(row5).SetText("?").SetColor('#0000FF').SetOnClick(function() UI.Alert("Go into custom scenrio, change the army value of a tile to this value. when the game starts it will have this territory\nMax Forts you can auto place is 50") end)
+	UI.CreateLabel(row5).SetText('Auto place Structure')
+	Autofield = UI.CreateNumberInputField(row5)
+		.SetSliderMinValue(1)
+		.SetSliderMaxValue(1234)
+		.SetValue(auto)
 end

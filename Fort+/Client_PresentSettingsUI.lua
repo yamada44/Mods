@@ -39,5 +39,10 @@ function Client_PresentSettingsUI(rootParent)
 	if remove == 0 then remove = "Yes" end
 	UI.CreateLabel(row44).SetText(remove)
 
+--auto placer number
+	local row3 = UI.CreateHorizontalLayoutGroup(vert) 
+	UI.CreateLabel(row3).SetText('Autoplacer number: ').SetColor('#00B5FF')
+	UI.CreateLabel(row3).SetText(Mod.Settings.Auto)
+
 end
 
