@@ -438,6 +438,7 @@ function Serverload(type, text,data1, data2,close)
 		payload.data3 = 100
 		payload.data4 = data1
 		payload.data5 = 0
+		print (BonusBtn, "print Button")
 		if BonusBtn ~= nil then
 		payload.data5 = BonusBtn.GetIsChecked() end
 
