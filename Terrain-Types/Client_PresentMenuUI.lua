@@ -129,7 +129,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 			if city == true then city = " Remove structures"
 			else city = "Keep structures" end
 
-
+--Display Text
 			AddStringToUI(vert,"<#DEF265>Army Rules: </>" .. armyrules,nil)
 			AddStringToUI(vert,"<#DEF265>Terrain ID: </>" .. ownerrules,nil)
 			AddStringToUI(vert,"<#DEF265>Special units defined: </>".. Modrules,nil)
@@ -140,7 +140,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	end
 	
 	for i,v in pairs (Pub.Type) do
-		AddStringToUI(vert,"<#DEF265>Terrain type: </>" .. i .." ".. v.name,nil)
+		AddStringToUI(vert,"<#DEF265>Terrain type: </>" .. i .." ".. v.name .. "MD-".. v.ModFormat[1].mod.. " type-".. v.ModFormat[2].typedata,nil)
 
 	end
 
