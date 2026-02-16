@@ -233,7 +233,7 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
                 if Basesetting == 1 or Basesetting == 4 then -- Immune logic
                         t.Immune_logic = true
                         print("empty table")
-                        t.SU = {}
+                        --t.SU = {}
                 end
             end 
         end
