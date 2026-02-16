@@ -97,10 +97,10 @@ function Client_SaveConfigureUI(alert)
                             alert("Mod set up failed\nCan only inlcude numbers for Mod defined") 
                             return
                         elseif string.len(v) > 2 or string.len(v) < 1 then
-                            alert("Mod set up failed\nMod define format must have digit 1 or 2 digits") 
+                            alert("Mod set up failed\nMod define format must have 1 or 2 digits") 
                             return
                         elseif tonumber(v) > 18 or tonumber(v) < 0 then
-                            alert("Mod set up failed\nMod define format values must be from 0-18")
+                            alert("Mod set up failed\nMod define (Mod info) values must be from 0-18")
                             return
                         end
                         if i == 2 and tonumber(v) > 8 then alert("Mod set up failed\nMod define(unit info) value must be from 0-8") return end
