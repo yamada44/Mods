@@ -263,7 +263,7 @@ InputFieldTable[i].TemplateStored = true
 
 	for T, v in pairs (landconfig[i]) do
 		if startsWith(T, "C_") then
-			InputFieldTable[i][v] = landconfig[i][v]
+			InputFieldTable[i][T] = landconfig[i][T]
 		end
 	end
 
