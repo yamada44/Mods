@@ -208,10 +208,14 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
     for index, value in pairs (Moddata)do
 
         if (#land.NumArmies.SpecialUnits > 0 ) then -- looking for SU to determine logic
+        print("ID match fail A")
             for i,v in pairs (land.NumArmies.SpecialUnits)do 
                 if v.proxyType == "CustomSpecialUnit" or Modloader(value.mod) == 0  then
+                    print("ID match fail B")
                     if v.ModData ~= nil or Modloader(value.mod) == 0 then
+                        print("ID match fail C")
                         if startsWith(v.ModData or "", Modloader(value.mod))then
+                            print("ID match fail D")
                             local payloadSplit = split(string.sub(v.ModData, 5), ';;'); 
                             local unittype = tonumber(payloadSplit[10])
                             if unittype == value.type or value.type == 0 then
@@ -233,7 +237,7 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
                 if Basesetting == 1 or Basesetting == 4 then -- Immune logic
                         t.Immune_logic = true
                         print("empty table")
-                        --t.SU = {}
+                        t.SU = {}
                 end
             end 
         end
