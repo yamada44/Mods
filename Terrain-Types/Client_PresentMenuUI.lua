@@ -140,7 +140,7 @@ function Stats(rootParent, setMaxSize, setScrollable, game, close)
 	end
 	
 	for i,v in pairs (Pub.Type) do
-		AddStringToUI(vert,"<#DEF265>Terrain type: </>" .. i .." ".. v.name .. " MD-".. v.ModFormat[1].mod.. " type-".. v.ModFormat[2].type,nil)
+		AddStringToUI(vert,"<#DEF265>Terrain type: </>" .. i .." ".. v.name .. " MD-".. v.ModFormat.mod.. " type-".. v.ModFormat.type,nil)
 
 	end
 
