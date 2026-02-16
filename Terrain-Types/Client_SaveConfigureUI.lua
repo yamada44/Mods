@@ -112,12 +112,12 @@ function Client_SaveConfigureUI(alert)
          
                  Mod.Settings.Landdata[i].C_Definegroup = SUgroup
                  Mod.Settings.Landdata[i].C_DefinedStored = Preformat
-            else 
+         --[[   else 
                 local nilgroup = {}
-                print("reset mod defined tables")
                 nilgroup[1] = {0,0}
                 Mod.Settings.Landdata[i].C_Definegroup = nilgroup
-                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"
+                Mod.Settings.Landdata[i].C_DefinedStored = "0-0"]]--
+                alert("Mod Define data may have reset. Please check data")
             end
         end
     Mod.Settings.Landdata[i].TemplateStored = InputFieldTable[i].TemplateStored -- storing and saving of unit type
