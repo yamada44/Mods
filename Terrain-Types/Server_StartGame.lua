@@ -39,7 +39,7 @@ function Server_StartGame (game,standing)
                     Pub.Terrain[Tid].Type = i
 
                     found = true
-                elseif found == false and (v.C_Inverse == 4 or v.C_Inverse == 3) and (ts.NumArmies.NumArmies ~= v.C_Autofind and ts.NumArmies.NumArmies ~= v.C_AutoP) then -- for every other tile not included in a template and that setting has been turned on with the setting C_Inverse = 4
+                elseif found == false and (v.C_Inverse == 4 or v.C_Inverse == 3)--[[ and (ts.NumArmies.NumArmies ~= v.C_Autofind and ts.NumArmies.NumArmies ~= v.C_AutoP)]] then -- for every other tile not included in a template and that setting has been turned on with the setting C_Inverse = 4
                     if Pub.Terrain[Tid].name == nil then -- deciding how ownership value works
                         firstTile[i] = ID_decider(Tid,v,ts,firstTile[i])
                     end
