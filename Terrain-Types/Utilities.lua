@@ -222,8 +222,10 @@ function SUImmuneOrNot (land,Moddata,Basesetting)
                         elseif Modloader(value.mod) == 0 then 
                             t.correctunit = true
                             table.insert(t.SU, v.ID)
-                      --  else -- Unit was not defined by settings
-                        --    table.insert(t.SU, v.ID)
+                        else -- Unit was not defined by settings
+                            if Basesetting == 2 or Basesetting == 3 then    
+                                table.insert(t.SU, v.ID)
+                            end
                         end
                     end
                 end
